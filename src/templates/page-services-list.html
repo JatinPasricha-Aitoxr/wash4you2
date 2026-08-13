@@ -123,13 +123,21 @@
       {# Index the description too, not just the name and "best for" — people
          search by the ITEM ("saree", "sneakers"), and the word often only
          appears in the prose. #}
-      <article class="svc svc--art" data-svc-item
+      <article class="svc svc--photo" data-svc-item
                data-name="{{ s.name }} {{ s.slug }} {{ s.best_for }} {{ s.short_description }}">
-        {{ service_bg(s.slug) }}
-        <span class="svc__icon">{{ service_icon(s.slug, 36) }}</span>
-        <h3><a class="svc__link" href="{{ root_path }}services/{{ s.slug }}/"{{ cms('services:services.' ~ loop.index0 ~ '.name') }}>{{ s.name }}</a></h3>
-        <p{{ cms('services:services.' ~ loop.index0 ~ '.short_description') }}>{{ s.short_description }}</p>
-        {{ care_tag(s.slug) }}
+        <span class="svc__media{% if not s.image %} svc__media--tonal{% endif %}" aria-hidden="true">
+          {% if s.image %}
+          <img src="{{ asset_path }}{{ s.image | replace('.png', '.webp') }}" alt=""
+               width="500" height="500" loading="lazy" decoding="async">
+          {% else %}
+          {{ service_icon(s.slug, 44) }}
+          {% endif %}
+        </span>
+        <span class="svc__body">
+          <h3><a class="svc__link" href="{{ root_path }}services/{{ s.slug }}/"{{ cms('services:services.' ~ loop.index0 ~ '.name') }}>{{ s.name }}</a></h3>
+          <p{{ cms('services:services.' ~ loop.index0 ~ '.short_description') }}>{{ s.short_description }}</p>
+          {{ care_tag(s.slug) }}
+        </span>
       </article>
       {% endfor %}
     </div>

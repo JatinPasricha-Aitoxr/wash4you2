@@ -9,9 +9,8 @@
 {% block body_class %}page-home{% endblock %}
 
 {% block preload %}
-  {# The hero pairs live text (the LCP headline) with one focal image —
-     preload it so the plate never pops in after the copy. #}
-  <link rel="preload" href="{{ asset_path }}images/hero-garment.webp" as="image" type="image/webp" fetchpriority="high">
+  {# The hero is live text over low-priority wall tiles — the headline is
+     the LCP, so there is no image to preload; just this page's stylesheet. #}
   <link rel="stylesheet" href="{{ asset_path }}css/redesign-home.css">
 {% endblock %}
 
@@ -33,22 +32,39 @@
 {% block content %}
 
 {# ============================================================
-   Hero — one message, one action, one focal object.
+   Hero — the wall, done at premium scale.
 
-   Deep navy ground with a faint brass glow; the headline, sub, CTAs,
-   trust line and offer are live editable text on the left, and the
-   right holds a single crafted plate: the sherwani — the most
-   care-intensive garment in the catalogue — presented like a mounted
-   specimen with a care-label caption. The drifting garment wall is
-   retired: dozens of competing thumbnails read as a marketplace, and
-   the hero's job is one clear message over one clear image.
+   Two rows of LARGE graded tiles — the real catalogue, one warm
+   grade, one radius, one exact gap — drifting imperceptibly behind
+   a navy scrim that rises from the text side. Fewer, bigger cells
+   read as a shoot; the old ten-column mosaic read as a marketplace.
+
+   Tiles come from the same 400px pricing cut-outs the price rail
+   uses, so the wall can never show an item we don't clean. Each row
+   is emitted twice: the keyframe travels exactly one set, so the
+   duplicate is what makes the loop seamless. fetchpriority="low" on
+   every tile — the headline is the LCP and nothing here may compete.
 
    Keeps the `hero` class so the mobile sticky-CTA + entrance guards
-   (scroll.js / hero.js) still resolve it. The headline carries no
-   reveal hook — it is the LCP element and must paint immediately;
-   the supporting lines cascade in behind it (animations.css).
+   (scroll.js / hero.js) still resolve it, and the wall pauses when
+   scrolled past (heroWall.js + html.wall-gated).
    ============================================================ #}
 <section class="hero home-hero">
+  <div class="home-hero__wall" aria-hidden="true">
+    {% for row in [home.hero_wall.tiles[:12], home.hero_wall.tiles[12:24]] %}
+    <div class="hero-wall__col" style="--dur: {{ [38, 47][loop.index0] }}s">
+      {% for _pass in range(2) %}
+      {% for slug in row %}
+      <span class="hero-wall__tile">
+        <img src="{{ asset_path }}images/pricing/{{ slug }}.webp" alt=""
+             width="400" height="400" fetchpriority="low" decoding="async">
+      </span>
+      {% endfor %}
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+
   <div class="wrap home-hero__grid">
     <div class="home-hero__inner">
       <p class="home-hero__eyebrow reveal reveal-delay-1">{{ ui('pin', 14) }} Gurugram · Delhi NCR</p>
@@ -70,21 +86,6 @@
       </p>
       {% endif %}
     </div>
-
-    {# The plate — deliberately NOT a reveal target: on desktop it is the
-       largest paint and animating it would postpone LCP. It is preloaded
-       and simply present when the page arrives. #}
-    <div class="home-hero__figure">
-      <figure class="hero-plate">
-        <img src="{{ asset_path }}images/hero-garment.webp"
-             alt="A hand-embroidered silk sherwani, studio-lit after specialist dry cleaning"
-             width="468" height="468" fetchpriority="high" decoding="async">
-        <figcaption class="hero-plate__label">
-          <span class="hero-plate__symbols" aria-hidden="true">{{ care_symbol('dryclean') }}{{ care_symbol('no-bleach') }}{{ care_symbol('iron-low') }}</span>
-          <span class="hero-plate__text">Sherwani &middot; hand-finished</span>
-        </figcaption>
-      </figure>
-    </div>
   </div>
 </section>
 
@@ -99,17 +100,9 @@
         <h2{{ cms('home:why.title') }}>{{ home.why.title }}</h2>
         <p{{ cms('home:why.text') }}>{{ home.why.text }}</p>
       </div>
-      {# Brand mascot — decorative. Desktop keeps the large companion figure
-         (>=62rem); `--sm` brings a small version back BELOW 62rem, where this
-         section is the longest unbroken run of type on the page and four 32px
-         glyphs are its only marks. The Proof section's copy of this same image
-         deliberately does NOT carry the modifier — one file, one fetch, but the
-         same figure twice within two scrolls on a phone reads as a repeat.
-         alt="" + aria-hidden keeps it out of the accessibility tree; it
-         repeats no information. #}
-      <img class="why__mascot why__mascot--sm" src="{{ asset_path }}images/mascot-why.png"
-           alt="" aria-hidden="true" width="760" height="941"
-           loading="lazy" decoding="async">
+      {# The illustrated mascot that sat here was retired in the imagery
+         pass — RULE 0: one photographic language; no cartoons beside
+         photography. The file stays in assets for print/social use. #}
     </div>
 
     <div class="promises stagger-children">
@@ -158,12 +151,25 @@
          cards, and services.json is now ordered to match it. At 9 the cut
          fell between Accessories and Sofa, dropping two poster services. #}
       {% for s in services.services[:12] %}
-      <article class="svc svc--art">
-        {{ service_bg(s.slug) }}
-        <span class="svc__icon">{{ service_icon(s.slug, 36) }}</span>
-        <h3><a class="svc__link" href="{{ root_path }}services/{{ s.slug }}/"{{ cms('services:services.' ~ loop.index0 ~ '.name') }}>{{ s.name }}</a></h3>
-        <p{{ cms('services:services.' ~ loop.index0 ~ '.short_description') }}>{{ s.short_description }}</p>
-        {{ care_tag(s.slug) }}
+      {# Photo cards — one pattern for every service: a large graded photo
+         header on the shared studio tone, text below on a clean surface.
+         The three services still waiting on photography (bag, toy,
+         mattress) take the same frame with their line icon on the tone,
+         so the grid never mixes visual languages. #}
+      <article class="svc svc--photo">
+        <span class="svc__media{% if not s.image %} svc__media--tonal{% endif %}" aria-hidden="true">
+          {% if s.image %}
+          <img src="{{ asset_path }}{{ s.image | replace('.png', '.webp') }}" alt=""
+               width="500" height="500" loading="lazy" decoding="async">
+          {% else %}
+          {{ service_icon(s.slug, 44) }}
+          {% endif %}
+        </span>
+        <span class="svc__body">
+          <h3><a class="svc__link" href="{{ root_path }}services/{{ s.slug }}/"{{ cms('services:services.' ~ loop.index0 ~ '.name') }}>{{ s.name }}</a></h3>
+          <p{{ cms('services:services.' ~ loop.index0 ~ '.short_description') }}>{{ s.short_description }}</p>
+          {{ care_tag(s.slug) }}
+        </span>
       </article>
       {% endfor %}
     </div>

@@ -16,6 +16,7 @@
 
 import { initReveal } from './motion/reveal.js'
 import { initHero } from './motion/hero.js'
+import { initHeroWall } from './motion/heroWall.js'
 import { initFlowRail } from './motion/flowRail.js'
 import { initScroll } from './motion/scroll.js'
 import { initUI } from './motion/ui.js'
@@ -83,6 +84,7 @@ boot('contact-form', initContactForm)
 boot('before-after', initBeforeAfter)
 boot('cart', () => initCart(document))
 boot('hero', initHero)
+boot('hero-wall', initHeroWall)
 boot('flow-rail', initFlowRail)
 boot('reveal', initReveal)
 boot('scroll', initScroll)

@@ -128,7 +128,16 @@
 {% endmacro %}
 
 {% macro review_card(r, asset_path) %}
-<article class="review">
+{# The door photos are the content (2026 imagery pass): a card WITH a
+   photo leads with it full-width and graded; the attribution loses its
+   thumbnail because the header already is the person. A card without a
+   photo keeps the plain text layout — same shell, same voice. #}
+<article class="review{% if r.photo %} review--photo{% endif %}">
+  {% if r.photo %}
+  <span class="review__photo">
+    <img src="{{ asset_path }}{{ r.photo }}" alt="{{ r.alt }}" width="320" height="320" loading="lazy" decoding="async">
+  </span>
+  {% endif %}
   <span class="review__stars" aria-label="{{ r.rating }} out of 5 stars">
     {% for _ in range(r.rating) %}{{ ui('star', 16) }}{% endfor %}
   </span>
@@ -144,9 +153,6 @@
   <blockquote class="review__quote">&ldquo;{{ r.quote }}&rdquo;</blockquote>
   <button type="button" class="review__more" hidden>Read more</button>
   <div class="review__who">
-    {% if r.photo %}
-    <img src="{{ asset_path }}{{ r.photo }}" alt="{{ r.alt }}" width="44" height="44" loading="lazy" decoding="async">
-    {% endif %}
     <div>
       <div class="review__name">{{ r.name }}</div>
       <div class="review__meta">{{ ui('check-badge', 14) }} {{ r.attribution }}</div>

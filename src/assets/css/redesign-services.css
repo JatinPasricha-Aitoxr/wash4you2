@@ -184,7 +184,7 @@
 .services-hero .crumbs span[aria-hidden] { color: rgba(255, 255, 255, .38); }
 
 .services-hero .eyebrow { color: #8fe6cd; }
-.services-hero .eyebrow::before { background: var(--brand-green); }
+
 
 .services-hero h1 { color: #fff; }
 .services-hero .lede { color: rgba(255, 255, 255, .92); }
@@ -235,7 +235,7 @@
    ============================================================ */
 .collect-band {
   background: var(--navy);
-  border-top: 3px solid var(--brand-green);
+  border-top: 1px solid rgba(217, 184, 120, .35);
   border-bottom: 1px solid rgba(217, 184, 120, .35);
 }
 
@@ -263,8 +263,8 @@
      animations.css reserves transform/opacity for the reveal. */
   .collect-band .area-link:hover,
   .collect-band .area-link:focus-visible {
-    background: var(--green-cta);
-    border-color: var(--green-cta);
+    background: rgba(255, 255, 255, .10);
+    border-color: rgba(217, 184, 120, .55);
     box-shadow: 0 12px 26px rgba(0, 0, 0, 0.28);
     translate: 0 -3px;
     color: #fff;
@@ -293,10 +293,10 @@
   transition: border-color 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
 }
 .svc-finder__search:focus-within {
-  border-color: var(--brand-green);
+  border-color: var(--navy);
   box-shadow: 0 0 0 4px rgba(33, 177, 75, 0.14);
 }
-.svc-finder__search > svg { color: var(--green); flex: none; }
+.svc-finder__search > svg { color: var(--ink-3); flex: none; }
 .svc-finder__search input {
   flex: 1; min-width: 0; border: 0; outline: none; background: none;
   font: inherit; font-size: var(--t-base); color: var(--ink); padding: 0.35rem 0;
@@ -311,7 +311,7 @@
 }
 .svc-finder__clear:hover { background: var(--line); color: var(--ink); }
 .svc-finder__count {
-  margin: 0; font-size: var(--t-sm); color: var(--green-deep);
+  margin: 0; font-size: var(--t-sm); color: var(--brass-deep);
   font-weight: 600; min-height: 1.2em;
 }
 
@@ -338,20 +338,20 @@
   color: var(--navy); font-weight: 700;
   text-decoration: underline; text-underline-offset: 2px;
 }
-.svc-menu tbody th a:hover { color: var(--green-deep); }
+.svc-menu tbody th a:hover { color: var(--brass-deep); }
 .svc-menu td { color: var(--ink-2); font-size: var(--t-sm); }
 .svc-menu tbody tr:last-child th,
 .svc-menu tbody tr:last-child td { border-bottom: 0; }
-.svc-menu tbody tr:hover { background: var(--green-tint); }
+.svc-menu tbody tr:hover { background: var(--brass-tint); }
 .svc-menu__turn {
   display: inline-block; padding: 0.2rem 0.6rem;
   border-radius: var(--r-pill);
-  background: var(--green-tint); color: var(--green-deep);
+  background: var(--green-tint); color: var(--brass-deep);
   font-weight: 600; white-space: nowrap;
 }
 
 /* ---- How it works ---- */
-.svc-steps { border-block: 3px solid var(--brand-green); }
+.svc-steps { border-block: 1px solid rgba(217, 184, 120, .35); }
 .svc-steps__grid {
   list-style: none; margin: 0; padding: 0;
   display: grid; gap: var(--s-4); grid-template-columns: 1fr;
@@ -369,8 +369,8 @@
   display: inline-grid; place-items: center;
   width: 2.25rem; height: 2.25rem; margin-bottom: var(--s-3);
   border-radius: 50%;
-  background: var(--brand-green);
-  color: #06210f;                  /* dark on the bright brand green */
+  background: rgba(217, 184, 120, .14);
+  color: var(--brass-bright);                  /* dark on the bright brand green */
   font-family: var(--font-mono); font-size: var(--t-sm);
 }
 .svc-step h3 { color: #fff; font-size: var(--t-md); margin-bottom: var(--s-1); }
@@ -574,11 +574,12 @@
 .svc-stage__chip{
   position:absolute;left:-.55rem;bottom:-.5rem;z-index:6;margin:0;
   display:inline-flex;align-items:baseline;gap:.4em;white-space:nowrap;
-  padding:.4rem .8rem;border-radius:999px;
-  background:var(--green-cta);color:#fff;              /* 4.66:1 under white */
-  font-family:var(--font-display);font-weight:700;font-size:1rem;line-height:1.15;
+  padding:.4rem .9rem;border-radius:999px;
+  background:var(--paper);color:var(--navy-deep);
+  border:1px solid var(--brass);
+  font-family:var(--font-display);font-weight:600;font-size:1rem;line-height:1.15;
   box-shadow:0 0 0 4px var(--svc-ground)}
-.svc-stage__chip span{font-family:var(--font-mono);font-weight:500;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;opacity:.85}
+.svc-stage__chip span{font-family:var(--font-mono);font-weight:500;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--brass-deep)}
 .svc-stage__chip small{font-weight:400;font-size:.68rem;opacity:.85}
 
 /* On the mark-only branch the stage is content-height, so the chip must
@@ -712,3 +713,66 @@
 .matrix-links { display: grid; gap: var(--s-8); }
 @media (min-width: 56rem) { .matrix-links { grid-template-columns: 1fr 1fr; gap: var(--s-7); } }
 .matrix-links h2 { font-size: var(--t-lg); margin-bottom: var(--s-4); }
+
+
+/* ============================================================
+   Service PHOTO cards — the image showcase (2026 imagery pass).
+
+   One pattern for all fifteen: a large photo header on the shared
+   studio tone (3:2, graded, 16px frame), text below on a clean
+   surface. Hover: the classic premium move — the image scales 1.04
+   inside its clipped frame over 400ms while the card lifts 2px.
+
+   The three services without honest photography yet (bag, toy,
+   mattress) take the same frame with their line icon on the tone —
+   a designed system state, not a wrong-object stock photo.
+   ============================================================ */
+.svc--photo {
+  padding: 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.svc__media {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 3 / 2;
+  background: var(--photo-tone);
+  border-bottom: 1px solid var(--line-soft);
+  overflow: hidden;
+}
+.svc__media img {
+  width: 86%;
+  height: 86%;
+  object-fit: contain;
+  border-radius: var(--r-sm);
+  filter: var(--photo-grade);
+  transition: transform 400ms ease;
+}
+.svc__media--tonal { color: var(--navy); }
+.svc__media--tonal svg { width: 2.75rem; height: 2.75rem; opacity: .8; }
+
+.svc--photo:hover .svc__media img,
+.svc--photo:focus-within .svc__media img { transform: scale(1.04); }
+
+.svc__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  flex: 1;
+}
+.svc__body p { flex: 1; color: var(--ink-2); font-size: var(--t-sm); line-height: 1.6; }
+
+/* On the navy band the card headings keep their own ink (the cards are
+   light islands); svc-band rules in redesign-home already handle this. */
+
+@media (prefers-reduced-motion: reduce) {
+  .svc__media img { transition: none; }
+  .svc--photo:hover .svc__media img,
+  .svc--photo:focus-within .svc__media img { transform: none; }
+}
+@media (forced-colors: active) {
+  .svc__media { border-bottom: 1px solid CanvasText; }
+}

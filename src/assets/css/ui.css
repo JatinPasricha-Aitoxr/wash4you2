@@ -179,6 +179,7 @@
   height: 100%;
   object-fit: cover;
   pointer-events: none;
+  filter: var(--photo-grade);
 }
 
 .ba__clip {
@@ -212,16 +213,16 @@
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
-  background: #fff;
-  /* layered soft shadow + inset hairline: a designed handle, not a dot */
+  /* The designed grip: accent fill, white glyph, hairline ring. */
+  background: var(--brass-deep);
   box-shadow:
-    inset 0 0 0 1px rgba(13, 35, 80, .10),
-    0 1px 2px rgba(13, 35, 80, .12),
-    0 8px 20px rgba(13, 35, 80, .24);
+    inset 0 0 0 1px rgba(255, 255, 255, .28),
+    0 1px 2px rgba(13, 35, 80, .18),
+    0 8px 20px rgba(13, 35, 80, .30);
   display: grid;
   place-items: center;
   pointer-events: none;
-  color: var(--navy);
+  color: #fff;
 }
 .ba__knob svg { width: 1.25rem; height: 1.25rem; }
 
@@ -276,7 +277,7 @@
    and a drag slider would misrepresent them. */
 .ba-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; border-radius: var(--r-lg); overflow: hidden; }
 .ba-pair figure { position: relative; margin: 0; }
-.ba-pair img { width: 100%; aspect-ratio: 1 / 1.6; object-fit: cover; }
+.ba-pair img { width: 100%; aspect-ratio: 1 / 1.6; object-fit: cover; filter: var(--photo-grade); }
 
 /* ------------------------------------------------------------
    Promise strip — the four brand promises
@@ -302,7 +303,7 @@
 }
 .promise__icon {
   width: 2rem; height: 2rem;
-  color: var(--green);
+  color: var(--navy);
   margin-bottom: var(--s-1);
 }
 .promise__icon svg { width: 100%; height: 100%; }
@@ -417,7 +418,42 @@
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
   height: 100%;
+}
+
+/* ---- Photo testimonial card (2026 imagery pass) --------------------
+   The photographed-at-the-door shots ARE the content: a full-width
+   1:1 graded photo header, then stars, the serif quote, and the
+   attribution below on a clean surface. The tiny avatar is retired —
+   the photo is the person. */
+.review--photo { padding: 0; overflow: hidden; }
+.review__photo {
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--photo-tone);
+}
+.review__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: var(--photo-grade);
+  transition: transform 400ms ease;
+}
+.review--photo:hover .review__photo img { transform: scale(1.04); }
+.review--photo .review__stars,
+.review--photo .review__quote,
+.review--photo .review__more { margin-inline: var(--s-5); }
+.review--photo .review__stars { margin-top: var(--s-4); }
+.review--photo .review__who {
+  margin: 0;
+  padding: var(--s-3) var(--s-5) var(--s-5);
+}
+@media (prefers-reduced-motion: reduce) {
+  .review__photo img { transition: none; }
+  .review--photo:hover .review__photo img { transform: none; }
 }
 
 .review__stars { display: flex; gap: 2px; color: var(--amber); }
@@ -684,6 +720,7 @@
      subject's face — 32% cut through the burnt-in caption instead. A generic
      default: override per video only if one crops badly. */
   object-position: center 44%;
+  filter: var(--photo-grade);
   transition: transform 320ms var(--ease-out);
 }
 .review--video:hover .review__poster { transform: scale(1.04); }

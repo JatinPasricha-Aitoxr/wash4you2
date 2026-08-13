@@ -15,10 +15,13 @@
    (or white on a dark ground) and the 2–3 most important keywords ride a
    green rounded highlight. Dark ink on the brand green measures ≈6.2:1;
    white on that hue would fail, so the pill text stays dark. */
+/* Keyword emphasis inside the dark hero headlines (locate-us + pricing):
+   the serif italic in brass — the same voice as the home hero's offer
+   phrase. Every .kw in the templates sits on a navy ground. */
 .kw {
   font-style: italic;
   font-weight: 480;
-  color: var(--navy);
+  color: var(--brass-bright);
 }
 
 /* A lighter-touch variant: green TEXT, no pill — for secondary headings

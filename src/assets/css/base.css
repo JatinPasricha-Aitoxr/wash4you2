@@ -117,7 +117,20 @@
 
   --ease-out: cubic-bezier(.22, 1, .36, 1);
   --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+
+  /* ---- Photography ---------------------------------------------
+     ONE treatment for every photo on the site. The sources are a mix
+     of studio cut-outs and phone photography; this grade — slightly
+     warm, soft contrast, gently desaturated — pulls them into one
+     shoot. Applied through .ph / the component selectors below, never
+     to logos, icons or the route map. */
+  --photo-grade: saturate(.9) sepia(.07) contrast(.96) brightness(1.03);
+  --photo-tone: #efe9dd;   /* the one studio ground behind cut-outs */
 }
+
+/* The shared photographic voice. Put the class on the <img> itself or
+   lean on the component selectors that opt whole slots in. */
+.ph, .ph img { filter: var(--photo-grade); }
 
 /* ============================================================
    Reset

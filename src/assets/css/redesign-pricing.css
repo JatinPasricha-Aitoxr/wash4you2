@@ -20,19 +20,12 @@
    Dark ink on the brand green measures ~6.2:1; white on that hue would
    fail, so the pill text stays dark. */
 .kw {
-  background: var(--brand-green);
-  color: var(--ink);
-  padding: 0.04em 0.34em;
-  border-radius: 0.34em;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-  white-space: nowrap;
+  font-style: italic;
+  font-weight: 480;
+  color: var(--brass-bright);
 }
 
-/* A lighter-touch variant: green TEXT, no pill — for secondary headings
-   on a light ground where a second pill would over-crowd. On white,
-   --green (#17883b) measures 4.54:1. */
-.kw-text { color: var(--green); }
+.kw-text { color: var(--brass-deep); }
 
 /* ============================================================
    Hero: full-bleed photo under the brand-navy overlay, white headline
@@ -55,7 +48,7 @@
     var(--pricing-hero-img, none) center / cover no-repeat,
     var(--navy-deep);
   padding-block: clamp(2.75rem, 2rem + 4vw, 5rem);
-  border-bottom: 3px solid var(--brand-green);
+  border-bottom: 1px solid rgba(217, 184, 120, .35);
 }
 
 /* Breadcrumbs + eyebrow on the dark ground. */
@@ -65,7 +58,7 @@
 .pricing-hero .crumbs span[aria-hidden] { color: rgba(255, 255, 255, .38); }
 
 .pricing-hero .eyebrow { color: #bfe6cb; }
-.pricing-hero .eyebrow::before { background: var(--brand-green); }
+
 
 .pricing-hero__title {
   color: #fff;
@@ -200,14 +193,14 @@
   gap: 0.35em;
   padding: 0.6rem 1rem;
   border-radius: var(--r-pill);
-  background: var(--green-tint);
-  border: 1px solid var(--brand-green);
+  background: var(--brass-tint);
+  border: 1px solid var(--brass);
   color: var(--ink-2);
   font-size: var(--t-sm);
   font-weight: 600;
   line-height: 1.2;
 }
-.gst-badge strong { color: var(--green-deep); }
+.gst-badge strong { color: var(--brass-deep); }
 .gst-badge--solo { margin: 0; }
 
 /* Live "Prices for <Area>, Gurugram" heading (req 2b). */
