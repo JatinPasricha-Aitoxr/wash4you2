@@ -57,7 +57,7 @@
   position: absolute;
   left: 0; right: 0; bottom: 0;
   height: 2px;
-  background: var(--green);
+  background: var(--brass);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 220ms var(--ease-out);
@@ -78,7 +78,7 @@
   color: var(--ink);
   letter-spacing: .02em;
 }
-.header__phone svg { width: 1rem; height: 1rem; color: var(--green); }
+.header__phone svg { width: 1rem; height: 1rem; color: var(--brass-deep); }
 @media (min-width: 48rem) { .header__phone { display: inline-flex; } }
 
 /* Scoped to .header on purpose. ui.css loads after this file, so a bare
@@ -283,7 +283,7 @@
 
 .footer__contact { display: grid; gap: var(--s-2); margin-top: var(--s-5); }
 .footer__contact a { display: flex; align-items: flex-start; gap: var(--s-3); color: #fff; font-weight: 600; }
-.footer__contact svg { width: 1.125rem; height: 1.125rem; flex: none; margin-top: .15rem; color: #8fb4ff; }
+.footer__contact svg { width: 1.125rem; height: 1.125rem; flex: none; margin-top: .15rem; color: var(--brass-bright); }
 .footer__contact span { font-weight: 400; color: rgba(255,255,255,.66); }
 
 .footer h3 {

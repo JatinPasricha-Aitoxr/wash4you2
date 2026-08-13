@@ -47,7 +47,7 @@
 .topbar__phone { font-family: var(--font-mono); font-weight: 500; letter-spacing: .02em; }
 .topbar svg { width: .875rem; height: .875rem; flex: none; }
 .topbar__phone svg,
-.topbar__area svg { color: var(--green-brand); }
+.topbar__area svg { color: var(--brass-bright); }
 .topbar__link { font-weight: 600; }
 .topbar__socials { display: inline-flex; align-items: center; gap: var(--s-3); }
 /* 44px-square tap target around the .875rem icon. Negative margins pull the
@@ -207,7 +207,7 @@
   font-size: var(--t-sm);
   color: var(--navy);
 }
-.mega__foot-link svg { width: 1rem; height: 1rem; color: var(--green); }
+.mega__foot-link svg { width: 1rem; height: 1rem; color: var(--brass-deep); }
 
 /* ------------------------------------------------------------
    Mobile-nav accordions (native <details>)
@@ -588,17 +588,19 @@ body.cart-lock { overflow: hidden; }
   border-radius: var(--r-lg);
   background: rgba(255, 255, 255, .04);
 }
+/* The step numbers wear the accent: brass on a whisper of brass. */
 .flow__num {
   display: inline-grid;
   place-items: center;
   width: 2.25rem; height: 2.25rem;
   margin-bottom: var(--s-3);
   border-radius: 50%;
-  background: var(--green-cta);
-  color: #fff;
+  background: rgba(217, 184, 120, .14);
+  color: var(--brass-bright);
   font-family: var(--font-mono);
   font-size: var(--t-sm);
   font-weight: 500;
+  font-variant-numeric: tabular-nums;
 }
 .flow__step h3 { font-size: var(--t-md); color: #fff; margin-bottom: var(--s-1); }
 .flow__step p { font-size: var(--t-base); color: rgba(255, 255, 255, .74); line-height: 1.5; }
@@ -780,8 +782,8 @@ body.cart-lock { overflow: hidden; }
   font-size: var(--t-xs);
   font-weight: 500;
   letter-spacing: .04em;
-  color: var(--green);
-  background: var(--green-tint);
+  color: var(--brass-deep);
+  background: var(--brass-tint);
   padding: .2rem .5rem;
   border-radius: var(--r-pill);
   white-space: nowrap;
@@ -795,7 +797,7 @@ body.cart-lock { overflow: hidden; }
 .plan-card__rows > div { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-3); }
 .plan-card__rows dt { font-size: var(--t-sm); color: var(--ink-3); }
 .plan-card__rows dd { font-family: var(--font-mono); font-weight: 500; color: var(--ink); }
-.plan-card__rows dd.is-free { color: var(--green); }
+.plan-card__rows dd.is-free { color: var(--brass-deep); }
 .plan-card .btn { margin-top: auto; }
 
 /* Best-value tiers — gold (Founder) and navy (VIP), echoing the client graphic */
@@ -823,15 +825,15 @@ body.cart-lock { overflow: hidden; }
 .plan-card--gold .plan-card__benefit { color: #8a5a06; background: #f6e8c8; }
 
 .plan-card--navy { border-color: var(--navy); background: var(--navy-deep); color: rgba(255,255,255,.82); }
-.plan-card--navy .plan-card__badge { background: var(--green-cta); }
+.plan-card--navy .plan-card__badge { background: var(--brass-deep); }
 .plan-card--navy .plan-card__name,
 .plan-card--navy .plan-card__balance-num,
 .plan-card--navy .plan-card__rows dd { color: #fff; }
 .plan-card--navy .plan-card__balance { border-bottom-color: rgba(255,255,255,.16); }
 .plan-card--navy .plan-card__balance-label,
 .plan-card--navy .plan-card__rows dt { color: rgba(255,255,255,.6); }
-.plan-card--navy .plan-card__benefit { color: #bfe6cb; background: rgba(33,177,75,.18); }
-.plan-card--navy .plan-card__rows dd.is-free { color: #7ee0a0; }
+.plan-card--navy .plan-card__benefit { color: var(--brass-bright); background: rgba(217,184,120,.14); }
+.plan-card--navy .plan-card__rows dd.is-free { color: var(--brass-bright); }
 
 .plan-foot { margin-top: var(--s-6); color: var(--ink-3); font-size: var(--t-xs); }
 
@@ -839,7 +841,7 @@ body.cart-lock { overflow: hidden; }
 .plan-features { display: grid; gap: var(--s-5); grid-template-columns: 1fr; }
 @media (min-width: 48rem) { .plan-features { grid-template-columns: repeat(3, 1fr); } }
 .plan-feature { display: flex; gap: var(--s-3); }
-.plan-feature__icon { display: inline-grid; place-items: center; width: 2.5rem; height: 2.5rem; flex: none; border-radius: var(--r-md); background: var(--green-tint); color: var(--green); }
+.plan-feature__icon { display: inline-grid; place-items: center; width: 2.5rem; height: 2.5rem; flex: none; border-radius: var(--r-sm); background: var(--brass-tint); color: var(--brass-deep); }
 .plan-feature__icon svg { width: 1.25rem; height: 1.25rem; }
 .plan-feature h3 { font-size: var(--t-md); margin-bottom: 2px; }
 .plan-feature p { font-size: var(--t-sm); color: var(--ink-3); line-height: 1.5; }

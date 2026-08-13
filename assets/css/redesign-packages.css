@@ -64,7 +64,7 @@
   flex: none;
   width: 1.15em;
   height: 1.6em;
-  background-color: var(--brand-green);
+  background-color: var(--brass);
   -webkit-mask: var(--w4u-check) center / 1em 1em no-repeat;
           mask: var(--w4u-check) center / 1em 1em no-repeat;
 }
@@ -93,7 +93,7 @@
   isolation: isolate;
   color: #fff;
   background: url('../images/hero-packages.svg') center / cover no-repeat, #0B2E4C;
-  border-bottom: 3px solid var(--brand-green);
+  border-bottom: 1px solid rgba(217, 184, 120, .35);
   padding-block: clamp(2.5rem, 1.8rem + 3vw, 4.5rem);
 }
 
@@ -107,7 +107,7 @@
 .packages-hero .crumbs span[aria-hidden] { color: rgba(255, 255, 255, .38); }
 
 .packages-hero .eyebrow { color: #8fe6cd; }
-.packages-hero .eyebrow::before { background: var(--brand-green); }
+
 
 .packages-hero h1 { color: #fff; }
 .packages-hero .lede { color: rgba(255, 255, 255, .92); }
@@ -183,7 +183,7 @@
   position: absolute;
   left: 0.2rem; top: 0.4em;
   width: 0.38rem; height: 0.66rem;
-  border: solid var(--green);
+  border: solid var(--brass-deep);
   border-width: 0 2.4px 2.4px 0;
   rotate: 45deg;
 }
@@ -195,7 +195,7 @@
 .plan-card--gold .plan-card__for span,
 .plan-card--navy .plan-card__for span { color: rgba(255, 255, 255, 0.62); }
 .plan-card--gold .plan-card__includes li::before,
-.plan-card--navy .plan-card__includes li::before { border-color: var(--brand-green); }
+.plan-card--navy .plan-card__includes li::before { border-color: var(--brass-bright); }
 
 /* ---- Shared table shell (why-subscribe + chooser) ---- */
 .pkg-table-wrap {
@@ -224,18 +224,18 @@
 .pkg-table td { color: var(--ink-2); font-size: var(--t-sm); }
 .pkg-table tbody tr:last-child th,
 .pkg-table tbody tr:last-child td { border-bottom: 0; }
-.pkg-table tbody tr:hover { background: var(--green-tint); }
+.pkg-table tbody tr:hover { background: var(--brass-tint); }
 .pkg-table__win {
   display: inline-block;
   padding: 0.2rem 0.6rem;
   border-radius: var(--r-pill);
-  background: var(--green-tint);
-  color: var(--green-deep);
+  background: var(--brass-tint);
+  color: var(--brass-deep);
   font-weight: 600;
 }
 
 /* ---- How packages work (blue band) ---- */
-.pkg-steps { border-block: 3px solid var(--brand-green); }
+.pkg-steps { border-block: 1px solid rgba(217, 184, 120, .35); }
 .pkg-steps__grid {
   list-style: none;
   margin: 0; padding: 0;
@@ -257,10 +257,11 @@
   width: 2.25rem; height: 2.25rem;
   margin-bottom: var(--s-3);
   border-radius: 50%;
-  background: var(--brand-green);
-  color: #06210f;                  /* dark on the bright brand green */
+  background: rgba(217, 184, 120, .14);
+  color: var(--brass-bright);
   font-family: var(--font-mono);
   font-size: var(--t-sm);
+  font-variant-numeric: tabular-nums;
 }
 .pkg-step h3 { color: #fff; font-size: var(--t-md); margin-bottom: var(--s-1); }
 .pkg-step p { color: rgba(255, 255, 255, 0.84); font-size: var(--t-base); }
@@ -278,8 +279,8 @@
   border-radius: var(--r-lg);
   background: var(--wash);
   border: 1px solid var(--line-soft);
-  border-left: 4px solid var(--brand-blue);
+  border-left: 2px solid var(--navy);
 }
-.spend-card:nth-child(even) { border-left-color: var(--brand-green); }
+.spend-card:nth-child(even) { border-left-color: var(--brass); }
 .spend-card h3 { font-size: var(--t-md); color: var(--navy); margin-bottom: var(--s-1); }
 .spend-card p { color: var(--ink-2); font-size: var(--t-sm); }

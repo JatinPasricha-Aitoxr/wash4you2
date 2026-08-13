@@ -16,18 +16,14 @@
    green rounded highlight. Dark ink on the brand green measures ≈6.2:1;
    white on that hue would fail, so the pill text stays dark. */
 .kw {
-  background: var(--brand-green);
-  color: var(--ink);
-  padding: 0.04em 0.34em;
-  border-radius: 0.34em;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-  white-space: nowrap;
+  font-style: italic;
+  font-weight: 480;
+  color: var(--navy);
 }
 
 /* A lighter-touch variant: green TEXT, no pill — for secondary headings
    where a second pill would over-crowd the ground. */
-.kw-text { color: var(--green); }
+.kw-text { color: var(--brass-deep); }
 
 /* ============================================================
    Hero — full-bleed photo, navy overlay, white headline
@@ -43,7 +39,7 @@
     var(--areas-hero-img, none) center / cover no-repeat,
     var(--navy-deep);
   padding-block: clamp(3.25rem, 2.3rem + 5vw, 6.5rem);
-  border-bottom: 3px solid var(--brand-green);
+  border-bottom: 1px solid rgba(217, 184, 120, .35);
 }
 
 /* .areas-hero__inner is the .wrap and carries `margin-inline: auto`, so a
@@ -75,7 +71,7 @@
 .areas-hero .crumbs span[aria-hidden] { color: rgba(255, 255, 255, .38); }
 
 .areas-hero .eyebrow { color: #bfe6cb; }
-.areas-hero .eyebrow::before { background: var(--brand-green); }
+
 
 .areas-hero__title {
   color: #fff;
@@ -240,8 +236,8 @@
 .coverage-note {
   margin-top: var(--s-3);
   padding: var(--s-3) var(--s-4);
-  border-left: 3px solid var(--brand-green);
-  background: var(--green-tint);
+  border-left: 2px solid var(--brass);
+  background: var(--brass-tint);
   border-radius: 0 var(--r-md) var(--r-md) 0;
   color: var(--ink-2);
   font-size: var(--t-sm);
@@ -261,10 +257,10 @@
   transition: border-color 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
 }
 .coverage-finder__search:focus-within {
-  border-color: var(--brand-green);
-  box-shadow: 0 0 0 4px rgba(33, 177, 75, 0.14);
+  border-color: var(--navy);
+  box-shadow: 0 0 0 4px rgba(20, 51, 107, 0.10);
 }
-.coverage-finder__search > svg { color: var(--green); flex: none; }
+.coverage-finder__search > svg { color: var(--ink-3); flex: none; }
 .coverage-finder__search input {
   flex: 1; min-width: 0;
   border: 0; outline: none; background: none;
@@ -285,7 +281,7 @@
 .coverage-finder__count {
   margin: 0;
   font-size: var(--t-sm);
-  color: var(--green-deep);
+  color: var(--brass-deep);
   font-weight: 600;
   min-height: 1.2em;          /* reserve the line so nothing jumps */
 }
@@ -343,8 +339,8 @@
   padding: 0.15rem 0.5rem;
   margin-left: -0.5rem;
   border-radius: var(--r-pill);
-  background: var(--green-tint);
-  color: var(--green-deep);
+  background: var(--brass-tint);
+  color: var(--brass-deep);
   font-weight: 700;
   text-decoration: none;
 }
@@ -395,22 +391,22 @@
   text-decoration: underline;
   text-underline-offset: 2px;
 }
-.area-table tbody th a:hover { color: var(--green-deep); }
+.area-table tbody th a:hover { color: var(--brass-deep); }
 .area-table td { color: var(--ink-2); font-size: var(--t-sm); }
 .area-table tbody tr:last-child th,
 .area-table tbody tr:last-child td { border-bottom: 0; }
-.area-table tbody tr:hover { background: var(--green-tint); }
+.area-table tbody tr:hover { background: var(--brass-tint); }
 .area-table__ideal {
   display: inline-block;
   padding: 0.2rem 0.6rem;
   border-radius: var(--r-pill);
-  background: var(--green-tint);
-  color: var(--green-deep);
+  background: var(--brass-tint);
+  color: var(--brass-deep);
   font-weight: 600;
 }
 
 /* ---- How it works (blue band) ---- */
-.area-steps { border-block: 3px solid var(--brand-green); }
+.area-steps { border-block: 1px solid rgba(217, 184, 120, .35); }
 .area-steps__grid {
   list-style: none; margin: 0; padding: 0;
   display: grid; gap: var(--s-4);
@@ -429,10 +425,11 @@
   width: 2.25rem; height: 2.25rem;
   margin-bottom: var(--s-3);
   border-radius: 50%;
-  background: var(--brand-green);
-  color: #06210f;                 /* dark on the bright brand green */
+  background: rgba(217, 184, 120, .14);
+  color: var(--brass-bright);
   font-family: var(--font-mono);
   font-size: var(--t-sm);
+  font-variant-numeric: tabular-nums;
 }
 .area-step h3 { color: #fff; font-size: var(--t-md); margin-bottom: var(--s-1); }
 .area-step p { color: rgba(255, 255, 255, 0.84); font-size: var(--t-base); }
@@ -453,15 +450,15 @@
   border-radius: var(--r-lg);
   background: var(--wash);
   border: 1px solid var(--line-soft);
-  border-left: 4px solid var(--brand-green);
+  border-left: 2px solid var(--brass);
 }
 .area-why__tick {
   grid-row: 1 / span 2;
   display: inline-grid; place-items: center;
   width: 1.9rem; height: 1.9rem;
   border-radius: 50%;
-  background: var(--brand-green);
-  color: #06210f;
+  background: var(--brass-tint);
+  color: var(--brass-deep);
 }
 .area-why__card h3 { font-size: var(--t-base); color: var(--navy); margin: 0 0 0.15rem; }
 .area-why__card p { color: var(--ink-2); font-size: var(--t-sm); margin: 0; }

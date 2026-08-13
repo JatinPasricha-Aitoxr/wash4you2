@@ -31,13 +31,13 @@
 .page-about .about-hero {
   background: var(--navy);
   color: #fff;
-  border-bottom: 4px solid var(--brand-green);
+  border-bottom: 1px solid rgba(217, 184, 120, .35);
 }
 .page-about .about-hero .crumbs { color: rgba(255, 255, 255, 0.72); }
 .page-about .about-hero .crumbs a { color: #fff; }
 .page-about .about-hero .crumbs span[aria-hidden] { color: rgba(255, 255, 255, 0.38); }
 .page-about .about-hero .eyebrow { color: #8fe6cd; }
-.page-about .about-hero .eyebrow::before { background: var(--brand-green); }
+
 .page-about .about-hero h1 { color: #fff; }
 .page-about .about-hero .lede { color: #fff; font-weight: 600; }
 .page-about .about-hero__body { color: rgba(255, 255, 255, 0.86); margin-top: var(--s-4); }
@@ -64,12 +64,12 @@
 
 /* ---- Band grounds ----------------------------------------------------- */
 .page-about .about-band-green {
-  background: var(--green-tint);
+  background: var(--wash-2);
   border-block: 1px solid rgba(33, 177, 75, 0.28);
 }
 .page-about .about-band-blue {
   background: var(--navy-deep);
-  border-block: 3px solid var(--brand-green);
+  border-block: 1px solid rgba(217, 184, 120, .35);
 }
 
 /* ---- Mission + Vision ------------------------------------------------- */
@@ -89,10 +89,10 @@
   box-shadow: var(--shadow-card);
   /* The accent is a left spine so the two cards read as a pair with
      different subjects rather than two unrelated boxes. */
-  border-left: 4px solid var(--pc, var(--brand-blue));
+  border-left: 2px solid var(--pc, var(--navy));
 }
 .page-about .mv-card--mission { --pc: var(--brand-blue); }
-.page-about .mv-card--vision  { --pc: var(--brand-green); }
+.page-about .mv-card--vision  { --pc: var(--brass); }
 
 .page-about .mv-card__icon {
   display: inline-grid;

@@ -11,56 +11,65 @@
 
 :root {
   /* ---- Colour -------------------------------------------------
-     Brand-derived only. Two brand hues plus neutrals — no invented
-     accent colour. Navy carries structure, green carries action. */
+     Premium fabric-care palette: a deep navy anchor, warm paper
+     neutrals, and ONE warm accent — muted brass. Green survives in
+     exactly one role: the primary action. Nothing else wears it. */
   --ink:        #101b2e;  /* near-black navy — headings            */
   --ink-2:      #3d4a60;  /* body copy                              */
   --ink-3:      #677283;  /* captions, meta. Darkened from #6b7789:
                              that only reached 4.26:1 on the --wash ground,
                              which is where most captions actually sit.      */
 
-  --navy:       #14336b;  /* brand blue — structure, links          */
-  --navy-deep:  #0d2350;  /* pressed / dark bands                   */
-  --navy-tint:  #e8eefa;  /* navy at 8% — quiet fills               */
+  --navy:       #14336b;  /* brand navy — structure, links          */
+  --navy-deep:  #0d2350;  /* dark bands, the anchor                 */
+  --navy-tint:  #e9edf6;  /* navy at 8% — quiet fills               */
 
   /* The client's brand green is #21b14b. White text on it measures 2.82:1,
-     well under the 4.5:1 floor, and it is the primary CTA on every page —
-     so the button and text greens are darkened to the minimum that passes.
-     #21b14b is retained below for non-text use, where 4.5:1 does not apply. */
+     so the CTA fill is darkened to pass. Green is the ACTION colour only —
+     buttons and nothing else; every other accent job belongs to brass. */
   --green:      #17883b;  /* green TEXT on white — 4.54:1           */
   --green-cta:  #198639;  /* button fill under white text — 4.66:1  */
   --green-deep: #126b2d;  /* pressed                                */
-  --green-brand:#21b14b;  /* untouched brand green: rules, dots, non-text */
+  --green-brand:#21b14b;  /* untouched brand green: logo contexts only */
   --green-tint: #e6f6ec;
 
-  /* ---- Spec brand tokens (2026 redesign) ----------------------
-     Sampled exactly from the Wash4You logo. Everything the redesign
-     spec references maps to these. brand-blue (#2060A0) gets 6.4:1
-     with white text — safe for the top strip and hero headings.    */
-  --brand-blue:      #2060A0;  /* the logo blue — top strip, hero/page-title headings, brand accents */
-  --brand-blue-deep: #14336b;  /* deep variant for dark bands (== --navy) */
-  --brand-green:     #21b14b;  /* logo green — keyword highlight pills, check icons, rules (non-text) */
-  --brand-green-cta: #198639;  /* accessible green for button fills under white text (4.66:1) */
-  --text-body:       #3d4a60;  /* dark neutral grey body copy, not pure black (== --ink-2) */
+  /* ---- The warm accent — muted brass --------------------------
+     Gold-on-navy is the category's own signal of care and craft.
+     Three legibility steps, measured:
+       --brass        decorative marks, rules, stars, borders (2.99:1 on
+                      --wash — non-text only)
+       --brass-deep   brass TEXT on light grounds (4.7:1 on --wash)
+       --brass-bright brass TEXT/marks on navy bands (8.1:1 on --navy-deep) */
+  --brass:        #b28a4a;
+  --brass-deep:   #7a5c26;
+  --brass-bright: #d9b878;
+  --brass-tint:   #f6efe1;
+
+  /* Legacy spec aliases — re-pointed at the refined palette so every
+     rule that references them inherits the restraint. */
+  --brand-blue:      #14336b;  /* was the bright logo blue; now the navy anchor */
+  --brand-blue-deep: #14336b;
+  --brand-green:     #21b14b;  /* logo green — logo/CTA contexts only */
+  --brand-green-cta: #198639;
+  --text-body:       #3d4a60;
 
   --paper:      #ffffff;
-  --wash:       #f4f8fd;  /* faint blue-tinted ground               */
-  --wash-2:     #eaf1fa;
-  --line:       #dae3f0;
-  --line-soft:  #eaf0f8;
+  --wash:       #faf8f4;  /* warm paper ground                      */
+  --wash-2:     #f3efe7;  /* deeper warm paper                      */
+  --line:       #e6e0d4;  /* warm hairline                          */
+  --line-soft:  #efebe1;
 
-  --amber:      #ca860e;  /* review stars. Darkened from #f0a92a, which was
-                             2.02:1 — under the 3:1 floor for meaningful
-                             non-text graphics.                             */
-  --amber-tint: #fdf4e6;  /* amber at ~8% — the notice ground             */
-  --amber-deep: #8a5a00;  /* 6.1:1 on --amber-tint — notice text            */
+  /* Stars and notices ride the brass scale — one warm accent, one voice. */
+  --amber:      #b28a4a;
+  --amber-tint: #f6efe1;
+  --amber-deep: #7a5c26;
 
   /* ---- Type ---------------------------------------------------
-     Bricolage Grotesque is the display face — a crafted, contemporary
-     grotesque with real character in the headlines. Hanken Grotesk is the
-     warm, highly legible body face. Plex Mono is the docket/ticket voice —
-     counts, codes, captions. */
-  --font-display: 'Bricolage Grotesque', 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+     Fraunces is the display face — an elegant transitional serif with a
+     live optical-size axis, for headlines and the big numerals. Hanken
+     Grotesk is the clean grotesque for body and UI. Plex Mono is the
+     docket/ticket voice — eyebrows, counts, codes, captions. */
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
   --font-sans:    'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono:    'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
@@ -86,21 +95,25 @@
   --s-5: 1.5rem;   --s-6: 2rem;     --s-7: 2.5rem;   --s-8: 3rem;
   --s-9: 4rem;     --s-10: 5rem;    --s-11: 6.5rem;
 
-  /* Section rhythm — one variable so vertical spacing never drifts */
-  --section-y: clamp(3.5rem, 2.4rem + 4.6vw, 6.5rem);
+  /* Section rhythm — one variable so vertical spacing never drifts.
+     64px on a phone rising to 128px on desktop: sections breathe. */
+  --section-y: clamp(4rem, 2.9rem + 4.8vw, 8rem);
 
   --wrap: 1200px;
   --wrap-narrow: 760px;
   --gutter: clamp(1.125rem, 0.85rem + 1.2vw, 2rem);
 
-  /* ---- Form --------------------------------------------------- */
-  --r-sm: 8px;  --r-md: 12px;  --r-lg: 18px;  --r-xl: 26px;  --r-pill: 999px;
+  /* ---- Form ---------------------------------------------------
+     ONE corner radius. 16px on every card, image and button; 8px only
+     for small elements nested inside a 16px parent; pill for chips. */
+  --r-sm: 8px;  --r-md: 16px;  --r-lg: 16px;  --r-xl: 16px;  --r-pill: 999px;
 
-  --shadow-sm:  0 1px 2px rgba(16, 27, 46, .05), 0 2px 8px rgba(16, 27, 46, .04);
-  --shadow-md:  0 4px 14px rgba(16, 27, 46, .07), 0 1px 3px rgba(16, 27, 46, .05);
-  --shadow-lg:  0 18px 44px rgba(16, 27, 46, .13);
-  --shadow-cta: 0 8px 22px rgba(25, 134, 57, .28);
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, .08);  /* subtle single-layer card shadow (spec) */
+  /* Soft, low-opacity layered shadows on the navy axis — never grey. */
+  --shadow-sm:  0 1px 2px rgba(13, 35, 80, .04), 0 8px 24px rgba(13, 35, 80, .06);
+  --shadow-md:  0 2px 4px rgba(13, 35, 80, .05), 0 12px 32px rgba(13, 35, 80, .09);
+  --shadow-lg:  0 4px 12px rgba(13, 35, 80, .07), 0 24px 56px rgba(13, 35, 80, .13);
+  --shadow-cta: 0 6px 16px rgba(25, 134, 57, .20);
+  --shadow-card: 0 1px 2px rgba(13, 35, 80, .04), 0 8px 24px rgba(13, 35, 80, .06);
 
   --ease-out: cubic-bezier(.22, 1, .36, 1);
   --ease-in-out: cubic-bezier(.65, 0, .35, 1);
@@ -156,32 +169,43 @@ a { color: inherit; text-decoration: none; }
    Typography
    ============================================================ */
 
-h1, h2, h3, h4, .display {
+/* Display headlines set in the serif: confident, tightened, never bold-y.
+   Fraunces' optical-size axis follows the rendered size automatically. */
+h1, h2, .display {
   font-family: var(--font-display);
   color: var(--ink);
-  line-height: 1.04;
-  letter-spacing: -0.022em;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
   text-wrap: balance;
-  /* Bricolage's optical-size axis tracks the heading size automatically. */
   font-optical-sizing: auto;
-  font-weight: 800;
+  font-weight: 600;
 }
 
-/* Global type scale (spec req 7) — one scale for the whole site, no
-   per-section overrides. H1 28→48px, H2 24→36px, H3 20→24px. */
-h1, .h1 { font-size: clamp(1.75rem, 1.30rem + 2.0vw, 3rem); }        /* 28 → 48px */
-h2, .h2 { font-size: clamp(1.5rem,  1.24rem + 1.15vw, 2.25rem); }    /* 24 → 36px */
-h3, .h3 { font-size: clamp(1.25rem, 1.16rem + 0.4vw, 1.5rem); line-height: 1.16; }
+/* Support headings stay in the clean grotesque — card titles and UI
+   headings read as interface, not editorial. */
+h3, h4 {
+  font-family: var(--font-sans);
+  color: var(--ink);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  font-weight: 700;
+}
+
+/* Global type scale — one scale for the whole site, no per-section
+   overrides. H1 30→52px, H2 26→40px, H3 20→24px. */
+h1, .h1 { font-size: clamp(1.875rem, 1.35rem + 2.3vw, 3.25rem); }
+h2, .h2 { font-size: clamp(1.625rem, 1.32rem + 1.35vw, 2.5rem); }
+h3, .h3 { font-size: clamp(1.25rem, 1.16rem + 0.4vw, 1.5rem); line-height: 1.2; }
 h4, .h4 { font-size: var(--t-lg); line-height: 1.2; font-weight: 700; }
 
 .display-xl {
   font-family: var(--font-display);
-  /* Hero H1 — kept inside the spec's 40–48px desktop ceiling. */
-  font-size: clamp(1.875rem, 1.35rem + 2.3vw, 3rem);   /* 30 → 48px */
-  font-weight: 800;
+  font-size: clamp(1.875rem, 1.35rem + 2.3vw, 3.25rem);
+  font-weight: 600;
   font-optical-sizing: auto;
-  letter-spacing: -0.03em;
-  line-height: 1.02;
+  letter-spacing: -0.015em;
+  line-height: 1.08;
   color: var(--ink);
   text-wrap: balance;
 }
@@ -215,14 +239,15 @@ strong, b { font-weight: 700; color: var(--ink); }
   text-transform: none;
 }
 
-/* Eyebrow above a section heading. Reads as a label sewn on. */
+/* Eyebrow above a section heading — a refined kicker in the accent.
+   Small, tracked at .1em, muted; the short brass rule reads as a stitch. */
 .eyebrow {
   font-family: var(--font-mono);
   font-size: var(--t-xs);
   font-weight: 500;
-  letter-spacing: .16em;
+  letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--navy);
+  color: var(--brass-deep);
   display: flex;
   align-items: center;
   gap: var(--s-3);
@@ -230,10 +255,9 @@ strong, b { font-weight: 700; color: var(--ink); }
 }
 .eyebrow::before {
   content: '';
-  width: 1.75rem;
-  height: 2px;
-  /* decorative rule, no contrast floor applies — keeps the true brand green */
-  background: var(--green-brand);
+  width: 1.5rem;
+  height: 1px;
+  background: var(--brass);
   flex: none;
 }
 .eyebrow--center { justify-content: center; }
@@ -263,7 +287,8 @@ strong, b { font-weight: 700; color: var(--ink); }
 .section--wash { background: var(--wash); }
 .section--navy { background: var(--navy-deep); color: rgba(255,255,255,.9); }
 .section--navy h1, .section--navy h2, .section--navy h3, .section--navy h4 { color: #fff; }
-.section--navy .eyebrow { color: #8fb4ff; }
+.section--navy .eyebrow { color: var(--brass-bright); }
+.section--navy .eyebrow::before { background: var(--brass); }
 /* .section-head p sets --ink-2 (line 276) and out-specifies the .section--navy
    `color` above, so the lede under every dark-band heading was #3d4a60 on
    #0d2350 — 1.71:1, i.e. invisible. This is 12.1:1. */

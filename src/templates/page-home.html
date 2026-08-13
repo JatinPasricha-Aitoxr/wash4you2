@@ -9,8 +9,9 @@
 {% block body_class %}page-home{% endblock %}
 
 {% block preload %}
-  {# The hero is live text (its headline is the LCP), so no image to preload —
-     just load this page's redesign stylesheet. #}
+  {# The hero pairs live text (the LCP headline) with one focal image —
+     preload it so the plate never pops in after the copy. #}
+  <link rel="preload" href="{{ asset_path }}images/hero-garment.webp" as="image" type="image/webp" fetchpriority="high">
   <link rel="stylesheet" href="{{ asset_path }}css/redesign-home.css">
 {% endblock %}
 
@@ -32,73 +33,59 @@
 {% block content %}
 
 {# ============================================================
-   Hero — two supplied banners crossfading behind live text.
+   Hero — one message, one action, one focal object.
 
-   The headline, sub, CTAs, trust line and offer badge are all real
-   editable text; the images carry no words. Both banners are composed
-   the same way — subject right, empty left — so ONE text layer sits
-   correctly over either, and a white scrim over the left of the media
-   guarantees contrast on both grounds without per-slide theming.
+   Deep navy ground with a faint brass glow; the headline, sub, CTAs,
+   trust line and offer are live editable text on the left, and the
+   right holds a single crafted plate: the sherwani — the most
+   care-intensive garment in the catalogue — presented like a mounted
+   specimen with a care-label caption. The drifting garment wall is
+   retired: dozens of competing thumbnails read as a marketplace, and
+   the hero's job is one clear message over one clear image.
 
    Keeps the `hero` class so the mobile sticky-CTA + entrance guards
-   (scroll.js / hero.js) still resolve it. The old ambient bubbles are
-   gone: they were lift for an image-less gradient band and read as
-   noise over a photograph.
+   (scroll.js / hero.js) still resolve it. The headline carries no
+   reveal hook — it is the LCP element and must paint immediately;
+   the supporting lines cascade in behind it (animations.css).
    ============================================================ #}
 <section class="hero home-hero">
-  {# The wall — a tilted, endlessly drifting river of the real garment
-     cut-outs, replacing the two stock banners.
-
-     aria-hidden on the container: it is decoration, and 48 garment names
-     read out before the headline would be hostile. Each tile therefore
-     takes a bare alt="" (house convention when the parent is hidden).
-
-     fetchpriority="low" is a deliberate departure from the site's
-     loading="lazy" default. These sit ABOVE the fold, so `lazy` would not
-     defer them meaningfully and would risk visible pop-in; `low` instead
-     tells the browser to let the stylesheets, fonts and the headline —
-     which is the LCP element — win the bandwidth. 24 unique tiles at
-     ~6 KB each, each one requested once however many times it appears. #}
-  <div class="home-hero__wall" aria-hidden="true">
-    <div class="hero-wall">
-      {% for column in hero_wall_columns %}
-      <div class="hero-wall__col" style="--dur: {{ home.hero_wall.durations[loop.index0] }}s">
-        {# each column's tiles are emitted twice: the keyframe travels
-           exactly one set, so the second copy is what makes the loop
-           seamless rather than snapping back. #}
-        {% for _pass in range(2) %}
-        {% for slug in column %}
-        <span class="hero-wall__tile">
-          <img src="{{ asset_path }}images/hero-wall/{{ slug }}.webp" alt=""
-               width="240" height="240" fetchpriority="low" decoding="async">
-        </span>
-        {% endfor %}
-        {% endfor %}
+  <div class="wrap home-hero__grid">
+    <div class="home-hero__inner">
+      <p class="home-hero__eyebrow reveal reveal-delay-1">{{ ui('pin', 14) }} Gurugram · Delhi NCR</p>
+      <h1 class="home-hero__title"><span class="hkw hkw--blue">Premium</span> <span class="hkw hkw--green">Dry Cleaning &amp; Laundry</span> <span class="hkw hkw--blue">with</span> <span class="hkw hkw--green">Free Pickup &amp; Delivery</span></h1>
+      <p class="home-hero__sub reveal reveal-delay-2">Eco-friendly laundry, dry cleaning and specialist fabric care. We collect from your door, count every piece with you, and deliver it back fresh — in 24 hours.</p>
+      <div class="home-hero__actions reveal reveal-delay-3">
+        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" rel="noopener">Book Free Pickup</a>
+        <a class="btn home-hero__ghost btn--lg" href="{{ root_path }}pricing/">See Pricing</a>
       </div>
-      {% endfor %}
+      <p class="home-hero__trust reveal reveal-delay-4"><span class="home-hero__stars" aria-hidden="true">★★★★★</span> Trusted by 1000+ customers in Gurugram</p>
+
+      {# The first-order offer as a quiet tag, not a starburst. Same three
+         editable spans, so the admin bindings are unchanged. #}
+      {% if site.offer and site.offer.enabled %}
+      <p class="home-hero__offer reveal reveal-delay-4">
+        <span class="home-hero__offer-value"{{ cms('site:offer.value') }}>{{ site.offer.value }}</span>
+        <span class="home-hero__offer-label"{{ cms('site:offer.label') }}>{{ site.offer.label }}</span>
+        <span class="home-hero__offer-detail"{{ cms('site:offer.detail') }}>{{ site.offer.detail }}</span>
+      </p>
+      {% endif %}
+    </div>
+
+    {# The plate — deliberately NOT a reveal target: on desktop it is the
+       largest paint and animating it would postpone LCP. It is preloaded
+       and simply present when the page arrives. #}
+    <div class="home-hero__figure">
+      <figure class="hero-plate">
+        <img src="{{ asset_path }}images/hero-garment.webp"
+             alt="A hand-embroidered silk sherwani, studio-lit after specialist dry cleaning"
+             width="468" height="468" fetchpriority="high" decoding="async">
+        <figcaption class="hero-plate__label">
+          <span class="hero-plate__symbols" aria-hidden="true">{{ care_symbol('dryclean') }}{{ care_symbol('no-bleach') }}{{ care_symbol('iron-low') }}</span>
+          <span class="hero-plate__text">Sherwani &middot; hand-finished</span>
+        </figcaption>
+      </figure>
     </div>
   </div>
-
-  <div class="wrap home-hero__inner">
-    <p class="home-hero__eyebrow">{{ ui('pin', 14) }} Gurugram · Delhi NCR</p>
-    <h1 class="home-hero__title"><span class="hkw hkw--blue">Premium</span> <span class="hkw hkw--green">Dry Cleaning &amp; Laundry</span> <span class="hkw hkw--blue">with</span> <span class="hkw hkw--green">Free Pickup &amp; Delivery</span></h1>
-    <p class="home-hero__sub">Eco-friendly laundry, dry cleaning and specialist fabric care. We collect from your door, count every piece with you, and deliver it back fresh — in 24 hours.</p>
-    <div class="home-hero__actions">
-      <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" rel="noopener">Book Free Pickup</a>
-      <a class="btn home-hero__ghost btn--lg" href="{{ root_path }}pricing/">See Pricing</a>
-    </div>
-    <p class="home-hero__trust"><span class="home-hero__stars" aria-hidden="true">★★★★★</span> Trusted by 1000+ customers in Gurugram</p>
-  </div>
-
-  {# The offer that used to be baked into both banners, rebuilt as text so
-     it can be edited or switched off from site.json / the admin panel. #}
-  {% if site.offer and site.offer.enabled %}
-  <p class="home-hero__offer">
-    <span class="home-hero__offer-value"{{ cms('site:offer.value') }}>{{ site.offer.value }}</span>
-    <span class="home-hero__offer-label"{{ cms('site:offer.label') }}>{{ site.offer.label }}</span>
-    <span class="home-hero__offer-detail"{{ cms('site:offer.detail') }}>{{ site.offer.detail }}</span>
-  </p>
-  {% endif %}
 </section>
 
 {# ============================================================

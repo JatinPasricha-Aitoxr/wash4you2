@@ -84,92 +84,42 @@
    into a rhythm without introducing a colour that is not ours.
    Both are non-text graphics at <15% alpha, so the 4.5:1 floor
    does not apply and the copy above them is unaffected.          */
-.svc--art:nth-child(3n - 1) .svc__bg { color: var(--green-brand); opacity: 0.13; }
+.svc--art:nth-child(3n - 1) .svc__bg { color: var(--brass); opacity: 0.12; }
 .svc--art:nth-child(3n) .svc__bg { color: var(--brand-blue); opacity: 0.12; }
 
 /* ============================================================
-   Hover / focus — the card fills with the CTA green and lifts.
-   ============================================================
+   Hover / focus — a quiet lift.
 
    THE LIFT USES `translate`, NOT `transform`, AND THAT IS LOAD-BEARING.
    These cards are `.stagger-children > *`, and reveal.js animates them in
-   on `transform` (tokens.js: `transform: ['translateY(24px)','none']`),
-   commits the final value inline, then clears it. animations.css spells
-   out the consequence: a live CSS transition on `transform` for one of
-   these targets re-fires on that release and visibly slides the card
-   back. The independent `translate` property is never touched by Motion,
-   so it composes with the reveal instead of fighting it.
+   on `transform`, commits the final value inline, then clears it — a live
+   CSS transition on `transform` re-fires on that release. The independent
+   `translate` property composes with the reveal instead of fighting it.
 
-   THE FILL IS --green-cta, NOT --green-brand. The logo green (#21b14b)
-   gives white text 2.82:1. --green-cta (#198639) is the darkened green
-   base.css already defines for exactly this job — a green ground under
-   white text — and it is what every "Book free pickup" button on the
-   site is painted with, so the card lands on a colour users already
-   read as the Wash4You action colour. White on it is 4.71:1.
-
-   A solid colour, not a gradient: background-image does not interpolate,
-   so a gradient would snap on and off while everything else eased.     */
+   The green flood fill is retired: a card that turns into a giant button
+   on approach reads as a marketplace, not a service. The card rises 2px,
+   the shadow deepens, the border warms to brass, and the watermark leans
+   in a breath. Everything keeps its resting colour.
+   ============================================================ */
 .svc--art {
   transition:
-    background-color 260ms var(--ease-out),
-    border-color 260ms var(--ease-out),
-    box-shadow 300ms var(--ease-out),
-    translate 300ms var(--ease-out);
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    translate 200ms ease;
 }
 
 .svc--art:hover,
 .svc--art:focus-within {
-  background-color: var(--green-cta);
-  border-color: var(--green-cta);
-  /* the green cast of --shadow-cta under the CTA-green card, over a
-     neutral lift shadow that gives it height off the page */
-  box-shadow: var(--shadow-cta), var(--shadow-lg);
-  translate: 0 -6px;
+  border-color: var(--brass);
+  box-shadow: var(--shadow-md);
+  translate: 0 -2px;
 }
 
-/* Everything on the card inverts to white. Pure #fff, not a translucent
-   white: at 90% alpha the blurb would drop to 4.0:1 against this ground. */
-.svc--art:hover .svc__icon,
-.svc--art:focus-within .svc__icon,
-.svc--art:hover h3,
-.svc--art:focus-within h3,
-.svc--art:hover p,
-.svc--art:focus-within p { color: #fff; }
-
-/* The care tag is a white chip at rest. On green it becomes an outlined
-   one, keeping the sewn-label notch on its left edge. */
-.svc--art .tag {
-  transition:
-    background-color 260ms var(--ease-out),
-    border-color 260ms var(--ease-out),
-    color 260ms var(--ease-out);
-}
-.svc--art:hover .tag,
-.svc--art:focus-within .tag {
-  background-color: transparent;
-  border-color: rgba(255, 255, 255, 0.42);
-  border-left-color: #fff;
-  color: #fff;
-}
-.svc--art:hover .tag__symbols svg,
-.svc--art:focus-within .tag__symbols svg { stroke: #fff; }
-
-/* The watermark goes DARK on the green, not light — this is the whole
-   reason the hover state is safe. White text on --green-cta has 4.71:1
-   and no headroom, so a lightening watermark would push it under (white
-   at 19% lands 3.4:1). Deepening the ground instead moves it the other
-   way: under the drawing the blurb reads 6.7:1, better than the flat
-   green around it. Placed after the nth-child tints so it wins.       */
 .svc--art:hover .svc__bg,
 .svc--art:focus-within .svc__bg {
-  color: #05230f;
-  opacity: 0.28;
-  transform: scale(1.06) rotate(-2deg);
+  opacity: 0.16;
+  transform: scale(1.03);
 }
-
-/* The global focus ring is navy, which is 2.6:1 on this green — under
-   the 3:1 a focus indicator needs. On the filled card it turns white. */
-.svc--art:focus-within :focus-visible { outline-color: #fff; }
 
 /* ---- Small screens ---------------------------------------------
    One card per column means the card is wide and short, so the
@@ -182,7 +132,7 @@
     bottom: -8%;
     opacity: 0.10;
   }
-  .svc--art:nth-child(3n - 1) .svc__bg { opacity: 0.12; }
+  .svc--art:nth-child(3n - 1) .svc__bg { opacity: 0.11; }
   .svc--art:nth-child(3n) .svc__bg { opacity: 0.11; }
 }
 
@@ -224,7 +174,7 @@
   isolation: isolate;
   color: #fff;
   background: url('../images/hero-services.svg') center / cover no-repeat, #0B2E4C;
-  border-bottom: 3px solid var(--brand-green);
+  border-bottom: 1px solid rgba(217, 184, 120, .35);
   padding-block: clamp(2.5rem, 1.8rem + 3vw, 4.5rem);
 }
 
@@ -286,7 +236,7 @@
 .collect-band {
   background: var(--navy);
   border-top: 3px solid var(--brand-green);
-  border-bottom: 3px solid var(--brand-green);
+  border-bottom: 1px solid rgba(217, 184, 120, .35);
 }
 
 /* .area-link was drawn for a white ground: --ink label, --line border and

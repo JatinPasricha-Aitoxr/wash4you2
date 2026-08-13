@@ -14,7 +14,8 @@
   /* 48px min height — comfortably over the 44px touch floor */
   min-height: 3rem;
   padding: 0.8125rem 1.5rem;
-  border-radius: var(--r-pill);
+  /* The one radius — buttons hold the same 16px as cards and images. */
+  border-radius: var(--r-lg);
   font-family: var(--font-sans);
   font-size: 1rem;
   font-weight: 700;
@@ -22,10 +23,17 @@
   text-align: center;
   cursor: pointer;
   border: 2px solid transparent;
-  transition: background-color 180ms var(--ease-out),
-              border-color 180ms var(--ease-out),
-              color 180ms var(--ease-out),
-              box-shadow 180ms var(--ease-out);
+  transition: background-color 200ms ease,
+              border-color 200ms ease,
+              color 200ms ease,
+              box-shadow 200ms ease,
+              translate 200ms ease;
+}
+/* Small, honest hover lift. `translate`, never `transform` — the reveal
+   layer owns transform for stagger targets. */
+.btn:hover { translate: 0 -1px; }
+@media (prefers-reduced-motion: reduce) {
+  .btn:hover { translate: none; }
 }
 
 .btn svg { width: 1.125rem; height: 1.125rem; flex: none; }
@@ -78,7 +86,7 @@
   border-bottom: 2px solid transparent;
   transition: border-color 180ms var(--ease-out);
 }
-.link-arrow:hover { border-bottom-color: var(--green); }
+.link-arrow:hover { border-bottom-color: var(--brass); }
 .link-arrow svg { width: 1rem; height: 1rem; }
 
 /* ------------------------------------------------------------
@@ -90,16 +98,14 @@
   display: inline-flex;
   align-items: center;
   gap: var(--s-2);
-  padding: 0.3125rem 0.625rem 0.3125rem 0.5rem;
-  background: var(--paper);
+  padding: 0.3125rem 0.75rem;
+  background: var(--wash-2);
   border: 1px solid var(--line);
-  /* the notch on the left is the stitch line of a sewn-in label */
-  border-left: 3px solid var(--navy);
-  border-radius: 3px;
+  border-radius: var(--r-pill);
   font-family: var(--font-mono);
   font-size: var(--t-xs);
   font-weight: 500;
-  letter-spacing: .1em;
+  letter-spacing: .08em;
   text-transform: uppercase;
   color: var(--ink-3);
   white-space: nowrap;
@@ -113,21 +119,22 @@
 .tag__symbols svg {
   width: 0.875rem;
   height: 0.875rem;
-  stroke: var(--navy);
+  stroke: var(--ink-3);
   fill: none;
   stroke-width: 1.5;
 }
 
-.tag--green { border-left-color: var(--green); }
-.tag--green .tag__symbols svg { stroke: var(--green); }
+/* Variant hooks kept for the templates that pass them; both resolve to
+   the same muted chip so the page holds one chip voice. */
+.tag--green { border-color: var(--line); }
+.tag--green .tag__symbols svg { stroke: var(--ink-3); }
 
 .tag--on-navy {
   background: rgba(255,255,255,.07);
   border-color: rgba(255,255,255,.2);
-  border-left-color: #8fb4ff;
   color: rgba(255,255,255,.72);
 }
-.tag--on-navy .tag__symbols svg { stroke: #8fb4ff; }
+.tag--on-navy .tag__symbols svg { stroke: rgba(255,255,255,.72); }
 
 /* ------------------------------------------------------------
    Before / after — the proof mechanic.
@@ -152,6 +159,9 @@
   border-radius: var(--r-lg);
   background: var(--wash-2);
   box-shadow: var(--shadow-lg);
+  /* a hairline so the frame has an edge before the images decode */
+  outline: 1px solid rgba(16, 27, 46, .08);
+  outline-offset: -1px;
   /* set inline from the asset's real dimensions — reserves space, no CLS */
   aspect-ratio: var(--ba-ratio, 16 / 9);
   touch-action: pan-y;
@@ -189,8 +199,8 @@
   left: var(--pos);
   width: 2px;
   margin-left: -1px;
-  background: #fff;
-  box-shadow: 0 0 0 1px rgba(16,27,46,.18);
+  background: rgba(255, 255, 255, .95);
+  box-shadow: 0 0 0 1px rgba(13, 35, 80, .14), 0 0 12px rgba(13, 35, 80, .18);
   pointer-events: none;
 }
 
@@ -199,11 +209,15 @@
   top: 50%;
   left: var(--pos);
   transform: translate(-50%, -50%);
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   background: #fff;
-  box-shadow: 0 4px 14px rgba(16,27,46,.28);
+  /* layered soft shadow + inset hairline: a designed handle, not a dot */
+  box-shadow:
+    inset 0 0 0 1px rgba(13, 35, 80, .10),
+    0 1px 2px rgba(13, 35, 80, .12),
+    0 8px 20px rgba(13, 35, 80, .24);
   display: grid;
   place-items: center;
   pointer-events: none;
@@ -246,7 +260,7 @@
   pointer-events: none;
 }
 .ba__label--before { left: var(--s-3); background: rgba(16,27,46,.78); }
-.ba__label--after  { right: var(--s-3); background: var(--green); }
+.ba__label--after  { right: var(--s-3); background: var(--brass-deep); }
 
 .ba__caption {
   display: flex;
@@ -319,14 +333,18 @@
   display: flex;
   flex-direction: column;
   gap: var(--s-3);
-  padding: var(--s-5);
+  padding: var(--s-6) var(--s-5);
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
-  transition: border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
+  box-shadow: var(--shadow-card);
+  transition: border-color 200ms ease, box-shadow 200ms ease, translate 200ms ease;
 }
-.svc:hover { border-color: var(--navy); box-shadow: var(--shadow-md); }
-.svc:focus-within { border-color: var(--navy); }
+.svc:hover { border-color: var(--brass); box-shadow: var(--shadow-md); translate: 0 -2px; }
+.svc:focus-within { border-color: var(--brass); }
+@media (prefers-reduced-motion: reduce) {
+  .svc:hover { translate: none; }
+}
 
 .svc__icon { width: 2.25rem; height: 2.25rem; color: var(--navy); }
 .svc__icon svg { width: 100%; height: 100%; }
@@ -356,7 +374,7 @@
   font-size: var(--t-sm);
   font-weight: 500;
   letter-spacing: .12em;
-  color: var(--green);
+  color: var(--brass-deep);
 }
 .step::after {
   content: '';
@@ -406,8 +424,10 @@
 .review__stars svg { width: 1rem; height: 1rem; fill: currentColor; }
 
 .review blockquote {
+  font-family: var(--font-display);
   font-size: var(--t-md);
   line-height: 1.5;
+  letter-spacing: 0;
   color: var(--ink);
   font-weight: 500;
   flex: 1;
@@ -454,11 +474,7 @@
 /* The whole card is tappable (reviewModal.js), so show the affordance on
    the card rather than only on the 80px of underlined text. */
 .review.is-clamped { cursor: pointer; }
-/* White, not --navy: hovering the card now fills it green, where --navy
-   measures 2.63:1. This selector is (0,3,0) and out-specifies the
-   .review:hover .review__more rule below, so it has to carry the value
-   itself rather than be left to inherit the fix. */
-.review.is-clamped:hover .review__more { color: #fff; }
+.review.is-clamped:hover .review__more { color: var(--navy); }
 
 /* ---- Review popup ----
    A native <dialog>, built once by reviewModal.js and reused for every
@@ -489,7 +505,9 @@
   display: block;
   -webkit-line-clamp: none;
   overflow: visible;
+  font-family: var(--font-display);
   font-size: var(--t-lg);
+  font-weight: 500;
   line-height: 1.55;
   margin: 0;
 }
@@ -511,83 +529,37 @@
 }
 .review-dialog__close:hover { background: var(--line); color: var(--ink); }
 
-/* ---- Review hover: green fill + lift ------------------------------------
-   Gated on real hover so a tap on a phone cannot leave a card stuck green.
-
-   The one genuinely hard part is the green meta line ("VERIFIED CUSTOMER /
-   GURUGRAM"). Asked to turn blue on hover, it cannot simply be recoloured:
-   blue and green sit close in luminance, so --navy on --green-cta measures
-   3.03:1 and --navy-deep only 3.40:1, both under the 4.5:1 floor for text
-   this small. Reversing it onto a white chip gives real blue at 12.24:1 and
-   reads as the verification badge it already is.
+/* ---- Review hover: a quiet lift --------------------------------------
+   Gated on real hover so a tap on a phone cannot leave a card stuck in
+   its hover state. The card rises 2px and the shadow deepens; nothing
+   inverts, nothing floods with colour.
    ------------------------------------------------------------------------ */
 @media (hover: hover) and (pointer: fine) {
   .review {
     transition:
-      background-color 240ms var(--ease-out),
-      border-color 240ms var(--ease-out),
-      box-shadow 280ms var(--ease-out),
-      translate 280ms var(--ease-out);
+      border-color 200ms ease,
+      box-shadow 200ms ease,
+      translate 200ms ease;
   }
 
   .review:hover,
   .review:focus-within {
-    /* #198639, not the logo green: white text on it is 4.66:1, the bright
-       #21b14b only 2.82:1. */
-    background: var(--green-cta);
-    border-color: var(--green-cta);
-    box-shadow: 0 14px 30px rgba(16, 27, 46, 0.22);
-    translate: 0 -6px;
+    border-color: var(--brass);
+    box-shadow: var(--shadow-md);
+    translate: 0 -2px;
   }
 
-  .review:hover .review__quote,
-  .review:focus-within .review__quote,
-  .review:hover .review__name,
-  .review:focus-within .review__name { color: #fff; }
-
-  /* Amber on green is 1.74:1 — below even the 3:1 non-text floor. */
-  .review:hover .review__stars,
-  .review:focus-within .review__stars { color: #fff; }
-
-  /* The green line, now blue — reversed onto white so the blue is legible. */
-  .review:hover .review__meta,
-  .review:focus-within .review__meta {
-    color: var(--navy);
-    background: #fff;
-    border-radius: var(--r-pill);
-    /* .review__meta is display:flex in a block parent, so without this the
-       chip stretched the full card width instead of hugging its label. */
-    width: fit-content;
-    padding: 0.15rem 0.5rem;
-    /* Negative margins cancel the padding on both axes, so appearing on hover
-       cannot change the row's height or its left alignment — the card content
-       would otherwise jump every time the pointer crossed it. */
-    margin: -0.15rem 0 -0.15rem -0.5rem;
-  }
-  .review:hover .review__meta svg,
-  .review:focus-within .review__meta svg { color: var(--navy); }
-
-  /* --brand-blue on green is 3.03:1 and this is a control, so it goes white
-     and keeps its underline to stay identifiable as one. */
-  .review:hover .review__more,
-  .review:focus-within .review__more { color: #fff; }
-
-  /* The avatar sits on the green now, so the pale ring around it would read
-     as a halo. */
-  .review:hover .review__who img,
-  .review:focus-within .review__who img { background: rgba(255, 255, 255, 0.22); }
-
-  /* The video card is a photo tile — a green wash over it would just muddy
-     the poster, and it has its own poster/badge hover already. */
+  /* The video card is a photo tile — it keeps its own poster hover. */
   .review--video:hover,
   .review--video:focus-within {
-    background: var(--paper);
     border-color: var(--line);
+    box-shadow: none;
+    translate: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .review { transition: background-color 240ms linear, border-color 240ms linear; }
+  .review { transition: border-color 150ms linear, box-shadow 150ms linear; }
   .review:hover, .review:focus-within { translate: none; }
 }
 
@@ -792,7 +764,7 @@
   display: flex; align-items: center; gap: var(--s-1);
   font-family: var(--font-mono);
   font-size: var(--t-xs); letter-spacing: .08em; text-transform: uppercase;
-  color: var(--green);
+  color: var(--brass-deep);
 }
 .review__meta svg { width: 0.875rem; height: 0.875rem; }
 
@@ -939,7 +911,7 @@ html:not(.js) .faq-item__icon { display: none; }
   left: 0; top: 0.65em;
   width: 6px; height: 6px;
   border-radius: 50%;
-  background: var(--green);
+  background: var(--brass);
 }
 .prose a { color: var(--navy); font-weight: 600; border-bottom: 1px solid var(--line); }
 .prose a:hover { border-bottom-color: var(--navy); }

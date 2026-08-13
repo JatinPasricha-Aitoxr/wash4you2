@@ -1,494 +1,235 @@
 /* ============================================================
-   Home hero — live text over a drifting wall of the real catalogue.
+   Home hero — one message, one action, one focal object.
 
-   Replaced the two supplied stock banners (a stock family, a stock
-   laundromat) with ten tilted columns of the actual garment cut-outs.
-   The text stays LEFT and the scrim is heaviest there, so the copy
-   always has a near-solid ground while the wall runs free on the right.
-
-   The ink is dark, not white. The tiles carry a light #eee ground, so a
-   dark navy wash would fight them and would also force the blue/green
-   headline to a single flat white — throwing away the colour scheme
-   that makes the type work.
+   Deep navy ground, a faint brass glow behind the copy, generous
+   negative space. The left column is live text; the right is a single
+   crafted plate — the sherwani on its studio ground, mounted in a
+   paper frame with a care-label caption and a brass keyline offset
+   behind it. Nothing drifts, nothing loops, nothing competes.
    ============================================================ */
 
 .hero.home-hero {
   position: relative;
   isolation: isolate;
-  overflow: hidden;
-  color: var(--ink);
-  padding: clamp(2rem, 1.4rem + 2vw, 2.75rem) 0;
-  border-bottom: 4px solid var(--brand-green);
-  /* Ground behind the wall: the tiles' own #eee is close to this, so a
-     slow image load shows the finished colour rather than a band that
-     then flips. */
-  background: var(--paper);
-  /* The cap is a MIN-height only. A max-height clips instead of
-     shrinking — the section is overflow:hidden for the wall, so a 34rem
-     cap silently ate the trust line at 1440px. The band's real height is
-     content plus padding. The wall scales to whatever this resolves to,
-     so unlike the fixed-ratio banners it has no upscaling ceiling. */
-  min-height: clamp(19rem, 12rem + 15vw, 28rem);
-}
-
-/* ---- Media layer — the garment wall -------------------------------
-   Replaces the two supplied stock banners. Ten columns of the real
-   catalogue cut-outs, tilted and drifting in alternating directions, so
-   the hero shows what the business actually cleans instead of a stock
-   family in a stock laundry room.
-
-   WHY IT IS CHEAPER THAN WHAT IT REPLACES. 24 unique tiles at 240px
-   webp, ~6 KB each = ~144 KB, against 156 KB for the two JPEG banners.
-   Each tile is requested once no matter how many times it appears, and
-   every one is fetchpriority="low" — the headline is still the LCP
-   element and nothing here competes with it.
-
-   MOTION IS COMPOSITOR-ONLY. Each column animates one transform and
-   nothing else: no layout, no paint, no JS, no timer. `heroSlides.js`
-   still ships but finds no [data-hero-slides] and no-ops by design.
-
-   The tilt is on the flex parent, not the columns, so the animation
-   stays a pure vertical translate — rotating each column instead would
-   make every keyframe a compound transform for no visual gain. */
-.home-hero__wall {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.hero-wall {
-  --wall-gap: clamp(0.5rem, 1vw, 0.9rem);
-  --wall-tile: clamp(6rem, 8vw, 8.5rem);
-
-  position: absolute;
-  /* Oversized so the rotation can never expose a corner: a 12deg tilt on
-     a 100%-wide box leaves triangular gaps at every edge, and scaling the
-     box rather than the content keeps the tiles at their natural size.
-
-     Anchored to the TOP, not centred. The hero's height is content-driven,
-     so it grows ~30px when the webfont swaps in and the headline reflows.
-     Centring meant that growth re-centred the whole wall and every tile
-     moved a few px at once — a huge painted area shifting, which scored
-     CLS 0.60 against 0.008 for the same reflow with no wall. Anchored at
-     the top the wall can only extend downward: nothing already on screen
-     moves, and CLS goes back to the reflow's own cost. */
-  top: calc(-11vw);
-  left: 50%;
-  /* Sized from the geometry rather than a guessed percentage. Rotating
-     by 12deg needs W*cos + H*sin of width and H*cos + W*sin of height;
-     the vw terms are the sin(12deg) ~= 0.21 overhang each axis owes the
-     other. A flat 190% was right for a 3:1 desktop band and 80% too tall
-     on a phone, which is what left the loop with a gap to expose. */
-  width: calc(100% + 26vw);
-  height: calc(100% + 22vw);
-  translate: -50% 0;
-  rotate: -12deg;
-
-  display: flex;
-  justify-content: center;
-  gap: var(--wall-gap);
-}
-
-.hero-wall__col {
-  display: flex;
-  flex-direction: column;
-  gap: var(--wall-gap);
-  /* the transform is the only animated property; hint it once rather
-     than letting the compositor re-decide every frame */
-  will-change: transform;
-  animation: hero-wall-roll var(--dur, 46s) linear infinite;
-}
-/* Alternating direction is what stops the wall reading as one sliding
-   sheet — opposing columns give it depth. */
-.hero-wall__col:nth-child(even) { animation-direction: reverse; }
-
-/* Travel exactly one set of tiles, so tile 5 lands where tile 1 began.
-   A column holds its tiles duplicated once, so one set is half the
-   children plus their gaps — which is (height + gap) / 2, hence the half-gap correction.
-   A plain -50% is off by half a gap and visibly stutters each cycle. */
-@keyframes hero-wall-roll {
-  from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(0, calc(-50% - (var(--wall-gap) / 2)), 0); }
-}
-
-.hero-wall__tile {
-  display: block;
-  width: var(--wall-tile);
-  /* the artwork's own #eee ground and baked rounded corners supply the
-     tile shape — no background or radius needed here */
-  flex: 0 0 auto;
-}
-.hero-wall__tile img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1;
-  object-fit: contain;
-}
-
-/* Phones get six columns, not ten: at 390px the outer four sit entirely
-   behind the copy scrim, so they would be pure download for no picture.
-   The tiles they use are still fetched by the visible columns. */
-@media (max-width: 40rem) {
-  .hero-wall__col:nth-child(n + 7) { display: none; }
-}
-
-/* An endless decorative loop is the archetype of what this preference
-   is asking to stop — the wall stays, as a still collage. */
-@media (prefers-reduced-motion: reduce) {
-  .hero-wall__col { animation: none; will-change: auto; }
-}
-
-/* Release the ten promoted layers once the hero is off screen. Gated on
-   html.wall-gated, which ONLY heroWall.js adds — without the gate a blocked
-   bundle would freeze the wall at first paint, which is worse than leaving it
-   running. No reduced-motion variant is needed: the rule above already sets
-   `animation: none`, and pausing a non-existent animation is a no-op. */
-html.wall-gated .home-hero:not(.is-onscreen) .hero-wall__col {
-  animation-play-state: paused;
-  will-change: auto;   /* this line is the actual saving — the layer release */
-}
-html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
-  /* Safe on CLS: this element is absolutely positioned and sized entirely by
-     its insets, so there is no intrinsic size to guess. It must go HERE and
-     never on .hero-wall or a column, both of which are sized by content. */
-  content-visibility: auto;
-}
-
-/* Two layers, painted in this order (first listed = on top):
-
-   1. The SCRIM — a wash over the left of the wall so the text column has
-      a near-solid ground, falling to near-nothing by 80% so the garments
-      on the right stay saturated and legible as garments.
-   2. The BLUE VEIL across the whole frame at 14%, tying the wall into the
-      brand blue without draining the colour out of it. It was 26% at
-      first and everything behind the type went grey — the tiles are
-      light, so this tint costs saturation far faster than it would over
-      a photograph. */
-.home-hero__wall::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  /* Sits above the wall but below .home-hero__inner (z-index 2). */
-  z-index: 1;
-  background:
-    linear-gradient(
-      100deg,
-      rgba(234, 242, 251, 0.97) 0%,
-      rgba(234, 242, 251, 0.95) 34%,
-      rgba(234, 242, 251, 0.55) 52%,
-      rgba(234, 242, 251, 0.10) 68%,
-      rgba(234, 242, 251, 0.02) 80%),
-    linear-gradient(
-      100deg,
-      rgba(32, 96, 160, 0.14) 0%,
-      rgba(32, 96, 160, 0.14) 100%);
-}
-
-/* Below 48rem the copy is full-width, so a LEFT-heavy scrim protects
-   nothing — the sub-headline ran straight over a dark trouser tile. The
-   gradient turns vertical instead.
-
-   The stops are a fixed distance from the BOTTOM EDGE, not percentages of
-   hero height. Percentages had to be tuned for the tallest copy case in the
-   range (768px, two-line headline), which over-scrimmed every narrower
-   screen: at 390px the 0.91 stop landed 63px BELOW where the copy ends, so
-   barely 60px of a 721px hero showed a garment at all — the phone lost the
-   entire point of the redesign. Anchoring to the bottom gives the wall a
-   clean zone of the same physical height on every phone, and it cannot
-   drift when someone edits the sub-headline.
-
-   180deg, not 184deg: on a tilted gradient the gradient line is longer than
-   the box, so calc(100% - Nrem) stops stop landing where they are written.
-   The 4deg was never visible at this scale.
-
-   Breakpoint is 47.99rem to match the layout block below — at exactly 768px
-   the two disagreed, pairing the vertical mobile scrim with the desktop
-   layout. */
-@media (max-width: 47.99rem) {
-  .home-hero__wall::after {
-    background:
-      linear-gradient(
-        180deg,
-        rgba(234, 242, 251, 0.97) 0%,
-        rgba(234, 242, 251, 0.95) calc(100% - 14.5rem),
-        rgba(234, 242, 251, 0.86) calc(100% - 11rem),
-        rgba(234, 242, 251, 0.34) calc(100% - 6rem),
-        rgba(234, 242, 251, 0.04) 100%),
-      linear-gradient(
-        rgba(32, 96, 160, 0.14),
-        rgba(32, 96, 160, 0.14));
-  }
-}
-
-/* .wrap carries `margin-inline: auto`. Capping this element's own width
-   therefore CENTRES the text column instead of pinning it left — at 1440px
-   a 40rem cap put the headline 432px in, straddling the photograph. The
-   wrap keeps its full page gutter and the individual text blocks carry the
-   measure instead. */
-.home-hero__inner {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-/* ---- Offer badge — the "25% Off / On Your First Order" starburst that
-   was pixels in both supplied banners, rebuilt as text.
-
-   18-point star via clip-path (outer r 50%, inner r 41%), so there is no
-   extra image request and the label reflows for any value. Placed top
-   right on desktop, where it sat in the artwork; on small screens it
-   moves into the flow region above the copy would collide, so it is
-   hidden there instead (see the small-screen block). */
-.home-hero__offer {
-  position: absolute;
-  z-index: 3;
-  top: clamp(0.75rem, 2vw, 1.75rem);
-  right: clamp(0.75rem, 2.5vw, 2.5rem);
-  margin: 0;
-  width: clamp(7.5rem, 10vw, 9.5rem);
-  aspect-ratio: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.05em;
-  text-align: center;
-  /* --green-deep, not --brand-green: white text needs 4.5:1 and the
-     bright brand green only reaches 2.82:1. */
-  background: var(--green-deep);
+  overflow: clip;
   color: #fff;
-  clip-path: polygon(50.00% 0.00%, 57.12% 9.62%, 67.10% 3.02%, 70.50% 14.49%, 82.14% 11.70%, 81.41% 23.65%, 93.30% 25.00%, 88.53% 35.98%, 99.24% 41.32%, 91.00% 50.00%, 99.24% 58.68%, 88.53% 64.02%, 93.30% 75.00%, 81.41% 76.35%, 82.14% 88.30%, 70.50% 85.51%, 67.10% 96.98%, 57.12% 90.38%, 50.00% 100.00%, 42.88% 90.38%, 32.90% 96.98%, 29.50% 85.51%, 17.86% 88.30%, 18.59% 76.35%, 6.70% 75.00%, 11.47% 64.02%, 0.76% 58.68%, 9.00% 50.00%, 0.76% 41.32%, 11.47% 35.98%, 6.70% 25.00%, 18.59% 23.65%, 17.86% 11.70%, 29.50% 14.49%, 32.90% 3.02%, 42.88% 9.62%);
+  background-color: var(--navy-deep);
+  /* Two soft glows on the anchor: warm brass high right (behind the
+     plate), a cooler navy lift low left. Decorative, near-subliminal. */
+  background-image:
+    radial-gradient(52rem 30rem at 82% 8%, rgba(178, 138, 74, .14), transparent 62%),
+    radial-gradient(46rem 34rem at 2% 100%, rgba(32, 96, 160, .18), transparent 58%);
+  padding-block: clamp(3.5rem, 2.3rem + 5vw, 6.5rem);
 }
-.home-hero__offer-value {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(1.35rem, 2.4vw, 1.9rem);
-  line-height: 1;
+
+.home-hero__grid {
+  display: grid;
+  gap: clamp(2.5rem, 1.8rem + 3vw, 4.5rem);
+  align-items: center;
 }
-.home-hero__offer-label {
-  font-size: var(--t-xs);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  line-height: 1;
+@media (min-width: 62rem) {
+  .home-hero__grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); }
 }
-.home-hero__offer-detail {
-  font-size: var(--t-xs);
-  font-weight: 600;
-  line-height: 1.2;
-  max-width: 78%;
-  margin-top: 0.15em;
+
+.home-hero__inner {
+  max-width: 40rem;
 }
 
 .home-hero__eyebrow {
   font-family: var(--font-mono);
-  font-size: var(--t-xs); letter-spacing: 0.16em; text-transform: uppercase;
-  /* was #a8c9ec, for white text on the old blue band */
-  color: var(--ink-2);
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  margin: 0 0 1.1rem;
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--brass-bright);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 var(--s-5);
 }
-.home-hero__eyebrow svg { color: var(--green); }
+.home-hero__eyebrow svg { color: var(--brass); }
 
+/* The headline: white serif, confident and quiet. The key phrases —
+   the offer itself — step into the brass italic rather than a pill. */
 .home-hero__title {
-  color: var(--navy);
-  /* Trimmed from 3.25rem. Three lines at 2.85rem fit the band's height
-     budget; four at 3.25rem did not, and forced the hero 200px taller than
-     the artwork can fill without upscaling. */
-  font-size: clamp(1.95rem, 1.3rem + 2.4vw, 2.85rem);
-  /* 1.08 -> 1.26: the green words are now padded highlight blocks, and at
-     1.08 the blocks on consecutive lines touch and read as one slab. */
-  line-height: 1.26;
-  letter-spacing: -0.02em;
-  margin: 0 0 1.1rem;
-  max-width: 42rem;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 1.45rem + 3.4vw, 3.75rem);
+  font-weight: 560;
+  font-optical-sizing: auto;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  margin: 0 0 var(--s-5);
+  max-width: 21ch;
   text-wrap: balance;
 }
-/* ---- Headline colouring ------------------------------------------------
-   Four phrases alternating the two logo colours, as plain coloured TEXT.
-   This replaces the green .kw highlight pills the headline used to carry.
-
-   The pills are gone deliberately, not merely restyled. A pill is a filled
-   box that cannot break across lines without shattering, which is why this
-   one headline needed an explicit nowrap, a cross-file specificity note
-   about redesign-pricing/areas, and a measured 440px escape hatch to stop
-   it being clipped off both edges of a 320px screen. Coloured text wraps
-   like text, so all three of those go with it.
-
-   Both hues come straight off the logo. --green (#17883b), not the logo's
-   own #21b14b: that is the non-text green and measures 2.06:1 on the
-   banner's near-white left, failing even the 3:1 large-text floor. The
-   headline is 45.6px bold, so large text applies. */
-.home-hero__title .hkw--blue  { color: var(--brand-blue); }
-
-/* The green words are the offer — "Dry Cleaning & Laundry", "Free Pickup &
-   Delivery" — so they get the same highlight the interior page headlines
-   use (.kw, redesign-areas.css), not just a colour change.
-
-   Two deliberate differences from .kw:
-   - NO white-space: nowrap. .kw marks single words; these are three- and
-     four-word phrases, and pinning them would force horizontal overflow on
-     a 390px screen.
-   - box-decoration-break: clone so a phrase that wraps gets a properly
-     padded, properly rounded block on EACH line rather than one ragged
-     shape with two open ends.
-
-   --ink on --brand-green measures 8.9:1. The reverse (white on green) is
-   2.8:1 and would fail, which is why the dark ink is not a style choice. */
-.home-hero__title .hkw--green {
-  color: var(--ink);
-  background: var(--brand-green);
-  padding: 0.04em 0.3em;
-  border-radius: 0.28em;
-  -webkit-box-decoration-break: clone;
-          box-decoration-break: clone;
-}
-
-@media (forced-colors: active) {
-  .home-hero__title .hkw--green { background: Highlight; color: HighlightText; }
+/* Restraint in the emphasis: the headline is white; only the FINAL
+   phrase — the offer, "Free Pickup & Delivery" — steps into the brass
+   italic. Two brass phrases out of four read as decoration; one reads
+   as intent. */
+.home-hero__title .hkw--blue,
+.home-hero__title .hkw--green { color: #fff; }
+.home-hero__title .hkw--green:last-of-type {
+  font-style: italic;
+  font-weight: 480;
+  color: var(--brass-bright);
 }
 
 .home-hero__sub {
-  font-size: clamp(1.02rem, 0.96rem + 0.45vw, 1.2rem);
-  line-height: 1.55;
-  color: var(--ink-2);
-  max-width: 42ch;
-  margin: 0 0 1.5rem;
+  font-size: clamp(1.02rem, 0.96rem + 0.45vw, 1.1875rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, .75);
+  max-width: 46ch;
+  margin: 0 0 var(--s-6);
 }
 
 .home-hero__actions {
-  display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 0.9rem;
-  margin-bottom: 1.5rem;
+  display: flex; flex-wrap: wrap; justify-content: flex-start; gap: var(--s-3);
+  margin-bottom: var(--s-6);
 }
-/* Ghost secondary, re-inked for a light ground: navy outline instead of a
-   translucent white one, which was invisible on both banners. */
+/* Ghost secondary on the navy ground: hairline white outline. */
 .home-hero__ghost {
   background: transparent;
-  color: var(--navy);
-  border: 1.5px solid rgba(11, 31, 69, 0.32);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, .30);
 }
 .home-hero__ghost:hover {
-  background: var(--navy-tint);
-  border-color: var(--navy);
-  color: var(--navy);
+  background: rgba(255, 255, 255, .08);
+  border-color: rgba(255, 255, 255, .55);
+  color: #fff;
 }
 
 .home-hero__trust {
   display: inline-flex; align-items: center; gap: 0.55rem;
-  font-size: 0.95rem;
-  color: var(--ink-2);
+  font-size: var(--t-sm);
+  color: rgba(255, 255, 255, .72);
   margin: 0;
 }
-/* #f4b400 on white is 2.0:1 — fine as a non-text decoration (the line is
-   readable without it) but it is aria-hidden, not information. */
-.home-hero__stars { color: #e8a100; letter-spacing: 0.06em; font-size: 1rem; }
+.home-hero__stars { color: var(--brass-bright); letter-spacing: 0.1em; font-size: 0.9375rem; }
 
-/* Between the phone layout (below 48rem) and a wide desktop, the copy spans
-   almost the whole band — at 768px it reaches 91% of the width, well past
-   where the scrim above has faded out. The green headline measured 1.01:1
-   and the lede 2.95:1 there, straight over the shirt.
+/* The first-order offer — a quiet tag under the trust line, not a
+   starburst. Brass hairline, brass type, whispered. */
+.home-hero__offer {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4em;
+  margin: var(--s-5) 0 0;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(217, 184, 120, .35);
+  border-radius: var(--r-pill);
+  background: rgba(217, 184, 120, .07);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--brass-bright);
+}
+.home-hero__offer-value {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1;
+}
+.home-hero__offer-detail::before { content: '· '; opacity: .6; }
 
-   The wash therefore holds its strength nearly to the right edge at these
-   widths. It hides more of the photograph than the wide layout does, which
-   is the correct trade: this is a narrow band of viewports and the copy has
-   nowhere else to sit. */
-@media (min-width: 48rem) and (max-width: 61.99rem) {
-  .home-hero__media::after {
-    background:
-      linear-gradient(
-        100deg,
-        rgba(234, 242, 251, 0.97) 0%,
-        rgba(234, 242, 251, 0.95) 60%,
-        rgba(234, 242, 251, 0.88) 84%,
-        rgba(234, 242, 251, 0.55) 100%),
-      linear-gradient(
-        100deg,
-        rgba(32, 96, 160, 0.22) 0%,
-        rgba(32, 96, 160, 0.22) 100%);
-  }
+/* ---- The plate ----------------------------------------------------
+   One focal object, presented as a mounted specimen: paper frame,
+   16px radius, layered soft shadow, an inset hairline, and the
+   care-label caption strip along the foot. The brass keyline offset
+   behind it is the one flourish — a mount line, not a decoration. */
+.home-hero__figure {
+  position: relative;
+  width: 100%;
+  max-width: 27rem;
+  margin-inline: auto;
+}
+@media (min-width: 62rem) {
+  .home-hero__figure { max-width: 29rem; justify-self: end; margin-inline: 0; }
 }
 
-/* ---- Small screens ----
-   At phone width a 3:1 banner cropped to a ~1:1 box shows the subject and
-   nothing else, so the scrim goes near-solid vertically instead of
-   horizontally and the copy stays on a clean ground. The badge would land
-   on top of the headline in that box, so it goes. */
-@media (max-width: 47.99rem) {
-  /* Not a scrim change — a layout change. Full-bleed behind the copy, a
-     390x560 box crops a 3.02:1 banner to 23% of its width: a zoomed-in
-     fragment of one person, unreadable as a photograph and impossible to
-     keep type legible over. Instead the media becomes a 12rem strip along
-     the bottom and the copy sits above it on clean ground.
-
-     At 390px the strip renders the image at 0.364x (580x192), so it is
-     downscaled — sharper than the desktop band, not softer. */
-  .hero.home-hero {
-    min-height: 0;
-    /* 14rem, not 12: the scrim's falloff is measured from this edge, so the
-       extra 32px is headroom for a future home.json sub-headline edit to
-       grow into without eating the wall's clean zone. */
-    padding-bottom: 14rem;
-  }
-  .home-hero__media {
-    top: auto;
-    bottom: 0;
-    height: 12rem;
-  }
-  /* Fill the strip with subject. At 66% a third of it was the banner's
-     empty white ground, which read as a rendering fault rather than a
-     photograph. 100% shows the rightmost 390 of the 581px render — family,
-     washer and detergent on slide 1, the clothes rack on slide 2. */
-  .home-hero__slide { object-position: 100% center; }
-  /* Feathers the strip's top edge into the white above it so it reads as
-     part of the hero rather than a pasted-in photo block. */
-  .home-hero__media::after {
-    background:
-      linear-gradient(
-        180deg,
-        rgba(234, 242, 251, 1) 0%,
-        rgba(234, 242, 251, 0.55) 34%,
-        rgba(234, 242, 251, 0.1) 72%,
-        rgba(234, 242, 251, 0) 100%),
-      linear-gradient(
-        180deg,
-        rgba(32, 96, 160, 0.22) 0%,
-        rgba(32, 96, 160, 0.22) 100%);
-  }
-  /* Kept, not hidden — most of this site's traffic is phones, and the
-     offer is the one piece of the artwork with commercial weight. Moved
-     onto the photo strip's bottom-right, where it clears every line of
-     copy instead of landing on the headline. */
-  .home-hero__offer {
-    top: auto;
-    bottom: 0.85rem;
-    right: 0.85rem;
-    width: 7rem;
-  }
-  .home-hero__offer-value  { font-size: 1.15rem; }
-  .home-hero__offer-label  { font-size: var(--t-xs); letter-spacing: 0.06em; }
-  /* the 0.5rem/8px override here was the smallest text on the site, on
-     the viewport where it is hardest to read. The badge box grew instead. */
-  .home-hero__offer-detail { max-width: 84%; }
+.home-hero__figure::before {
+  content: '';
+  position: absolute;
+  inset: -0.875rem -0.875rem 0.875rem 0.875rem;
+  border: 1px solid rgba(217, 184, 120, .32);
+  border-radius: var(--r-lg);
+  pointer-events: none;
 }
 
-/* Reduced motion: the crossfade is decorative and repeats forever, which
-   is exactly the kind of unrequested loop the preference exists to stop.
-   heroSlides.js never starts the timer; this kills the transition too, in
-   case the class was already toggled before the preference flipped. */
-@media (prefers-reduced-motion: reduce) {
-  .home-hero__slide { transition: none; }
+.hero-plate {
+  position: relative;
+  margin: 0;
+  background: var(--paper);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, .18),
+    0 32px 72px -20px rgba(0, 0, 0, .55);
+}
+/* Inset hairline so the plate has an edge on any ground. */
+.hero-plate::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(16, 27, 46, .07);
+  pointer-events: none;
+}
+.hero-plate img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
-/* Print: one flat slide, no crossfade artefacts. */
+.hero-plate__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  background: var(--paper);
+  border-top: 1px solid var(--line-soft);
+}
+.hero-plate__text {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-align: right;
+}
+.hero-plate__symbols {
+  display: inline-flex;
+  gap: var(--s-2);
+  flex: none;
+}
+.hero-plate__symbols svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  stroke: var(--brass-deep);
+  fill: none;
+  stroke-width: 1.5;
+}
+
+/* Small screens: the plate follows the copy at a calmer size, and the
+   keyline tucks in so it never clips the viewport edge. */
+@media (max-width: 61.99rem) {
+  .home-hero__figure { max-width: 23rem; }
+  .home-hero__figure::before { inset: -0.625rem -0.625rem 0.625rem 0.625rem; }
+}
+
+@media (forced-colors: active) {
+  .hero.home-hero { background-image: none; }
+  .hero-plate { border: 1px solid CanvasText; }
+}
+
 @media print {
-  .home-hero__media, .home-hero__offer { display: none; }
+  .hero.home-hero { background: #fff; color: #000; }
+  .home-hero__title, .home-hero__title .hkw--blue { color: #000; }
+  .home-hero__figure { display: none; }
 }
 
 /* Visually-hidden helper. */
@@ -502,82 +243,27 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
 }
 
 /* ============================================================
-   Why Wash4You — "Sewn-On Labels"
+   Why Wash4You — four calm promise cards on the warm band.
 
-   Was: a pale --wash band holding a 4-across strip of cells divided by
-   1px lines, tiny green line-icons, 15px uppercase titles, --ink-3 body.
-   Four different claims that read as one grey object.
-
-   Now: four cards, each carrying ONE solid brand plate — a full-bleed
-   band across the top at 4-across, a full-bleed spine down the left
-   below that — with the icon reversed out onto a white rounded tile
-   inside it. The tile is base.css:5's thesis made literal: the care
-   label sewn onto coloured fabric. It is also what makes the colour
-   legal: the glyph never touches brand colour, it sits on white, so the
-   plate behind it is free to be the actual saturated logo green.
-
-   TWO VARIABLES PER CARD, NOT ONE.
-     --pc-plate  the DISPLAY hue. A decorative fill; no contrast floor
-                 applies, so it may be the bright logo green.
-     --pc-ink    its LEGIBLE sibling. Carries the glyph and the hover
-                 border, both of which sit on white, so it must clear a
-                 real ratio. This split is the whole reason nothing here
-                 needs a rescue ring or a dark-glyph exception.
-
-   Assigned by meaning, which also alternates the families so no two
-   neighbouring cards share a hue:
-     1 shield  Safe on fabric  plate --navy        ink --navy         (deepest = protection)
-     2 leaf    Eco friendly    plate --green-brand ink --green        (the live logo green)
-     3 clock   On time         plate --brand-blue  ink --brand-blue   (the logo blue = schedule)
-     4 truck   Free pickup     plate --green-deep  ink --green-deep   (the resolving green)
-
-   --green-cta is deliberately absent. base.css:15 reserves green for
-   action and --green-cta is the exact fill of every "Book Free Pickup"
-   button; non-interactive content must not wear it. --green-brand is
-   base.css:33's designated non-text green, which is precisely what a
-   plate is.
-
-   Set via :nth-child(4n + k) so a 5th promise added in the CMS restarts
-   the cycle instead of rendering unstyled.
-
-   MOTION. `.promise` is a `.stagger-children` child. animations.css:18
-   forbids a CSS transition on transform/opacity for those targets:
-   reveal.js commits Motion's transform inline and then clears it
-   (reveal.js:50), and a live transition would re-fire on the release and
-   slide the card back. The lift therefore uses the independent
-   `translate` property, which Motion never touches. reveal.js only ever
-   writes to `container.children` (reveal.js:84, :187) — i.e. `.promise`
-   itself — so `.promise__icon svg`, two levels down, is free to
-   transition `transform`, and that is where the play lives.
+   The 2026 craft pass retired the solid colour plates this section
+   used to carry: four saturated slabs competed with the content and
+   with each other. What remains is the quiet card grammar the whole
+   site now shares — paper, hairline, soft shadow, one radius — with
+   the icon on a small warm tile and brass reserved for the hover.
    ============================================================ */
 
 /* ---- The band ------------------------------------------------------
-   Two jobs. (1) Pick up the green: the hero above ends in
-   `border-bottom: 4px solid var(--brand-green)` (redesign-home.css:14),
-   so --green-tint bleeding 9rem down from the top edge reads as that
-   rule's own glow rather than a new decoration. The rgba stop is that
-   same token at zero alpha — a gradient must fade to transparent-of-
-   itself, not to white. (2) DISSOLVE THE FOOT. The Services section
-   below is --paper; ending the ramp on --wash-2 would put the band's
-   darkest value hard against white and manufacture a seam. Ending on
-   --paper makes the join invisible (verified: f-seam.png).
-
+   A quiet warm ramp: slightly deeper paper at the head dissolving into
+   the wash, so the step down from the navy hero reads as intentional.
    Two longhands, never the `background` shorthand: a shorthand
    containing a var() that fails at computed-value time resolves to
-   `unset` — transparent — and the section would lose its ground
-   entirely. background-color alone survives that. */
+   `unset` and the section would lose its ground entirely. */
 #why {
   background-color: var(--wash);
   background-image:
-    linear-gradient(180deg, var(--green-tint) 0rem, rgba(230, 246, 236, 0) 9rem),
     linear-gradient(180deg,
       var(--wash-2) 0%,
-      var(--wash)   32%,
-      var(--wash)   58%,
-      /* was --paper: the ramp used to dissolve into a white Services section
-         so the seam disappeared. Services is now a blue band and the seam is
-         the POINT, so the foot settles on --wash and the two sections meet as
-         a clean tonal step instead of a fade. */
+      var(--wash)   36%,
       var(--wash)   100%);
 }
 
@@ -642,10 +328,10 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
 @media print { .why__mascot { display: none; } }
 
 /* ---- Strip -> cards -----------------------------------------------
-   Drops the shared --line ground, the 1px grout and the outer clip that
-   made four cells one object. 1 -> 2 -> 4 columns; the old default was
-   2-up, which is cramped at 320px. `overflow: visible` because the
-   cards cast a hover shadow and nothing may clip it. */
+   Four calm cards: warm paper, one hairline, one soft shadow, one
+   radius. The solid colour plates are retired — four saturated slabs
+   out-shouted the section they were meant to support. The icon sits
+   on a small warm tile; navy glyph, brass on hover. */
 .promises {
   display: grid;
   grid-template-columns: 1fr;
@@ -658,269 +344,80 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
 @media (min-width: 34rem) { .promises { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 56rem) { .promises { grid-template-columns: repeat(4, 1fr); } }
 
-/* ---- The card -----------------------------------------------------
-   Default layout is spine-left: the plate spans both rows, so h3 and p
-   auto-place beside it with no wrapper element. Holds until 4-across,
-   because a 2-up card at 768px is ~350px wide and stacking there leaves
-   a bottom-heavy empty card.
-
-   --pc-pad IS LOAD-BEARING. The plate bleeds to the padding edge using
-   negative margins of exactly this value; both sides read the same
-   variable so a padding change can never leave a 1px seam behind the
-   plate. Changing it per breakpoint changes both together.
-
-   `overflow: hidden` clips the plate to the card's inner radius.
-   `align-content: start` matters at 4-across: grid rows default to
-   stretch, which would spread the title away from the copy in whichever
-   card has the shortest blurb. */
 .promise {
-  --pc-pad:   var(--s-5);
-  /* The logo's own blue. Was --navy (#14336b), a structural colour rather
-     than a brand one. */
-  --pc-plate: var(--brand-blue);
-  --pc-ink:   var(--brand-blue);
-
-  display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: var(--s-4);
-  row-gap: var(--s-2);
-  align-items: start;
-  align-content: start;
-
-  padding: var(--pc-pad);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  align-items: flex-start;
+  padding: var(--s-6);
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
   box-shadow: var(--shadow-card);
-  overflow: hidden;
-
-  /* `translate`, never `transform` — see the motion note in the header. */
+  /* `translate`, never `transform` — reveal.js owns transform for
+     stagger targets and a competing transition re-fires on release. */
   transition:
-    border-color 220ms var(--ease-out),
-    box-shadow   280ms var(--ease-out),
-    translate    280ms var(--ease-out);
+    border-color 200ms ease,
+    box-shadow   200ms ease,
+    translate    200ms ease;
 }
-
-/* Two colours only, both straight off the logo: #2060A0 and #21b14b,
-   alternating so no two neighbours share a hue at any column count. The
-   previous set added --navy and --green-deep, which are structural/pressed
-   shades rather than brand ones.
-
-   The plate/ink split still matters here. #21b14b is the untouched logo
-   green: fine as a decorative fill, but only 2.82:1 under white, so the
-   glyph that sits on paper uses --green (#17883b, 4.54:1) instead. The blue
-   needs no such substitution — #2060A0 is 6.4:1 on white — so plate and ink
-   are the same value on the blue cards.
-
-   Card 1 is the blue default declared above. */
-.promise:nth-child(4n + 2) { --pc-plate: var(--brand-green); --pc-ink: var(--green); }
-.promise:nth-child(4n + 3) { --pc-plate: var(--brand-blue);  --pc-ink: var(--brand-blue); }
-.promise:nth-child(4n + 4) { --pc-plate: var(--brand-green); --pc-ink: var(--green); }
-
-/* --pc-ink, not --pc-plate, on the border: this line sits on --paper, so
-   it takes the legible step. Card 2 borders in --green (4.54:1) while its
-   plate stays --green-brand. :focus-within is inert today (nothing in the
-   card is focusable) and costs nothing if a link is ever added. */
 .promise:hover,
 .promise:focus-within {
-  translate: 0 -4px;
-  border-color: var(--pc-ink);
-  box-shadow: var(--shadow-lg);
+  translate: 0 -2px;
+  border-color: var(--brass);
+  box-shadow: var(--shadow-md);
 }
 
-/* ---- The plate ----------------------------------------------------
-   The single largest piece of colour in the section: ~96px x full card
-   width at 4-across, 80px x full card height as a spine below that.
-   Sized intrinsically from the tile plus its own padding, so there is no
-   magic dimension to keep in sync.
-
-   Negative margins reach the padding edge, i.e. flush inside the 1px
-   border, which leaves the hairline frame reading as a deliberate
-   keyline rather than being overrun. An `auto` grid track measures the
-   item's MARGIN box, so the negative left margin shrinks the track by
-   exactly --pc-pad and the column gap lands where intended.
-
-   Surface craft, all in the --ink hex base.css already uses for every
-   shadow, so no color-mix() and no token invention:
-     - a 135deg 2-in-9px stitch at 7% white, echoing base.css:263 .seam
-     - a foot that darkens 10% toward --ink, which DEEPENS the plate
-       under the tile rather than washing it out
-     - a 1px top bevel at 26% white
-   The bevel is a box-shadow, not a gradient stop, so it cannot dilute
-   the field the white tile has to read against. */
 .promise__icon {
-  grid-row: 1 / span 2;
-  align-self: stretch;
-  width: auto;
-  height: auto;
-  margin: calc(var(--pc-pad) * -1) 0 calc(var(--pc-pad) * -1) calc(var(--pc-pad) * -1);
-  padding: var(--s-4);
-
   display: grid;
   place-items: center;
-
-  color: var(--pc-ink);
-  background-color: var(--pc-plate);
-  background-image:
-    repeating-linear-gradient(135deg,
-      rgba(255, 255, 255, .07) 0 2px,
-      rgba(255, 255, 255, 0)   2px 9px),
-    linear-gradient(180deg,
-      rgba(255, 255, 255, 0) 42%,
-      rgba(16, 27, 46, .10) 100%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .26);
-}
-
-/* ---- The tile — the care label ------------------------------------
-   The svg element itself is the tile: 3rem box, 0.5rem padding, so the
-   glyph renders at exactly the 32px `ui(p.icon, 32)` asks for
-   (page-home.html:64) and the macro's stroke-width 1.8 — authored for a
-   line icon on white — is left untouched, because that is still exactly
-   what this is. All four glyphs are --pc-ink on #fff: 4.54:1 minimum.
-
-   Radius is --r-sm (8px), a token, sitting inside the card's --r-lg.
-   The inset hairline plus the drop shadow give the tile an edge that
-   does not depend on the plate's value. */
-.promise__icon svg {
-  width: var(--s-8);
-  height: var(--s-8);
-  padding: var(--s-2);
-  background: var(--paper);
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: var(--s-2);
+  background: var(--wash-2);
+  border: 1px solid var(--line-soft);
   border-radius: var(--r-sm);
-  box-shadow:
-    inset 0 0 0 1px rgba(16, 27, 46, .10),
-    0 2px 5px rgba(16, 27, 46, .26);
-  /* `transform` is legal HERE and only here: this is a grandchild of the
-     stagger item, which reveal.js never touches. */
-  transition:
-    transform  280ms var(--ease-out),
-    box-shadow 280ms var(--ease-out);
+  color: var(--navy);
+  transition: color 200ms ease, border-color 200ms ease;
+}
+.promise__icon svg { width: 1.5rem; height: 1.5rem; }
+.promise:hover .promise__icon,
+.promise:focus-within .promise__icon {
+  color: var(--brass-deep);
+  border-color: var(--line);
 }
 
-.promise:hover .promise__icon svg,
-.promise:focus-within .promise__icon svg {
-  transform: scale(1.06);
-  box-shadow:
-    inset 0 0 0 1px rgba(16, 27, 46, .10),
-    0 5px 12px rgba(16, 27, 46, .34);
-}
-
-/* ---- Type ----------------------------------------------------------
-   Was 15px uppercase Hanken, which is what made four real promises look
-   like table headers. Now the display face in sentence case — the CMS
-   data is already written that way ("Safe on fabric").
-
-   --t-md (17->19px) is a base.css:69 scale step, NOT a bespoke clamp:
-   it is the same step .flow__step h3, .blog-card h3 and .plan-feature h3
-   already use for exactly this job, a heading inside a narrow grid cell.
-   The global h3 (20->24px) is tuned for 1-3 column grids and is too
-   heavy in the 152px content column a 4-across card has at 896px.
-   letter-spacing is restated to base.css:157's own -0.022em, which
-   ui.css:299 had flattened to 0. Stays --ink: four differently
-   coloured headings would read as a rainbow, and the colour job is
-   already done at plate scale.
-
-   The blurb goes to 0.875rem — base.css:184's small-print step — and off
-   --ink-3 onto --ink-2 (8.95:1 on the card). --t-sm (13px) was simply
-   too small to read as copy. */
 .promise h3 {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: var(--t-md);
-  letter-spacing: -0.022em;
+  font-weight: 700;
+  letter-spacing: -0.01em;
   text-transform: none;
   color: var(--ink);
 }
 
 .promise p {
-  font-size: 0.875rem;
-  line-height: 1.55;
+  font-size: var(--t-sm);
+  line-height: 1.6;
   color: var(--ink-2);
 }
 
-/* ---- 4-across: the plate rotates from spine to header band --------- */
-@media (min-width: 56rem) {
-  .promise {
-    grid-template-columns: 1fr;
-  }
-  .promise__icon {
-    grid-row: auto;
-    align-self: auto;
-    width: auto;
-    height: auto;
-    margin: calc(var(--pc-pad) * -1) calc(var(--pc-pad) * -1) var(--s-4);
-    padding: var(--s-5) var(--pc-pad);
-    /* padding-inline == --pc-pad, so the tile's left edge lines up
-       exactly with the h3 below it. */
-    place-items: center start;
-  }
-}
-
-/* ---- Reduced motion ------------------------------------------------
-   animations.css:240 already forces every transition-duration to
-   0.01ms !important under this query, so this is belt and braces — but
-   it is the explicit contract: keep the colour change (it is feedback),
-   drop all travel. */
 @media (prefers-reduced-motion: reduce) {
   .promise { transition: border-color 150ms linear, box-shadow 150ms linear; }
   .promise:hover,
   .promise:focus-within { translate: none; }
-  .promise:hover .promise__icon svg,
-  .promise:focus-within .promise__icon svg { transform: none; }
 }
 
-/* ---- Forced colours ------------------------------------------------
-   forced-colors does NOT strip background-image, so the band ramp and
-   the plate's stitch/foot layers must be removed by hand or they sit
-   under system-coloured text. Both the plate and the tile then keep a
-   real boundary from an explicit CanvasText outline drawn inside their
-   own box — `outline`, not `border`, so it costs zero layout in either
-   orientation and does not depend on any engine's treatment of a
-   transparent border. */
 @media (forced-colors: active) {
   #why { background: Canvas; }
   .promise { box-shadow: none; }
-  .promise:hover,
-  .promise:focus-within { box-shadow: none; }
-  .promise__icon {
-    background: Canvas;
-    box-shadow: none;
-    outline: 1px solid CanvasText;
-    outline-offset: -1px;
-  }
-  .promise__icon svg {
-    background: Canvas;
-    box-shadow: none;
-    outline: 1px solid CanvasText;
-    outline-offset: -1px;
-  }
+  .promise__icon { background: Canvas; outline: 1px solid CanvasText; outline-offset: -1px; }
 }
 
-/* ---- Print ---------------------------------------------------------
-   Last block in the file, so it beats the 56rem rules at equal
-   specificity and collapses BOTH layouts to one compact stacked form:
-   no 96px empty white band, no 80px empty spine, black glyph, no ink
-   spent on plates. */
 @media print {
   #why { background: #fff; }
-  .promise {
-    grid-template-columns: 1fr;
-    box-shadow: none;
-    border-color: #b6bfcd;
-    break-inside: avoid;
-  }
-  .promise__icon {
-    grid-row: auto;
-    align-self: auto;
-    width: auto;
-    height: auto;
-    margin: 0 0 var(--s-3);
-    padding: 0;
-    place-items: center start;
-    background: none;
-    box-shadow: none;
-    color: #000;
-  }
-  .promise__icon svg { background: none; box-shadow: none; }
+  .promise { box-shadow: none; border-color: #b6bfcd; break-inside: avoid; }
+  .promise__icon { background: none; color: #000; }
 }
 
 /* The mascot sits in an intro row beside the heading (see .why__intro
@@ -929,159 +426,109 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
    gone with it. */
 
 /* ============================================================
-   How it works — hover state on desktop, carousel on mobile.
+   How it works — one journey, not seven boxes.
 
-   The steps live on the navy band (features.css), where each card is a
-   4%-white wash. Two changes, split by input capability rather than by
-   width alone:
+   Desktop (>=48rem): the card shells dissolve; each step is a brass
+   serif numeral over its title, and a hairline thread runs from
+   number to number so the seven read as one continuous route. The
+   steps are not links, so there is no hover state — feedback on
+   non-interactive content is noise.
 
-   DESKTOP — hover fills the card with --green-cta and lifts it 6px. The
-   number badge inverts (white plate, green digits) because green-on-green
-   would erase it.
-
-   MOBILE — no hover exists, so the green is the resting state, and the
-   seven-wide grid becomes a swipeable snap rail. Seven stacked cards ran
-   about 1,700px on a phone; the rail is one screen.
-
-   The lift uses `translate`, NOT `transform`. .flow carries
-   .stagger-children, and animations.css forbids a CSS transition on
-   transform/opacity for those elements — the reveal animation drives both,
-   and a competing transition strands cards mid-entrance. `translate` is an
-   independent property the animation never touches.
+   Mobile (<48rem): the snap rail keeps its card shells for the swipe
+   affordance, but the active card marks itself with a brass keyline
+   instead of a green fill, and nothing pops or bounces.
    ============================================================ */
-
-/* ---- Desktop / any device with real hover ---- */
-@media (hover: hover) and (pointer: fine) {
-  .flow__step {
-    transition:
-      background-color 240ms var(--ease-out),
-      border-color 240ms var(--ease-out),
-      box-shadow 280ms var(--ease-out),
-      translate 280ms var(--ease-out);
+@media (min-width: 48rem) {
+  .page-home .flow__step {
+    position: relative;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    padding: 0 var(--s-5) 0 0;
   }
-
-  /* :focus-within as well as :hover — the cards contain no links today,
-     but if one is ever added, keyboard users get the same affordance
-     without a second rule needing to be remembered. */
-  .flow__step:hover,
-  .flow__step:focus-within {
-    /* #198639 under white text is 4.66:1. --green-brand (#21b14b) is the
-       logo green and only reaches 2.82:1 — it is a non-text colour. */
-    background-color: var(--green-cta);
-    border-color: var(--green-cta);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
-    translate: 0 -6px;
+  .page-home .flow__num {
+    position: relative;
+    z-index: 1;
+    display: inline-grid;
+    place-items: center;
+    width: auto;
+    height: auto;
+    min-width: 2.4rem;
+    margin-bottom: var(--s-4);
+    padding-right: var(--s-3);
+    background: var(--navy-deep);
+    border-radius: 0;
+    color: var(--brass-bright);
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
   }
-  .flow__step:hover h3,
-  .flow__step:focus-within h3 { color: #fff; }
-  /* The resting rgba(255,255,255,.74) blends to ~2.9:1 over the green.
-     Solid white is 4.66:1. */
-  .flow__step:hover p,
-  .flow__step:focus-within p { color: #fff; }
-
-  /* Inverted badge: white plate, green digits (4.66:1 the other way up). */
-  .flow__step:hover .flow__num,
-  .flow__step:focus-within .flow__num {
-    background: #fff;
-    color: var(--green-cta);
+  /* The thread. Sits at the numeral's midline; each step draws its own
+     segment rightward, and the row-enders switch theirs off below. */
+  .page-home .flow__step::before {
+    content: '';
+    position: absolute;
+    top: 0.7rem;
+    left: 0;
+    right: calc(var(--s-4) * -1);
+    height: 1px;
+    background: rgba(255, 255, 255, .16);
   }
+  .page-home .flow__step:last-child::before { right: var(--s-5); }
+}
+/* Row-enders per column count: 2-up between 48 and 52rem, 4-up above. */
+@media (min-width: 48rem) and (max-width: 51.99rem) {
+  .page-home .flow__step:nth-child(2n)::before { right: var(--s-5); }
+}
+@media (min-width: 52rem) {
+  .page-home .flow__step:nth-child(4n)::before { right: var(--s-5); }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  /* Keep the colour change — it is the feedback. Drop only the movement. */
-  .flow__step { transition: background-color 240ms linear, border-color 240ms linear; }
-  .flow__step:hover,
-  .flow__step:focus-within { translate: none; }
-}
-
-/* ---- Mobile — snap carousel, green cards ----
+/* ---- Mobile — snap carousel, quiet cards ----
    48rem is the cut: below it features.css is at 1 or 2 columns, so the
    rail replaces a very tall stack rather than a working grid. */
 @media (max-width: 47.99rem) {
   .flow {
     display: grid;
     grid-auto-flow: column;
-    /* REQUIRED. features.css declares `grid-template-columns: 1fr` on
-       .flow, and grid-auto-columns only sizes IMPLICIT tracks — so track
-       one stayed 1fr and the rest fell back to min-content, giving 98px
-       cards. Clearing the template makes every track implicit. */
     grid-template-columns: none;
-    /* 82% so the next card always peeks — that peek IS the affordance that
-       tells a thumb this scrolls. A single value, not minmax(15rem, 82%):
-       minmax sizes to max-content clamped to the range, and these steps are
-       short enough that every track collapsed to the 15rem floor. */
+    /* 82% so the next card always peeks — the peek IS the affordance. */
     grid-auto-columns: min(82%, 22rem);
     gap: var(--s-4);
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
-    /* Bleed to the screen edges so a snapped card sits flush with the
-       gutter, matching the reviews rail. */
     margin-inline: calc(var(--gutter) * -1);
     padding-inline: var(--gutter);
     padding-bottom: var(--s-3);
-    /* Cancels the reveal transform on the wrapper: a translated scroll
-       container fights the snap position on iOS. */
     overscroll-behavior-x: contain;
   }
   .flow::-webkit-scrollbar { display: none; }
   .flow__step {
     scroll-snap-align: center;
-    /* Equal height regardless of how long each step's detail runs — a
-       ragged rail looks broken when two cards are visible at once. */
     height: 100%;
-  }
-
-  /* Only the card fully in view is green; the rest keep the navy-band blue
-     they have on desktop. flowRail.js sets .is-active from an
-     IntersectionObserver rooted on the rail, so "fully on screen" is measured
-     against the scroller, not the viewport.
-
-     `scale` and `translate`, never `transform`: .flow carries
-     .stagger-children, and animations.css reserves transform/opacity for the
-     reveal — a live transition on those re-fires every time reveal.js clears
-     its inline style. These are independent properties the reveal never
-     touches. */
-  .flow__step {
     transition:
-      background-color 300ms var(--ease-out),
-      border-color 300ms var(--ease-out),
-      box-shadow 320ms var(--ease-out),
-      translate 320ms var(--ease-out),
-      scale 320ms var(--ease-out);
-    scale: 0.97;
+      background-color 200ms ease,
+      border-color 200ms ease;
   }
+  /* The card in view marks itself with the accent, quietly. */
   .flow__step.is-active {
-    background: var(--green-cta);
-    border-color: var(--green-cta);
-    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.32);
-    translate: 0 -4px;
-    scale: 1;
+    background: rgba(255, 255, 255, .08);
+    border-color: rgba(217, 184, 120, .55);
   }
-  .flow__step.is-active h3 { color: #fff; }
-  .flow__step.is-active p  { color: #fff; }
   .flow__step.is-active .flow__num {
-    background: #fff;
-    color: var(--green-cta);
-    animation: flow-num-pop 420ms var(--ease-out);
-  }
-  /* The badge is the one element that changes shape as well as colour, so it
-     gets the small overshoot that makes the swipe feel like it landed. */
-  @keyframes flow-num-pop {
-    0%   { scale: 0.72; }
-    62%  { scale: 1.1; }
-    100% { scale: 1; }
+    background: rgba(217, 184, 120, .16);
+    color: var(--brass-bright);
   }
 
-  /* ---- Swipe progress ----
-     A thin bar under the rail whose fill tracks scrollLeft. Real feedback on
-     a 7-card rail: seven dots at this width would be 4px apart, and a bar
-     shows position continuously instead of in steps. */
+  /* ---- Swipe progress ---- */
   .flow-progress {
-    height: 3px;
+    height: 2px;
     margin-top: var(--s-4);
     border-radius: 2px;
-    background: rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.14);
     overflow: hidden;
   }
   .flow-progress span {
@@ -1089,8 +536,7 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
     height: 100%;
     width: 100%;
     border-radius: 2px;
-    background: var(--brand-green);
-    /* scaleX from the left edge; the JS only ever writes --flow-progress. */
+    background: var(--brass);
     transform-origin: left center;
     scale: var(--flow-progress, 0.14) 1;
     transition: scale 160ms linear;
@@ -1103,11 +549,7 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* Colour is the feedback and stays; the movement, the overshoot and the
-     bar's easing all go. */
-  .flow__step { scale: 1 !important; }
-  .flow__step.is-active { translate: none; }
-  .flow__step.is-active .flow__num { animation: none; }
+  .flow__step { transition: none; }
   .flow-progress span { transition: none; }
 }
 
@@ -1120,10 +562,6 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
    ============================================================ */
 .svc-band {
   background: var(--navy);
-  /* The same 4px green rule the hero closes with — it marks the top of a dark
-     band as deliberate rather than as an abrupt colour change. */
-  border-top: 4px solid var(--brand-green);
-  border-bottom: 4px solid var(--brand-green);
 }
 
 /* .btn--ghost is drawn for a light ground: --navy text on a --line border,
@@ -1149,11 +587,8 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
    h3/p to #fff, and that rule is both later and more specific. */
 .svc-band .svc h3,
 .svc-band .svc h3 a { color: var(--ink); }
-.svc-band .svc h3 a:hover { color: var(--green); }
-.svc-band .svc:hover h3,
-.svc-band .svc:hover h3 a,
-.svc-band .svc:focus-within h3,
-.svc-band .svc:focus-within h3 a { color: #fff; }
+.svc-band .svc h3 a:hover { color: var(--navy); }
+
 
 /* The .home-locations city grid was deleted with the coverage merge — its
    five text cards duplicated the areas section and sat AFTER the closing
@@ -1213,7 +648,7 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
   font-family: var(--font-mono);
   font-size: var(--t-sm);
   font-weight: 500;
-  color: var(--green-deep);
+  color: var(--navy-deep);
 }
 .price-tile__price small {
   display: block;
@@ -1288,7 +723,7 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
 
 /* A tinted band gives the white tiles an edge and resolves the cut-outs'
    #eee grounds as studio backdrops rather than missing images. */
-.page-home .price-rail-band { background: var(--navy-tint); }
+.page-home .price-rail-band { background: var(--wash-2); }
 
 /* ~200px of garment instead of ~150px. Fewer tiles fit per screen — that is
    the intent, and it finally gives the arrows a reason to exist. */
@@ -1440,7 +875,7 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
   line-height: .9;
   letter-spacing: -.03em;
   font-variant-numeric: tabular-nums;
-  color: #fff;
+  color: var(--brass-bright);
 }
 
 .page-home .coverage__map {
@@ -1503,8 +938,8 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
   color: rgba(255, 255, 255, .55);
 }
 @media (hover: hover) and (pointer: fine) {
-  .page-home .coverage__city:hover { background: var(--green-cta); }  /* 4.66:1 under white */
-  .page-home .coverage__city:hover small { color: rgba(255, 255, 255, .85); }
+  .page-home .coverage__city:hover { background: rgba(255, 255, 255, .07); }
+  .page-home .coverage__city:hover b { color: var(--brass-bright); }
 }
 
 /* Stores — the only place on the homepage that says where we physically are. */
@@ -1513,7 +948,7 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
 }
 .page-home .coverage__store {
   padding-left: var(--s-4);
-  border-left: 2px solid var(--green-brand);
+  border-left: 2px solid var(--brass);
   font-size: var(--t-sm);
   line-height: 1.45;
   color: rgba(255, 255, 255, .78);
@@ -1530,7 +965,7 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
   border-color: rgba(255, 255, 255, .2);
   color: #fff;
 }
-.page-home .coverage-band .area-link svg { color: var(--green-brand); }
+.page-home .coverage-band .area-link svg { color: var(--brass-bright); }
 .page-home .coverage-band .area-link:hover {
   background: rgba(255, 255, 255, .12); border-color: #fff;
 }
@@ -1568,35 +1003,32 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
    ------------------------------------------------------------------------ */
 .page-home .cta-close {
   background-color: var(--navy-deep);
+  /* A soft radial glow behind the ask instead of a flat fill or a
+     watermark — warm centre light over the anchor navy. */
   background-image:
-    linear-gradient(rgba(13, 35, 80, .90), rgba(13, 35, 80, .90)),
-    url('../images/hero-packages.svg');
-  background-repeat: no-repeat, no-repeat;
-  background-size: cover, cover;
-  background-position: center, center bottom;
+    radial-gradient(48rem 26rem at 50% 24%, rgba(178, 138, 74, .15), transparent 65%),
+    radial-gradient(72rem 42rem at 50% 115%, rgba(32, 96, 160, .22), transparent 62%);
   color: rgba(255, 255, 255, .9);
-  padding-block: clamp(4rem, 2.6rem + 6vw, 8rem);
+  text-align: center;
+  padding-block: clamp(5rem, 3.2rem + 7vw, 9rem);
 }
 .page-home .cta-close h2 {
-  margin: 0;
-  max-width: 14ch;   /* guard if home.cta.title is ever lengthened */
+  margin: 0 auto;
+  max-width: 16ch;
   color: #fff;
-  /* 4.6rem, not the 4.1 the spec carried: item 9's statement opener sets the
-     Services h2 at 4.25rem, which measured 68px against this heading's 66px
-     and made the page's final ask the SECOND loudest line — the exact defect
-     this item exists to remove. The two were written independently; this is
-     the reconciliation. */
-  font-size: clamp(2.4rem, 1.6rem + 3.9vw, 4.6rem);
-  line-height: .98;
-  letter-spacing: -.035em;
+  font-size: clamp(2.25rem, 1.5rem + 3.4vw, 3.9rem);
+  line-height: 1.06;
+  letter-spacing: -.015em;
+  font-weight: 560;
 }
 .page-home .cta-close p {
   max-width: 34rem;
-  margin: var(--s-5) 0 var(--s-7);
+  margin: var(--s-5) auto var(--s-7);
   font-size: 1.1rem;
-  color: rgba(255, 255, 255, .8);
+  color: rgba(255, 255, 255, .78);
 }
 .page-home .cta-close .btn { font-size: 1.05rem; padding-inline: 1.9rem; }
+.page-home .cta-close .btn-row { justify-content: center; }
 
 @media (forced-colors: active) { .page-home .cta-close { background-image: none; } }
 @media print {
@@ -1627,12 +1059,6 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
     row-gap: var(--s-5);
   }
 }
-@media (min-width: 48rem) {
-  .page-home .flow__step {
-    background: rgba(255, 255, 255, .06);    /* was .03 — the card was not present */
-    border-color: rgba(255, 255, 255, .20);  /* was .14 */
-  }
-}
 /* NOTE ON THE MOTION CONTRACT: .flow carries .stagger-children, and
    reveal.js commits inline transform/opacity on finish then clears them.
    Nothing above is transform or opacity and nothing above is given a
@@ -1660,16 +1086,16 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
   font-size: var(--t-xl);
   line-height: 1;
   letter-spacing: -.03em;
-  /* --green-brand is 2.82:1 and is documented NON-TEXT only. Legal here: the
-     numeral is aria-hidden decoration duplicating DOM order and carrying no
-     information — the same allowance .flow__num already takes. */
-  color: var(--green-brand);
+  /* aria-hidden decoration duplicating DOM order — the accent may carry it. */
+  color: var(--brass);
 }
 .page-home .blog-row h3 {
   margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
   color: var(--ink);
-  line-height: 1.15;
-  letter-spacing: -.02em;
+  line-height: 1.2;
+  letter-spacing: -.015em;
   font-size: clamp(1.25rem, 1rem + 1.1vw, 1.875rem);
 }
 .page-home .blog-row__meta {
@@ -1681,7 +1107,7 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
   white-space: nowrap;
 }
 @media (hover: hover) and (pointer: fine) {
-  .page-home .blog-row:hover h3 { color: var(--brand-blue); }
+  .page-home .blog-row:hover h3 { color: var(--brass-deep); }
 }
 
 /* ---- Six services on a phone, nine on desktop -------------------------
@@ -1701,7 +1127,7 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
 /* A third ground value. The page's entire alternation was #ffffff against
    #f4f8fd — a 3-value difference, invisible at arm's length — so the white
    review cards had only a 1px outline to be found by. */
-.page-home .reviews-band { background: var(--navy-tint); }
+.page-home .reviews-band { background: var(--wash-2); }
 
 
 /* ---- A second section-opener register ---------------------------------
@@ -1717,9 +1143,10 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
 .page-home .section-head--statement h2 {
   margin: 0;
   max-width: 18ch;
-  font-size: clamp(2.5rem, 1.6rem + 3.6vw, 4.25rem);
-  line-height: 1.02;
-  letter-spacing: -.03em;
+  font-size: clamp(2.25rem, 1.55rem + 3vw, 3.75rem);
+  line-height: 1.06;
+  letter-spacing: -.015em;
+  font-weight: 560;
 }
 .page-home .section-head--statement .section-head__aside p { margin: 0; }
 /* Selector depth, not !important: base.css sets .section-head p
@@ -1730,7 +1157,7 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
   font-size: var(--t-xs);
   letter-spacing: .08em;
   text-transform: uppercase;
-  color: #8fb4ff;   /* the .section--navy eyebrow blue */
+  color: var(--brass-bright);
 }
 .page-home .section-head--statement .section-figure b {
   font-family: var(--font-display);
@@ -1762,7 +1189,7 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
   font-size: var(--t-xs);
   font-weight: 500;
   letter-spacing: .14em;
-  color: var(--green);   /* 4.54:1 — the TEXT green, not --green-brand */
+  color: var(--brass-deep);
 }
 .page-home .proof-ledger__step b { font-size: var(--t-base); font-weight: 700; color: var(--ink); }
 .page-home .proof-ledger__step span { font-size: var(--t-sm); line-height: 1.55; color: var(--ink-2); }
