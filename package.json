@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "npm run build:js && python3 src/build.py",
+    "build": "npm run build:js && pip3 install -r requirements.txt && python3 src/build.py",
     "build:js": "esbuild src/js/main.js --bundle --format=iife --minify --target=es2019 --legal-comments=none --banner:js='/* GENERATED FILE \u2014 do not edit. Source: src/js/  \u2022  Rebuild: npm run build:js */' --outfile=src/assets/js/main.js",
     "build:pdf": "node tools/poster-pdf.mjs",
     "build:pdf:generated": "node tools/make-pdf.mjs"
