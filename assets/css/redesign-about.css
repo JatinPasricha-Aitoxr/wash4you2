@@ -104,8 +104,8 @@
   margin-bottom: var(--s-4);
 }
 .page-about .mv-card--vision .mv-card__icon {
-  background: rgba(33, 177, 75, 0.14);
-  color: var(--green);
+  background: var(--brass-tint);
+  color: var(--brass-deep);
 }
 .page-about .mv-card__eyebrow {
   font-family: var(--font-mono);
@@ -137,7 +137,7 @@
   position: absolute;
   left: 0.15rem; top: 0.42em;
   width: 0.42rem; height: 0.72rem;
-  border: solid var(--green);
+  border: solid var(--brass-deep);
   border-width: 0 2.5px 2.5px 0;
   rotate: 45deg;
 }
@@ -162,8 +162,8 @@
   place-items: center;
   width: 2.75rem; height: 2.75rem;
   border-radius: 50%;
-  background: var(--brand-green);
-  color: #06210f;     /* dark on the bright brand green — 8.1:1 */
+  background: rgba(217, 184, 120, .16);
+  color: var(--brass-bright);
   margin-bottom: var(--s-3);
 }
 .page-about .why-card h3 { color: #fff; font-size: var(--t-md); margin-bottom: var(--s-2); }
@@ -388,3 +388,7 @@
 @media (prefers-reduced-motion: reduce) {
   .page-about .area-group:hover { translate: none; }
 }
+
+
+/* 2026 imagery pass — the store photography joins the one site grade. */
+.about-hero__img, .page-about .about-band img { filter: var(--photo-grade); }

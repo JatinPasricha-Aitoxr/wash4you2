@@ -46,18 +46,18 @@
           "type": "select",
           "required": false,
           "options": [
-            "Eco-Friendly Laundry",
-            "Steam Ironing",
-            "Premium Dry Cleaning",
-            "Shoe Cleaning",
-            "Bag Cleaning",
-            "Leather Cleaning",
-            "Carpet Cleaning",
+            "Eco-Friendly Laundry Service",
+            "Steam Ironing Service",
+            "Premium Dry Cleaning Service",
+            "Shoe Cleaning Service",
+            "Bag & Handbag Cleaning",
+            "Leather Cleaning & Care",
+            "Carpet Cleaning Service",
             "Accessories Cleaning",
-            "Toy Cleaning",
-            "Curtains Cleaning",
-            "Blanket/Quilt Cleaning",
-            "Linen Cleaning"
+            "Toy Cleaning Service",
+            "Curtain Cleaning Service",
+            "Blanket & Quilt Cleaning",
+            "Linen Cleaning Service"
           ]
         },
         {

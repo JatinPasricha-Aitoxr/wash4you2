@@ -13,7 +13,7 @@
   "services": [
     {
       "slug": "eco-friendly-laundry",
-      "name": "Eco-Friendly Laundry",
+      "name": "Eco-Friendly Laundry Service",
       "short_description": "Planet-safe cleaning using biodegradable, non-toxic solvents, ideal for delicate skin and sustainable living.",
       "description": "Our eco-friendly laundry service uses biodegradable, non-toxic solvents that are gentle on fabrics and safe for sensitive skin. Every load is sorted by color and fabric type, then washed with optimized techniques to deliver fresh, clean clothes while minimizing environmental impact.",
       "icon": "droplet",
@@ -37,7 +37,7 @@
     },
     {
       "slug": "premium-dry-cleaning",
-      "name": "Premium Dry Cleaning",
+      "name": "Premium Dry Cleaning Service",
       "short_description": "Precision cleaning for suits, dresses, silks, and delicates, handled by experts using gentle, garment-safe methods.",
       "description": "Our premium dry cleaning service uses hydrocarbon dry-cleaning technology to clean delicate garments safely. From suits and dresses to silk sarees and lehengas, every piece is inspected, pre-treated, and finished with expert care.",
       "icon": "sparkles",
@@ -109,7 +109,7 @@
     },
     {
       "slug": "shoe-cleaning",
-      "name": "Shoe Cleaning",
+      "name": "Shoe Cleaning Service",
       "short_description": "From sneakers to suede, we deep-clean, deodorize, and restore your footwear to like-new condition.",
       "description": "Give your footwear a fresh start with our professional shoe cleaning service. We clean sports shoes, sneakers, leather shoes, and suede, removing dirt, stains, and odors while preserving material quality.",
       "icon": "footprints",
@@ -131,7 +131,7 @@
     },
     {
       "slug": "bag-cleaning",
-      "name": "Bag Cleaning",
+      "name": "Bag & Handbag Cleaning",
       "short_description": "Handbags, totes, and backpacks deep-cleaned, reshaped, and stain-treated with material-safe products.",
       "description": "Our bag cleaning service restores handbags, totes, backpacks, and more. We use material-safe products to deep-clean, remove stains, and reshape your bags so they look their best.",
       "icon": "bag",
@@ -146,7 +146,7 @@
     },
     {
       "slug": "leather-cleaning",
-      "name": "Leather Cleaning",
+      "name": "Leather Cleaning & Care",
       "short_description": "Specialized leather care using pH-balanced solutions that clean and condition without drying or cracking.",
       "description": "Protect your leather investments with our specialized leather cleaning service. We use pH-balanced solutions that clean, condition, and preserve leather jackets, bags, and accessories without drying or cracking.",
       "icon": "jacket",
@@ -167,7 +167,7 @@
     },
     {
       "slug": "curtains-cleaning",
-      "name": "Curtains Cleaning",
+      "name": "Curtain Cleaning Service",
       "short_description": "Professional curtain care that removes dust, stains, and odors, without compromising fabric quality or color.",
       "description": "Our curtain cleaning service includes free removal and reinstallation. We remove dust, stains, and odors while protecting fabric quality and color, leaving your curtains fresh and beautiful.",
       "icon": "curtains",
@@ -186,7 +186,7 @@
     },
     {
       "slug": "carpet-cleaning",
-      "name": "Carpet Cleaning",
+      "name": "Carpet Cleaning Service",
       "short_description": "Advanced extraction techniques to clean, refresh, and revive your carpets, residential or commercial.",
       "description": "Refresh your home or office with our carpet cleaning service. Using advanced extraction techniques, we remove dirt, dust, stains, and odors to revive carpets and extend their life.",
       "icon": "square",
@@ -205,7 +205,7 @@
     },
     {
       "slug": "toy-cleaning",
-      "name": "Toy Cleaning",
+      "name": "Toy Cleaning Service",
       "short_description": "Hygienic, safe cleaning for plush and fabric-based toys, perfect for families with kids.",
       "description": "Our toy cleaning service ensures your child's favorite plush and fabric toys are hygienically cleaned using safe, non-toxic methods — perfect for keeping playtime healthy and worry-free.",
       "icon": "heart",
@@ -253,7 +253,7 @@
     },
     {
       "slug": "steam-ironing",
-      "name": "Steam Ironing",
+      "name": "Steam Ironing Service",
       "short_description": "Sharp, crease-free results using steam press technology for a crisp, polished finish on every item.",
       "description": "Get professionally pressed clothes with our steam ironing service. Using advanced steam press technology, we remove wrinkles and give every garment a crisp, polished finish — perfect for office wear, ethnic wear, and everyday essentials.",
       "icon": "shirt",
@@ -277,7 +277,7 @@
     },
     {
       "slug": "mattress-cleaning",
-      "name": "Mattress Cleaning",
+      "name": "Mattress Cleaning Service",
       "icon": "mattress",
       "short_description": "Dust-mite and sweat treatment for mattresses, without soaking the core.",
       "features": [
@@ -290,7 +290,7 @@
     },
     {
       "slug": "wet-cleaning",
-      "name": "Wet Cleaning",
+      "name": "Wet Cleaning Service",
       "icon": "wet",
       "short_description": "The water-based alternative to solvent dry cleaning, for fabrics that suit it.",
       "features": [
@@ -312,7 +312,7 @@
     },
     {
       "slug": "blanket-quilt-cleaning",
-      "name": "Blanket/Quilt Cleaning",
+      "name": "Blanket & Quilt Cleaning",
       "short_description": "Deep cleaning for blankets and quilts to restore softness, freshness, and comfort.",
       "description": "Refresh your blankets and quilts with our specialized cleaning service. We remove dust, allergens, and odors while preserving softness and fluffiness for a comfortable night's sleep.",
       "icon": "bed",
@@ -333,7 +333,7 @@
     },
     {
       "slug": "linen-cleaning",
-      "name": "Linen Cleaning",
+      "name": "Linen Cleaning Service",
       "short_description": "Expert linen care for bed sheets, table linens, and more — crisp, clean, and hotel-fresh.",
       "description": "Our linen cleaning service keeps bed sheets, table linens, and household fabrics crisp, clean, and fresh. We use techniques that preserve fabric quality and deliver a hotel-like finish.",
       "icon": "sheet",

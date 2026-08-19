@@ -1,11 +1,11 @@
 /* ============================================================
-   Home hero — one message, one action, one focal object.
+   Home hero — the wall at premium scale.
 
-   Deep navy ground, a faint brass glow behind the copy, generous
-   negative space. The left column is live text; the right is a single
-   crafted plate — the sherwani on its studio ground, mounted in a
-   paper frame with a care-label caption and a brass keyline offset
-   behind it. Nothing drifts, nothing loops, nothing competes.
+   Two rows of large graded tiles drift imperceptibly (38s / 47s,
+   opposite directions) behind a navy scrim that rises from the text
+   side. One grade, one 16px radius, one exact 12px gap. The copy
+   column is the same voice as the rest of the site: white serif,
+   one brass italic phrase, quiet offer tag.
    ============================================================ */
 
 .hero.home-hero {
@@ -14,21 +14,104 @@
   overflow: clip;
   color: #fff;
   background-color: var(--navy-deep);
-  /* Two soft glows on the anchor: warm brass high right (behind the
-     plate), a cooler navy lift low left. Decorative, near-subliminal. */
-  background-image:
-    radial-gradient(52rem 30rem at 82% 8%, rgba(178, 138, 74, .14), transparent 62%),
-    radial-gradient(46rem 34rem at 2% 100%, rgba(32, 96, 160, .18), transparent 58%);
-  padding-block: clamp(3.5rem, 2.3rem + 5vw, 6.5rem);
-}
-
-.home-hero__grid {
+  padding-block: clamp(4rem, 2.6rem + 6vw, 7rem);
+  min-height: clamp(27rem, 19rem + 17vw, 35rem);
   display: grid;
-  gap: clamp(2.5rem, 1.8rem + 3vw, 4.5rem);
   align-items: center;
 }
-@media (min-width: 62rem) {
-  .home-hero__grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); }
+
+/* ---- The wall ----------------------------------------------------- */
+.home-hero__wall {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  display: grid;
+  gap: 12px;
+  align-content: center;
+  justify-items: start;
+}
+
+.hero-wall__col {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  will-change: transform;
+  animation: wall-drift var(--dur, 40s) linear infinite;
+}
+/* Opposite directions give the wall depth without speed; the half-tile
+   offset bricks the rows so their seams never align. */
+.hero-wall__col:nth-child(2) {
+  animation-direction: reverse;
+  margin-left: calc(clamp(9.5rem, 17.5vw, 16rem) / -2);
+}
+
+/* Travel exactly one set of tiles. Each row holds its tiles twice;
+   one set is half the row minus half a gap — the -6px is that half
+   gap, without it the loop stutters once per cycle. */
+@keyframes wall-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(calc(-50% - 6px), 0, 0); }
+}
+
+.hero-wall__tile {
+  display: block;
+  flex: 0 0 auto;
+  width: clamp(9.5rem, 17.5vw, 16rem);
+}
+.hero-wall__tile img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--r-lg);
+  /* RULE 0 — the one grade, so 24 mismatched cut-outs read as one shoot. */
+  filter: var(--photo-grade);
+}
+
+/* ---- The scrim ----------------------------------------------------
+   Navy rising from the text side: near-solid under the copy, falling
+   away so the wall glows on the right. A faint full-frame veil keeps
+   the tiles a half-step behind the headline everywhere. */
+.home-hero__wall::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(95deg,
+      rgba(13, 35, 80, .98) 0%,
+      rgba(13, 35, 80, .95) 34%,
+      rgba(13, 35, 80, .84) 50%,
+      rgba(13, 35, 80, .52) 68%,
+      rgba(13, 35, 80, .26) 85%,
+      rgba(13, 35, 80, .18) 100%),
+    linear-gradient(rgba(13, 35, 80, .10), rgba(13, 35, 80, .10));
+}
+
+/* Release the promoted layers once the hero is scrolled past. Gated on
+   html.wall-gated, which only heroWall.js adds — a blocked bundle leaves
+   the wall running rather than frozen at first paint. */
+html.wall-gated .home-hero:not(.is-onscreen) .hero-wall__col {
+  animation-play-state: paused;
+  will-change: auto;
+}
+html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
+  content-visibility: auto;
+}
+
+/* An endless decorative loop is exactly what this preference asks to
+   stop — the wall stays, as a still collage. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-wall__col { animation: none; will-change: auto; }
+}
+
+/* ---- The copy ----------------------------------------------------- */
+.home-hero__grid {
+  position: relative;
+  z-index: 2;
+  width: 100%;
 }
 
 .home-hero__inner {
@@ -49,8 +132,6 @@
 }
 .home-hero__eyebrow svg { color: var(--brass); }
 
-/* The headline: white serif, confident and quiet. The key phrases —
-   the offer itself — step into the brass italic rather than a pill. */
 .home-hero__title {
   color: #fff;
   font-family: var(--font-display);
@@ -63,10 +144,7 @@
   max-width: 21ch;
   text-wrap: balance;
 }
-/* Restraint in the emphasis: the headline is white; only the FINAL
-   phrase — the offer, "Free Pickup & Delivery" — steps into the brass
-   italic. Two brass phrases out of four read as decoration; one reads
-   as intent. */
+/* One phrase in the brass italic — the offer, not decoration. */
 .home-hero__title .hkw--blue,
 .home-hero__title .hkw--green { color: #fff; }
 .home-hero__title .hkw--green:last-of-type {
@@ -78,7 +156,7 @@
 .home-hero__sub {
   font-size: clamp(1.02rem, 0.96rem + 0.45vw, 1.1875rem);
   line-height: 1.6;
-  color: rgba(255, 255, 255, .75);
+  color: rgba(255, 255, 255, .82);
   max-width: 46ch;
   margin: 0 0 var(--s-6);
 }
@@ -87,37 +165,34 @@
   display: flex; flex-wrap: wrap; justify-content: flex-start; gap: var(--s-3);
   margin-bottom: var(--s-6);
 }
-/* Ghost secondary on the navy ground: hairline white outline. */
 .home-hero__ghost {
   background: transparent;
   color: #fff;
-  border: 1px solid rgba(255, 255, 255, .30);
+  border: 1px solid rgba(255, 255, 255, .34);
 }
 .home-hero__ghost:hover {
   background: rgba(255, 255, 255, .08);
-  border-color: rgba(255, 255, 255, .55);
+  border-color: rgba(255, 255, 255, .6);
   color: #fff;
 }
 
 .home-hero__trust {
   display: inline-flex; align-items: center; gap: 0.55rem;
   font-size: var(--t-sm);
-  color: rgba(255, 255, 255, .72);
+  color: rgba(255, 255, 255, .78);
   margin: 0;
 }
 .home-hero__stars { color: var(--brass-bright); letter-spacing: 0.1em; font-size: 0.9375rem; }
 
-/* The first-order offer — a quiet tag under the trust line, not a
-   starburst. Brass hairline, brass type, whispered. */
 .home-hero__offer {
   display: inline-flex;
   align-items: baseline;
   gap: 0.4em;
   margin: var(--s-5) 0 0;
   padding: 0.5rem 1rem;
-  border: 1px solid rgba(217, 184, 120, .35);
+  border: 1px solid rgba(217, 184, 120, .4);
   border-radius: var(--r-pill);
-  background: rgba(217, 184, 120, .07);
+  background: rgba(13, 35, 80, .55);
   font-family: var(--font-mono);
   font-size: var(--t-xs);
   font-weight: 500;
@@ -134,102 +209,32 @@
 }
 .home-hero__offer-detail::before { content: '· '; opacity: .6; }
 
-/* ---- The plate ----------------------------------------------------
-   One focal object, presented as a mounted specimen: paper frame,
-   16px radius, layered soft shadow, an inset hairline, and the
-   care-label caption strip along the foot. The brass keyline offset
-   behind it is the one flourish — a mount line, not a decoration. */
-.home-hero__figure {
-  position: relative;
-  width: 100%;
-  max-width: 27rem;
-  margin-inline: auto;
-}
-@media (min-width: 62rem) {
-  .home-hero__figure { max-width: 29rem; justify-self: end; margin-inline: 0; }
-}
-
-.home-hero__figure::before {
-  content: '';
-  position: absolute;
-  inset: -0.875rem -0.875rem 0.875rem 0.875rem;
-  border: 1px solid rgba(217, 184, 120, .32);
-  border-radius: var(--r-lg);
-  pointer-events: none;
-}
-
-.hero-plate {
-  position: relative;
-  margin: 0;
-  background: var(--paper);
-  border-radius: var(--r-lg);
-  overflow: hidden;
-  box-shadow:
-    0 2px 6px rgba(0, 0, 0, .18),
-    0 32px 72px -20px rgba(0, 0, 0, .55);
-}
-/* Inset hairline so the plate has an edge on any ground. */
-.hero-plate::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  box-shadow: inset 0 0 0 1px rgba(16, 27, 46, .07);
-  pointer-events: none;
-}
-.hero-plate img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.hero-plate__label {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s-3);
-  padding: var(--s-3) var(--s-4);
-  background: var(--paper);
-  border-top: 1px solid var(--line-soft);
-}
-.hero-plate__text {
-  font-family: var(--font-mono);
-  font-size: var(--t-xs);
-  font-weight: 500;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  text-align: right;
-}
-.hero-plate__symbols {
-  display: inline-flex;
-  gap: var(--s-2);
-  flex: none;
-}
-.hero-plate__symbols svg {
-  width: 1.05rem;
-  height: 1.05rem;
-  stroke: var(--brass-deep);
-  fill: none;
-  stroke-width: 1.5;
-}
-
-/* Small screens: the plate follows the copy at a calmer size, and the
-   keyline tucks in so it never clips the viewport edge. */
+/* ---- Small screens ------------------------------------------------
+   The scrim turns vertical: copy on near-solid navy at the top, the
+   wall glowing through along the foot. Tiles step down so two rows
+   still fit behind the band. */
 @media (max-width: 61.99rem) {
-  .home-hero__figure { max-width: 23rem; }
-  .home-hero__figure::before { inset: -0.625rem -0.625rem 0.625rem 0.625rem; }
+  .hero-wall__tile { width: clamp(7rem, 22vw, 10rem); }
+  .home-hero__wall::after {
+    background:
+      linear-gradient(185deg,
+        rgba(13, 35, 80, .97) 0%,
+        rgba(13, 35, 80, .95) 46%,
+        rgba(13, 35, 80, .82) 62%,
+        rgba(13, 35, 80, .5) 80%,
+        rgba(13, 35, 80, .28) 100%),
+      linear-gradient(rgba(13, 35, 80, .08), rgba(13, 35, 80, .08));
+  }
 }
 
 @media (forced-colors: active) {
-  .hero.home-hero { background-image: none; }
-  .hero-plate { border: 1px solid CanvasText; }
+  .home-hero__wall { display: none; }
 }
 
 @media print {
   .hero.home-hero { background: #fff; color: #000; }
   .home-hero__title, .home-hero__title .hkw--blue { color: #000; }
-  .home-hero__figure { display: none; }
+  .home-hero__wall { display: none; }
 }
 
 /* Visually-hidden helper. */
@@ -594,8 +599,6 @@
    five text cards duplicated the areas section and sat AFTER the closing
    CTA. The class occurs in no other template. */
 
-}
-
 /* ------------------------------------------------------------
    Price rail — garment cut-outs between the two dark bands.
 
@@ -633,6 +636,8 @@
   height: auto;
   aspect-ratio: 1;
   object-fit: contain;
+  /* RULE 0 — same grade as every photo on the site. */
+  filter: var(--photo-grade);
 }
 .price-tile__name {
   font-weight: 600;
