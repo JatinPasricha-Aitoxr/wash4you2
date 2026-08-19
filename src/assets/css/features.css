@@ -759,8 +759,12 @@ body.cart-lock { overflow: hidden; }
   gap: var(--s-4);
   grid-template-columns: 1fr;
 }
-@media (min-width: 34rem) { .plan-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 64rem) { .plan-grid { grid-template-columns: repeat(3, 1fr); } }
+/* minmax(0, 1fr), not a bare 1fr: a plain 1fr track still has an implicit
+   min size of the content's min-content, so the "You pay X -> Y you get to
+   spend" row (wider than the old single balance line) was pushing each
+   card past its share of the row and overflowing the page at ~600px. */
+@media (min-width: 34rem) { .plan-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 64rem) { .plan-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
 .plan-card {
   position: relative;
@@ -789,7 +793,7 @@ body.cart-lock { overflow: hidden; }
   white-space: nowrap;
 }
 
-.plan-card__balance { display: flex; align-items: center; gap: var(--s-3); padding-bottom: var(--s-3); border-bottom: 1px solid var(--line-soft); }
+.plan-card__balance { display: flex; align-items: center; flex-wrap: wrap; gap: var(--s-2) var(--s-3); padding-bottom: var(--s-3); border-bottom: 1px solid var(--line-soft); }
 .plan-card__balance-pay { display: flex; flex-direction: column; gap: 2px; }
 .plan-card__balance-pay-label { font-size: var(--t-xs); color: var(--ink-3); }
 .plan-card__balance-pay-num { font-family: var(--font-mono); font-weight: 600; font-size: var(--t-base); color: var(--ink-2); }

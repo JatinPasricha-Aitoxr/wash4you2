@@ -334,11 +334,15 @@
 
 /* ---- Header row capacity (PREREQUISITE for the --t-sm change) ----------
    .header__nav is a nowrap flex row with no scroll. Raising --t-sm grows
-   .header__phone inside it, and between 992px and 1199px the row has no
-   slack left — the CTA would be pushed under the viewport edge. The phone
-   number is already reachable from the topbar and the mobile bar, so it is
-   the correct thing to drop in that band, and only in that band.
+   .header__phone inside it, and the search-toggle button added later
+   widened the row further, so the band with no slack left (the CTA would
+   be pushed under the viewport edge) now runs the whole way from 992px to
+   ~1360px, not just to 1199px. The phone number is already reachable from
+   the topbar and the mobile bar, so it is the correct thing to drop across
+   that whole band; the nav gap is tightened too, since even phone-less the
+   992-1100px end of the band is still short of room otherwise.
    ------------------------------------------------------------------------ */
-@media (min-width: 62rem) and (max-width: 74.99rem) {
+@media (min-width: 62rem) and (max-width: 87.4rem) {
   .header__phone { display: none; }
+  .header__nav { gap: var(--s-3); }
 }

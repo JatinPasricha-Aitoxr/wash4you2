@@ -418,6 +418,16 @@
 }
 .search-toggle:hover { border-color: var(--navy); color: var(--navy); }
 
+/* The header icon is desktop-only. Below 992px the hamburger menu is
+   always present anyway (layout.css) and already has its own "Search the
+   site" row (.search-toggle--mobile below); a second icon squeezed in next
+   to the hamburger is not just redundant, it is what pushed the header
+   past the viewport edge on a 320px phone. */
+#search-toggle { display: none; }
+@media (min-width: 62rem) {
+  #search-toggle { display: inline-grid; }
+}
+
 .search-toggle--mobile {
   width: 100%;
   height: auto;
