@@ -21,10 +21,10 @@
     <div class="page-hero__grid">
       <div>
         <p class="eyebrow">Contact</p>
-        <h1{{ cms('pages:contact.hero.headline') }}>{{ pages.contact.hero.headline }}</h1>
+        <h1{{ cms('pages:contact.hero.headline') }}>{{ pages.contact.hero.headline | replace('Most Trusted', '<span class="kw--onlight">Most Trusted</span>', 1) | replace('Laundry & Dry Cleaners', '<span class="neon-kw">Laundry &amp; Dry Cleaners</span>', 1) | safe }}</h1>
         <p class="lede"{{ cms('pages:contact.hero.subheadline') }}>{{ pages.contact.hero.subheadline }}</p>
         <div class="btn-row">
-          <a class="btn btn--cta btn--lg" href="{{ site.urls.whatsapp }}" rel="noopener">{{ ui('whatsapp', 18) }} WhatsApp us</a>
+          <a class="btn btn--cta btn--lg" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} WhatsApp us</a>
           <a class="btn btn--ghost btn--lg" href="{{ site.urls.phone }}">{{ ui('phone', 18) }} {{ site.contact.phone }}</a>
         </div>
       </div>
@@ -86,7 +86,7 @@
         <div class="footer__store">
           <strong style="color:var(--ink)">{{ loc.name }}</strong>
           <address style="font-size:var(--t-sm);color:var(--ink-3)">{{ loc.address }}</address>
-          <a class="link-arrow" href="{{ loc.map_url }}" rel="noopener">Directions {{ ui('arrow-right', 16) }}</a>
+          <a class="link-arrow" href="{{ loc.map_url }}" target="_blank" rel="noopener">Directions {{ ui('arrow-right', 16) }}</a>
         </div>
         {% endfor %}
       </aside>

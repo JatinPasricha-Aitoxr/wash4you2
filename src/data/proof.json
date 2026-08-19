@@ -5,12 +5,12 @@
     {
       "id": "sneaker-nike",
       "service": "shoe-cleaning",
-      "title": "Nike SB Dunk — suede restoration",
+      "title": "Nike SB Dunk — suede deep clean",
       "summary": "Water staining across the suede upper and a yellowed gum sole, brought back without bleaching or re-dyeing.",
       "before": "images/proof/sneaker-nike-before.webp",
       "after": "images/proof/sneaker-nike-after.webp",
       "alt_before": "Nike SB Dunk sneaker with heavy blue water staining across the cream suede upper and a discoloured gum sole",
-      "alt_after": "The same Nike SB Dunk sneaker after Wash4You cleaning, with even cream suede and a restored gum sole — Wash4You, Gurgaon",
+      "alt_after": "The same Nike SB Dunk sneaker after Wash4You cleaning, with even cream suede and a cleaned gum sole — Wash4You, Gurgaon",
       "width": 820,
       "height": 455,
       "featured": true

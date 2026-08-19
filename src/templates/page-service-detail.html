@@ -90,10 +90,10 @@
       <div>
         {{ care_tag(service.slug, on_navy=true) }}
         <h1 style="margin-top:var(--s-4)"{{ cms((gen_base ~ '.h1') if gen_base else (cms_base ~ '.name')) }}>{{ service.h1 or service.name }}</h1>
-        <p class="lede"{{ cms((gen_base ~ '.lede') if gen_base else (cms_base ~ '.short_description')) }}>{{ service.lede or service.short_description }}</p>
+        <p class="lede"{{ cms((gen_base ~ '.lede') if gen_base else (cms_base ~ '.short_description')) }}>{{ (service.lede or service.short_description) | replace('free deinstallation and reinstallation', '<strong>free deinstallation and reinstallation</strong>', 1) | safe }}</p>
         <div class="btn-row">
-          <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" rel="noopener">Book free pickup</a>
-          <a class="btn btn--ghost btn--lg" href="{{ site.urls.whatsapp }}" rel="noopener">{{ ui('whatsapp', 18) }} Ask a question</a>
+          <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book free pickup</a>
+          <a class="btn btn--ghost btn--lg" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} Ask a question</a>
         </div>
       </div>
 
@@ -183,7 +183,7 @@
         <span class="svc__icon">{{ service_icon(service.slug, 36) }}</span>
         <h3>Book {{ service.name | lower }}</h3>
         <p>Free doorstep pickup and delivery across Gurugram. Every piece counted with you before it leaves.</p>
-        <a class="btn btn--cta btn--block" href="{{ site.urls.booking }}" rel="noopener">Book free pickup</a>
+        <a class="btn btn--cta btn--block" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book free pickup</a>
         <a class="btn btn--ghost btn--block" href="{{ site.urls.phone }}">{{ ui('phone', 18) }} {{ site.contact.phone }}</a>
         <hr class="seam">
         <p style="font-size:var(--t-xs)">Not sure if we can save it? Send a photo on WhatsApp and we will tell you honestly before you book.</p>
@@ -191,6 +191,29 @@
     </div>
   </div>
 </section>
+
+{# Shoe cleaning only: "Real results" moved two sections earlier, right
+   after the intro, instead of after the gallery — the client wants the
+   proof of work higher on this specific page. Every other service keeps
+   the default position further down (guarded to skip it below). #}
+{% if service.slug == 'shoe-cleaning' and service_proof | length > 1 %}
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Real results</p>
+      <h2>Our own work, photographed in store</h2>
+    </div>
+    <div class="proof-grid">
+      {% for pair in service_proof[1:] %}
+      <div class="proof-grid__item reveal">
+        {% if pair.featured %}{{ before_after(pair, asset_path, ui) }}{% else %}{{ before_after_static(pair, asset_path) }}{% endif %}
+        <p class="proof-grid__summary">{{ pair.summary }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
 
 {# A method comparison, rendered from data rather than markdown: the
    SSG's markdown subset is headings/paragraphs/lists/bold only, so a
@@ -207,7 +230,7 @@
     </div>
     <div class="svc-table-wrap reveal">
       <table class="svc-menu svc-compare">
-        <caption class="visually-hidden">How hydrocarbon dry cleaning compares with perchloroethylene</caption>
+        <caption class="visually-hidden">How our dry-cleaning solvent compares with perchloroethylene</caption>
         <thead>
           <tr>{% for c in service.comparison.columns %}<th scope="col">{{ c }}</th>{% endfor %}</tr>
         </thead>
@@ -285,7 +308,7 @@
 </section>
 {% endif %}
 
-{% if service_proof | length > 1 %}
+{% if service_proof | length > 1 and service.slug != 'shoe-cleaning' %}
 <section class="section">
   <div class="wrap">
     <div class="section-head reveal">
@@ -358,8 +381,8 @@
       <h2>Book a free pickup.</h2>
       <p>Tell us when suits you. We come to your door, count everything with you, and take it from there.</p>
       <div class="btn-row">
-        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" rel="noopener">Book free pickup</a>
-        <a class="btn btn--on-navy btn--lg" href="{{ site.urls.whatsapp }}" rel="noopener">{{ ui('whatsapp', 18) }} WhatsApp us</a>
+        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book free pickup</a>
+        <a class="btn btn--on-navy btn--lg" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} WhatsApp us</a>
       </div>
     </div>
   </div>

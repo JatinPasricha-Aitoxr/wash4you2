@@ -226,8 +226,11 @@ h4, .h4 { font-size: var(--t-lg); line-height: 1.2; font-weight: 700; }
 /* Small print (spec req 7) */
 .small, small { font-size: 0.875rem; }   /* 14px */
 
-p { text-wrap: pretty; }
+p { text-wrap: pretty; text-align: justify; text-justify: inter-word; hyphens: auto; }
 p + p { margin-top: var(--s-4); }
+/* Justify only reads well once a line wraps at least twice; on a single
+   short line (eyebrows) it just stretches word-gaps for no reason. */
+.eyebrow { text-align: inherit; }
 
 strong, b { font-weight: 700; color: var(--ink); }
 
@@ -281,6 +284,49 @@ strong, b { font-weight: 700; color: var(--ink); }
   color: var(--ink-2);
   font-weight: 400;
   text-wrap: pretty;
+}
+
+/* ---- Headline keyword highlight — golden, on any page ---------------
+   Was defined per-page (redesign-pricing.css, redesign-areas.css); moved
+   here so every H1 across the site can use the same brass-italic keyword
+   without redeclaring it. Those two sheets keep their own copies too —
+   identical rule, loaded later, no conflict. */
+.kw {
+  font-style: italic;
+  font-weight: 480;
+  color: var(--brass-bright);
+}
+.kw-text { color: var(--brass-deep); }
+/* brass-bright is a pale gold — 1.5:1 on white, illegible there. Every
+   existing .kw sits on a navy/photo hero; this variant is for the plain
+   .page-hero pages (about, services, packages, contact, blog), whose
+   ground is --paper, using brass-deep at 4.7:1 instead. */
+.kw--onlight {
+  font-style: italic;
+  font-weight: 480;
+  color: var(--brass-deep);
+}
+
+/* ---- Body-copy keyword highlight — neon, logo green -------------------
+   For a word or short phrase inside a paragraph, not a headline. The
+   untouched brand green (#21b14b) is reserved for logo/dark-ground use
+   elsewhere in this codebase — on a light paragraph it is ~2.6:1, below
+   AA — so light grounds get --green-cta (4.66:1) instead, with a glow to
+   still read as "lit". Dark/navy sections get the real logo green, which
+   has plenty of contrast there. Keep it to 1-2 words per block — it is an
+   accent, not a new text colour for the page. */
+.neon-kw {
+  color: var(--green-cta);
+  font-weight: 700;
+  text-shadow: 0 0 .25em rgba(25, 134, 57, .35);
+}
+.section--navy .neon-kw,
+.home-hero .neon-kw,
+.svc-hero .neon-kw,
+.pricing-hero .neon-kw,
+.areas-hero .neon-kw {
+  color: var(--brand-green);
+  text-shadow: 0 0 .35em rgba(33, 177, 75, .65);
 }
 
 /* ============================================================

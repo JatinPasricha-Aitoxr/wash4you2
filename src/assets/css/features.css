@@ -789,7 +789,12 @@ body.cart-lock { overflow: hidden; }
   white-space: nowrap;
 }
 
-.plan-card__balance { display: flex; align-items: baseline; gap: var(--s-2); padding-bottom: var(--s-3); border-bottom: 1px solid var(--line-soft); }
+.plan-card__balance { display: flex; align-items: center; gap: var(--s-3); padding-bottom: var(--s-3); border-bottom: 1px solid var(--line-soft); }
+.plan-card__balance-pay { display: flex; flex-direction: column; gap: 2px; }
+.plan-card__balance-pay-label { font-size: var(--t-xs); color: var(--ink-3); }
+.plan-card__balance-pay-num { font-family: var(--font-mono); font-weight: 600; font-size: var(--t-base); color: var(--ink-2); }
+.plan-card__balance-arrow { color: var(--brass-deep); flex: none; }
+.plan-card__balance-get { display: flex; flex-direction: column; gap: 2px; }
 .plan-card__balance-num { font-family: var(--font-display); font-weight: 800; font-size: var(--t-2xl); color: var(--ink); line-height: 1; }
 .plan-card__balance-label { font-size: var(--t-sm); color: var(--ink-3); }
 
@@ -831,7 +836,10 @@ body.cart-lock { overflow: hidden; }
 .plan-card--navy .plan-card__rows dd { color: #fff; }
 .plan-card--navy .plan-card__balance { border-bottom-color: rgba(255,255,255,.16); }
 .plan-card--navy .plan-card__balance-label,
+.plan-card--navy .plan-card__balance-pay-label,
 .plan-card--navy .plan-card__rows dt { color: rgba(255,255,255,.6); }
+.plan-card--navy .plan-card__balance-pay-num { color: rgba(255,255,255,.82); }
+.plan-card--navy .plan-card__balance-arrow { color: var(--brass-bright); }
 .plan-card--navy .plan-card__benefit { color: var(--brass-bright); background: rgba(217,184,120,.14); }
 .plan-card--navy .plan-card__rows dd.is-free { color: var(--brass-bright); }
 

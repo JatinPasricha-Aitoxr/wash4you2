@@ -8,7 +8,7 @@
   },
   "hero": {
     "headline": "Gurgaon & Delhi NCR’s Most Complete Laundry & Dry-Cleaning Services",
-    "subheadline": "Wash4You cleans everything from everyday wash & fold to premium dry cleaning, shoe restoration, leather, bags, curtains, sofas and mattresses. Every service includes free doorstep pickup and delivery across Gurugram and Delhi NCR, and every piece is counted with you before it leaves your door."
+    "subheadline": "Wash4You cleans everything from everyday wash & fold to premium dry cleaning, shoe care, leather, bags, curtains, sofas and mattresses. Every service includes free doorstep pickup and delivery across Gurugram and Delhi NCR, and every piece is counted with you before it leaves your door."
   },
   "services": [
     {
@@ -39,11 +39,11 @@
       "slug": "premium-dry-cleaning",
       "name": "Premium Dry Cleaning Service",
       "short_description": "Professional dry cleaning for suits, dresses, sarees, silk, wool and delicate garments using garment-safe cleaning methods.",
-      "description": "Our premium dry cleaning service uses hydrocarbon dry-cleaning technology to clean delicate garments safely. From suits and dresses to silk sarees and lehengas, every piece is inspected, pre-treated, and finished with expert care.",
+      "description": "Our premium dry cleaning service uses advanced, skin-safe dry-cleaning technology to clean delicate garments safely — gentle enough for kids' clothes. From suits and dresses to silk sarees and lehengas, every piece is inspected, pre-treated, and finished with expert care.",
       "icon": "sparkles",
       "image": "images/pricing/lehenga.webp",
       "features": [
-        "Hydrocarbon dry-cleaning technology",
+        "Advanced, skin-safe dry-cleaning technology",
         "Delicate fabric expertise",
         "Stain inspection & pre-treatment",
         "Pressed and finished to perfection"
@@ -60,11 +60,11 @@
       ],
       "comparison": {
         "eyebrow": "The solvent",
-        "title": "Hydrocarbon vs perc, honestly",
+        "title": "Our solvent vs perc, honestly",
         "intro": "Perc has been the dry-cleaning standard for fifty years and is still what most shops in Gurugram run. Here is the actual difference, including where perc still wins.",
         "columns": [
           "",
-          "Hydrocarbon — what we use",
+          "Our solvent — what we use",
           "Perc — the older standard"
         ],
         "rows": [
@@ -104,23 +104,25 @@
             "More aggressive, and better at it"
           ]
         ],
-        "footnote": "Hydrocarbon is a refined petroleum distillate, not a plant-based solvent — we do not market it as green. Where a fabric can safely take water, wet cleaning is the greener choice and we use that instead."
+        "footnote": "Our solvent is a refined petroleum distillate, not a plant-based one — we do not market it as green. Where a fabric can safely take water, wet cleaning is the greener choice and we use that instead."
       }
     },
     {
       "slug": "shoe-cleaning",
       "name": "Shoe Cleaning Service",
-      "short_description": "Deep cleaning for sneakers, sports shoes, suede and other footwear to remove dirt, stains and odors while protecting the material.",
-      "description": "Give your footwear a fresh start with our professional shoe cleaning service. We clean sports shoes, sneakers, leather shoes, and suede, removing dirt, stains, and odors while preserving material quality.",
+      "short_description": "Deep cleaning for sneakers, sports shoes, suede, leather, Birkenstocks and Crocs to remove dirt, stains and odors while protecting the material.",
+      "description": "Sneakers, suede, running shoes and leather — cleaned by hand at our Sushant Lok and Sector 49 stores, with free pickup and delivery across Gurugram. We tell you what will come back and what won't before we start.",
       "icon": "footprints",
       "image": "images/pricing/sneakers.webp",
       "features": [
-        "Sneaker and sports shoe cleaning",
+        "Sneaker, sports shoe and running shoe cleaning",
         "Leather and suede care",
+        "Birkenstock and Crocs cleaning",
         "Deodorizing treatment",
-        "Stain removal and restoration"
+        "Stain removal and deep cleaning",
+        "Air-dried, never sun-dried — direct sun weakens glue and fades colour"
       ],
-      "best_for": "Sneakers, suede, leather and sports shoes",
+      "best_for": "Sneakers, suede, leather, running shoes, Birkenstocks and Crocs",
       "turnaround": "24–48 hours",
       "gallery": [
         "sneakers",
@@ -132,17 +134,18 @@
     {
       "slug": "bag-cleaning",
       "name": "Bag & Handbag Cleaning",
-      "short_description": "Expert cleaning for handbags, totes, backpacks and other bags, with careful stain removal and material-specific care.",
-      "description": "Our bag cleaning service restores handbags, totes, backpacks, and more. We use material-safe products to deep-clean, remove stains, and reshape your bags so they look their best.",
+      "short_description": "Expert cleaning for handbags, leather handbags, totes, backpacks and other bags, with careful stain removal and material-specific care. We don't do restoration.",
+      "description": "Our bag cleaning service deep-cleans handbags, leather handbags, totes, backpacks, and more. We use material-safe products to clean, remove stains and condition your bags — we do not do restoration, and we will tell you upfront if a bag is not a good candidate for cleaning.",
       "icon": "bag",
       "features": [
-        "Handbag and backpack cleaning",
+        "Handbag, leather handbag and backpack cleaning",
         "Material-safe treatments",
         "Stain removal",
-        "Reshaping and finishing"
+        "Conditioning and finishing",
+        "No restoration — cleaning only, and we say so upfront"
       ],
-      "best_for": "Handbags, totes, backpacks, laptop bags",
-      "turnaround": "24–48 hours"
+      "best_for": "Handbags, leather handbags, totes, backpacks, laptop bags",
+      "turnaround": "3–5 days"
     },
     {
       "slug": "leather-cleaning",
@@ -169,11 +172,11 @@
       "slug": "curtains-cleaning",
       "name": "Curtain Cleaning Service",
       "short_description": "Professional curtain cleaning that removes dust, stains and odors while helping protect the fabric, color and texture.",
-      "description": "Our curtain cleaning service includes free removal and reinstallation. We remove dust, stains, and odors while protecting fabric quality and color, leaving your curtains fresh and beautiful.",
+      "description": "Our curtain cleaning service includes free deinstallation and reinstallation — we take your curtains down and rehang them, at no extra charge. We remove dust, stains, and odors while protecting fabric quality and color, leaving your curtains fresh and beautiful.",
       "icon": "curtains",
       "image": "images/pricing/curtain.webp",
       "features": [
-        "Free removal and reinstallation",
+        "Free deinstallation and reinstallation",
         "Dust, stain, and odor removal",
         "Fabric-safe cleaning",
         "Color protection"
@@ -313,20 +316,22 @@
     {
       "slug": "blanket-quilt-cleaning",
       "name": "Blanket & Quilt Cleaning",
-      "short_description": "Deep cleaning for blankets and quilts to restore softness, freshness, and comfort.",
-      "description": "Refresh your blankets and quilts with our specialized cleaning service. We remove dust, allergens, and odors while preserving softness and fluffiness for a comfortable night's sleep.",
+      "short_description": "Deep cleaning for blankets, quilts and comforters to restore softness, freshness, and comfort.",
+      "description": "Refresh your blankets, quilts and comforters with our specialized cleaning service. We remove dust, allergens, and odors while preserving softness and fluffiness for a comfortable night's sleep.",
       "icon": "bed",
       "image": "images/pricing/double-blanket.webp",
       "features": [
         "Single and double blanket care",
+        "Comforter cleaning",
         "Quilt cleaning",
         "Allergen and odor removal",
         "Softness preservation"
       ],
-      "best_for": "Winter blankets, comforters, duvets",
+      "best_for": "Winter blankets, comforters, duvets, quilts",
       "turnaround": "48 hours",
       "gallery": [
         "double-blanket",
+        "comforter-double",
         "shawl",
         "single-blanket"
       ]

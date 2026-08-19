@@ -20,10 +20,19 @@
   align-items: center;
 }
 
-/* ---- The wall ----------------------------------------------------- */
+/* ---- The wall -----------------------------------------------------
+   Rotated a few degrees off the horizontal so the tiles read as a
+   diagonal band rather than a straight grid. Oversized on every side
+   (inset goes negative) so the rotated box still covers every corner
+   of the hero — the section itself clips (`overflow:clip` above), so
+   nothing escapes the band. The scrim used to be this element's own
+   ::after, which would have rotated with it; it now lives on
+   `.hero.home-hero::before` instead (unrotated, see below) so the
+   "navy rising from the text side" gradient stays aligned to the
+   viewport, not to the tilted tiles. */
 .home-hero__wall {
   position: absolute;
-  inset: 0;
+  inset: -14% -8%;
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
@@ -31,6 +40,10 @@
   gap: 12px;
   align-content: center;
   justify-items: start;
+  transform: rotate(-6deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-hero__wall { transform: rotate(-3deg); }
 }
 
 .hero-wall__col {
@@ -74,11 +87,18 @@
 /* ---- The scrim ----------------------------------------------------
    Navy rising from the text side: near-solid under the copy, falling
    away so the wall glows on the right. A faint full-frame veil keeps
-   the tiles a half-step behind the headline everywhere. */
-.home-hero__wall::after {
+   the tiles a half-step behind the headline everywhere.
+
+   Lives on the hero section itself, not on .home-hero__wall — the wall
+   is now rotated for the diagonal tile band, and this gradient must
+   stay aligned to the viewport (and the text column), not to the
+   tilted tiles. z-index seats it between the wall (0) and the copy (2). */
+.hero.home-hero::before {
   content: '';
   position: absolute;
   inset: 0;
+  z-index: 1;
+  pointer-events: none;
   background:
     linear-gradient(95deg,
       rgba(13, 35, 80, .98) 0%,
@@ -144,9 +164,13 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
   max-width: 21ch;
   text-wrap: balance;
 }
-/* One phrase in the brass italic — the offer, not decoration. */
-.home-hero__title .hkw--blue,
-.home-hero__title .hkw--green { color: #fff; }
+/* "Laundry & Dry Cleaning" is the one phrase this business is actually
+   named for — real green (the logo's), not white like the rest of the
+   line. The closing offer phrase keeps its own brass-italic treatment,
+   the offer, not decoration — :last-of-type's higher specificity wins
+   over the plain rule below it regardless of source order. */
+.home-hero__title .hkw--blue { color: #fff; }
+.home-hero__title .hkw--green { color: var(--brand-green); font-weight: 700; }
 .home-hero__title .hkw--green:last-of-type {
   font-style: italic;
   font-weight: 480;
@@ -215,7 +239,7 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
    still fit behind the band. */
 @media (max-width: 61.99rem) {
   .hero-wall__tile { width: clamp(7rem, 22vw, 10rem); }
-  .home-hero__wall::after {
+  .hero.home-hero::before {
     background:
       linear-gradient(185deg,
         rgba(13, 35, 80, .97) 0%,

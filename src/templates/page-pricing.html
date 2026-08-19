@@ -74,6 +74,7 @@
    404'd. The stylesheet always sits at <assets>/css/. #}
 <section class="pricing-hero" style="--pricing-hero-img: url('../images/hero-pricing.jpg')">
   <div class="wrap pricing-hero__inner">
+  <div class="pricing-hero__panel">
     <nav class="crumbs" aria-label="Breadcrumb">
       <a href="{{ root_path }}">Home</a>
       <span aria-hidden="true">/</span>
@@ -89,17 +90,18 @@
     <p class="eyebrow">{{ ui('pin', 16) }} Pricing{% if is_area %} &middot; {{ area.label }}{% endif %}</p>
 
     {% if is_area %}
-    <h1 class="pricing-hero__title">Laundry &amp; dry-clean <span class="kw">prices</span> in {{ area.label }}, <span class="kw-text">Gurugram</span></h1>
+    <h1 class="pricing-hero__title"><span class="neon-kw">Laundry &amp; dry-clean</span> <span class="kw">prices</span> in {{ area.label }}, <span class="kw-text">Gurugram</span></h1>
     <p class="lede pricing-hero__lede">The same transparent, item-wise rates for {{ area.label }}, Gurugram — with free doorstep pickup and delivery. Add what you need to your list and book a pickup.</p>
     {% else %}
-    <h1 class="pricing-hero__title">Gurgaon &amp; <span class="kw">Delhi NCR’s</span> Most <span class="kw">Transparent</span> Laundry Prices</h1>
+    <h1 class="pricing-hero__title">Gurgaon &amp; <span class="kw">Delhi NCR’s</span> Most <span class="kw">Transparent</span> <span class="neon-kw">Laundry &amp; Dryclean</span> Prices</h1>
     <p class="lede pricing-hero__lede"{{ cms('pricing:hero.subheadline') }}>{{ pricing.hero.subheadline }}</p>
     {% endif %}
 
     <div class="btn-row">
-      <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" rel="noopener">Book free pickup</a>
-      <a class="btn btn--ghost btn--lg" href="{{ site.urls.whatsapp }}" rel="noopener">{{ ui('whatsapp', 18) }} Ask about an item</a>
+      <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book free pickup</a>
+      <a class="btn btn--ghost btn--lg" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} Ask about an item</a>
     </div>
+  </div>
   </div>
 </section>
 
@@ -117,7 +119,7 @@
        the notice. #}
     {% set gst_note %}
     <p class="gst-note">The final price depends on the actual garment and the
-      work it needs; <a href="{{ site.urls.whatsapp }}" rel="noopener">send a photo
+      work it needs; <a href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">send a photo
       on WhatsApp</a> for an exact quote.</p>
     {% endset %}
 
@@ -286,34 +288,6 @@
   </div>
 </section>
 
-{# ---- Add-ons. A real <table>, scrollable on small screens. ---- #}
-<section class="section">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow"{{ cms('pricing:addons.eyebrow') }}>{{ pricing.addons.eyebrow }}</p>
-      <h2{{ cms('pricing:addons.title') }}>{{ pricing.addons.title }}</h2>
-      <p{{ cms('pricing:addons.lede') }}>{{ pricing.addons.lede }}</p>
-    </div>
-    <div class="addon-table-wrap reveal">
-      <table class="addon-table">
-        <caption class="visually-hidden">Optional add-on services and their prices</caption>
-        <thead>
-          <tr>{% for c in pricing.addons.columns %}<th scope="col">{{ c }}</th>{% endfor %}</tr>
-        </thead>
-        <tbody>
-          {% for r in pricing.addons.rows %}
-          <tr>
-            <th scope="row">{{ r.name }}</th>
-            <td><span class="addon-table__price">{{ r.price }}</span></td>
-            <td>{{ r.detail }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
 {# ---- Pricing FAQ (mirrored into FAQPage schema above) ---- #}
 <section class="section section--wash" id="faq">
   <div class="wrap wrap--narrow">
@@ -331,7 +305,7 @@
       <h2{{ cms('pricing:cta.title') }}>{{ pricing.cta.title }}</h2>
       <p{{ cms('pricing:cta.subtitle') }}>{{ pricing.cta.subtitle }}</p>
       <div class="btn-row">
-        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" rel="noopener"{{ cms('pricing:cta.button') }}>{{ pricing.cta.button }}</a>
+        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener"{{ cms('pricing:cta.button') }}>{{ pricing.cta.button }}</a>
         <a class="btn btn--on-navy btn--lg" href="{{ site.urls.phone }}">{{ ui('phone', 18) }} {{ site.contact.phone }}</a>
       </div>
     </div>

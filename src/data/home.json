@@ -76,7 +76,7 @@
   "why": {
     "eyebrow": "Why Wash4You",
     "title": "Premium Dry Cleaning & Laundry in Gurgaon & Delhi NCR",
-    "text": "Professional laundry, dry cleaning and doorstep pickup & delivery you can count on. From clothes and shoes to curtains and blankets, Wash4You gives every item the care it deserves—clean, fresh and hassle-free.",
+    "text": "Professional laundry, dry cleaning and doorstep pickup & delivery you can count on. From clothes and shoes to curtains and blankets, Wash4You gives every item the care it deserves—clean, fresh and hassle-free, with skin-safe solvents and detergents gentle enough for kids' clothes.",
     "seo_text": "From premium dry cleaning and laundry to shoe, sofa, carpet, curtain and blanket cleaning, Wash4You takes care of it all. Enjoy free doorstep pickup and delivery across Gurgaon and Delhi NCR, with fabric-safe cleaning, transparent pricing and careful handling from pickup to delivery."
   },
   "how_it_works": {
@@ -94,15 +94,15 @@
       },
       {
         "title": "Sorting & inspection",
-        "detail": "Sorted by fabric and colour; stains, damage and special care are flagged by our fabric experts."
+        "detail": "Sorted by fabric and colour; stains, damage and special care are flagged by our fabric experts, photographed and sent to you for approval before any treatment starts."
       },
       {
         "title": "Stain treatment",
-        "detail": "Marks are pre-treated by hand with the right solution for the fabric."
+        "detail": "Marks are pre-treated by hand with the right, skin-safe solution for the fabric — gentle enough for kids' clothes."
       },
       {
         "title": "Cleaning",
-        "detail": "Dry-cleaned or washed by the method each garment actually needs — hydrocarbon dry cleaning for delicates and structured wear, water-based washing for the rest."
+        "detail": "Dry-cleaned or washed by the method each garment actually needs — an advanced, skin-safe dry-cleaning process for delicates and structured wear, water-based washing for the rest."
       },
       {
         "title": "Finishing & quality check",
@@ -116,7 +116,7 @@
   },
   "blog_section": {
     "eyebrow": "From the blog",
-    "title": "Laundry & fabric-care tips",
+    "title": "Laundry & Dry Cleaning tips",
     "text": "Guides on stains, fabrics, footwear and monsoon drying — written by the people who do it.",
     "cta": "Read the blog"
   },
@@ -153,8 +153,8 @@
   },
   "services_section": {
     "eyebrow": "What we clean",
-    "title": "Clothes, shoes, and everything at home that won't fit in a washing machine.",
-    "text": "Fifteen services under one roof, each with its own handling. From everyday laundry to hydrocarbon dry cleaning, specialist leather, shoe and upholstery care — all with free pickup and delivery in Gurugram.",
+    "title": "Premium laundry to premium dryclean for clothes, shoes and handbags that need professional care — with free pickup and delivery.",
+    "text": "Fifteen services under one roof, each with its own handling. From everyday laundry to advanced dry cleaning, specialist leather, shoe and upholstery care — all with free pickup and delivery in Gurugram.",
     "cta": "All services"
   },
   "process": {
@@ -164,7 +164,7 @@
   },
   "reviews_section": {
     "eyebrow": "From our customers",
-    "title": "Photographed at the door, not written by us.",
+    "title": "Real customers, real reviews.",
     "text": "Our own customers, in their own words, at the moment they collected their order."
   },
   "areas_section": {

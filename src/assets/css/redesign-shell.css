@@ -303,3 +303,238 @@
   .mobile-nav__group,
   .mobile-nav__sub a { transition: none; }
 }
+
+/* ------------------------------------------------------------
+   Mascot badge, riding beside the wordmark in both the desktop
+   header and the mobile-nav top bar. Small, circular, on the same
+   tint the rest of the chrome uses — a brand mark, not artwork
+   competing with the photography used inside the page.
+   ------------------------------------------------------------ */
+.header__logo { gap: var(--s-2); }
+.header__mascot {
+  height: 2.25rem;
+  width: 2.25rem;
+  object-fit: contain;
+  border-radius: 50%;
+  background: var(--wash);
+  padding: 3px;
+  flex: none;
+}
+@media (min-width: 62rem) {
+  .header__mascot { height: 2.75rem; width: 2.75rem; }
+}
+@media (max-width: 26rem) {
+  .header__mascot { display: none; }
+}
+
+/* ------------------------------------------------------------
+   First-order offer strip — every page, above the utility bar.
+   ------------------------------------------------------------ */
+.promo-strip {
+  background: linear-gradient(90deg, var(--brand-green-cta), var(--green-cta));
+  color: #fff;
+}
+.promo-strip__inner { display: flex; justify-content: center; padding-block: .4rem; }
+.promo-strip__text {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin: 0;
+  font-size: var(--t-xs);
+  font-weight: 600;
+  text-align: center;
+}
+.promo-strip__text svg { flex: none; }
+.promo-strip__value {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  letter-spacing: .02em;
+  background: rgba(255, 255, 255, .18);
+  padding: .1rem .5rem;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+}
+@media (max-width: 30rem) {
+  .promo-strip__text { font-size: .6875rem; gap: var(--s-1); }
+}
+
+/* ------------------------------------------------------------
+   Topbar phone/offer slider. Desktop shows the phone number only —
+   the promo strip above already carries the offer. Below 33rem,
+   where the two would otherwise fight for one line, they crossfade
+   in the same slot instead.
+   ------------------------------------------------------------ */
+.topbar__slider { position: relative; display: inline-flex; align-items: center; }
+.topbar__slide--b { display: none; }
+@media (max-width: 33rem) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Both slides are position:absolute, so they contribute nothing to the
+       parent's own size — a min-width here would just collapse to that
+       minimum regardless of the text inside. Fixed width instead, sized to
+       the longer of the two slides ("+91 63 67 600 500" / "✧ 25% Off on
+       first order") at this breakpoint's font size. */
+    .topbar__slider {
+      display: inline-block;
+      height: 1.1rem;
+      width: 12.5rem;
+      overflow: hidden;
+    }
+    .topbar__slide {
+      position: absolute;
+      inset: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s-2);
+      white-space: nowrap;
+      opacity: 0;
+      animation: topbarSlide 9s ease-in-out infinite;
+    }
+    .topbar__slide--a { animation-delay: 0s; }
+    .topbar__slide--b { display: inline-flex; animation-delay: -4.5s; }
+  }
+}
+@keyframes topbarSlide {
+  0%, 5%    { opacity: 1; }
+  45%, 100% { opacity: 0; }
+}
+
+/* ------------------------------------------------------------
+   Search — header toggle + slide-down panel. Client-side only:
+   no backend on a static host, so the index (window.__SEARCH_INDEX__,
+   inlined in base.html) is filtered entirely in the browser.
+   ------------------------------------------------------------ */
+.search-toggle {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: border-color 160ms var(--ease-out), color 160ms var(--ease-out);
+}
+.search-toggle:hover { border-color: var(--navy); color: var(--navy); }
+
+.search-toggle--mobile {
+  width: 100%;
+  height: auto;
+  justify-content: flex-start;
+  gap: var(--s-2);
+  padding: .85rem 1rem;
+  margin-bottom: var(--s-3);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* A real popup, not a bar: .site-search is a full-viewport, invisible
+   positioning layer (pointer-events:none even when open, so a click on
+   the dimmed area falls through to .site-search-backdrop underneath and
+   closes it) that centres .site-search__inner — the actual card — a
+   little below the header. Only the card itself takes clicks. */
+.site-search {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+  padding: 10vh var(--s-4) var(--s-6);
+  overflow-y: auto;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms var(--ease-out), visibility 0s 200ms;
+}
+.site-search.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 200ms var(--ease-out), visibility 0s;
+}
+.site-search__inner {
+  pointer-events: auto;
+  width: min(34rem, 100%);
+  height: fit-content;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-lg);
+  padding: var(--s-5);
+  transform: translateY(-10px) scale(.97);
+  transition: transform 220ms var(--ease-out);
+}
+.site-search.is-open .site-search__inner {
+  transform: translateY(0) scale(1);
+}
+.site-search__field {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-lg);
+  color: var(--ink-3);
+}
+.site-search__field:focus-within { border-color: var(--navy); }
+.site-search__field input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: var(--t-base);
+  color: var(--ink);
+  font-family: inherit;
+}
+.site-search__close {
+  border: 0;
+  background: transparent;
+  color: var(--ink-3);
+  cursor: pointer;
+  display: inline-grid;
+  place-items: center;
+}
+.site-search__results {
+  list-style: none;
+  margin: var(--s-3) 0 0;
+  padding: 0;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+.site-search__results li + li { border-top: 1px solid var(--line-soft); }
+.site-search__results a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-2);
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--r-sm);
+}
+.site-search__results a:hover,
+.site-search__results a:focus-visible { background: var(--wash); color: var(--navy); }
+.site-search__results a small {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.site-search__empty { margin: var(--s-4) var(--s-2) 0; color: var(--ink-3); font-size: var(--t-sm); }
+
+.site-search-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 190;
+  background: rgba(10, 20, 40, .45);
+}
+html.search-open { overflow: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  .site-search,
+  .site-search__inner { transition: none; }
+}

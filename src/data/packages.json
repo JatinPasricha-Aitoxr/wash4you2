@@ -128,7 +128,6 @@
       "includes": [
         "₹80,000 spendable on any service",
         "Top-priority scheduling",
-        "Free express delivery on every order",
         "Unlimited validity",
         "Dedicated account manager",
         "Custom SLA for corporate clients"
@@ -194,7 +193,7 @@
       {
         "label": "Express delivery",
         "without": "1.5× surcharge",
-        "with": "Included on Founder and VIP"
+        "with": "Included on Founder"
       },
       {
         "label": "Account manager",
@@ -347,7 +346,7 @@
     },
     {
       "q": "What is the difference between Founder and VIP?",
-      "a": "Both have unlimited validity. VIP adds a bigger bonus (₹30,000 against ₹15,000), 60% extra value against 50%, free express delivery on every order, top-priority scheduling and a dedicated account manager."
+      "a": "Both have unlimited validity. VIP adds a bigger bonus (₹30,000 against ₹15,000), 60% extra value against 50%, top-priority scheduling and a dedicated account manager."
     },
     {
       "q": "Are there any hidden charges?",

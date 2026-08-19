@@ -28,13 +28,12 @@
 .kw-text { color: var(--brass-deep); }
 
 /* ============================================================
-   Hero: full-bleed photo under the brand-navy overlay, white headline
-
-   The overlay is what makes this band work. The banner's sky runs from deep
-   blue (lum 0.12) to white cloud (0.81) right where the copy sits, so with
-   no wash at all nothing is legible over it — measured 1.41:1 for dark ink
-   on the lede and 1.39:1 for white. The navy gradient flattens that range
-   into one dark ground that white type can sit on at any width.
+   Hero: full-bleed photo at full strength, no wash across the frame.
+   The banner's sky runs from deep blue to white cloud right where the
+   copy used to sit (1.41:1 for dark ink, 1.39:1 for white — illegible
+   either way), so legibility now comes from a contained navy panel
+   behind just the text (.pricing-hero__panel) instead of a gradient
+   tinting the whole photograph.
    ============================================================ */
 .pricing-hero {
   position: relative;
@@ -43,12 +42,21 @@
   min-height: max(24rem, 56vh);
   display: flex;
   align-items: center;
-  background:
-    linear-gradient(100deg, rgba(9, 22, 50, .86) 0%, rgba(9, 22, 50, .66) 48%, rgba(9, 22, 50, .48) 100%),
-    var(--pricing-hero-img, none) center / cover no-repeat,
-    var(--navy-deep);
+  background: var(--pricing-hero-img, none) center / cover no-repeat, var(--navy-deep);
   padding-block: clamp(2.75rem, 2rem + 4vw, 5rem);
   border-bottom: 1px solid rgba(217, 184, 120, .35);
+}
+.pricing-hero__panel {
+  background: rgba(9, 22, 50, .82);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  border: 1px solid rgba(217, 184, 120, .3);
+  border-radius: var(--r-xl);
+  padding: var(--s-6) var(--s-7);
+  max-width: 40rem;
+}
+@media (max-width: 30rem) {
+  .pricing-hero__panel { padding: var(--s-5) var(--s-4); }
 }
 
 /* Breadcrumbs + eyebrow on the dark ground. */
@@ -211,12 +219,13 @@
 }
 
 /* ============================================================
-   Req 4 — Grid: 4 desktop -> 3 -> 2 -> 1, even gutters, equal widths
-   1200px+ : 4  |  992-1199 : 3  |  768-991 : 2  |  <768 : 1
-   ============================================================ */
+   Req 4 — Grid: 4 desktop -> 3 -> 2 -> 2, even gutters, equal widths
+   1200px+ : 4  |  992-1199 : 3  |  768-991 : 2  |  <768 : 2
+   Two columns even on a phone: one card per row read as a plain list of
+   58 items, and two narrower cards still show the photo, name and price. */
 .pricing-page .price-grid {
-  grid-template-columns: 1fr;
-  gap: var(--s-5);
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--s-4) var(--s-3);
 }
 @media (min-width: 48rem) {   /* >= 768px */
   .pricing-page .price-grid { grid-template-columns: repeat(2, 1fr); }
@@ -226,6 +235,15 @@
 }
 @media (min-width: 75rem) {   /* >= 1200px */
   .pricing-page .price-grid { grid-template-columns: repeat(4, 1fr); }
+}
+/* At two-up on a narrow phone each card is ~150px wide — tighten the body
+   so the name, price and button still fit without wrapping onto a third
+   or fourth line. */
+@media (max-width: 30rem) {
+  .pricing-page .price-card__body { padding: var(--s-3); gap: var(--s-1); }
+  .pricing-page .price-card__name { font-size: var(--t-sm); }
+  .pricing-page .price-card__add { font-size: var(--t-sm); padding-inline: var(--s-2); }
+  .pricing-page .price-card__add svg { margin-right: var(--s-1); }
 }
 
 /* ============================================================

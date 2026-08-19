@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from "_icons.html" import ui %}
+{% from "_icons.html" import ui, service_icon %}
 
 {% block content %}
 
@@ -13,7 +13,7 @@
     <div class="page-hero__grid">
       <div>
         <p class="eyebrow">Blog</p>
-        <h1{{ cms('blog:hero.headline') }}>{{ blog.hero.headline }}</h1>
+        <h1{{ cms('blog:hero.headline') }}>{{ blog.hero.headline | replace('Most Trusted', '<span class="kw--onlight">Most Trusted</span>', 1) | replace('Laundry & Dry Cleaners', '<span class="neon-kw">Laundry &amp; Dry Cleaners</span>', 1) | safe }}</h1>
         <p class="lede"{{ cms('blog:hero.subheadline') }}>{{ blog.hero.subheadline }}</p>
       </div>
     </div>
@@ -25,11 +25,22 @@
     <h2 class="visually-hidden">Latest articles</h2>
     <div class="svc-grid stagger-children">
       {% for post in blog.posts %}
-      <article class="svc">
-        <p class="mono"{{ cms('blog:posts.' ~ loop.index0 ~ '.date') }}>{{ post.date }}</p>
-        <h3><a class="svc__link" href="{{ post.url }}"{{ cms('blog:posts.' ~ loop.index0 ~ '.title') }}>{{ post.title }}</a></h3>
-        <p{{ cms('blog:posts.' ~ loop.index0 ~ '.excerpt') }}>{{ post.excerpt }}</p>
-        <span class="link-arrow">Read {{ ui('arrow-right', 16) }}</span>
+      {% set art_svc = services_by_slug.get(post.art) %}
+      <article class="svc svc--photo">
+        <span class="svc__media{% if not (art_svc and art_svc.image) %} svc__media--tonal{% endif %}" aria-hidden="true">
+          {% if art_svc and art_svc.image %}
+          <img src="{{ asset_path }}{{ art_svc.image | replace('.png', '.webp') }}" alt=""
+               width="500" height="500" loading="lazy" decoding="async">
+          {% else %}
+          {{ service_icon(post.art, 44) }}
+          {% endif %}
+        </span>
+        <span class="svc__body">
+          <p class="mono"{{ cms('blog:posts.' ~ loop.index0 ~ '.date') }}>{{ post.date }}</p>
+          <h3><a class="svc__link" href="{{ post.url }}"{{ cms('blog:posts.' ~ loop.index0 ~ '.title') }}>{{ post.title }}</a></h3>
+          <p{{ cms('blog:posts.' ~ loop.index0 ~ '.excerpt') }}>{{ post.excerpt }}</p>
+          <span class="link-arrow">Read {{ ui('arrow-right', 16) }}</span>
+        </span>
       </article>
       {% endfor %}
     </div>
@@ -42,7 +53,7 @@
       <h2>Book a free pickup.</h2>
       <p>Free doorstep collection and delivery across Gurugram.</p>
       <div class="btn-row">
-        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" rel="noopener">Book free pickup</a>
+        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book free pickup</a>
         <a class="btn btn--on-navy btn--lg" href="{{ root_path }}services/">See what we clean</a>
       </div>
     </div>

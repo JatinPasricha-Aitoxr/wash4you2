@@ -70,10 +70,10 @@
     <div class="page-hero__grid">
       <div>
         <p class="eyebrow"{{ cms('packages:hero.eyebrow') }}>{{ packages.hero.eyebrow }}</p>
-        <h1{{ cms('packages:hero.headline') }}>{{ packages.hero.headline }}</h1>
+        <h1{{ cms('packages:hero.headline') }}>{{ packages.hero.headline | replace('Best-Value', '<span class="kw--onlight">Best-Value</span>', 1) | replace('Laundry & Dry-Cleaning', '<span class="neon-kw">Laundry &amp; Dry-Cleaning</span>', 1) | safe }}</h1>
         <p class="lede"{{ cms('packages:hero.subheadline') }}>{{ packages.hero.subheadline }}</p>
         <div class="btn-row">
-          <a class="btn btn--cta btn--lg" href="{{ site.urls.whatsapp }}" rel="noopener">{{ ui('whatsapp', 18) }} <span{{ cms('packages:cta.button') }}>{{ packages.cta.button }}</span></a>
+          <a class="btn btn--cta btn--lg" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} <span{{ cms('packages:cta.button') }}>{{ packages.cta.button }}</span></a>
           {% if packages.pdf %}
           <a class="btn btn--ghost btn--lg" href="{{ root_path }}{{ packages.pdf }}" download>{{ ui('download', 18) }} Download brochure</a>
           {% else %}
@@ -94,7 +94,7 @@
     <aside class="store-card reveal">
       <strong>How the plans work</strong>
       <p{{ cms('packages:how') }}>{{ packages.how }}</p>
-      <a class="btn btn--ghost btn--block" href="{{ site.urls.whatsapp }}" rel="noopener">{{ ui('whatsapp', 18) }} Ask which plan fits</a>
+      <a class="btn btn--ghost btn--block" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} Ask which plan fits</a>
     </aside>
   </div>
 </section>
@@ -131,12 +131,20 @@
           <h3 class="plan-card__name"{{ cms('packages:plans.' ~ loop.index0 ~ '.name') }}>{{ p.name }}</h3>
           <span class="plan-card__benefit" aria-label="{{ p.benefit }} more value">+{{ p.benefit }} value</span>
         </div>
+        {# You pay / you get, side by side and clearly labelled — the balance
+           number alone, bold and first, was reading as an amount owed. #}
         <div class="plan-card__balance">
-          <span class="plan-card__balance-num"{{ cms('packages:plans.' ~ loop.index0 ~ '.balance') }}>{{ p.balance }}</span>
-          <span class="plan-card__balance-label">to spend</span>
+          <div class="plan-card__balance-pay">
+            <span class="plan-card__balance-pay-label">You pay</span>
+            <span class="plan-card__balance-pay-num"{{ cms('packages:plans.' ~ loop.index0 ~ '.cost') }}>{{ p.cost }}</span>
+          </div>
+          <span class="plan-card__balance-arrow" aria-hidden="true">{{ ui('arrow-right', 16) }}</span>
+          <div class="plan-card__balance-get">
+            <span class="plan-card__balance-num"{{ cms('packages:plans.' ~ loop.index0 ~ '.balance') }}>{{ p.balance }}</span>
+            <span class="plan-card__balance-label">you get to spend</span>
+          </div>
         </div>
         <dl class="plan-card__rows">
-          <div><dt>You pay</dt><dd{{ cms('packages:plans.' ~ loop.index0 ~ '.cost') }}>{{ p.cost }}</dd></div>
           <div><dt>Free bonus</dt><dd class="is-free">+<span{{ cms('packages:plans.' ~ loop.index0 ~ '.free') }}>{{ p.free }}</span></dd></div>
           <div><dt>Valid for</dt><dd{{ cms('packages:plans.' ~ loop.index0 ~ '.validity') }}>{{ p.validity }}</dd></div>
         </dl>
@@ -149,7 +157,7 @@
         </ul>
         {% endif %}
         <a class="btn {% if p.tier %}btn--cta{% else %}btn--ghost{% endif %} btn--block"
-           href="{{ site.urls.whatsapp }}" rel="noopener">Choose {{ p.name }}</a>
+           href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">Choose {{ p.name }}</a>
       </article>
       {% endfor %}
     </div>
@@ -284,7 +292,7 @@
       <h2{{ cms('packages:cta.title') }}>{{ packages.cta.title }}</h2>
       <p{{ cms('packages:cta.subtitle') }}>{{ packages.cta.subtitle }}</p>
       <div class="btn-row">
-        <a class="btn btn--cta btn--lg" href="{{ site.urls.whatsapp }}" rel="noopener">{{ ui('whatsapp', 18) }} <span{{ cms('packages:cta.button') }}>{{ packages.cta.button }}</span></a>
+        <a class="btn btn--cta btn--lg" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} <span{{ cms('packages:cta.button') }}>{{ packages.cta.button }}</span></a>
         <a class="btn btn--on-navy btn--lg" href="{{ site.urls.phone }}">{{ ui('phone', 18) }} <span{{ cms('site:contact.phone') }}>{{ site.contact.phone }}</span></a>
       </div>
     </div>

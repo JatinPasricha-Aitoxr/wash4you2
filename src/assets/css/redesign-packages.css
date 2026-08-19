@@ -187,15 +187,17 @@
   border-width: 0 2.4px 2.4px 0;
   rotate: 45deg;
 }
-/* The two accented cards sit on a dark ground, so their ink flips. */
-.plan-card--gold .plan-card__for,
+/* Only .plan-card--navy sits on a dark ground (--navy-deep) and needs its
+   ink flipped to white. .plan-card--gold is a light cream gradient
+   (features.css) — the white override that used to also apply here made
+   "Best for" and every "Includes" bullet on the Founder card render white
+   on near-white, i.e. invisible. It keeps the default dark ink instead,
+   and only its tick colour is customised to match the gold accent. */
 .plan-card--navy .plan-card__for,
-.plan-card--gold .plan-card__includes li,
 .plan-card--navy .plan-card__includes li { color: rgba(255, 255, 255, 0.88); }
-.plan-card--gold .plan-card__for span,
 .plan-card--navy .plan-card__for span { color: rgba(255, 255, 255, 0.62); }
-.plan-card--gold .plan-card__includes li::before,
 .plan-card--navy .plan-card__includes li::before { border-color: var(--brass-bright); }
+.plan-card--gold .plan-card__includes li::before { border-color: var(--amber); }
 
 /* ---- Shared table shell (why-subscribe + chooser) ---- */
 .pkg-table-wrap {

@@ -76,10 +76,10 @@
       <span>Areas we serve</span>
     </nav>
     <p class="eyebrow">{{ ui('pin', 16) }} Gurugram &amp; Delhi NCR</p>
-    <h1 class="areas-hero__title">Gurgaon &amp; Delhi NCR’s Most <span class="kw">Convenient</span> Laundry Pickup Network</h1>
+    <h1 class="areas-hero__title">Gurgaon &amp; Delhi NCR’s Most <span class="kw">Convenient</span> <span class="neon-kw">Laundry &amp; Dry Cleaning</span> Pickup Network</h1>
     <p class="lede">Come to either store, or let us collect from your door at no charge across the city. Every order is counted with you before it leaves.</p>
     <div class="btn-row">
-      <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" rel="noopener">Book free pickup</a>
+      <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book free pickup</a>
       <a class="btn btn--ghost btn--lg" href="{{ site.urls.phone }}">{{ ui('phone', 18) }} {{ site.contact.phone }}</a>
     </div>
   </div>
@@ -98,7 +98,7 @@
         <address>{{ loc.address }}</address>
         <p class="mono">{{ site.contact.phone }}</p>
         <div class="btn-row">
-          <a class="btn btn--ghost" href="{{ loc.map_url }}" rel="noopener">{{ ui('pin', 16) }} Directions</a>
+          <a class="btn btn--ghost" href="{{ loc.map_url }}" target="_blank" rel="noopener">{{ ui('pin', 16) }} Directions</a>
           <a class="btn btn--ghost" href="{{ site.urls.phone }}">{{ ui('phone', 16) }} Call</a>
         </div>
       </div>
@@ -136,7 +136,7 @@
       {% endfor %}
     </div>
     <p class="areas-note">
-      Not listed? Send your address on <a class="link-arrow" href="{{ site.urls.whatsapp }}" rel="noopener">WhatsApp</a> and we will confirm whether we collect there.
+      Not listed? Send your address on <a class="link-arrow" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">WhatsApp</a> and we will confirm whether we collect there.
     </p>
   </div>
 </section>
@@ -191,7 +191,7 @@
     </div>
     <p class="coverage-empty" data-coverage-empty hidden>
       We could not find that one in the list. Send us your PIN code on
-      <a class="link-arrow" href="{{ site.urls.whatsapp }}" rel="noopener">WhatsApp</a> and we will confirm.
+      <a class="link-arrow" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">WhatsApp</a> and we will confirm.
     </p>
   </div>
 </section>
@@ -279,8 +279,8 @@
       <h2>Book a free pickup.</h2>
       <p>Tell us when suits you. We come to your door, count everything with you, and take it from there.</p>
       <div class="btn-row">
-        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" rel="noopener">Book free pickup</a>
-        <a class="btn btn--on-navy btn--lg" href="{{ site.urls.whatsapp }}" rel="noopener">{{ ui('whatsapp', 18) }} WhatsApp us</a>
+        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book free pickup</a>
+        <a class="btn btn--on-navy btn--lg" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} WhatsApp us</a>
       </div>
     </div>
   </div>

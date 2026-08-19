@@ -71,7 +71,7 @@
       <h1 class="home-hero__title"><span class="hkw hkw--blue">Premium</span> <span class="hkw hkw--green">Laundry &amp; Dry Cleaning Services</span> <span class="hkw hkw--blue">in Gurgaon</span> <span class="hkw hkw--green">| Free Pickup &amp; Delivery</span></h1>
       <p class="home-hero__sub reveal reveal-delay-2">Get reliable laundry and dry cleaning services in Gurgaon with easy doorstep pickup and delivery. We carefully clean and care for your everyday clothes, delicate garments, shoes, curtains, blankets and more.</p>
       <div class="home-hero__actions reveal reveal-delay-3">
-        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" rel="noopener">Book Free Pickup</a>
+        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book Free Pickup</a>
         <a class="btn home-hero__ghost btn--lg" href="{{ root_path }}pricing/">See Pricing</a>
       </div>
       <p class="home-hero__trust reveal reveal-delay-4"><span class="home-hero__stars" aria-hidden="true">★★★★★</span> Trusted by 1000+ customers in Gurugram</p>
@@ -98,7 +98,7 @@
       <div class="section-head reveal">
         <p class="eyebrow"{{ cms('home:why.eyebrow') }}>{{ home.why.eyebrow }}</p>
         <h2{{ cms('home:why.title') }}>{{ home.why.title }}</h2>
-        <p{{ cms('home:why.text') }}>{{ home.why.text }}</p>
+        <p{{ cms('home:why.text') }}>{{ home.why.text | replace("skin-safe solvents and detergents", '<span class="neon-kw">skin-safe solvents and detergents</span>', 1) | safe }}</p>
       </div>
       {# The illustrated mascot that sat here was retired in the imagery
          pass — RULE 0: one photographic language; no cartoons beside
@@ -138,7 +138,7 @@
     <div class="section-head section-head--statement reveal">
       <div>
         <p class="eyebrow"{{ cms('home:services_section.eyebrow') }}>{{ home.services_section.eyebrow }}</p>
-        <h2{{ cms('home:services_section.title') }}>{{ home.services_section.title }}</h2>
+        <h2{{ cms('home:services_section.title') }}>{{ home.services_section.title | replace('laundry to premium dryclean', '<span class="neon-kw">laundry to premium dryclean</span>', 1) | safe }}</h2>
       </div>
       <div class="section-head__aside">
         <p{{ cms('home:services_section.text') }}>{{ home.services_section.text }}</p>
@@ -386,22 +386,35 @@
     <div class="reviews-head reveal">
       <div class="section-head" style="margin-bottom:0">
         <p class="eyebrow"{{ cms('home:blog_section.eyebrow') }}>{{ home.blog_section.eyebrow }}</p>
-        <h2{{ cms('home:blog_section.title') }}>{{ home.blog_section.title }}</h2>
+        <h2{{ cms('home:blog_section.title') }}>{{ home.blog_section.title | replace('Laundry & Dry Cleaning', '<span class="neon-kw">Laundry &amp; Dry Cleaning</span>', 1) | safe }}</h2>
         <p{{ cms('home:blog_section.text') }}>{{ home.blog_section.text }}</p>
       </div>
       <a class="btn btn--ghost" href="{{ root_path }}blog/"><span{{ cms('home:blog_section.cta') }}>{{ home.blog_section.cta }}</span> {{ ui('arrow-right', 16) }}</a>
     </div>
 
-    {# A typographic index, not three cards. The gradient art panels read as
-       three images that failed to load, and all three excerpts terminate
-       mid-word — blog.json's excerpts were never written as teasers, so the
-       fix is to stop showing broken data, not to style around it. #}
-    <div class="blog-index stagger-children">
+    {# A card grid, not a typographic index. blog.json's excerpts are raw
+       article intros truncated mid-word, not written as teasers, so the
+       card shows date + title + read-arrow rather than a half-sentence.
+       Each post's `art` names the service it's about; the media area shows
+       that service's own real photo, falling back to the icon-on-tone
+       treatment only if a service has none — never a fake or stock shot. #}
+    <div class="svc-grid stagger-children">
       {% for post in blog.posts[:3] %}
-      <a class="blog-row" href="{{ post.url }}" rel="noopener">
-        <span class="blog-row__n" aria-hidden="true">{{ '%02d' | format(loop.index) }}</span>
-        <h3{{ cms('blog:posts.' ~ loop.index0 ~ '.title') }}>{{ post.title }}</h3>
-        <span class="blog-row__meta"{{ cms('blog:posts.' ~ loop.index0 ~ '.date') }}>{{ post.date }}</span>
+      {% set art_svc = services_by_slug.get(post.art) %}
+      <a class="svc svc--photo" href="{{ post.url }}" rel="noopener">
+        <span class="svc__media{% if not (art_svc and art_svc.image) %} svc__media--tonal{% endif %}" aria-hidden="true">
+          {% if art_svc and art_svc.image %}
+          <img src="{{ asset_path }}{{ art_svc.image | replace('.png', '.webp') }}" alt=""
+               width="500" height="500" loading="lazy" decoding="async">
+          {% else %}
+          {{ service_icon(post.art, 44) }}
+          {% endif %}
+        </span>
+        <span class="svc__body">
+          <span class="mono mono--note"{{ cms('blog:posts.' ~ loop.index0 ~ '.date') }}>{{ post.date }}</span>
+          <h3{{ cms('blog:posts.' ~ loop.index0 ~ '.title') }}>{{ post.title }}</h3>
+          <span class="link-arrow">Read {{ ui('arrow-right', 16) }}</span>
+        </span>
       </a>
       {% endfor %}
     </div>
@@ -476,8 +489,8 @@
 <section class="section section--wash">
   <div class="wrap wrap--narrow">
     <div class="section-head section-head--center reveal">
-      <p class="eyebrow eyebrow--center">Common questions</p>
-      <h2>Before you book</h2>
+      <p class="eyebrow eyebrow--center">FAQs</p>
+      <h2>Frequently Asked Questions | Wash4You</h2>
     </div>
     {{ faq_list(home.faqs, 'home-faq') }}
   </div>
@@ -495,8 +508,8 @@
     <h2{{ cms('home:cta.title') }}>{{ home.cta.title }}</h2>
     <p{{ cms('home:cta.text') }}>{{ home.cta.text }}</p>
     <div class="btn-row">
-      <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" rel="noopener"{{ cms('home:cta.primary') }}>{{ home.cta.primary }}</a>
-      <a class="btn btn--on-navy btn--lg" href="{{ site.urls.whatsapp }}" rel="noopener">{{ ui('whatsapp', 18) }} <span{{ cms('home:cta.secondary') }}>{{ home.cta.secondary }}</span></a>
+      <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener"{{ cms('home:cta.primary') }}>{{ home.cta.primary }}</a>
+      <a class="btn btn--on-navy btn--lg" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} <span{{ cms('home:cta.secondary') }}>{{ home.cta.secondary }}</span></a>
     </div>
   </div>
 </section>

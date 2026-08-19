@@ -43,8 +43,8 @@
         <h1>{{ area.h1 or area.title }}</h1>
         <p class="lede">{{ area.lede or area.description }}</p>
         <div class="btn-row">
-          <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" rel="noopener">Book free pickup</a>
-          <a class="btn btn--ghost btn--lg" href="{{ site.urls.whatsapp }}" rel="noopener">{{ ui('whatsapp', 18) }} WhatsApp us</a>
+          <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book free pickup</a>
+          <a class="btn btn--ghost btn--lg" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} WhatsApp us</a>
         </div>
       </div>
 
@@ -124,7 +124,7 @@
         <strong>{{ loc.name }}</strong>
         <address>{{ loc.address }}</address>
         <div class="btn-row">
-          <a class="btn btn--ghost" href="{{ loc.map_url }}" rel="noopener">{{ ui('pin', 16) }} Directions</a>
+          <a class="btn btn--ghost" href="{{ loc.map_url }}" target="_blank" rel="noopener">{{ ui('pin', 16) }} Directions</a>
           <a class="btn btn--ghost" href="{{ site.urls.phone }}">{{ ui('phone', 16) }} Call</a>
         </div>
       </div>
@@ -165,7 +165,7 @@
       <h2>Free pickup in {{ area.name }}.</h2>
       <p>Tell us a time that suits you. We come to your door, count everything with you, and take it from there.</p>
       <div class="btn-row">
-        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" rel="noopener">Book free pickup</a>
+        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book free pickup</a>
         <a class="btn btn--on-navy btn--lg" href="{{ site.urls.phone }}">{{ ui('phone', 18) }} {{ site.contact.phone }}</a>
       </div>
     </div>

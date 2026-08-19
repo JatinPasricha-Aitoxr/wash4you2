@@ -86,10 +86,10 @@
     <div class="page-hero__grid">
       <div>
         <p class="eyebrow">What we clean</p>
-        <h1{{ cms('services:hero.headline') }}>{{ services.hero.headline or 'Everything we clean' }}</h1>
+        <h1{{ cms('services:hero.headline') }}>{{ (services.hero.headline or 'Everything we clean') | replace('Most Complete', '<span class="kw--onlight">Most Complete</span>', 1) | replace('Laundry & Dry-Cleaning', '<span class="neon-kw">Laundry &amp; Dry-Cleaning</span>', 1) | safe }}</h1>
         <p class="lede"{{ cms('services:hero.subheadline') }}>{{ services.hero.subheadline or 'Clothes, shoes, bags and the things at home that will not fit in a washing machine. Free doorstep pickup and delivery across Gurugram.' }}</p>
         <div class="btn-row">
-          <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" rel="noopener">Book free pickup</a>
+          <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book free pickup</a>
           <a class="btn btn--ghost btn--lg" href="{{ root_path }}pricing/">See pricing</a>
         </div>
       </div>
@@ -223,8 +223,8 @@
 <section class="section section--wash" id="faq">
   <div class="wrap wrap--narrow">
     <div class="section-head reveal">
-      <p class="eyebrow">Services FAQ</p>
-      <h2>Common questions</h2>
+      <p class="eyebrow">FAQs</p>
+      <h2>Frequently Asked Questions | Wash4You</h2>
     </div>
     {{ faq_list(services.faqs, 'svc-faq') }}
   </div>
@@ -250,8 +250,8 @@
       <h2>Not sure which one you need?</h2>
       <p>Send us a photo on WhatsApp. We will tell you what the item needs, and what we can and cannot save, before you book.</p>
       <div class="btn-row">
-        <a class="btn btn--cta btn--lg" href="{{ site.urls.whatsapp }}" rel="noopener">{{ ui('whatsapp', 18) }} Send a photo</a>
-        <a class="btn btn--on-navy btn--lg" href="{{ site.urls.booking }}" rel="noopener">Book free pickup</a>
+        <a class="btn btn--cta btn--lg" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} Send a photo</a>
+        <a class="btn btn--on-navy btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book free pickup</a>
       </div>
     </div>
   </div>

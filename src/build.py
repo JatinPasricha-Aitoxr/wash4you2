@@ -271,6 +271,11 @@ def build() -> None:
         if extra:
             service.update({k: v for k, v in extra.items() if k != "slug"})
 
+    # Slug -> service, so a blog post's `art` field (a service slug used as
+    # its hero image) can resolve to that service's own photo instead of
+    # walking services.services from inside a template.
+    services_by_slug = {s["slug"]: s for s in services["services"]}
+
     # Fall back to the first pair rather than aborting the whole build if the
     # configured hero id ever stops matching a pair.
     hero_pair = next(
@@ -612,6 +617,10 @@ def build() -> None:
         # The footer lists services on every page, so make them globally
         # available rather than threading them through each registration.
         context.setdefault("services", services)
+        # The header search index needs blog posts on every page too.
+        context.setdefault("blog", blog)
+        # Blog cards resolve their hero image through this — see above.
+        context.setdefault("services_by_slug", services_by_slug)
 
         rendered = template.render(**context)
         write_html(DIST_DIR / rel_path, rendered)

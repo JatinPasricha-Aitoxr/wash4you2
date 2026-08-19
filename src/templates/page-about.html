@@ -48,11 +48,11 @@
     <div class="page-hero__grid about-hero__grid">
       <div class="about-hero__copy">
         <p class="eyebrow"{{ cms('about:hero.eyebrow') }}>{{ about.hero.eyebrow }}</p>
-        <h1{{ cms('about:hero.headline') }}>{{ about.hero.headline }}</h1>
+        <h1{{ cms('about:hero.headline') }}>{{ about.hero.headline | replace('Most Trusted', '<span class="kw--onlight">Most Trusted</span>', 1) | safe }}</h1>
         <p class="lede"{{ cms('about:hero.lede') }}>{{ about.hero.lede }}</p>
         <p class="about-hero__body"{{ cms('about:hero.body') }}>{{ about.hero.body }}</p>
         <div class="btn-row">
-          <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" rel="noopener">Book free pickup</a>
+          <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book free pickup</a>
           <a class="btn btn--ghost btn--lg" href="{{ root_path }}services/">See what we clean</a>
         </div>
       </div>
@@ -72,7 +72,7 @@
   <div class="wrap wrap--narrow">
     <div class="section-head reveal">
       <p class="eyebrow"{{ cms('about:story.eyebrow') }}>{{ about.story.eyebrow }}</p>
-      <h2{{ cms('about:story.title') }}>{{ about.story.title }}</h2>
+      <h2{{ cms('about:story.title') }}>{{ about.story.title | replace('laundry and dry-cleaning', '<span class="neon-kw">laundry and dry-cleaning</span>', 1) | safe }}</h2>
     </div>
     <div class="prose reveal">
       {% for para in about.story.paragraphs %}
@@ -116,7 +116,7 @@
   <div class="wrap">
     <div class="section-head reveal">
       <p class="eyebrow"{{ cms('about:why.eyebrow') }}>{{ about.why.eyebrow }}</p>
-      <h2{{ cms('about:why.title') }}>{{ about.why.title }}</h2>
+      <h2{{ cms('about:why.title') }}>{{ about.why.title | replace('laundry and dry-cleaning', '<span class="neon-kw">laundry and dry-cleaning</span>', 1) | safe }}</h2>
       <p{{ cms('about:why.lede') }}>{{ about.why.lede }}</p>
     </div>
     <div class="why-grid stagger-children">
@@ -212,7 +212,7 @@
       {% endfor %}
     </div>
     <p class="areas-note">
-      Not listed? Send your address on <a class="link-arrow" href="{{ site.urls.whatsapp }}" rel="noopener">WhatsApp</a> and we will confirm whether we collect there.
+      Not listed? Send your address on <a class="link-arrow" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">WhatsApp</a> and we will confirm whether we collect there.
     </p>
   </div>
 </section>
@@ -302,8 +302,8 @@
       <h2{{ cms('about:cta.title') }}>{{ about.cta.title }}</h2>
       <p{{ cms('about:cta.body') }}>{{ about.cta.body }}</p>
       <div class="btn-row">
-        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" rel="noopener"><span{{ cms('about:cta.button') }}>{{ about.cta.button }}</span></a>
-        <a class="btn btn--on-navy btn--lg" href="{{ site.urls.whatsapp }}" rel="noopener">{{ ui('whatsapp', 18) }} {{ site.contact.phone }}</a>
+        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener"><span{{ cms('about:cta.button') }}>{{ about.cta.button }}</span></a>
+        <a class="btn btn--on-navy btn--lg" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} {{ site.contact.phone }}</a>
       </div>
     </div>
   </div>
