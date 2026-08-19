@@ -14,7 +14,7 @@
     {
       "slug": "eco-friendly-laundry",
       "name": "Eco-Friendly Laundry Service",
-      "short_description": "Planet-safe cleaning using biodegradable, non-toxic solvents, ideal for delicate skin and sustainable living.",
+      "short_description": "Gentle, effective laundry cleaning using biodegradable and fabric-safe products. Ideal for everyday clothes and sensitive fabrics.",
       "description": "Our eco-friendly laundry service uses biodegradable, non-toxic solvents that are gentle on fabrics and safe for sensitive skin. Every load is sorted by color and fabric type, then washed with optimized techniques to deliver fresh, clean clothes while minimizing environmental impact.",
       "icon": "droplet",
       "image": "images/pricing/wash-and-fold.webp",
@@ -38,7 +38,7 @@
     {
       "slug": "premium-dry-cleaning",
       "name": "Premium Dry Cleaning Service",
-      "short_description": "Precision cleaning for suits, dresses, silks, and delicates, handled by experts using gentle, garment-safe methods.",
+      "short_description": "Professional dry cleaning for suits, dresses, sarees, silk, wool and delicate garments using garment-safe cleaning methods.",
       "description": "Our premium dry cleaning service uses hydrocarbon dry-cleaning technology to clean delicate garments safely. From suits and dresses to silk sarees and lehengas, every piece is inspected, pre-treated, and finished with expert care.",
       "icon": "sparkles",
       "image": "images/pricing/lehenga.webp",
@@ -110,7 +110,7 @@
     {
       "slug": "shoe-cleaning",
       "name": "Shoe Cleaning Service",
-      "short_description": "From sneakers to suede, we deep-clean, deodorize, and restore your footwear to like-new condition.",
+      "short_description": "Deep cleaning for sneakers, sports shoes, suede and other footwear to remove dirt, stains and odors while protecting the material.",
       "description": "Give your footwear a fresh start with our professional shoe cleaning service. We clean sports shoes, sneakers, leather shoes, and suede, removing dirt, stains, and odors while preserving material quality.",
       "icon": "footprints",
       "image": "images/pricing/sneakers.webp",
@@ -132,7 +132,7 @@
     {
       "slug": "bag-cleaning",
       "name": "Bag & Handbag Cleaning",
-      "short_description": "Handbags, totes, and backpacks deep-cleaned, reshaped, and stain-treated with material-safe products.",
+      "short_description": "Expert cleaning for handbags, totes, backpacks and other bags, with careful stain removal and material-specific care.",
       "description": "Our bag cleaning service restores handbags, totes, backpacks, and more. We use material-safe products to deep-clean, remove stains, and reshape your bags so they look their best.",
       "icon": "bag",
       "features": [
@@ -147,7 +147,7 @@
     {
       "slug": "leather-cleaning",
       "name": "Leather Cleaning & Care",
-      "short_description": "Specialized leather care using pH-balanced solutions that clean and condition without drying or cracking.",
+      "short_description": "Specialized cleaning and conditioning for leather bags, jackets, shoes and accessories to help maintain their finish and quality.",
       "description": "Protect your leather investments with our specialized leather cleaning service. We use pH-balanced solutions that clean, condition, and preserve leather jackets, bags, and accessories without drying or cracking.",
       "icon": "jacket",
       "image": "images/pricing/leather-jacket.webp",
@@ -168,7 +168,7 @@
     {
       "slug": "curtains-cleaning",
       "name": "Curtain Cleaning Service",
-      "short_description": "Professional curtain care that removes dust, stains, and odors, without compromising fabric quality or color.",
+      "short_description": "Professional curtain cleaning that removes dust, stains and odors while helping protect the fabric, color and texture.",
       "description": "Our curtain cleaning service includes free removal and reinstallation. We remove dust, stains, and odors while protecting fabric quality and color, leaving your curtains fresh and beautiful.",
       "icon": "curtains",
       "image": "images/pricing/curtain.webp",
@@ -187,7 +187,7 @@
     {
       "slug": "carpet-cleaning",
       "name": "Carpet Cleaning Service",
-      "short_description": "Advanced extraction techniques to clean, refresh, and revive your carpets, residential or commercial.",
+      "short_description": "Deep cleaning to remove dust, stains and odors from home and office carpets.",
       "description": "Refresh your home or office with our carpet cleaning service. Using advanced extraction techniques, we remove dirt, dust, stains, and odors to revive carpets and extend their life.",
       "icon": "square",
       "image": "images/pricing/carpet.webp",
@@ -206,7 +206,7 @@
     {
       "slug": "toy-cleaning",
       "name": "Toy Cleaning Service",
-      "short_description": "Hygienic, safe cleaning for plush and fabric-based toys, perfect for families with kids.",
+      "short_description": "Safe and hygienic cleaning for soft, plush and fabric toys.",
       "description": "Our toy cleaning service ensures your child's favorite plush and fabric toys are hygienically cleaned using safe, non-toxic methods — perfect for keeping playtime healthy and worry-free.",
       "icon": "heart",
       "features": [
@@ -221,7 +221,7 @@
     {
       "slug": "accessories-cleaning",
       "name": "Accessories Cleaning",
-      "short_description": "Neckties, scarves, hats — gently cleaned and reshaped to keep form and color intact.",
+      "short_description": "Gentle cleaning for hats, scarves, neckties and everyday accessories.",
       "description": "Keep your accessories looking sharp with our gentle cleaning service for neckties, scarves, hats, and more. Each item is carefully cleaned and reshaped to maintain its form and color.",
       "icon": "scarf",
       "image": "images/pricing/shawl.webp",
@@ -241,7 +241,7 @@
       "slug": "sofa-cleaning",
       "name": "Sofa & Upholstery Cleaning",
       "icon": "sofa",
-      "short_description": "Deep shampoo and extraction for fabric sofas and armchairs, done at your home.",
+      "short_description": "Deep cleaning for sofas, armchairs and upholstery, right at your home.",
       "features": [
         "Cleaned in your home",
         "Fabric tested before treatment",
@@ -254,7 +254,7 @@
     {
       "slug": "steam-ironing",
       "name": "Steam Ironing Service",
-      "short_description": "Sharp, crease-free results using steam press technology for a crisp, polished finish on every item.",
+      "short_description": "Professional steam ironing for crisp, wrinkle-free clothes.",
       "description": "Get professionally pressed clothes with our steam ironing service. Using advanced steam press technology, we remove wrinkles and give every garment a crisp, polished finish — perfect for office wear, ethnic wear, and everyday essentials.",
       "icon": "shirt",
       "image": "images/pricing/wash-and-steam-iron.webp",
@@ -279,7 +279,7 @@
       "slug": "mattress-cleaning",
       "name": "Mattress Cleaning Service",
       "icon": "mattress",
-      "short_description": "Dust-mite and sweat treatment for mattresses, without soaking the core.",
+      "short_description": "Deep mattress cleaning to remove dust, stains, sweat and everyday buildup.",
       "features": [
         "Cleaned in your home",
         "Low-moisture method",
