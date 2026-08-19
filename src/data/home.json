@@ -8,47 +8,44 @@
     "og_description": "Free doorstep pickup and delivery across Gurugram. See the before-and-after for yourself."
   },
   "hero_wall": {
-    "_note": "Home hero garment wall. `tiles` is the pool; build.py deals it into `columns` columns of `per_column` each, walking the pool cyclically so neighbouring columns never repeat a garment. Art lives in images/hero-wall/<slug>.webp at 240px (tools/to-webp.py). `saree` is excluded: its source carries a stock watermark. Give every column its own duration — equal speeds make the wall read as one sliding sheet instead of a crowd. `per_column` is a COVERAGE constraint, not taste: one run of tiles must be at least as tall as the tilted wall box, or the seamless loop exposes a gap — which is what an empty band under the copy on a 390px screen means. Tall phone hero + small tiles is the binding case.",
-    "tiles": [
-      "shirt",
-      "sneakers",
-      "double-blanket",
-      "sherwani",
-      "men-suit-3pcs",
-      "curtain",
-      "t-shirt",
-      "leather-shoes",
-      "lehenga",
-      "jeans",
-      "carpet",
-      "sweater",
-      "leather-jacket",
-      "kurta",
-      "single-blanket",
-      "sports-shoes",
-      "dress",
-      "wash-and-fold",
-      "coat",
-      "shawl",
-      "kurta-fancy",
-      "suede-leather-shoes",
-      "salwar",
-      "jacket"
-    ],
-    "durations": [
-      46,
-      38,
-      54,
-      42,
-      58,
-      48,
-      50,
-      40,
-      56,
-      44
-    ],
-    "columns": 10,
-    "per_column": 9
+    "_note": "Home hero garment wall — three diagonal columns, each one category, walking cyclically within its own pool so the seamless loop never runs dry. Art lives in images/pricing/<slug>.webp. `saree` is excluded: its source carries a stock watermark. `shoes_bags` is genuinely shoes only — no bag/handbag product photo exists yet in the catalogue (bag-cleaning has no photography), so that column repeats its 4 shoe images rather than mixing in a bag. Each column gets its own duration so the wall reads as three independent diagonal bands, not one sliding sheet.",
+    "columns": {
+      "garments": [
+        "shirt",
+        "sherwani",
+        "men-suit-3pcs",
+        "t-shirt",
+        "lehenga",
+        "jeans",
+        "sweater",
+        "leather-jacket",
+        "kurta",
+        "dress",
+        "coat",
+        "shawl",
+        "kurta-fancy",
+        "salwar",
+        "jacket"
+      ],
+      "shoes_bags": [
+        "sneakers",
+        "leather-shoes",
+        "sports-shoes",
+        "suede-leather-shoes"
+      ],
+      "rest": [
+        "double-blanket",
+        "curtain",
+        "carpet",
+        "single-blanket",
+        "wash-and-fold"
+      ]
+    },
+    "durations": {
+      "garments": 46,
+      "shoes_bags": 38,
+      "rest": 54
+    }
   },
   "banner": {
     "eyebrow": "Gurugram · Delhi NCR",

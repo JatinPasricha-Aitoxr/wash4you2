@@ -1,11 +1,12 @@
 /* ============================================================
    Home hero — the wall at premium scale.
 
-   Two rows of large graded tiles drift imperceptibly (38s / 47s,
-   opposite directions) behind a navy scrim that rises from the text
-   side. One grade, one 16px radius, one exact 12px gap. The copy
-   column is the same voice as the rest of the site: white serif,
-   one brass italic phrase, quiet offer tag.
+   Three diagonal lanes, each one category of what we clean — garments,
+   then shoes & bags, then everything else — drifting at three different
+   speeds behind a navy scrim that rises from the text side. One grade,
+   one 16px radius, one exact 12px gap. The copy column is the same
+   voice as the rest of the site: white serif, one brass italic phrase,
+   quiet offer tag.
    ============================================================ */
 
 .hero.home-hero {
@@ -53,11 +54,16 @@
   will-change: transform;
   animation: wall-drift var(--dur, 40s) linear infinite;
 }
-/* Opposite directions give the wall depth without speed; the half-tile
-   offset bricks the rows so their seams never align. */
+/* Opposite directions on the middle row give the wall depth without
+   speed; the fractional-tile offsets on rows 2 and 3 are different
+   fractions of each other (and of row 1's zero offset) so no two of the
+   three lanes ever brick their seams into alignment. */
 .hero-wall__col:nth-child(2) {
   animation-direction: reverse;
   margin-left: calc(clamp(9.5rem, 17.5vw, 16rem) / -2);
+}
+.hero-wall__col:nth-child(3) {
+  margin-left: calc(clamp(9.5rem, 17.5vw, 16rem) / -4);
 }
 
 /* Travel exactly one set of tiles. Each row holds its tiles twice;
@@ -235,10 +241,10 @@ html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
 
 /* ---- Small screens ------------------------------------------------
    The scrim turns vertical: copy on near-solid navy at the top, the
-   wall glowing through along the foot. Tiles step down so two rows
-   still fit behind the band. */
+   wall glowing through along the foot. Tiles step down further than a
+   two-row wall needed — there are three lanes to fit now. */
 @media (max-width: 61.99rem) {
-  .hero-wall__tile { width: clamp(7rem, 22vw, 10rem); }
+  .hero-wall__tile { width: clamp(5.5rem, 18vw, 8rem); }
   .hero.home-hero::before {
     background:
       linear-gradient(185deg,

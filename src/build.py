@@ -128,27 +128,6 @@ def _make_cms(enabled: bool):
 BRAND_SUFFIXES = (" | Wash4You", " — Wash4You", " - Wash4You", " | Wash4You Gurugram")
 
 
-def _deal_wall(tiles: list, columns: int, per_column: int) -> list:
-    """Deal a tile pool into columns for the home hero wall.
-
-    Fills the grid in column-major order and wraps. Two properties this
-    relies on, both of which a "cleverer" strided deal loses:
-
-      - every tile appears, provided columns*per_column >= len(tiles).
-        A stride whose parity divides into len(tiles) silently locks out
-        part of the pool — a 7-stride over 24 tiles renders only 18.
-      - horizontal neighbours always differ: the same row in adjacent
-        columns is exactly per_column apart in the pool.
-    """
-    if not tiles:
-        return []
-    n = len(tiles)
-    return [
-        [tiles[(col * per_column + row) % n] for row in range(per_column)]
-        for col in range(columns)
-    ]
-
-
 def fit_title(title: str, limit: int = 60) -> str:
     """Keep titles inside Google's ~60-character display width.
 
@@ -310,6 +289,17 @@ def build() -> None:
         if item.get("slug")
     }
 
+    # Flat list for the header search index — every priced item (shirt,
+    # saree, carpet, ...), each tagged with the #cat-N anchor of the price
+    # list section it lives in, so a hit jumps straight to that category
+    # instead of dropping the visitor at the top of a 58-item page.
+    search_pricing_items = [
+        {"name": item["name"], "cat_index": cat_i}
+        for cat_i, category in enumerate(pricing["categories"])
+        for item in category["items"]
+        if item.get("name")
+    ]
+
     # Home
     pages_to_build.append(("index.html", "page-home.html", {
         "areas": areas_data,
@@ -322,16 +312,6 @@ def build() -> None:
         # `cat.items` to the dict METHOD, so walking pricing.json from a
         # template is a trap.
         "price_index": price_index,
-        # Hero garment wall: deal the tile pool into columns here rather
-        # than in the template. The pool (24) is smaller than the number of
-        # slots (10x5), so it has to wrap — and the stride is what stops a
-        # plain wrap from parking the same garment next to itself in the
-        # adjacent column.
-        "hero_wall_columns": _deal_wall(
-            home["hero_wall"]["tiles"],
-            home["hero_wall"]["columns"],
-            home["hero_wall"]["per_column"],
-        ),
         # Price-rail evidence figures. Derived from pricing.json so the home
         # page can never quote a stale catalogue size or a stale floor. The
         # `unit` filter excludes per-sq-ft and per-panel rates, which are not
@@ -621,6 +601,8 @@ def build() -> None:
         context.setdefault("blog", blog)
         # Blog cards resolve their hero image through this — see above.
         context.setdefault("services_by_slug", services_by_slug)
+        # The header search index needs every priced item on every page too.
+        context.setdefault("search_pricing_items", search_pricing_items)
 
         rendered = template.render(**context)
         write_html(DIST_DIR / rel_path, rendered)

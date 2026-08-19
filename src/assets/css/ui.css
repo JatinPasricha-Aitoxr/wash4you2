@@ -321,13 +321,15 @@
    Service cards
    ------------------------------------------------------------ */
 
+/* Two-up from the smallest phone: a single column of service/blog cards
+   read as a plain list. minmax(0, 1fr), not a bare 1fr, so a card's own
+   content can never force it wider than its column share. */
 .svc-grid {
   display: grid;
-  gap: var(--s-4);
-  grid-template-columns: 1fr;
+  gap: var(--s-3) var(--s-4);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
-@media (min-width: 40rem) { .svc-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 64rem) { .svc-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 64rem) { .svc-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
 .svc {
   position: relative;
@@ -357,6 +359,15 @@
 
 .svc p { font-size: var(--t-base); color: var(--ink-3); line-height: 1.55; flex: 1; }
 .svc .tag { align-self: flex-start; }
+
+/* Two-up on a phone means each card is ~150-180px wide — tighten padding
+   and type so the title, blurb and care tag still fit without the card
+   feeling cramped. */
+@media (max-width: 30rem) {
+  .svc { padding: var(--s-4) var(--s-3); gap: var(--s-2); }
+  .svc h3 { font-size: var(--t-base); }
+  .svc p { font-size: var(--t-sm); }
+}
 
 /* ------------------------------------------------------------
    Process steps — a genuine sequence, so numbering carries meaning

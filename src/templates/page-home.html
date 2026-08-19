@@ -51,10 +51,12 @@
    ============================================================ #}
 <section class="hero home-hero">
   <div class="home-hero__wall" aria-hidden="true">
-    {% for row in [home.hero_wall.tiles[:12], home.hero_wall.tiles[12:24]] %}
-    <div class="hero-wall__col" style="--dur: {{ [38, 47][loop.index0] }}s">
+    {# Three lanes, one category each: garments, then shoes & bags (shoes
+       only — no bag photo exists yet), then everything else we clean. #}
+    {% for col_key in ['garments', 'shoes_bags', 'rest'] %}
+    <div class="hero-wall__col" style="--dur: {{ home.hero_wall.durations[col_key] }}s">
       {% for _pass in range(2) %}
-      {% for slug in row %}
+      {% for slug in home.hero_wall.columns[col_key] %}
       <span class="hero-wall__tile">
         <img src="{{ asset_path }}images/pricing/{{ slug }}.webp" alt=""
              width="400" height="400" fetchpriority="low" decoding="async">
@@ -277,6 +279,7 @@
        nothing goes missing?"), currently a closed accordion row 3,000px
        further down. Deliberately NOT a card grid — eight sections already
        are one. #}
+    <h3 style="margin-top:var(--s-7)">Pickup Process</h3>
     <ol class="proof-ledger stagger-children">
       {% for step in proof.process.steps %}
       <li class="proof-ledger__step">

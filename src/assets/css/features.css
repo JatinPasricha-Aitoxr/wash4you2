@@ -753,17 +753,16 @@ body.cart-lock { overflow: hidden; }
 .plan-cover__icon { display: inline-grid; place-items: center; color: var(--navy); flex: none; }
 .plan-cover__icon svg { width: 1.5rem; height: 1.5rem; }
 
-/* The plan cards */
+/* The plan cards. Two-up from the smallest phone: minmax(0, 1fr), not a
+   bare 1fr, so a card's own content (the "You pay X -> Y you get to
+   spend" row, wider than the old single balance line) can never force it
+   past its column's share — that gap is what overflowed the page at
+   ~600px before minmax(0, ...) was added here. */
 .plan-grid {
   display: grid;
-  gap: var(--s-4);
-  grid-template-columns: 1fr;
+  gap: var(--s-3);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
-/* minmax(0, 1fr), not a bare 1fr: a plain 1fr track still has an implicit
-   min size of the content's min-content, so the "You pay X -> Y you get to
-   spend" row (wider than the old single balance line) was pushing each
-   card past its share of the row and overflowing the page at ~600px. */
-@media (min-width: 34rem) { .plan-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 64rem) { .plan-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
 .plan-card {
@@ -778,6 +777,22 @@ body.cart-lock { overflow: hidden; }
   transition: border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
 }
 .plan-card:hover { border-color: var(--navy); box-shadow: var(--shadow-md); }
+
+/* Two-up on a phone leaves ~150-180px per card — tighten padding and type
+   so the name, balance figures and includes list still fit, and let the
+   head/rows wrap to a second line instead of overflowing the card when
+   they still don't (a nowrap flex row with no shrinkable child spills
+   past its box rather than compressing — "+30% value" next to a plan
+   name was exactly that). */
+@media (max-width: 30rem) {
+  .plan-card { padding: var(--s-4) var(--s-4) var(--s-4); gap: var(--s-3); }
+  .plan-card__name { font-size: var(--t-base); }
+  .plan-card__balance-num { font-size: var(--t-xl); }
+  .plan-card__balance-pay-num { font-size: var(--t-sm); }
+  .plan-card__head { flex-wrap: wrap; gap: var(--s-2); }
+  .plan-card__benefit { font-size: 0.625rem; padding: .15rem .4rem; }
+  .plan-grid .plan-card__rows > div { flex-wrap: wrap; }
+}
 
 .plan-card__head { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); }
 .plan-card__name { font-size: var(--t-lg); }
