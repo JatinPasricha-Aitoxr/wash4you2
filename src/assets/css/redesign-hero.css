@@ -246,3 +246,69 @@ mark.seo-hl {
 @media (max-width: 61.99rem) {
   .packages-hero { min-height: 0; background: linear-gradient(rgba(255, 255, 255, .88), rgba(255, 255, 255, .88)), url('../images/hero-packages-family.webp') 78% center / cover no-repeat, #f3f7fb; }
 }
+
+/* ---- Banner copy sits on a backing panel so it reads over any artwork ---- */
+.areas-hero__panel,
+.pricing-hero__panel,
+.packages-hero .page-hero__grid > div {
+  padding: clamp(1rem, 2vw, 1.75rem) clamp(1.1rem, 2.2vw, 2rem);
+  border-radius: 18px;
+  width: fit-content;
+  max-width: 100%;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.areas-hero__panel,
+.pricing-hero__panel {
+  background: rgba(8, 22, 52, .72);
+  border: 1px solid rgba(255, 255, 255, .14);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, .3);
+}
+.packages-hero .page-hero__grid > div {
+  background: rgba(255, 255, 255, .86);
+  border: 1px solid rgba(20, 51, 107, .12);
+  box-shadow: 0 12px 36px rgba(13, 35, 80, .18);
+}
+@media (min-width: 62rem) {
+  .areas-hero__panel, .pricing-hero__panel { max-width: 56%; }
+  .packages-hero .page-hero__grid > div { max-width: 40%; }
+  .packages-hero .page-hero__grid > div > * { max-width: none; }
+  .areas-hero .areas-hero__panel > * { max-width: none; }
+}
+
+/* Pricing: Packages-style banner, copy on a frosted white panel over its left half. */
+.pricing-hero--banner {
+  background: var(--pricing-hero-img) center top / 100% auto no-repeat, #f3f7fb;
+  min-height: 33.4vw; color: var(--navy-deep, #0d2350);
+  padding-block: clamp(1rem, 1.6vw, 1.5rem);
+}
+.pricing-hero--banner .pricing-hero__panel {
+  background: rgba(255, 255, 255, .88);
+  border: 1px solid rgba(20, 51, 107, .12);
+  box-shadow: 0 12px 36px rgba(13, 35, 80, .18);
+}
+.pricing-hero--banner .crumbs, .pricing-hero--banner .crumbs a { color: var(--navy, #14336b); text-shadow: none; }
+.pricing-hero--banner .crumbs span[aria-hidden] { color: rgba(20, 51, 107, .4); }
+.pricing-hero--banner .eyebrow { color: var(--navy, #14336b); text-shadow: none; }
+.pricing-hero--banner .pricing-hero__title { color: var(--navy-deep, #0d2350); text-shadow: none; font-size: clamp(1.5rem, 2.4vw, 2.2rem); line-height: 1.12; margin-bottom: .75rem; }
+.pricing-hero--banner .btn--ghost { color: var(--navy, #14336b); border-color: rgba(20, 51, 107, .35); background: #fff; }
+.pricing-hero--banner mark.seo-hl { text-shadow: none; }
+.pricing-hero-intro .pricing-hero__lede { color: var(--ink-2, #223a5e); text-shadow: none; text-align: center; font-size: var(--t-lg, 1.1rem); margin: 0; }
+@media (min-width: 62rem) {
+  .pricing-hero--banner .pricing-hero__panel { max-width: 38%; }
+  .pricing-hero--banner .crumbs { margin-bottom: .5rem; }
+  .pricing-hero--banner .btn-row { margin-top: .75rem; }
+  .pricing-hero--banner .btn--lg { padding: .6rem 1rem; font-size: .9rem; }
+}
+@media (max-width: 61.99rem) {
+  .pricing-hero--banner { min-height: 0; background: linear-gradient(rgba(255,255,255,.88), rgba(255,255,255,.88)), var(--pricing-hero-img) 40% center / cover no-repeat, #f3f7fb; }
+}
+.pricing-hero--banner .page-hero__mascot-inline { display: none; }
+
+/* Pricing + About: exactly like Packages — banner covers the band, whole copy on the panel. */
+.pricing-hero--banner { background: var(--pricing-hero-img) right center / cover no-repeat, #f3f7fb; min-height: 42vw; }
+.page-about .about-hero--banner { background: url('../images/hero-about-banner.webp') right center / cover no-repeat, #f3f7fb; min-height: 42vw; }
+.pricing-hero--banner .pricing-hero__lede { color: #223a5e; text-shadow: none; font-size: clamp(.85rem, 1vw, .98rem); line-height: 1.5; }
+@media (min-width: 62rem) {
+  .pricing-hero--banner .pricing-hero__panel, .page-about .about-hero--banner .about-hero__copy { max-width: 40%; }
+}

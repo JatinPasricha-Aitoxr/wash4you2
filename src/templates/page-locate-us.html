@@ -71,6 +71,7 @@
    real, editable ones. #}
 <section class="areas-hero" style="--areas-hero-img: url('../images/hero-areas.webp')">
   <div class="wrap areas-hero__inner">
+   <div class="areas-hero__panel">
     <nav class="crumbs" aria-label="Breadcrumb">
       <a href="{{ root_path }}">Home</a>
       <span aria-hidden="true">/</span>
@@ -84,6 +85,7 @@
       <a class="btn btn--ghost btn--lg" href="{{ site.urls.phone }}">{{ ui('phone', 18) }} {{ site.contact.phone }}</a>
     </div>
     {{ page_hero_mascot_inline(asset_path) }}
+   </div>
   </div>
 </section>
 

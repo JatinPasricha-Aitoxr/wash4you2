@@ -73,7 +73,7 @@
    url() inside a custom property resolves against the stylesheet that USES
    the variable, so `{{ asset_path }}` here produced /assets/assets/… and
    404'd. The stylesheet always sits at <assets>/css/. #}
-<section class="pricing-hero" style="--pricing-hero-img: url('../images/hero-pricing.webp')">
+<section class="pricing-hero pricing-hero--banner" style="--pricing-hero-img: url('../images/hero-pricing-banner.webp')">
   <div class="wrap pricing-hero__inner">
   <div class="pricing-hero__panel">
     <nav class="crumbs" aria-label="Breadcrumb">
@@ -92,9 +92,13 @@
 
     {% if is_area %}
     <h1 class="pricing-hero__title"><span class="neon-kw">Laundry &amp; dry-clean</span> <span class="kw">prices</span> in {{ area.label }}, <span class="kw-text">Gurugram</span></h1>
-    <p class="lede pricing-hero__lede">The same transparent, item-wise rates for {{ area.label }}, Gurgaon — with free doorstep pickup and delivery. Add what you need to your list and book a pickup.</p>
     {% else %}
     <h1 class="pricing-hero__title">Gurgaon &amp; <span class="kw">Delhi NCR’s</span> Most <span class="kw">Transparent</span> <span class="neon-kw">Laundry &amp; Dryclean</span> Prices</h1>
+    {% endif %}
+
+    {% if is_area %}
+    <p class="lede pricing-hero__lede">The same transparent, item-wise rates for {{ area.label }}, Gurgaon — with free doorstep pickup and delivery. Add what you need to your list and book a pickup.</p>
+    {% else %}
     <p class="lede pricing-hero__lede"{{ cms('pricing:hero.subheadline') }}>{{ pricing.hero.subheadline }}</p>
     {% endif %}
 

@@ -34,13 +34,8 @@
 {# ============================================================
    Hero — blue band
    ============================================================ #}
-<section class="page-hero about-hero">
+<section class="page-hero about-hero about-hero--banner">
   <div class="wrap">
-    <nav class="crumbs" aria-label="Breadcrumb">
-      <a href="{{ root_path }}">Home</a>
-      <span aria-hidden="true">/</span>
-      <span>About</span>
-    </nav>
     {# Back to the two-column layout: copy left, store photograph right. The
        supplied SVG banner was tried here as a background and pulled its
        illustration off-screen at most widths — a `cover` crop of a 3:1 frame
@@ -48,6 +43,12 @@
        than a third of its width, which it always is once the copy is in. #}
     <div class="page-hero__grid about-hero__grid">
       <div class="about-hero__copy">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="{{ root_path }}">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>About</span>
+    </nav>
+
         <p class="eyebrow"{{ cms('about:hero.eyebrow') }}>{{ about.hero.eyebrow }}</p>
         <h1{{ cms('about:hero.headline') }}>{{ about.hero.headline | replace('Most Trusted', '<span class="kw--onlight">Most Trusted</span>', 1) | safe }}</h1>
         <p class="lede"{{ cms('about:hero.lede') }}>{{ about.hero.lede }}</p>
@@ -57,11 +58,6 @@
           <a class="btn btn--ghost btn--lg" href="{{ root_path }}services/">See what we clean</a>
         </div>
         {{ page_hero_mascot_inline(asset_path) }}
-      </div>
-      <div class="reveal">
-        <img src="{{ asset_path }}images/about-story.webp" alt="Inside the Wash4You store in Gurgaon"
-             width="800" height="600" loading="lazy" decoding="async"
-             class="about-hero__img"{{ cms('images/about-story.webp', 'file') }}>
       </div>
     </div>
   </div>
