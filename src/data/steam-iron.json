@@ -1,15 +1,15 @@
 {
   "meta": {
-    "title": "Steam Ironing Starting at Only ₹39 - Wash4You",
+    "title": "Steam Ironing Starting at Only ₹49 - Wash4You",
     "description": "Planet-safe cleaning using biodegradable, non-toxic solvents, ideal for delicate skin and sustainable living.",
     "canonical": "https://wash4you.in/steam-iron/",
-    "og_title": "Steam Ironing Starting at Only ₹39 - Wash4You",
+    "og_title": "Steam Ironing Starting at Only ₹49 - Wash4You",
     "og_description": "Planet-safe cleaning using biodegradable, non-toxic solvents, ideal for delicate skin and sustainable living."
   },
   "hero": {
     "headline": "Gurgaon & Delhi NCR’s Most Trusted Steam Ironing Service",
     "subheadline": "Wash4You presses office formals, ethnic wear and everyday cotton on professional steam equipment, with expert fabric handling and delicate-detail protection on every piece. Free doorstep pickup and delivery across Gurugram, and flat 25% off your first order.",
-    "badge": "Starting at ₹39/-",
+    "badge": "Starting at ₹49/-",
     "cta": "Request an Enquiry"
   },
   "benefits": [
@@ -21,23 +21,23 @@
   "items": [
     {
       "name": "Pant/Trouser",
-      "price": "₹39"
+      "price": "₹69"
     },
     {
       "name": "Jeans",
-      "price": "₹39"
+      "price": "₹69"
     },
     {
       "name": "Shirt",
-      "price": "₹39"
+      "price": "₹69"
     },
     {
       "name": "T-Shirt",
-      "price": "₹29"
+      "price": "₹69"
     },
     {
       "name": "Coat",
-      "price": "₹79"
+      "price": "₹99"
     },
     {
       "name": "Sherwani",
@@ -49,7 +49,7 @@
     },
     {
       "name": "Salwar",
-      "price": "Starting From ₹29"
+      "price": "Starting From ₹59"
     },
     {
       "name": "Shawl",
@@ -65,15 +65,15 @@
     },
     {
       "name": "Dress",
-      "price": "(Starting from) ₹49"
+      "price": "(Starting from) ₹79"
     },
     {
       "name": "Saree",
-      "price": "(Starting from) ₹39"
+      "price": "(Starting from) ₹79"
     },
     {
       "name": "Lehenga",
-      "price": "(Starting from) ₹99"
+      "price": "(Starting from) ₹149"
     },
     {
       "name": "Jacket Full Sleeves",
@@ -81,7 +81,7 @@
     },
     {
       "name": "Single Bed Sheet",
-      "price": "₹29"
+      "price": "₹49"
     },
     {
       "name": "Carpet",
@@ -93,7 +93,7 @@
     },
     {
       "name": "Double Bed Sheet",
-      "price": "₹49"
+      "price": "₹79"
     }
   ],
   "cta": {

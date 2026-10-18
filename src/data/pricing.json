@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Laundry & Dry Cleaning Price List Gurgaon | Wash4You Rates",
-    "description": "Transparent laundry & dry cleaning prices in Gurgaon & Delhi NCR. Wash & fold from ₹79/kg, dry cleaning from ₹99. Free pickup and delivery, GST extra.",
+    "description": "Transparent laundry & dry cleaning prices in Gurgaon & Delhi NCR. Wash & fold from ₹89/kg, dry cleaning from ₹109. Free pickup and delivery, GST extra.",
     "canonical": "https://wash4you.in/pricing/",
     "og_title": "Wash4You Price List — Laundry & Dry Cleaning Rates in Gurgaon",
     "og_description": "Item-wise laundry, dry cleaning and steam ironing rates with free doorstep pickup and delivery across Gurgaon & NCR."
@@ -17,29 +17,29 @@
       "items": [
         {
           "name": "Pant/Trouser",
-          "price": "₹99",
-          "amount": 99,
+          "price": "₹109",
+          "amount": 109,
           "slug": "pant-trouser",
           "img": "images/pricing/pant-trouser.png"
         },
         {
           "name": "Jeans",
-          "price": "₹99",
-          "amount": 99,
+          "price": "₹109",
+          "amount": 109,
           "slug": "jeans",
           "img": "images/pricing/jeans.png"
         },
         {
           "name": "Shirt",
-          "price": "₹99",
-          "amount": 99,
+          "price": "₹109",
+          "amount": 109,
           "slug": "shirt",
           "img": "images/pricing/shirt.png"
         },
         {
           "name": "T-Shirt",
-          "price": "₹99",
-          "amount": 99,
+          "price": "₹109",
+          "amount": 109,
           "slug": "t-shirt",
           "img": "images/pricing/t-shirt.png"
         },
@@ -73,8 +73,8 @@
         },
         {
           "name": "Kurta",
-          "price": "₹119",
-          "amount": 119,
+          "price": "₹149",
+          "amount": 149,
           "slug": "kurta",
           "img": "images/pricing/kurta.png"
         },
@@ -204,16 +204,16 @@
       "items": [
         {
           "name": "Carpet",
-          "price": "₹20",
-          "amount": 20,
+          "price": "₹39",
+          "amount": 39,
           "unit": "per sq ft",
           "slug": "carpet",
           "img": "images/pricing/carpet.png"
         },
         {
           "name": "Curtain",
-          "price": "₹149",
-          "amount": 149,
+          "price": "₹249",
+          "amount": 249,
           "unit": "per panel (3.5 ft)",
           "slug": "curtain",
           "img": "images/pricing/curtain.png"
@@ -321,32 +321,32 @@
       "items": [
         {
           "name": "Wash and Fold",
-          "price": "₹79",
-          "amount": 79,
+          "price": "₹89",
+          "amount": 89,
           "slug": "wash-and-fold",
           "img": "images/pricing/wash-and-fold.png",
           "unit": "per kg"
         },
         {
           "name": "Wash and Steam Iron",
-          "price": "₹109",
-          "amount": 109,
+          "price": "₹119",
+          "amount": 119,
           "slug": "wash-and-steam-iron",
           "img": "images/pricing/wash-and-steam-iron.png",
           "unit": "per kg"
         },
         {
           "name": "Premium Laundry",
-          "price": "₹149",
-          "amount": 149,
+          "price": "₹165",
+          "amount": 165,
           "slug": "premium-laundry",
           "img": "images/pricing/premium-laundry.jpg",
           "unit": "per kg"
         },
         {
           "name": "Woollen Laundry (Dailywear)",
-          "price": "₹149",
-          "amount": 149,
+          "price": "₹159",
+          "amount": 159,
           "slug": "woollen-laundry",
           "img": "images/pricing/sweater.png",
           "unit": "per kg"
@@ -366,85 +366,85 @@
       "items": [
         {
           "name": "Pant/Trouser",
-          "price": "₹39",
-          "amount": 39,
+          "price": "₹69",
+          "amount": 69,
           "slug": "iron-pant-trouser",
           "img": "images/pricing/pant-trouser.png"
         },
         {
           "name": "Jeans",
-          "price": "₹39",
-          "amount": 39,
+          "price": "₹69",
+          "amount": 69,
           "slug": "iron-jeans",
           "img": "images/pricing/jeans.png"
         },
         {
           "name": "Shirt",
-          "price": "₹39",
-          "amount": 39,
+          "price": "₹69",
+          "amount": 69,
           "slug": "iron-shirt",
           "img": "images/pricing/shirt.png"
         },
         {
           "name": "T-Shirt",
-          "price": "₹29",
-          "amount": 29,
+          "price": "₹69",
+          "amount": 69,
           "slug": "iron-t-shirt",
           "img": "images/pricing/t-shirt.png"
         },
         {
           "name": "Coat",
-          "price": "₹79",
-          "amount": 79,
+          "price": "₹99",
+          "amount": 99,
           "slug": "iron-coat",
           "img": "images/pricing/coat.png"
         },
         {
           "name": "Single Bedsheet",
-          "price": "₹29",
-          "amount": 29,
+          "price": "₹49",
+          "amount": 49,
           "slug": "iron-single-bedsheet",
           "img": "images/pricing/single-bed-sheet.png"
         },
         {
           "name": "Salwar",
-          "price": "₹29",
-          "amount": 29,
+          "price": "₹59",
+          "amount": 59,
           "slug": "iron-salwar",
           "img": "images/pricing/salwar.png"
         },
         {
           "name": "Blouse",
-          "price": "₹39",
-          "amount": 39,
+          "price": "₹59",
+          "amount": 59,
           "slug": "iron-blouse",
           "img": "images/pricing/blouse.png"
         },
         {
           "name": "Saree",
-          "price": "₹39",
-          "amount": 39,
+          "price": "₹79",
+          "amount": 79,
           "slug": "iron-saree",
           "img": "images/pricing/saree.png"
         },
         {
           "name": "Lehenga",
-          "price": "₹99",
-          "amount": 99,
+          "price": "₹149",
+          "amount": 149,
           "slug": "iron-lehenga",
           "img": "images/pricing/lehenga.png"
         },
         {
           "name": "Dress",
-          "price": "₹49",
-          "amount": 49,
+          "price": "₹79",
+          "amount": 79,
           "slug": "iron-dress",
           "img": "images/pricing/dress.png"
         },
         {
           "name": "Double Bedsheet",
-          "price": "₹49",
-          "amount": 49,
+          "price": "₹79",
+          "amount": 79,
           "slug": "iron-double-bedsheet",
           "img": "images/pricing/double-bed-sheet.png"
         }

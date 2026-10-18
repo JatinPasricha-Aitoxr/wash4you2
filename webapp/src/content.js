@@ -40,9 +40,9 @@ export const nav = [
 ]
 
 export const services = [
-  { icon: 'leaf', name: 'Eco-Friendly Laundry', from: '₹79/pc', text: 'Planet-safe cleaning using biodegradable, non-toxic solvents — ideal for delicate skin.' },
-  { icon: 'hanger', name: 'Premium Dry Cleaning', from: '₹99/pc', text: 'Precision care for suits, sarees, silks, and delicates using gentle, garment-safe methods.' },
-  { icon: 'iron', name: 'Steam Ironing', from: '₹29/pc', text: 'Sharp, crease-free results with steam press technology for a polished finish on every item.' },
+  { icon: 'leaf', name: 'Eco-Friendly Laundry', from: '₹89/kg', text: 'Planet-safe cleaning using biodegradable, non-toxic solvents — ideal for delicate skin.' },
+  { icon: 'hanger', name: 'Premium Dry Cleaning', from: '₹109/pc', text: 'Precision care for suits, sarees, silks, and delicates using gentle, garment-safe methods.' },
+  { icon: 'iron', name: 'Steam Ironing', from: '₹49/pc', text: 'Sharp, crease-free results with steam press technology for a polished finish on every item.' },
   { icon: 'shoe', name: 'Shoe Cleaning', from: '₹299/pair', text: 'From sneakers to suede — deep-cleaned, deodorized, and restored to like-new condition.' },
   { icon: 'blanket', name: 'Blankets & Quilts', from: '₹299/pc', text: 'Deep cleaning for blankets and quilts to restore softness, freshness, and comfort.' },
   { icon: 'curtain', name: 'Curtains & Carpets', from: '₹39/sq ft', text: 'Dust, stains, and odours removed professionally — without compromising the fabric.' },
@@ -55,17 +55,17 @@ export const pricing = [
     title: 'Laundry (per piece)',
     popular: true,
     items: [
-      { name: 'Wash and Fold', price: '₹79' },
-      { name: 'Wash and Steam Iron', price: '₹109' },
-      { name: 'Premium Laundry', price: '₹149' },
-      { name: 'Steam Iron only (from)', price: '₹29' },
+      { name: 'Wash and Fold', price: '₹89' },
+      { name: 'Wash and Steam Iron', price: '₹119' },
+      { name: 'Premium Laundry', price: '₹165' },
+      { name: 'Steam Iron only (from)', price: '₹49' },
     ],
   },
   {
     title: 'Dry Cleaning — Clothing',
     items: [
-      { name: 'Shirt / T-Shirt / Trouser / Jeans', price: '₹99' },
-      { name: 'Kurta', price: '₹119' },
+      { name: 'Shirt / T-Shirt / Trouser / Jeans', price: '₹109' },
+      { name: 'Kurta', price: '₹149' },
       { name: 'Sweater', price: '₹149' },
       { name: 'Saree / Dress (from)', price: '₹199' },
       { name: 'Coat / Jacket / Kurta Fancy', price: '₹249' },
@@ -80,7 +80,7 @@ export const pricing = [
     items: [
       { name: 'Carpet (per sq ft)', price: '₹39' },
       { name: 'Single Bed Sheet', price: '₹119' },
-      { name: 'Curtain (per panel)', price: '₹149' },
+      { name: 'Curtain (per panel)', price: '₹249' },
       { name: 'Double Bed Sheet', price: '₹199' },
       { name: 'Single Blanket (1 ply)', price: '₹299' },
       { name: 'Sports Shoes', price: '₹299' },

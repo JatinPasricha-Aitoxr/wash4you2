@@ -24,7 +24,17 @@
     <div class="prose policy-section">
       {% for section in policy.sections %}
       <h2{{ cms(cms_base ~ '.sections.' ~ loop.index0 ~ '.heading') }}>{{ section.heading }}</h2>
+      {% set _lines = section.content.split('\n') %}
+      {% if _lines | length > 1 %}
+      {% set _all = namespace(b=true) %}{% for line in _lines %}{% if not line.startswith('• ') %}{% set _all.b = false %}{% endif %}{% endfor %}
+      {% if _all.b %}
+      <ul{{ cms(cms_base ~ '.sections.' ~ loop.index0 ~ '.content') }}>{% for line in _lines %}<li>{{ line[2:] }}</li>{% endfor %}</ul>
+      {% else %}
+      <p{{ cms(cms_base ~ '.sections.' ~ loop.index0 ~ '.content') }}>{% for line in _lines %}{{ line }}{% if not loop.last %}<br>{% endif %}{% endfor %}</p>
+      {% endif %}
+      {% else %}
       <p{{ cms(cms_base ~ '.sections.' ~ loop.index0 ~ '.content') }}>{{ section.content }}</p>
+      {% endif %}
       {% endfor %}
     </div>
 
