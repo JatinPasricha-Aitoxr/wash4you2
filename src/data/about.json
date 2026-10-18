@@ -71,7 +71,7 @@
       {
         "icon": "truck",
         "title": "Free pickup & delivery",
-        "detail": "Complimentary doorstep collection and delivery across our service area. No minimum-order anxiety and no hidden charges."
+        "detail": "Complimentary doorstep collection and delivery across our service area, with no hidden charges."
       }
     ]
   },
@@ -265,10 +265,6 @@
     {
       "q": "Do you use eco-friendly cleaning products?",
       "a": "Yes. We use biodegradable detergents, enzyme-based stain removers and water-efficient machines, and our dry-cleaning process avoids harsh PERC chemicals — safer for sensitive skin and for the environment."
-    },
-    {
-      "q": "Is there a minimum order value for free pickup?",
-      "a": "We keep the minimum order value reasonable and transparent. See the pricing page for current rates, or message us on WhatsApp for a quick estimate."
     },
     {
       "q": "Can I trust Wash4You with expensive or delicate garments?",

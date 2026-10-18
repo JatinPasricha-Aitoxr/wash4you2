@@ -623,7 +623,7 @@
     {% endfor %}
     {% if blog and blog.posts %}{% for post in blog.posts %}{ "title": {{ post.title | tojson }}, "group": "Blog", "url": {{ post.url | tojson }} },
     {% endfor %}{% endif %}
-    {% for item in (search_pricing_items or []) %}{ "title": {{ item.name | tojson }}, "group": "Pricing", "url": {{ (root_path ~ (product_urls or {}).get(item.slug, 'pricing/#cat-' ~ item.cat_index)) | tojson }} },
+    {% for item in (search_pricing_items or []) %}{ "title": {{ item.name | tojson }}, "group": {{ ((item.cat or 'Pricing') ~ (' · ' ~ item.price if item.price else '')) | tojson }}, "kind": "item", "url": {{ (root_path ~ 'pricing/#cat-' ~ item.cat_index) | tojson }} },
     {% endfor %}
     {% for prod in (products_list or []) %}{ "title": {{ (prod.seo or prod.name) | tojson }}, "group": "Products", "url": {{ (root_path ~ 'products/' ~ prod.slug ~ '/') | tojson }} },
     {% endfor %}
@@ -675,22 +675,40 @@
       return prev[b.length]
     }
 
+    // "pants" must find "Pant/Trouser": compare singular word stems, treat
+    // every typed word as required, and expand a few everyday synonyms.
+    var ALIASES = { pants: 'pant trouser', trousers: 'pant trouser', trouser: 'pant trouser', pant: 'pant trouser', tee: 't-shirt', tshirt: 't-shirt', shoes: 'shoe sneaker', shoe: 'shoe sneaker', suits: 'suit', sari: 'saree', rug: 'carpet', rugs: 'carpet', sofa: 'sofa', clothes: 'laundry wash', clothing: 'laundry wash' }
+    function stem(w) {
+      w = w.replace(/[^a-z0-9-]/g, '')
+      if (w.length > 3 && /ies$/.test(w)) return w.slice(0, -3) + 'y'
+      if (w.length > 3 && /(ches|shes|sses|xes)$/.test(w)) return w.slice(0, -2)
+      if (w.length > 3 && /s$/.test(w) && !/ss$/.test(w)) return w.slice(0, -1)
+      return w
+    }
+    function tokens(str) {
+      return str.toLowerCase().split(/[\s\/,&]+/).map(stem).filter(Boolean)
+    }
     function render(query) {
       var q = query.trim().toLowerCase()
       results.innerHTML = ''
       if (!q) { empty.hidden = true; return }
 
-      // Tier 1: substring matches, ranked by how early the query appears.
+      var qWords = q.split(/\s+/)
       var exact = []
-      // Tier 2: no substring hit anywhere in the title — fall back to the
-      // closest single word by edit distance, within a tolerance that grows
-      // with the query length (longer queries can absorb more typos).
       var fuzzy = []
       var tolerance = q.length <= 4 ? 1 : q.length <= 7 ? 2 : 3
       window.__SEARCH_INDEX__.forEach(function (item) {
         var t = item.title.toLowerCase()
         var at = t.indexOf(q)
         if (at !== -1) { exact.push({ item: item, rank: at }); return }
+        // Stemmed, every-word match against the title (and, for priced items,
+        // the service group, so "pants dry" works too).
+        var hay = tokens(item.title + ' ' + (item.kind === 'item' ? item.group : ''))
+        var ok = qWords.every(function (w) {
+          var alt = (ALIASES[w] || w).split(' ').map(stem)
+          return alt.some(function (a) { return hay.some(function (h) { return h === a || (a.length > 2 && h.indexOf(a) === 0) }) })
+        })
+        if (ok) { exact.push({ item: item, rank: 20 }); return }
         var words = t.split(/\s+/)
         var best = Infinity
         for (var i = 0; i < words.length; i++) {
@@ -701,7 +719,7 @@
       })
       exact.sort(function (a, b) { return a.rank - b.rank })
       fuzzy.sort(function (a, b) { return a.rank - b.rank })
-      var matches = exact.concat(fuzzy).slice(0, 8).map(function (m) { return m.item })
+      var matches = exact.concat(fuzzy).slice(0, 16).map(function (m) { return m.item })
       empty.hidden = matches.length !== 0
       matches.forEach(function (item) {
         var li = document.createElement('li')

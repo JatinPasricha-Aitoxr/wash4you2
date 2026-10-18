@@ -602,10 +602,6 @@
         {
           "q": "How quickly do normal clothes come back?",
           "a": "Standard laundry is a 24-hour turnaround and dry cleaning is 48 to 72 hours. If you need something sooner, say so at pickup and we will tell you honestly whether it is possible for that item."
-        },
-        {
-          "q": "Is there a minimum order for free pickup?",
-          "a": "No. Pickup and delivery are free across Gurugram regardless of order size, and the item-wise price list is published in full on our pricing page."
         }
       ],
       "keywords": [
@@ -676,7 +672,7 @@
         },
         {
           "q": "Is pickup free here?",
-          "a": "Yes — doorstep pickup and delivery are free across Gurugram, with no minimum order."
+          "a": "Yes — doorstep pickup and delivery are free across Gurugram."
         }
       ],
       "keywords": [
@@ -747,7 +743,7 @@
         },
         {
           "q": "Is there a delivery charge to Ardee City?",
-          "a": "No. Doorstep pickup and delivery are free everywhere we serve in Gurugram, with no minimum order."
+          "a": "No. Doorstep pickup and delivery are free everywhere we serve in Gurugram."
         }
       ],
       "keywords": [
@@ -926,22 +922,17 @@
         "laundry-service-udyog-vihar"
       ],
       "meta_title": "Laundry Service in Sector 14, Gurugram | Wash4You",
-      "meta_description": "Affordable wash, fold and ironing in Sector 14, Gurugram, with free doorstep pickup. Item-wise pricing published in full — no minimum order.",
+      "meta_description": "Affordable wash, fold and ironing in Sector 14, Gurugram, with free doorstep pickup. Item-wise pricing published in full.",
       "h1": "Laundry & Dry Cleaning in Sector 14, Gurugram",
       "lede": "Sector 14 mixes long-settled households with a large student and PG population, and both want the same thing from a laundry: a price they can see in advance and clothes back on time. Ours is published item by item.",
-      "body": "## Two very different customers, one price list\n\nOn one side of this sector are families who have lived here for decades — a full weekly basket, bedsheets, uniforms, the occasional saree before a function. On the other are students and young tenants in PG accommodation whose laundry is smaller, more frequent, and far more price-sensitive.\n\nWhat both want is the same: no surprises. Our rates are item-wise and published in full on the pricing page, so a shirt costs what the list says a shirt costs whether you send one or thirty. GST is extra and stated. There is no minimum order and no pickup charge, which matters more to the second group than the first — sending four shirts should not cost you a delivery fee that outweighs the wash.\n\n## The practical side\n\nIroning on its own is a common booking here for people who wash at home and simply do not have the space or the time to press. That is available as its own service rather than only as part of a wash.\n\nCollections are at the door: a bell at a plotted house, a walk-up for an upper floor, a room-door handover in shared accommodation. The order is counted with you at pickup and receipted, which is worth insisting on in a shared house where several people's clothes leave the same building on the same morning. And seasonally, quilts and blankets — the one item almost nobody can handle in a domestic machine.\n\nPickup and delivery are free. Call or WhatsApp **+91 63 67 600 500**.",
+      "body": "## Two very different customers, one price list\n\nOn one side of this sector are families who have lived here for decades — a full weekly basket, bedsheets, uniforms, the occasional saree before a function. On the other are students and young tenants in PG accommodation whose laundry is smaller, more frequent, and far more price-sensitive.\n\nWhat both want is the same: no surprises. Our rates are item-wise and published in full on the pricing page, so a shirt costs what the list says a shirt costs whether you send one or thirty. GST is extra and stated. No pickup charge, which matters more to the second group than the first — sending four shirts should not cost you a delivery fee that outweighs the wash.\n\n## The practical side\n\nIroning on its own is a common booking here for people who wash at home and simply do not have the space or the time to press. That is available as its own service rather than only as part of a wash.\n\nCollections are at the door: a bell at a plotted house, a walk-up for an upper floor, a room-door handover in shared accommodation. The order is counted with you at pickup and receipted, which is worth insisting on in a shared house where several people's clothes leave the same building on the same morning. And seasonally, quilts and blankets — the one item almost nobody can handle in a domestic machine.\n\nPickup and delivery are free. Call or WhatsApp **+91 63 67 600 500**.",
       "local_notes": [
         "Mixed catchment of plotted-house families and PG or shared student accommodation.",
-        "No minimum order and no pickup charge — small, frequent orders are normal here.",
         "Steam ironing is available on its own for customers who wash at home.",
         "In shared accommodation each person's order is counted, packed and receipted separately.",
         "Nearest walk-in counter: Wash4You Vyapar Kendra, Sushant Lok Phase I, Sector 43, Gurugram 122009."
       ],
       "faqs": [
-        {
-          "q": "Is there a minimum order?",
-          "a": "No. You can send four shirts or forty — pickup and delivery are free either way, and the item-wise rate is the same."
-        },
         {
           "q": "Can I get only ironing done?",
           "a": "Yes. Steam ironing is a standalone service for customers who wash at home, and it is a common booking in this sector."
@@ -1244,7 +1235,7 @@
         },
         {
           "q": "Is pickup charged separately?",
-          "a": "No. Doorstep pickup and delivery are free across Gurugram, with no minimum order."
+          "a": "No. Doorstep pickup and delivery are free across Gurugram."
         }
       ],
       "keywords": [
@@ -1315,7 +1306,7 @@
         },
         {
           "q": "Is there a charge for pickup?",
-          "a": "No. Doorstep pickup and delivery are free everywhere we serve, with no minimum order."
+          "a": "No. Doorstep pickup and delivery are free everywhere we serve."
         }
       ],
       "keywords": [
@@ -1423,12 +1414,12 @@
         "laundry-service-sector-46"
       ],
       "meta_title": "Laundry & Dry Cleaning in Sector 51, Gurugram | Wash4You",
-      "meta_description": "Wash, fold, iron and dry clean in Sector 51, Gurugram, with free doorstep pickup. No minimum order and item-wise rates published in full.",
+      "meta_description": "Wash, fold, iron and dry clean in Sector 51, Gurugram, with free doorstep pickup.",
       "h1": "Laundry & Dry Cleaning in Sector 51, Gurugram",
-      "lede": "Sector 51 is a rental-heavy sector, so the orders here tend to be smaller and more frequent than a family sector's. That is fine — there is no minimum order and pickup is free either way.",
-      "body": "### Small orders, often\n\nA sector with this much rented accommodation produces a different booking pattern to a settled family sector. People send six shirts on a Tuesday rather than forty pieces on a Saturday, and they care a great deal that a small order does not attract a delivery charge that costs more than the wash. It does not. Pickup and delivery are free with no minimum, and the item-wise rates are published in full, so five shirts costs exactly five times what the list says a shirt costs.\n\nIroning-only is a common booking here for the same reason — a tenant with a washing machine and no board.\n\n### What actually needs care\n\nThe work itself is mostly straightforward wash and press, but two things come up often enough to mention. First, the distinction between wash and dry clean: we will tell you honestly when a garment does not need the more expensive process, because sending a cotton shirt to dry cleaning helps nobody. Second, wet cleaning — for items that are genuinely soiled rather than lightly worn, a water-based specialist process is frequently the better answer than a solvent, and we use it where it fits.\n\nIn shared flats every person's order is counted, packed and receipted separately. Three tenants in one flat should get three orders back, not one bundle to argue over.\n\nOur Arcadia counter at Unitech Arcadia, Sector 49 is close by. Call or WhatsApp **+91 63 67 600 500**.",
+      "lede": "Sector 51 is a rental-heavy sector, so the orders here tend to be smaller and more frequent than a family sector's. That is fine — pickup is free either way.",
+      "body": "### Small orders, often\n\nA sector with this much rented accommodation produces a different booking pattern to a settled family sector. People send six shirts on a Tuesday rather than forty pieces on a Saturday, and they care a great deal that a small order does not attract a delivery charge that costs more than the wash. It does not. Pickup and delivery are free and the item-wise rates are published in full, so five shirts costs exactly five times what the list says a shirt costs.\n\nIroning-only is a common booking here for the same reason — a tenant with a washing machine and no board.\n\n### What actually needs care\n\nThe work itself is mostly straightforward wash and press, but two things come up often enough to mention. First, the distinction between wash and dry clean: we will tell you honestly when a garment does not need the more expensive process, because sending a cotton shirt to dry cleaning helps nobody. Second, wet cleaning — for items that are genuinely soiled rather than lightly worn, a water-based specialist process is frequently the better answer than a solvent, and we use it where it fits.\n\nIn shared flats every person's order is counted, packed and receipted separately. Three tenants in one flat should get three orders back, not one bundle to argue over.\n\nOur Arcadia counter at Unitech Arcadia, Sector 49 is close by. Call or WhatsApp **+91 63 67 600 500**.",
       "local_notes": [
-        "Rental-heavy catchment — small, frequent orders are normal and carry no minimum and no pickup charge.",
+        "Rental-heavy catchment — small, frequent orders are normal and carry no pickup charge.",
         "Steam ironing is available on its own for tenants who wash at home.",
         "Shared flats: each person's order is counted, packed and receipted separately.",
         "Wet cleaning is used where a water-based specialist process suits the item better than a solvent.",
@@ -1437,7 +1428,7 @@
       "faqs": [
         {
           "q": "Will a small order still get free pickup?",
-          "a": "Yes. There is no minimum order and no pickup or delivery charge anywhere we serve in Gurugram."
+          "a": "Yes. There is no pickup or delivery charge anywhere we serve in Gurugram."
         },
         {
           "q": "I only need ironing. Do you do that alone?",
@@ -1465,8 +1456,7 @@
         "dry cleaning Sector 51 Gurugram",
         "wet cleaning Gurugram",
         "steam ironing Sector 51",
-        "laundry pickup Sector 51",
-        "no minimum order laundry Gurugram"
+        "laundry pickup Sector 51"
       ]
     },
     {
@@ -1528,7 +1518,7 @@
         },
         {
           "q": "Is pickup free?",
-          "a": "Yes, doorstep pickup and delivery are free everywhere we serve, with no minimum order."
+          "a": "Yes, doorstep pickup and delivery are free everywhere we serve."
         }
       ],
       "keywords": [
@@ -1670,7 +1660,7 @@
         },
         {
           "q": "Is pickup free from Sector 55?",
-          "a": "Yes — free doorstep pickup and delivery across Gurugram, with no minimum order."
+          "a": "Yes — free doorstep pickup and delivery across Gurugram."
         }
       ],
       "keywords": [
@@ -1738,10 +1728,6 @@
         {
           "q": "My synthetic kurta was damaged by ironing elsewhere. How is yours different?",
           "a": "Heat is set per fabric and per item rather than per load. Cotton, shirting, silk and synthetics are not pressed at the same setting, and that is where most ironing damage comes from."
-        },
-        {
-          "q": "Is there a minimum order?",
-          "a": "No, and pickup and delivery are free regardless of order size."
         }
       ],
       "keywords": [
@@ -1778,13 +1764,13 @@
         "laundry-service-sohna-road"
       ],
       "meta_title": "Laundry Service in Sector 57, Gurugram | Wash4You",
-      "meta_description": "Laundry, ironing and sneaker cleaning in Sector 57, Gurugram. No minimum order, free doorstep pickup, each flatmate's order counted separately.",
+      "meta_description": "Laundry, ironing and sneaker cleaning in Sector 57, Gurugram.",
       "h1": "Laundry & Dry Cleaning in Sector 57, Gurugram",
       "lede": "Sector 57 is shared-flat territory — three tenants, three laundry bags, one front door. We count and pack each order separately, collect free, and do not mind that the orders are small.",
-      "body": "## The shared-flat problem\n\nThe single most common complaint we hear from this catchment has nothing to do with cleaning. It is that clothes came back mixed, or that one person's order was used to settle another person's bill. Both are avoidable with process rather than goodwill.\n\nEach person books their own order. It is counted with that person at the door, packed separately from every other customer's order in the building and in the city, and covered by a written receipt at pickup. Three flatmates get three orders back. That is it.\n\nThe orders themselves are typically small and frequent — five or six shirts mid-week rather than a weekend pile — and that is fine. No minimum order, no pickup charge, item-wise rates published in full so a small order costs exactly what the list says.\n\n## Shirts, sneakers and the occasional emergency\n\nWashing and pressing office shirts properly is the bulk of the work: collars, cuffs, and the antiperspirant build-up that yellows white shirts from the inside. Sneakers are the other standing request in a young catchment, and mesh, canvas, leather and suede each take a different treatment — a suede pair cleaned like canvas is a ruined pair.\n\nAnd for the genuinely soiled items, wet cleaning is often a better answer than a solvent. We will tell you which a garment needs rather than defaulting to the more expensive one.\n\nPickup and delivery are free. Call or WhatsApp **+91 63 67 600 500**.",
+      "body": "## The shared-flat problem\n\nThe single most common complaint we hear from this catchment has nothing to do with cleaning. It is that clothes came back mixed, or that one person's order was used to settle another person's bill. Both are avoidable with process rather than goodwill.\n\nEach person books their own order. It is counted with that person at the door, packed separately from every other customer's order in the building and in the city, and covered by a written receipt at pickup. Three flatmates get three orders back. That is it.\n\nThe orders themselves are typically small and frequent — five or six shirts mid-week rather than a weekend pile — and that is fine. ## Shirts, sneakers and the occasional emergency\n\nWashing and pressing office shirts properly is the bulk of the work: collars, cuffs, and the antiperspirant build-up that yellows white shirts from the inside. Sneakers are the other standing request in a young catchment, and mesh, canvas, leather and suede each take a different treatment — a suede pair cleaned like canvas is a ruined pair.\n\nAnd for the genuinely soiled items, wet cleaning is often a better answer than a solvent. We will tell you which a garment needs rather than defaulting to the more expensive one.\n\nPickup and delivery are free. Call or WhatsApp **+91 63 67 600 500**.",
       "local_notes": [
         "Shared flats are the norm: each person books separately and each order is counted, packed and receipted on its own.",
-        "Small, frequent mid-week orders are normal — no minimum, no pickup charge.",
+        "Small, frequent mid-week orders are normal, with no pickup charge.",
         "Shirt care here focuses on collars, cuffs and antiperspirant build-up on whites.",
         "Sneakers are a frequent request; mesh, canvas, leather and suede each take a different treatment.",
         "Nearest walk-in counter: Wash4You Arcadia, AG-75, Ground Floor, Block-A, Unitech Arcadia, Sector 49, Gurugram 122018."
@@ -1796,7 +1782,7 @@
         },
         {
           "q": "Is six shirts too small an order?",
-          "a": "No. There is no minimum order and pickup and delivery are free, so a small mid-week order costs exactly what the item-wise list says and nothing more."
+          "a": "No. Pickup and delivery are free, so a small mid-week order costs exactly what the item-wise list says and nothing more."
         },
         {
           "q": "Can you clean suede sneakers?",
@@ -1920,14 +1906,14 @@
         "laundry-service-udyog-vihar"
       ],
       "meta_title": "Laundry & Dry Cleaning in Sadar Bazar, Gurugram | Wash4You",
-      "meta_description": "Laundry, ironing and dry cleaning in Sadar Bazar, old Gurgaon. Free doorstep pickup in narrow lanes, item-wise rates published in full, no minimum order.",
+      "meta_description": "Laundry, ironing and dry cleaning in Sadar Bazar, old Gurgaon. Free doorstep pickup in narrow lanes, item-wise rates published in full.",
       "h1": "Laundry & Dry Cleaning in Sadar Bazar, Gurugram",
       "lede": "Sadar Bazar is old Gurgaon — narrow lanes, shops below and homes above, and households that have been here far longer than the sectors have. Pickup is free, the lanes are not a problem, and every rate is published.",
-      "body": "## Collections in a dense old-town lane\n\nThe practical difference here is access. Vehicles do not get everywhere in this part of Gurugram, and homes often sit above shops with a stair rather than a lift. That is not an obstacle, it just means we plan differently: we come to the door on foot where we have to, and we agree a time when someone will actually be upstairs rather than assuming a doorbell will be answered.\n\nFor the shops themselves, the request is usually different again — table linen, covers, staff clothing — and that runs better on a fixed cycle than on ad-hoc bookings.\n\n## Value, and the traditional wardrobe\n\nThis is a price-aware catchment and it should be. Our rates are item-wise and published in full on the pricing page, GST is stated separately, there is no minimum order and no pickup charge. You can work out what a load will cost before anything leaves your house, which is the only fair way to do it.\n\nThe wardrobe skews traditional: kurtas and suits, sarees, dupattas, and heavier festive pieces around the season. Sarees and anything with zari or beadwork go through dry cleaning with hand attention rather than a wash cycle, and stored pieces are assessed honestly — if age or storage has damaged a fabric beyond what cleaning can improve, we would rather say so than take the money.\n\nOur Vyapar Kendra counter in Sushant Lok Phase I, Sector 43 is the nearer of our two shops. Call or WhatsApp **+91 63 67 600 500**.",
+      "body": "## Collections in a dense old-town lane\n\nThe practical difference here is access. Vehicles do not get everywhere in this part of Gurugram, and homes often sit above shops with a stair rather than a lift. That is not an obstacle, it just means we plan differently: we come to the door on foot where we have to, and we agree a time when someone will actually be upstairs rather than assuming a doorbell will be answered.\n\nFor the shops themselves, the request is usually different again — table linen, covers, staff clothing — and that runs better on a fixed cycle than on ad-hoc bookings.\n\n## Value, and the traditional wardrobe\n\nThis is a price-aware catchment and it should be. Our rates are item-wise and published in full on the pricing page, GST is stated separately, there is no pickup charge. You can work out what a load will cost before anything leaves your house, which is the only fair way to do it.\n\nThe wardrobe skews traditional: kurtas and suits, sarees, dupattas, and heavier festive pieces around the season. Sarees and anything with zari or beadwork go through dry cleaning with hand attention rather than a wash cycle, and stored pieces are assessed honestly — if age or storage has damaged a fabric beyond what cleaning can improve, we would rather say so than take the money.\n\nOur Vyapar Kendra counter in Sushant Lok Phase I, Sector 43 is the nearer of our two shops. Call or WhatsApp **+91 63 67 600 500**.",
       "local_notes": [
         "Narrow lanes and homes above shops — we come to the door on foot where vehicles cannot reach, and agree a time when someone is in.",
         "Shop and small-business linen runs better on a fixed collection cycle than ad-hoc bookings.",
-        "Item-wise rates published in full with GST stated separately; no minimum order and no pickup charge.",
+        "Item-wise rates published in full with GST stated separately; no pickup charge.",
         "Traditional and festive wear — sarees, dupattas, zari work — is dry cleaned with hand attention, not washed.",
         "Nearest walk-in counter: Wash4You Vyapar Kendra, Sushant Lok Phase I, Sector 43, Gurugram 122009."
       ],
@@ -1947,10 +1933,6 @@
         {
           "q": "Can you clean an old saree that has been stored for years?",
           "a": "We will look at it and treat it individually. Stored silk can have set creases, tarnished zari or fibre damage that no cleaning will reverse, and we will tell you that before taking it."
-        },
-        {
-          "q": "Is there a minimum order?",
-          "a": "No, and pickup and delivery are free regardless of size."
         },
         {
           "q": "Do you do ironing only?",
@@ -2416,7 +2398,6 @@
       "lede": "A lot of Sector 5 is one person renting one room, and a lot of the rest is a family of six on two floors. Wash4You takes both. A bag of eight shirts is as welcome as a household load, and the van comes to you free either way.",
       "body": "## Small orders are not a nuisance\n\nPeople renting a room here often assume a service like ours is only for big households, so they carry on washing in a bucket and paying someone at the corner to press. You do not have to. A week's clothes for one person is a perfectly normal order, it gets counted the same way, and it gets the same written receipt. Nobody is doing you a favour by taking it.\n\nFor a single tenant, the useful combination is usually wash and steam press together, plus shoes once in a while. Work shoes take a beating on Old Gurgaon streets and dust gets into the stitching; cleaning them properly, by hand and by material, adds years to them and costs less than the next pair.\n\n## Households on two floors\n\nThe owner families here send the opposite kind of bag: everything, all at once, on a fixed day. Everyday cottons, school uniforms, towels, sheets, and then winter bedding in season. We sort at your door so a saree or a blazer does not go into the same process as a pile of t-shirts, and we say clearly which items are going for dry cleaning rather than washing.\n\nOne practical note about these streets: the lanes are narrow and often parked solid, so we book a day rather than an exact hour and the driver walks in from wherever the van fits. The count still happens at your door.\n\nEverything we collect in Sector 5 runs back to our Vyapar Kendra counter in Sushant Lok Phase I, Sector 43. Pickup and delivery are free anywhere in Gurugram. Call or WhatsApp **+91 63 67 600 500** and tell us how many pieces you have.",
       "local_notes": [
-        "There is no minimum order — a single tenant's weekly bag is collected on the same terms as a full household load.",
         "Tenants and owners at the same address are booked, counted and billed as separate orders.",
         "Lanes are often parked solid, so we give you a day and the driver walks in from where the van fits.",
         "Nearest walk-in counter: Wash4You Vyapar Kendra, Gate No. 3, Shop No. 180, GF Shushant, Vyapar Kendra Road, Block C, Sushant Lok Phase I, Sector 43, Gurugram, Haryana 122009"
@@ -2424,7 +2405,7 @@
       "faqs": [
         {
           "q": "I live alone. Is my order too small for you?",
-          "a": "No. One person's weekly wash is a normal order here and there is no minimum. It is counted piece by piece and receipted exactly like a household load, and pickup and delivery are still free."
+          "a": "No. One person's weekly wash is a normal order here. It is counted piece by piece and receipted exactly like a household load, and pickup and delivery are still free."
         },
         {
           "q": "Can I get washing and ironing together?",
@@ -2624,10 +2605,9 @@
       "meta_description": "Free doorstep laundry, ironing, curtain and sofa cover cleaning in Sector 10, Gurugram. Every piece counted with a receipt. Wash4You +91 63 67 600 500.",
       "h1": "Laundry & Dry Cleaning for Sector 10, Gurugram",
       "lede": "Wash4You runs a van through Sector 10 the same way anyone who lives here moves around it: knowing which lanes are blocked and which gate is actually used. Collection is free, and the count happens where you can watch it.",
-      "body": "## What we do about the parts people worry about\n\nThe two things households ask us before their first order are always the same. Will my clothes get mixed with someone else's, and will I be told the truth about a stain. The answer to the first is the count at your door: every piece listed in front of you, on a written receipt, before the bag goes anywhere. The answer to the second is that the driver tells you at pickup when we think something will not come out, so you decide whether to pay for the attempt.\n\nDay to day the work in Sector 10 is unremarkable and that is fine. Everyday cottons, work clothes, uniforms, towels and sheets, washed and steam pressed and brought back. A weekly fixed day suits most houses here. Tenants and shared flats tend to send a smaller bag more often, which is equally welcome — there is no minimum order.\n\n## Once-a-year textiles\n\nCurtains and sofa covers come off in most of these houses about as often as guests are expected. Both are jobs to plan rather than jobs to squeeze in: panels have to be taken down before we can take them and rehung when they come back, so we agree a day rather than a slot. Lined and blackout curtains behave differently from sheers, and we will tell you honestly how long yours will be away once we have seen them.\n\nSofa covers are worth sending with their cushion covers, so the whole set comes back the same shade rather than two near-misses. Fixed upholstery is a separate job done at your home with different equipment — say which you have when you book.\n\nAll of it runs to our Vyapar Kendra counter in Sushant Lok Phase I, Sector 43, and pickup and delivery cost nothing. Call or WhatsApp **+91 63 67 600 500**.",
+      "body": "## What we do about the parts people worry about\n\nThe two things households ask us before their first order are always the same. Will my clothes get mixed with someone else's, and will I be told the truth about a stain. The answer to the first is the count at your door: every piece listed in front of you, on a written receipt, before the bag goes anywhere. The answer to the second is that the driver tells you at pickup when we think something will not come out, so you decide whether to pay for the attempt.\n\nDay to day the work in Sector 10 is unremarkable and that is fine. Everyday cottons, work clothes, uniforms, towels and sheets, washed and steam pressed and brought back. A weekly fixed day suits most houses here. Tenants and shared flats tend to send a smaller bag more often, which is equally welcome.\n\n## Once-a-year textiles\n\nCurtains and sofa covers come off in most of these houses about as often as guests are expected. Both are jobs to plan rather than jobs to squeeze in: panels have to be taken down before we can take them and rehung when they come back, so we agree a day rather than a slot. Lined and blackout curtains behave differently from sheers, and we will tell you honestly how long yours will be away once we have seen them.\n\nSofa covers are worth sending with their cushion covers, so the whole set comes back the same shade rather than two near-misses. Fixed upholstery is a separate job done at your home with different equipment — say which you have when you book.\n\nAll of it runs to our Vyapar Kendra counter in Sushant Lok Phase I, Sector 43, and pickup and delivery cost nothing. Call or WhatsApp **+91 63 67 600 500**.",
       "local_notes": [
         "Give us the gate or door you actually use — several addresses here have more than one, and we will stick to the one you name.",
-        "No minimum order: shared flats and single tenants send small bags as often as they like.",
         "Curtain and sofa-cover jobs are booked as an agreed day, since panels and covers must come off first.",
         "Nearest walk-in counter: Wash4You Vyapar Kendra, Gate No. 3, Shop No. 180, GF Shushant, Vyapar Kendra Road, Block C, Sushant Lok Phase I, Sector 43, Gurugram, Haryana 122009"
       ],
@@ -2691,12 +2671,11 @@
         "laundry-service-sector-5"
       ],
       "meta_title": "Laundry Service in Sector 12, Gurugram | Wash4You",
-      "meta_description": "Weekly wash-and-press for rented rooms and PGs in Sector 12, Gurugram. Free doorstep pickup, no minimum order, receipt at the door. Call +91 63 67 600 500.",
+      "meta_description": "Weekly wash-and-press for rented rooms and PGs in Sector 12, Gurugram. Free doorstep pickup, receipt at the door. Call +91 63 67 600 500.",
       "h1": "Laundry and Ironing in Sector 12, Gurugram",
       "lede": "If you are renting a room in Sector 12 with a shared tap, a single bucket and no balcony worth the name, laundry is a genuinely annoying problem. We take the whole bag away for free and bring it back washed and pressed.",
-      "body": "## Built for people without a washing machine\n\nA rented room does not come with a machine, and even where there is one, drying space is the real constraint — a line on a shared terrace in monsoon season is not drying, it is storage. The most common order in Sector 12 is a straightforward weekly bag: work clothes, everyday cottons, towels, a bedsheet. Washed, dried properly, steam pressed, back to your door.\n\nThere is no minimum. Eight pieces is an order. It gets counted in front of you and you get a written receipt, which matters more in shared accommodation than anywhere else — when four people in a building all send white shirts, the count at the door is the only thing that keeps them apart.\n\n## Bedding, shoes and the things that get neglected\n\nThe items people in rented rooms skip entirely are bedding and footwear. A bedsheet that is slept on for two months because washing it is too much hassle, and one pair of work shoes carrying a season of street dust. Both are easy to add to a normal order: linen is washed and pressed with the rest, shoes travel separately and are cleaned by hand according to material.\n\nOne practical matter. These lanes are narrow and parking is not a thing, so we book collections by day rather than by hour and the driver calls before setting off for your street. If you are out at work most of the day, tell us at booking what hours you are actually in — we do not take bags left outside a door or handed over by a neighbour, because the count needs you there.\n\nOrders from here run to our Vyapar Kendra counter in Sushant Lok Phase I, Sector 43. Pickup and delivery are free anywhere in Gurugram. Call or WhatsApp **+91 63 67 600 500**.",
+      "body": "## Built for people without a washing machine\n\nA rented room does not come with a machine, and even where there is one, drying space is the real constraint — a line on a shared terrace in monsoon season is not drying, it is storage. The most common order in Sector 12 is a straightforward weekly bag: work clothes, everyday cottons, towels, a bedsheet. Washed, dried properly, steam pressed, back to your door.\n\nEight pieces is an order. It gets counted in front of you and you get a written receipt, which matters more in shared accommodation than anywhere else — when four people in a building all send white shirts, the count at the door is the only thing that keeps them apart.\n\n## Bedding, shoes and the things that get neglected\n\nThe items people in rented rooms skip entirely are bedding and footwear. A bedsheet that is slept on for two months because washing it is too much hassle, and one pair of work shoes carrying a season of street dust. Both are easy to add to a normal order: linen is washed and pressed with the rest, shoes travel separately and are cleaned by hand according to material.\n\nOne practical matter. These lanes are narrow and parking is not a thing, so we book collections by day rather than by hour and the driver calls before setting off for your street. If you are out at work most of the day, tell us at booking what hours you are actually in — we do not take bags left outside a door or handed over by a neighbour, because the count needs you there.\n\nOrders from here run to our Vyapar Kendra counter in Sushant Lok Phase I, Sector 43. Pickup and delivery are free anywhere in Gurugram. Call or WhatsApp **+91 63 67 600 500**.",
       "local_notes": [
-        "No minimum order and no extra charge for small bags — a single week's clothes is a normal booking.",
         "The driver calls before setting off for your lane, since parking here is unpredictable.",
         "We will not collect a bag left outside a door or passed over by a neighbour; the count needs you present.",
         "Nearest walk-in counter: Wash4You Vyapar Kendra, Gate No. 3, Shop No. 180, GF Shushant, Vyapar Kendra Road, Block C, Sushant Lok Phase I, Sector 43, Gurugram, Haryana 122009"
@@ -2704,7 +2683,7 @@
       "faqs": [
         {
           "q": "I live in a PG with no washing machine. Can I just send everything?",
-          "a": "That is exactly what this is for. Send the week's clothes, towels and bedsheet in one bag. It is counted with you at the door, washed, dried properly and pressed, and brought back. There is no minimum and no delivery charge."
+          "a": "That is exactly what this is for. Send the week's clothes, towels and bedsheet in one bag. It is counted with you at the door, washed, dried properly and pressed, and brought back. No delivery charge."
         },
         {
           "q": "Several of us in the building send clothes. How do you keep them apart?",
@@ -2831,12 +2810,11 @@
         "laundry-service-sector-4"
       ],
       "meta_title": "Rajiv Nagar Laundry & Ironing, Gurugram | Wash4You",
-      "meta_description": "Free doorstep laundry and ironing in Rajiv Nagar, Gurugram. No minimum order, counted at your door with a receipt, delivered back pressed. +91 63 67 600 500.",
+      "meta_description": "Free doorstep laundry and ironing in Rajiv Nagar, Gurugram. +91 63 67 600 500.",
       "h1": "Laundry and Ironing Service in Rajiv Nagar, Gurugram",
       "lede": "Rajiv Nagar is built close and rented hard. Most people here are paying for a room, not a utility room, and washing is done in a bucket by default. Wash4You collects the lot from your door at no cost and returns it washed and pressed.",
-      "body": "## Straightforward service, no minimum\n\nThe standard order here is one person's week: work clothes, a few everyday sets, a towel, a bedsheet. That is a full and normal order for us. We count it with you at the door, hand you a written receipt, and take it away. Nobody is measured against a minimum, and small bags do not cost more to collect.\n\nCounting in front of you matters more in a colony like this than almost anywhere. Buildings hold several tenants, many of whom wear similar clothes to similar jobs, and the only reliable protection is a piece-by-piece list made at your own door with your name on it. We do not accept bags left outside a locked room or handed over by someone else on your behalf.\n\n## Clothes that take a beating\n\nA lot of the work sent out of Rajiv Nagar is genuinely dirty rather than lightly worn — site clothing, uniforms, long days outdoors in Gurugram dust. That is fine; it is what the process is for. Where a garment is heavily soiled but too delicate for a hard wash, wet cleaning is the middle path, and the driver will tell you at pickup which route we think your item should take.\n\nBedding is the other thing worth sending. A sheet or a blanket in a single rented room is almost impossible to dry properly, particularly through the monsoon, and half-dry bedding is how a room starts smelling. Send it with the clothes; it is counted separately and dried right through before it comes back.\n\nCollections here are booked as a day, with a call before the driver starts for your lane, because parking in this colony is a matter of luck. Everything runs back to our Vyapar Kendra counter in Sushant Lok Phase I, Sector 43. Call or WhatsApp **+91 63 67 600 500**.",
+      "body": "## Straightforward service\n\nThe standard order here is one person's week: work clothes, a few everyday sets, a towel, a bedsheet. That is a full and normal order for us. We count it with you at the door, hand you a written receipt, and take it away. Small bags do not cost more to collect.\n\nCounting in front of you matters more in a colony like this than almost anywhere. Buildings hold several tenants, many of whom wear similar clothes to similar jobs, and the only reliable protection is a piece-by-piece list made at your own door with your name on it. We do not accept bags left outside a locked room or handed over by someone else on your behalf.\n\n## Clothes that take a beating\n\nA lot of the work sent out of Rajiv Nagar is genuinely dirty rather than lightly worn — site clothing, uniforms, long days outdoors in Gurugram dust. That is fine; it is what the process is for. Where a garment is heavily soiled but too delicate for a hard wash, wet cleaning is the middle path, and the driver will tell you at pickup which route we think your item should take.\n\nBedding is the other thing worth sending. A sheet or a blanket in a single rented room is almost impossible to dry properly, particularly through the monsoon, and half-dry bedding is how a room starts smelling. Send it with the clothes; it is counted separately and dried right through before it comes back.\n\nCollections here are booked as a day, with a call before the driver starts for your lane, because parking in this colony is a matter of luck. Everything runs back to our Vyapar Kendra counter in Sushant Lok Phase I, Sector 43. Call or WhatsApp **+91 63 67 600 500**.",
       "local_notes": [
-        "No minimum order, and small single-person bags cost nothing extra to collect.",
         "We count only with you present — bags left outside a room or passed on by someone else are not accepted.",
         "Bookings are a day, with a call from the driver before he starts towards your lane.",
         "Nearest walk-in counter: Wash4You Vyapar Kendra, Gate No. 3, Shop No. 180, GF Shushant, Vyapar Kendra Road, Block C, Sushant Lok Phase I, Sector 43, Gurugram, Haryana 122009"
@@ -2845,10 +2823,6 @@
         {
           "q": "My clothes get really dirty at work. Will you still take them?",
           "a": "Yes. Heavily soiled work clothing is ordinary for us and it is washed separately from lighter items. If something is too far gone to come back looking new, the driver will say so at pickup rather than let you expect otherwise."
-        },
-        {
-          "q": "Is there a minimum number of pieces?",
-          "a": "No. One person's weekly bag is a normal order. Pickup and delivery are free regardless of size, so there is no penalty for sending little and often."
         },
         {
           "q": "Several tenants in my building use you. How is my order kept separate?",
@@ -3211,10 +3185,6 @@
         {
           "q": "Do you clean school shoes as well?",
           "a": "Yes, as a separate job from the clothes. Leather school shoes are cleaned and conditioned, canvas is treated differently, and we tell you at pickup if a pair is too far gone to improve."
-        },
-        {
-          "q": "Is there a minimum order for a family wash?",
-          "a": "Pickup and delivery are free across Gurugram, so a small order is welcome. Everything is counted piece by piece at your door with a written receipt either way."
         }
       ],
       "keywords": [
@@ -3417,10 +3387,6 @@
         {
           "q": "My backpack is canvas with leather straps. How is that cleaned?",
           "a": "As a leather job, carefully. The leather is the part that cracks if it is treated like fabric, so the whole bag gets handled around that constraint."
-        },
-        {
-          "q": "Is there a minimum order, given I live alone?",
-          "a": "No minimum. Pickup and delivery are free everywhere in Gurugram, so a single bag is perfectly fine to book."
         },
         {
           "q": "Can I drop things off instead of booking a pickup?",
@@ -3626,7 +3592,7 @@
         },
         {
           "q": "We are mid-move and everything is in boxes. Can you still collect?",
-          "a": "Yes. Put out what you want done, we will count it at the door and write the receipt. There is no minimum order and pickup is free."
+          "a": "Yes. Put out what you want done, we will count it at the door and write the receipt. Pickup is free."
         },
         {
           "q": "Can we set up a regular weekly collection?",
@@ -3814,7 +3780,7 @@
       "meta_description": "Wash4You runs free doorstep laundry, steam ironing and dry cleaning in Sector 71, Gurugram. Counted at your door, receipt in hand. Call +91 63 67 600 500.",
       "h1": "Laundry and Dry Cleaning in Sector 71, Gurugram",
       "lede": "Sector 71 is still finding its feet. Towers are occupied, the market shops are half open, and most households here have not yet settled on a dhobi. That is usually when someone calls us.",
-      "body": "## What we pick up in Sector 71\n\nMost of what leaves Sector 71 in our bags is ordinary and high-volume: work shirts, cotton trousers, kurtas, gym wear, and a lot of bed linen. Flats here are new, so the linen is new too, and people are protective of it. We wash sheets and duvet covers separately from the general family load and press them flat rather than folding them damp.\n\nDry cleaning comes in bursts. A wedding in the family, a client meeting, a first winter in the flat and the coats come out of the packing boxes. We check every one of those before it goes anywhere.\n\n## How the pickup actually works\n\nYou call or message. We agree a slot. Our person comes to your door, counts the pieces in front of you, notes anything already stained or damaged, and hands you a written receipt. Nothing goes into the van uncounted. Pickup and delivery are free across Gurugram, including here, and there is no minimum you have to hit.\n\nIf something needs special handling, an embroidered piece, a leather jacket, a curtain with a lining, we tell you at the door what we think it needs and what it will cost. We do not guess at a date to make you happy. When we have seen the item, we agree a day with you and we stick to it.\n\n## Where we are based\n\nThe store that serves Sector 71 is Wash4You Arcadia in Sector 49. That is the workroom your clothes go to, and you are welcome to walk in and see it. Plenty of people from this side drop things off themselves on the way past and let us deliver back. Either way, the number is +91 63 67 600 500 and a person answers it.",
+      "body": "## What we pick up in Sector 71\n\nMost of what leaves Sector 71 in our bags is ordinary and high-volume: work shirts, cotton trousers, kurtas, gym wear, and a lot of bed linen. Flats here are new, so the linen is new too, and people are protective of it. We wash sheets and duvet covers separately from the general family load and press them flat rather than folding them damp.\n\nDry cleaning comes in bursts. A wedding in the family, a client meeting, a first winter in the flat and the coats come out of the packing boxes. We check every one of those before it goes anywhere.\n\n## How the pickup actually works\n\nYou call or message. We agree a slot. Our person comes to your door, counts the pieces in front of you, notes anything already stained or damaged, and hands you a written receipt. Nothing goes into the van uncounted. Pickup and delivery are free across Gurugram, including here.\n\nIf something needs special handling, an embroidered piece, a leather jacket, a curtain with a lining, we tell you at the door what we think it needs and what it will cost. We do not guess at a date to make you happy. When we have seen the item, we agree a day with you and we stick to it.\n\n## Where we are based\n\nThe store that serves Sector 71 is Wash4You Arcadia in Sector 49. That is the workroom your clothes go to, and you are welcome to walk in and see it. Plenty of people from this side drop things off themselves on the way past and let us deliver back. Either way, the number is +91 63 67 600 500 and a person answers it.",
       "local_notes": [
         "Towers here are new-build, so we ask for the block and floor as well as the gate name when booking.",
         "Guard-gate entry is standard; we call from the gate rather than expecting to be waved through.",
@@ -3828,7 +3794,7 @@
         },
         {
           "q": "Is pickup free if I only have a few shirts?",
-          "a": "Yes. Doorstep pickup and delivery are free anywhere in Gurugram and there is no minimum order. Small loads are normal for us."
+          "a": "Yes. Doorstep pickup and delivery are free anywhere in Gurugram. Small loads are normal for us."
         },
         {
           "q": "How do I know my count is right?",
@@ -3910,7 +3876,7 @@
         },
         {
           "q": "How much does the pickup cost?",
-          "a": "Nothing. Doorstep pickup and delivery are free across Gurugram, with no minimum order size."
+          "a": "Nothing. Doorstep pickup and delivery are free across Gurugram."
         },
         {
           "q": "What if a garment comes back with a problem?",
@@ -3954,7 +3920,7 @@
       "meta_description": "Wash4You collects laundry, dry cleaning and shoes from your door in Sector 73, Gurugram. Free pickup, counted receipt, no surprises. Call +91 63 67 600 500.",
       "h1": "Sector 73 Gurugram Laundry and Dry Cleaning Service",
       "lede": "Weekday mornings in Sector 73 are all one direction: out to the office belt. Which means laundry gets thought about at eleven at night or not at all, and a pickup that comes to the flat is worth more than a shop that shuts before you get home.",
-      "body": "## Built around the commute\n\nThe work we do for Sector 73 follows the working week. Shirts and trousers go out on Monday mornings and come back pressed. Blazers and suits arrive before a client visit or a wedding. Shoes turn up when the leather has finally taken one monsoon too many, and office bags when someone notices the handle has gone grey.\n\nWe clean shoes and bags as their own jobs, not as an afterthought in the laundry bag. Leather gets treated as leather. Fabric trainers get a different process. We look at the pair, tell you what we can honestly get out of it, and stop short of promising a miracle.\n\nIroning on its own is the other steady order from this sector. Households with a machine at home still cannot face a stack of formal shirts on a Sunday night, so they send the wash out unpressed and get it back on hangers, ready to pull off the rail on a weekday morning.\n\n## The part that builds trust\n\nEvery pickup is counted at your door, piece by piece, and you keep a written receipt. That matters most to people who are handing over a suit or a pair of shoes they actually care about. If a stain is set, or a sole is coming away, we point it out at the door. We would rather have an awkward thirty seconds then than a bad conversation later.\n\nDoorstep pickup and delivery are free everywhere in Gurugram, and there is no minimum. Two shirts is a fine order.\n\n## Booking\n\nSector 73 is covered by Wash4You Arcadia in Sector 49. Call +91 63 67 600 500 and say which evening suits you. If you get home late, say so; we will work the slot around that rather than the other way round.",
+      "body": "## Built around the commute\n\nThe work we do for Sector 73 follows the working week. Shirts and trousers go out on Monday mornings and come back pressed. Blazers and suits arrive before a client visit or a wedding. Shoes turn up when the leather has finally taken one monsoon too many, and office bags when someone notices the handle has gone grey.\n\nWe clean shoes and bags as their own jobs, not as an afterthought in the laundry bag. Leather gets treated as leather. Fabric trainers get a different process. We look at the pair, tell you what we can honestly get out of it, and stop short of promising a miracle.\n\nIroning on its own is the other steady order from this sector. Households with a machine at home still cannot face a stack of formal shirts on a Sunday night, so they send the wash out unpressed and get it back on hangers, ready to pull off the rail on a weekday morning.\n\n## The part that builds trust\n\nEvery pickup is counted at your door, piece by piece, and you keep a written receipt. That matters most to people who are handing over a suit or a pair of shoes they actually care about. If a stain is set, or a sole is coming away, we point it out at the door. We would rather have an awkward thirty seconds then than a bad conversation later.\n\nDoorstep pickup and delivery are free everywhere in Gurugram. Two shirts is a fine order.\n\n## Booking\n\nSector 73 is covered by Wash4You Arcadia in Sector 49. Call +91 63 67 600 500 and say which evening suits you. If you get home late, say so; we will work the slot around that rather than the other way round.",
       "local_notes": [
         "Evening pickup slots are the most requested in this sector because of commute timings.",
         "Shoes and bags are billed and handled as separate jobs from the clothing load.",
@@ -3976,7 +3942,7 @@
         },
         {
           "q": "Can I send a suit for dry cleaning without sending anything else?",
-          "a": "Yes. There is no minimum order, and pickup and delivery are free anywhere in Gurugram, so a single suit is worth booking a slot for."
+          "a": "Yes. Pickup and delivery are free anywhere in Gurugram, so a single suit is worth booking a slot for."
         },
         {
           "q": "Will you guarantee delivery by a particular day?",
@@ -4050,7 +4016,7 @@
         },
         {
           "q": "Is there a charge for collection?",
-          "a": "No. Doorstep pickup and delivery are free across Gurugram and there is no minimum order."
+          "a": "No. Doorstep pickup and delivery are free across Gurugram."
         },
         {
           "q": "How do I know how many pieces you took?",
@@ -4094,7 +4060,7 @@
       "meta_description": "New flat in Sector 75, Gurugram? Wash4You collects laundry, dry cleaning and curtains from your door, free of charge. Counted receipt. Call +91 63 67 600 500.",
       "h1": "Doorstep Laundry Service for Sector 75, Gurugram",
       "lede": "Half of Sector 75 unpacked in the last couple of years. Clothes come out of cartons smelling of the carton, curtains go up for the first time, and there is no local dhobi anyone has used long enough to trust yet.",
-      "body": "## Fresh-out-of-the-boxes work\n\nThe first order we get from a Sector 75 flat is almost always a moving-in order. Woollens that sat in a carton through a house shift. Bedding that was stored. Curtains that were made for the new windows and want a proper first clean before they hang for a year. We handle all of that, and we handle it as separate jobs rather than one undifferentiated pile.\n\nAfter that it settles down into the usual: work shirts, kurtas, everyday cottons, the occasional blazer. Steam ironing on its own is a popular standing order once people are past the unpacking stage, because the iron is usually the last thing to come out of a box and the first thing people give up on.\n\nWe also get a fair number of pieces that were packed slightly damp and have marked because of it. Those need looking at rather than simply rewashing, and we will say at the door whether we think a mark will lift.\n\n## Construction dust is a real thing here\n\nThis part of New Gurugram is still building. Plots next door, trucks on the approach roads, and fine dust that finds curtains, cushion covers and anything drying on a balcony. If you are on a lower floor facing an active site, tell us. It changes how we treat the curtains and it is worth us knowing before rather than after.\n\nEvery pickup is counted at your door with a written receipt, free anywhere in Gurugram, no minimum. If a fabric looks risky to us we will say so at the door, not quietly gamble with it.\n\n## Who you are dealing with\n\nSector 75 is served from Wash4You Arcadia, AG-75, Ground Floor, Block-A, Unitech Arcadia, Sector 49. Call +91 63 67 600 500 and we will agree a slot. When the work is in front of us, we will tell you the day it will be back.",
+      "body": "## Fresh-out-of-the-boxes work\n\nThe first order we get from a Sector 75 flat is almost always a moving-in order. Woollens that sat in a carton through a house shift. Bedding that was stored. Curtains that were made for the new windows and want a proper first clean before they hang for a year. We handle all of that, and we handle it as separate jobs rather than one undifferentiated pile.\n\nAfter that it settles down into the usual: work shirts, kurtas, everyday cottons, the occasional blazer. Steam ironing on its own is a popular standing order once people are past the unpacking stage, because the iron is usually the last thing to come out of a box and the first thing people give up on.\n\nWe also get a fair number of pieces that were packed slightly damp and have marked because of it. Those need looking at rather than simply rewashing, and we will say at the door whether we think a mark will lift.\n\n## Construction dust is a real thing here\n\nThis part of New Gurugram is still building. Plots next door, trucks on the approach roads, and fine dust that finds curtains, cushion covers and anything drying on a balcony. If you are on a lower floor facing an active site, tell us. It changes how we treat the curtains and it is worth us knowing before rather than after.\n\nEvery pickup is counted at your door with a written receipt, free anywhere in Gurugram. If a fabric looks risky to us we will say so at the door, not quietly gamble with it.\n\n## Who you are dealing with\n\nSector 75 is served from Wash4You Arcadia, AG-75, Ground Floor, Block-A, Unitech Arcadia, Sector 49. Call +91 63 67 600 500 and we will agree a slot. When the work is in front of us, we will tell you the day it will be back.",
       "local_notes": [
         "Approach roads near active construction change often; we ask for the current working gate.",
         "Curtains from lower floors facing building sites are treated for dust before the main wash.",
@@ -4164,7 +4130,7 @@
       "meta_description": "Wash4You covers Sector 76, Gurugram with free doorstep laundry, carpet and quilt cleaning, and careful dry cleaning of sarees. Call +91 63 67 600 500 to book.",
       "h1": "Wash4You in Sector 76, Gurugram: Laundry, Carpets and Dry Cleaning",
       "lede": "Sector 76 households tend to be full ones. Parents, children and often grandparents under one roof, which means more clothes, more bedding and a set of things nobody in the flat is keen to carry down to a shop.",
-      "body": "## The heavy items\n\nCarpets and rugs are the job people remember us for in Sector 76. They come out for a clean once a year, usually at the end of winter, and they are awkward, heavy and easy to ruin. We roll them, take them, clean them, dry them fully and bring them back. Quilts and blankets are the same story on the same calendar.\n\nBecause there are often three generations in the flat, we also see more hand-finished clothing than in the younger sectors nearby: sarees, silk kurtas, shawls, dupattas with work on them. Those go through dry cleaning with the work inspected first, and we tell you at the door if we think a piece is fragile. Nobody gains from us accepting a saree we are not confident about, so if the answer is no, you get the no straight away.\n\nShawls and heavy woollens follow the same seasonal pattern as the bedding. They come out of storage in October and go back in around March, and both journeys are a good moment to have them cleaned properly rather than aired on a balcony.\n\n## Everyday running\n\nUnderneath the seasonal work is a steady weekly family wash, which is a lot of cotton. We use eco-friendly detergents on it, and ironing comes back on hangers rather than folded flat into a bag.\n\nWhatever the order, our person counts every piece at your door, writes it down, notes anything already damaged and gives you the receipt before leaving. Doorstep pickup and delivery are free right across Gurugram, with no minimum.\n\n## Contact\n\nThe store looking after Sector 76 is Wash4You Arcadia in Sector 49. Call +91 63 67 600 500, tell us what you have got, and we will agree a slot and, once we have seen the items, a day for the return.",
+      "body": "## The heavy items\n\nCarpets and rugs are the job people remember us for in Sector 76. They come out for a clean once a year, usually at the end of winter, and they are awkward, heavy and easy to ruin. We roll them, take them, clean them, dry them fully and bring them back. Quilts and blankets are the same story on the same calendar.\n\nBecause there are often three generations in the flat, we also see more hand-finished clothing than in the younger sectors nearby: sarees, silk kurtas, shawls, dupattas with work on them. Those go through dry cleaning with the work inspected first, and we tell you at the door if we think a piece is fragile. Nobody gains from us accepting a saree we are not confident about, so if the answer is no, you get the no straight away.\n\nShawls and heavy woollens follow the same seasonal pattern as the bedding. They come out of storage in October and go back in around March, and both journeys are a good moment to have them cleaned properly rather than aired on a balcony.\n\n## Everyday running\n\nUnderneath the seasonal work is a steady weekly family wash, which is a lot of cotton. We use eco-friendly detergents on it, and ironing comes back on hangers rather than folded flat into a bag.\n\nWhatever the order, our person counts every piece at your door, writes it down, notes anything already damaged and gives you the receipt before leaving. Doorstep pickup and delivery are free right across Gurugram.\n\n## Contact\n\nThe store looking after Sector 76 is Wash4You Arcadia in Sector 49. Call +91 63 67 600 500, tell us what you have got, and we will agree a slot and, once we have seen the items, a day for the return.",
       "local_notes": [
         "Carpet and rug orders peak at the end of winter and are collected rolled from the flat.",
         "Hand-worked sarees and shawls are inspected at the door before they are accepted for dry cleaning.",
@@ -4234,7 +4200,7 @@
       "meta_description": "Wash4You handles laundry, soft toy cleaning and mattress cleaning in Sector 77, Gurugram. Free doorstep pickup, counted receipt. Call +91 63 67 600 500.",
       "h1": "Laundry, Toy and Mattress Cleaning in Sector 77, Gurugram",
       "lede": "There are a lot of small children in Sector 77. That changes what a laundry gets asked for: not just shirts, but the soft toy that goes everywhere, the mattress after a bad night, and detergent that somebody actually asks questions about.",
-      "body": "## What young households here send us\n\nDaily clothes, obviously, and plenty of them. But the jobs that are particular to this sector are the ones parents cannot do at home. Soft toys, which need washing without losing their shape or their stuffing. Mattresses, which cannot go in any machine and which get cleaned in the flat. Cot bedding that is changed far more often than adult bedding ever is.\n\nWe use eco-friendly detergents on the everyday wash, and we get asked about it more in Sector 77 than almost anywhere. Fair question. If anyone in the house reacts to something in particular, tell us and it goes on your job card.\n\nWork clothes are the other half of the bag. Two people commuting means shirts and trousers every week, and in most of these flats the help comes in for a couple of hours and the machine simply does not get to everything. Handing the formals out is usually the easiest thing to stop doing yourself.\n\n## How we keep it straightforward\n\nOur person comes to your door at the slot you picked, counts every piece in front of you, notes anything already stained or torn, and hands you a written receipt. That is the whole system, and it is deliberately boring. Pickup and delivery are free anywhere in Gurugram, and there is no minimum order, so a couple of toys and a cot sheet is a perfectly normal booking.\n\nWe will not promise you a return date before we have seen the items. Once we have, we agree a day and we mean it.\n\n## Where to reach us\n\nSector 77 is run from Wash4You Arcadia in Sector 49, and you are welcome to come in. Otherwise call +91 63 67 600 500 and we will come to you.",
+      "body": "## What young households here send us\n\nDaily clothes, obviously, and plenty of them. But the jobs that are particular to this sector are the ones parents cannot do at home. Soft toys, which need washing without losing their shape or their stuffing. Mattresses, which cannot go in any machine and which get cleaned in the flat. Cot bedding that is changed far more often than adult bedding ever is.\n\nWe use eco-friendly detergents on the everyday wash, and we get asked about it more in Sector 77 than almost anywhere. Fair question. If anyone in the house reacts to something in particular, tell us and it goes on your job card.\n\nWork clothes are the other half of the bag. Two people commuting means shirts and trousers every week, and in most of these flats the help comes in for a couple of hours and the machine simply does not get to everything. Handing the formals out is usually the easiest thing to stop doing yourself.\n\n## How we keep it straightforward\n\nOur person comes to your door at the slot you picked, counts every piece in front of you, notes anything already stained or torn, and hands you a written receipt. That is the whole system, and it is deliberately boring. Pickup and delivery are free anywhere in Gurugram, so a couple of toys and a cot sheet is a perfectly normal booking.\n\nWe will not promise you a return date before we have seen the items. Once we have, we agree a day and we mean it.\n\n## Where to reach us\n\nSector 77 is run from Wash4You Arcadia in Sector 49, and you are welcome to come in. Otherwise call +91 63 67 600 500 and we will come to you.",
       "local_notes": [
         "Mattress cleaning is done inside the flat and needs the bed cleared beforehand.",
         "Soft toys are washed and dried as a separate job from clothing.",
@@ -4260,7 +4226,7 @@
         },
         {
           "q": "Is a tiny order worth booking?",
-          "a": "Yes. There is no minimum and collection is free across Gurugram, so two toys and a cot sheet is a normal order for us."
+          "a": "Yes. Collection is free across Gurugram, so two toys and a cot sheet is a normal order for us."
         },
         {
           "q": "How do I know nothing goes missing?",
@@ -4392,7 +4358,7 @@
         },
         {
           "q": "I have a machine at home. Is it worth sending only a few items?",
-          "a": "Yes. There is no minimum order and pickup and delivery are free, so sending only the things your machine should not touch is a sensible way to use us."
+          "a": "Yes. Pickup and delivery are free, so sending only the things your machine should not touch is a sensible way to use us."
         },
         {
           "q": "Do you clean leather bags and belts as well as jackets?",
@@ -4444,7 +4410,7 @@
       "meta_description": "Wash4You collects laundry, shoes and accessories from Sector 80, Gurugram free, counted at your door. Ironing and dry cleaning too. Call +91 63 67 600 500.",
       "h1": "Sector 80 Gurugram Laundry, Ironing and Shoe Cleaning",
       "lede": "Out here the road does half the damage. Sector 80 sits at the outer edge of New Gurugram, and clothes, shoes and bags pick up dust on the commute long before anyone has done a day's work in them.",
-      "body": "## Dust, distance and what that does to clothes\n\nCollars go grey faster this side. Shoes take grit. Bag straps and belts get a film on them that a wipe will not shift. So along with the ordinary wash and ironing, Sector 80 sends us a steady stream of shoes and accessories, and those are cleaned as separate jobs with the right process for the material rather than being thrown in with the shirts.\n\nThe regular laundry is straightforward: work clothes, everyday cottons, towels and bedding, washed with eco-friendly detergents and pressed. Most households out here batch it up for the weekend, and that suits us fine.\n\nSeasonal bedding is the other big one. Blankets and quilts get put away and taken out at fixed points in the year, and neither end of that is a job for a flat machine. Send them in one go and they come back dry all the way through, not just dry on the outside.\n\n## Distance is our problem, not yours\n\nSector 80 is a fair drive from our workroom and people ask whether that is a catch. It is not. Doorstep pickup and delivery are free everywhere in Gurugram, this sector included, and there is no minimum order. The van runs this route anyway.\n\nWhat we do ask is a little notice, so we can put you on a run rather than making a special trip that ends up being rushed. Call +91 63 67 600 500 and we will fix a slot that works.\n\n## The store behind it\n\nYour clothes are handled at Wash4You Arcadia in Sector 49. Every pickup is counted at your door, piece by piece, with anything already stained or damaged noted on a written receipt you keep. When we have seen the load, we tell you which day it comes back.",
+      "body": "## Dust, distance and what that does to clothes\n\nCollars go grey faster this side. Shoes take grit. Bag straps and belts get a film on them that a wipe will not shift. So along with the ordinary wash and ironing, Sector 80 sends us a steady stream of shoes and accessories, and those are cleaned as separate jobs with the right process for the material rather than being thrown in with the shirts.\n\nThe regular laundry is straightforward: work clothes, everyday cottons, towels and bedding, washed with eco-friendly detergents and pressed. Most households out here batch it up for the weekend, and that suits us fine.\n\nSeasonal bedding is the other big one. Blankets and quilts get put away and taken out at fixed points in the year, and neither end of that is a job for a flat machine. Send them in one go and they come back dry all the way through, not just dry on the outside.\n\n## Distance is our problem, not yours\n\nSector 80 is a fair drive from our workroom and people ask whether that is a catch. It is not. Doorstep pickup and delivery are free everywhere in Gurugram, this sector included. The van runs this route anyway.\n\nWhat we do ask is a little notice, so we can put you on a run rather than making a special trip that ends up being rushed. Call +91 63 67 600 500 and we will fix a slot that works.\n\n## The store behind it\n\nYour clothes are handled at Wash4You Arcadia in Sector 49. Every pickup is counted at your door, piece by piece, with anything already stained or damaged noted on a written receipt you keep. When we have seen the load, we tell you which day it comes back.",
       "local_notes": [
         "This is an outer route, so booking a day ahead gets you a better slot than a same-day call.",
         "Shoes and accessories are cleaned as separate jobs, matched to the material.",
@@ -4603,10 +4569,6 @@
         {
           "q": "Do you clean sofa covers or the whole sofa?",
           "a": "Removable covers travel with your order like any other item. Fixed upholstery is a separate job with different equipment, so tell us which one you have when you book and we will send the right people."
-        },
-        {
-          "q": "Is there a minimum order to get a free pickup?",
-          "a": "Doorstep pickup and delivery are free across Gurugram. We schedule Sector 82 into planned runs rather than driving out for a single item, so booking a day ahead helps us give you the slot you asked for."
         },
         {
           "q": "Do you separate delicate clothes from the family wash?",
@@ -4945,10 +4907,6 @@
         {
           "q": "Three of us share the flat. Can we send separate orders?",
           "a": "Yes, and we would recommend it. Tell us at booking how many separate orders are coming from the address. Each one is counted on its own and gets its own written receipt, so nothing gets mixed up between you."
-        },
-        {
-          "q": "Is there a minimum load?",
-          "a": "A single person's fortnightly bundle is a perfectly normal order here and we collect plenty of them. Pickup and delivery are free either way."
         },
         {
           "q": "My work clothes get properly dirty, not office dirty. Is that a problem?",

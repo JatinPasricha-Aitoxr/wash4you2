@@ -227,16 +227,17 @@
       "slug": "accessories-cleaning",
       "name": "Accessories Cleaning",
       "short_description": "Gentle cleaning for hats, scarves, neckties and everyday accessories.",
-      "description": "Keep your accessories looking sharp with our gentle cleaning service for neckties, scarves, hats, and more. Each item is carefully cleaned and reshaped to maintain its form and color.",
+      "description": "Keep your accessories looking sharp with our gentle cleaning service for neckties, scarves, hats, and more. Each item is carefully cleaned and reshaped to maintain its form and color. Baby strollers and prams: we deep clean the fabric, frame and wheels with baby-safe, skin-friendly products, then dry and reassemble them. Safe for newborns, with the harness, canopy and straps cleaned too.",
       "icon": "scarf",
       "image": "images/pricing/shawl.webp",
       "features": [
         "Ties, scarves, and hats",
         "Gentle fabric care",
         "Color preservation",
-        "Reshaping and finishing"
+        "Reshaping and finishing",
+        "Baby stroller / pram cleaning: fabric, frame and wheels, with baby-safe products"
       ],
-      "best_for": "Neckties, scarves, hats, caps, stoles",
+      "best_for": "Neckties, scarves, hats, caps, stoles, baby strollers and prams",
       "turnaround": "Confirmed at pickup",
       "gallery": [
         "shawl"
@@ -406,10 +407,6 @@
     {
       "q": "How do I book a service?",
       "a": "Book online through the website, or call or WhatsApp +91 63 67 600 500. Choose your services, pick a slot, and we handle the rest."
-    },
-    {
-      "q": "Is there a minimum order?",
-      "a": "For per-kilo laundry there is a small minimum for free pickup — ask us for your area. For dry cleaning and individual items there is no minimum; every piece counts."
     },
     {
       "q": "Are your cleaning products safe for babies and sensitive skin?",

@@ -506,7 +506,8 @@ def build() -> None:
     # list section it lives in, so a hit jumps straight to that category
     # instead of dropping the visitor at the top of a 58-item page.
     search_pricing_items = [
-        {"name": item["name"], "cat_index": cat_i, "slug": item.get("slug")}
+        {"name": item["name"], "cat_index": cat_i, "slug": item.get("slug"),
+         "cat": category.get("title", ""), "price": item.get("price", "")}
         for cat_i, category in enumerate(pricing["categories"])
         for item in category["items"]
         if item.get("name")
@@ -568,9 +569,7 @@ def build() -> None:
     def hero_visual(service_slug: str = "premium-dry-cleaning", key: str = "", product: str = "") -> dict:
         """The hero picture for a page: a matching before/after where one exists, otherwise a relevant photograph."""
         if service_slug == "shoe-cleaning" and not product:
-            v = _photo("hero-shoe-cleaning.webp", "A sneaker half dirty, half cleaned by Wash4You", 1179, 1200)
-            v["photo"]["cutout"] = True
-            return v
+            return _photo("posters/worker-shoe-care.webp", "Wash4You team member hand-cleaning a sneaker", 1400, 933)
         if product:
             if product in _product_pair and _product_pair[product] in _pairs:
                 return {"pair": _pairs[_product_pair[product]]}

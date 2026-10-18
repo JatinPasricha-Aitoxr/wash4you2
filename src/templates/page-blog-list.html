@@ -4,20 +4,19 @@
 
 {% block content %}
 
-<section class="page-hero">
+<section class="page-hero blog-hero" style="--blog-hero-img: url('../images/hero-blog-banner.webp')">
   <div class="wrap">
+    <div class="page-hero__grid">
+      <div>
     <nav class="crumbs" aria-label="Breadcrumb">
       <a href="{{ root_path }}">Home</a>
       <span aria-hidden="true">/</span>
       <span>Blog</span>
     </nav>
-    <div class="page-hero__grid">
-      <div>
         <p class="eyebrow">Blog</p>
         <h1{{ cms('blog:hero.headline') }}>{{ blog.hero.headline | replace('Most Trusted', '<span class="kw--onlight">Most Trusted</span>', 1) | replace('Laundry & Dry Cleaners', '<span class="neon-kw">Laundry &amp; Dry Cleaners</span>', 1) | safe }}</h1>
         <p class="lede"{{ cms('blog:hero.subheadline') }}>{{ blog.hero.subheadline }}</p>
       </div>
-      {{ hero_visual_block({'photo': {'src': 'images/posters/family-banner.webp', 'alt': 'Wash4You: care for everything that matters', 'w': 1400, 'h': 933}}, asset_path, ui) }}
     </div>
   </div>
 </section>

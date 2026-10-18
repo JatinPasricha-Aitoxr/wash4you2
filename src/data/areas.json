@@ -1636,7 +1636,7 @@
     "rows": [
       {
         "label": "Free pickup & delivery",
-        "detail": "No minimum order. No hidden charges."
+        "detail": "No hidden charges."
       },
       {
         "label": "24-hour turnaround",
@@ -1663,7 +1663,7 @@
   "faqs": [
     {
       "q": "Do you offer free pickup and delivery in my area?",
-      "a": "Yes. Free doorstep pickup and delivery across every area listed on this page in Delhi, Gurgaon, Noida, Greater Noida, Faridabad and Ghaziabad, with no minimum order value."
+      "a": "Yes. Free doorstep pickup and delivery across every area listed on this page in Delhi, Gurgaon, Noida, Greater Noida, Faridabad and Ghaziabad."
     },
     {
       "q": "How fast can I get my laundry done?",

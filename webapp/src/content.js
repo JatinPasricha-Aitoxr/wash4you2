@@ -154,7 +154,7 @@ export const faqs = [
   },
   {
     q: 'Is pickup and delivery really free?',
-    a: 'Yes. Doorstep pickup and delivery are free across our Gurugram service areas — no minimum order, no hidden charges.',
+    a: 'Yes. Doorstep pickup and delivery are free across our Gurugram service areas — no hidden charges.',
   },
   {
     q: 'Which areas do you serve?',

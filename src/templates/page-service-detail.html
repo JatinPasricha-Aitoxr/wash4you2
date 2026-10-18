@@ -93,7 +93,7 @@
         <h1 style="margin-top:var(--s-4)"{{ cms((gen_base ~ '.h1') if gen_base else (cms_base ~ '.name')) }}>{{ service.h1 or service.name }}</h1>
         <p class="lede"{{ cms((gen_base ~ '.lede') if gen_base else (cms_base ~ '.short_description')) }}>{{ (service.lede or service.short_description) | replace('free deinstallation and reinstallation', '<strong>free deinstallation and reinstallation</strong>', 1) | safe }}</p>
         <div class="btn-row">
-          <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book free pickup</a>
+          <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book Your Pickup</a>
           <a class="btn btn--ghost btn--lg" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} Ask a question</a>
         </div>
         {{ page_hero_mascot_inline(asset_path) }}
@@ -366,7 +366,8 @@
       <h2>Book a free pickup.</h2>
       <p>Tell us when suits you. We come to your door, count everything with you, and take it from there.</p>
       <div class="btn-row">
-        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book free pickup</a>
+        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book Your Pickup</a>
+        <a class="btn btn--on-navy btn--lg" href="{{ root_path }}locate-us/">Find Your Area</a>
         <a class="btn btn--on-navy btn--lg" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} WhatsApp us</a>
       </div>
     </div>

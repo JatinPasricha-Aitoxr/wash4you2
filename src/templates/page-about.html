@@ -68,6 +68,10 @@
    ============================================================ #}
 <section class="section">
   <div class="wrap wrap--narrow">
+    <div class="about-lockup reveal">
+      <img class="about-lockup__logo" src="{{ asset_path }}images/logo-blue.png" alt="Wash4You: eco-friendly laundry &amp; dryclean" width="760" height="184" loading="lazy" decoding="async">
+      <img class="about-lockup__mascot" src="{{ asset_path }}images/mascot-why.png" alt="" width="760" height="941" loading="lazy" decoding="async" aria-hidden="true">
+    </div>
     <div class="section-head reveal">
       <p class="eyebrow"{{ cms('about:story.eyebrow') }}>{{ about.story.eyebrow }}</p>
       <h2{{ cms('about:story.title') }}>{{ about.story.title | replace('laundry and dry-cleaning', '<span class="neon-kw">laundry and dry-cleaning</span>', 1) | safe }}</h2>

@@ -24,6 +24,16 @@ let teardown = null;
 
 const norm = (s) => (s || '').toLowerCase().trim();
 
+// "pants" has to find "Pant/Trouser": strip a plural 's' and require every
+// typed word to appear, with a few everyday synonyms.
+const ALIASES = { pants: ['pant', 'trouser'], trousers: ['pant', 'trouser'], tee: ['t-shirt'], tshirt: ['t-shirt'], suits: ['suit'], rug: ['carpet'], rugs: ['carpet'], shoes: ['shoe', 'sneaker'] };
+const stem = (w) => (w.length > 3 && w.endsWith('s') && !w.endsWith('ss') ? w.slice(0, -1) : w);
+const matches = (text, q) =>
+  q.split(/\s+/).every((w) => {
+    const forms = ALIASES[w] || [w, stem(w)];
+    return forms.some((f) => text.includes(f));
+  });
+
 export function initPriceFilter() {
   if (teardown) teardown();
   if (typeof document === 'undefined') return (teardown = () => {});
@@ -52,7 +62,7 @@ export function initPriceFilter() {
     let shown = 0;
 
     index.forEach(({ el, text }) => {
-      const hit = !q || text.includes(q);
+      const hit = !q || matches(text, q);
       el.hidden = !hit;
       if (hit) shown++;
     });

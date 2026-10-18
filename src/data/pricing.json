@@ -481,10 +481,6 @@
       {
         "label": "GST",
         "detail": "Stated up front on every card and in the cart, not added quietly at the end."
-      },
-      {
-        "label": "Minimum order",
-        "detail": "Low and flexible — ask on WhatsApp and we will confirm for your area."
       }
     ]
   },
@@ -531,10 +527,6 @@
     ]
   },
   "faqs": [
-    {
-      "q": "Is there a minimum order value for free pickup?",
-      "a": "We keep the minimum low and flexible. Send us a WhatsApp with your address and we will confirm the minimum for your area — on a first order we can usually waive it."
-    },
     {
       "q": "Do your prices include GST?",
       "a": "No — every price on this page is a base rate and GST is added at 18% as per government norms. It is shown separately in your cart, so there are no surprises at the end."

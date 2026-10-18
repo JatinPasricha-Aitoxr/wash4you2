@@ -174,11 +174,6 @@
         "with": "Up to 60% more value in bonus credit"
       },
       {
-        "label": "Minimum order",
-        "without": "Applies per order",
-        "with": "No minimum"
-      },
-      {
         "label": "Scheduling",
         "without": "Standard queue",
         "with": "Priority from Elite upwards"

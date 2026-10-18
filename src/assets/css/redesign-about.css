@@ -428,3 +428,8 @@
   .page-about .about-hero--banner { min-height: 0; background: linear-gradient(rgba(255,255,255,.88), rgba(255,255,255,.88)), url('../images/hero-about-banner.webp') 40% center / cover no-repeat, #f3f7fb; }
 }
 .page-about .about-intro .about-hero__body--below { color: var(--ink-2, #223a5e); font-size: var(--t-lg, 1.1rem); text-align: center; margin: 0; }
+
+/* Logo + mascot lockup above the story */
+.page-about .about-lockup { display: flex; align-items: center; justify-content: center; gap: clamp(.75rem, 2vw, 1.5rem); margin-bottom: var(--s-6, 1.75rem); }
+.page-about .about-lockup__logo { width: min(16rem, 55%); height: auto; }
+.page-about .about-lockup__mascot { width: auto; height: clamp(5.5rem, 14vw, 8rem); }
