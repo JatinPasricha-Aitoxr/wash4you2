@@ -29,8 +29,8 @@
       {% set art_svc = services_by_slug.get(post.art) %}
       <article class="svc svc--photo">
         <span class="svc__media{% if not (art_svc and art_svc.image) %} svc__media--tonal{% endif %}" aria-hidden="true">
-          {% if art_svc and art_svc.image %}
-          <img src="{{ asset_path }}{{ art_svc.image | replace('.png', '.webp') }}" alt=""
+          {% if post.image or (art_svc and art_svc.image) %}
+          <img src="{{ asset_path }}{{ post.image or (art_svc.image | replace('.png', '.webp')) }}" alt=""
                width="500" height="500" loading="lazy" decoding="async">
           {% else %}
           {{ service_icon(post.art, 44) }}
