@@ -12,6 +12,7 @@ import sys
 from pathlib import Path
 
 import studio
+import seo_overrides
 from jinja2 import Environment, FileSystemLoader
 from markupsafe import Markup
 
@@ -1062,6 +1063,7 @@ def build() -> None:
 
     # Studio state (layout order / hidden sections / widget blocks / styles).
     studio_layout, studio_blocks, studio_styles = studio.load_layout(), studio.load_blocks(), studio.load_styles()
+    seo_pages = seo_overrides.load()
 
     # Render all pages
     template_cache = {}
@@ -1124,6 +1126,8 @@ def build() -> None:
         if template_name not in ("page-pricing-print.html",):
             rendered = studio.apply(rendered, rel_path, template_name, env, root_path, asset_path,
                                     edit=EDIT_MODE, layout=studio_layout, blocks=studio_blocks, styles=studio_styles)
+        if seo_pages and template_name != "page-pricing-print.html":
+            rendered = seo_overrides.apply(rendered, rel_path, seo_pages, site["urls"]["base"])
         write_html(DIST_DIR / rel_path, rendered)
         print(f"Built: {rel_path}")
 

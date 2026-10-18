@@ -1,0 +1,92 @@
+# Rebuilds the live site after the admin (cms/) publishes content, and refreshes
+# the editor's copy of the site. Free GitHub Actions minutes only.
+#
+#  1. Build the production site and copy it to the repository root (the same
+#     thing `sync_dist_to_root()` does locally) - Hostinger deploys from main.
+#  2. Build the editable variant (data-cms bindings) and force-push it to the
+#     `cms-edit` branch, which the admin downloads for its visual editor.
+name: Publish site (admin)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/data/**"
+      - "src/assets/images/**"
+      - "src/templates/**"
+      - "src/*.py"
+      - "src/js/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-site
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - run: pip install -r requirements.txt
+      - run: npm ci
+
+      - name: Build production site
+        run: npm run build
+
+      - name: Sync dist/ to the repository root
+        run: |
+          python3 - <<'PY'
+          import shutil
+          from pathlib import Path
+          dist, root = Path("dist"), Path(".")
+          for item in dist.iterdir():
+              dest = root / item.name
+              if item.is_dir():
+                  shutil.copytree(item, dest, dirs_exist_ok=True)
+              else:
+                  shutil.copy2(item, dest)
+          PY
+
+      - name: Commit the rebuilt site
+        run: |
+          git config user.name "wash4you-admin[bot]"
+          git config user.email "admin-bot@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nothing changed."
+          else
+            git commit -m "Rebuild site from admin changes [skip ci]"
+            git push
+          fi
+
+      - name: Build the editable site
+        run: |
+          rm -rf dist-edit
+          W4U_EDIT=1 python3 src/build.py
+
+      - name: Publish the editable site to cms-edit
+        run: |
+          set -e
+          cd dist-edit
+          git init -q
+          git checkout -q -b cms-edit
+          git config user.name "wash4you-admin[bot]"
+          git config user.email "admin-bot@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Editable build $(date -u +%FT%TZ)"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" cms-edit

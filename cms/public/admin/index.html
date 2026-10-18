@@ -1,0 +1,27 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wash4You Admin</title>
+<link rel="stylesheet" href="/admin/assets/admin.css">
+</head><body>
+<div class="shell">
+  <nav class="nav" id="nav">
+    <div class="nav__brand"><span class="logo">W</span><b>Wash4You</b></div>
+    <button data-v="overview" class="is-on">Overview</button>
+    <button data-v="pages">Pages &amp; editor</button>
+    <button data-v="media">Media library</button>
+    <button data-v="seo">SEO</button>
+    <button data-v="menus">Header, footer &amp; menus</button>
+    <button data-v="publish">Drafts &amp; publishing</button>
+    <button data-v="revisions">Revisions</button>
+    <button data-v="account">Account &amp; users</button>
+    <div class="nav__sp"></div>
+    <small id="who"></small>
+    <a href="/admin/logout">Sign out</a>
+  </nav>
+  <main id="main"></main>
+</div>
+<div class="modal-back" id="mb" hidden><div class="modal" id="modal"></div></div>
+<div class="toast" id="toast"></div>
+<script src="/admin/assets/csrf.js"></script>
+<script src="/admin/assets/admin.js"></script>
+</body></html>

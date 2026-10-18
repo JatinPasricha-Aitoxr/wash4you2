@@ -1,0 +1,45 @@
+/* Studio canvas (inside the iframe). Everything is prefixed w4s- so it can never
+   collide with the site's own CSS. */
+html.w4s { scroll-behavior: auto !important; }
+.w4s-live [data-sec] { position: relative; }
+.w4s-live .book-fab, .w4s-live .side-rail, .w4s-live .cta-bar { display: none !important; }
+
+/* hover / selected section outline */
+[data-sec].w4s-hover { outline: 2px solid #3b82f6; outline-offset: -2px; }
+[data-sec].w4s-selected { outline: 2px solid #1d4ed8; outline-offset: -2px; box-shadow: inset 0 0 0 9999px rgba(59, 130, 246, .04); }
+[data-sec][data-sec-hidden] { opacity: .35; background-image: repeating-linear-gradient(135deg, rgba(0,0,0,.05) 0 10px, transparent 10px 20px); }
+[data-sec][data-sec-hidden]::after { content: "Hidden on the live site"; position: absolute; left: 50%; top: 14px; transform: translateX(-50%); z-index: 3; background: #111827; color: #fff; font: 600 12px/1 system-ui, sans-serif; padding: 6px 10px; border-radius: 999px; }
+
+/* editable text */
+[data-cms] { cursor: text; transition: outline-color .12s; outline: 1px dashed transparent; outline-offset: 3px; }
+[data-cms]:hover { outline-color: #3b82f6; }
+[data-cms].w4s-active { outline: 2px solid #1d4ed8; background: rgba(59, 130, 246, .08); }
+[data-cms].w4s-dirty { outline: 2px solid #f59e0b; }
+img[data-cms], img[data-cms-file] { cursor: pointer; }
+
+/* section toolbar */
+#w4s-bar { position: absolute; z-index: 2147483000; display: none; align-items: center; gap: 2px; background: #1d4ed8; color: #fff; border-radius: 8px 8px 0 0; padding: 3px 4px; font: 600 12px/1 system-ui, -apple-system, sans-serif; box-shadow: 0 6px 16px rgba(0,0,0,.25); }
+#w4s-bar.is-on { display: flex; }
+#w4s-bar .w4s-lbl { padding: 0 8px 0 6px; max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#w4s-bar button { all: unset; cursor: pointer; width: 26px; height: 24px; display: grid; place-items: center; border-radius: 5px; font-size: 14px; }
+#w4s-bar button:hover { background: rgba(255,255,255,.22); }
+#w4s-bar button[disabled] { opacity: .35; cursor: default; }
+
+/* widget drop indicator */
+#w4s-drop { position: absolute; left: 12px; right: 12px; height: 4px; background: #2563eb; border-radius: 4px; z-index: 2147483000; display: none; box-shadow: 0 0 0 4px rgba(37,99,235,.25); pointer-events: none; }
+#w4s-drop.is-on { display: block; }
+#w4s-drop::after { content: "Drop widget here"; position: absolute; left: 50%; top: -28px; transform: translateX(-50%); background: #2563eb; color: #fff; font: 600 12px/1 system-ui, sans-serif; padding: 6px 10px; border-radius: 6px; white-space: nowrap; }
+.w4s-dragging [data-sec] { outline: 1px dashed rgba(37,99,235,.5); outline-offset: -3px; }
+
+/* empty page hint */
+#w4s-empty { margin: 80px auto; max-width: 420px; text-align: center; font: 500 15px/1.5 system-ui, sans-serif; color: #475569; padding: 28px; border: 2px dashed #cbd5e1; border-radius: 14px; }
+
+/* rich-text toolbar */
+#w4s-rt { position: absolute; z-index: 2147483001; display: none; align-items: center; gap: 2px; background: #111827; color: #fff; border-radius: 9px; padding: 4px 6px; box-shadow: 0 10px 26px rgba(0,0,0,.35); font: 600 13px/1 system-ui, sans-serif; }
+#w4s-rt.is-on { display: flex; }
+#w4s-rt button { all: unset; cursor: pointer; min-width: 28px; height: 28px; display: grid; place-items: center; border-radius: 6px; padding: 0 4px; color: #fff; }
+#w4s-rt button:hover { background: rgba(255,255,255,.18); }
+#w4s-rt .w4s-sep { width: 1px; height: 18px; background: rgba(255,255,255,.25); margin: 0 4px; }
+#w4s-rt input[type=color] { width: 26px; height: 26px; border: 0; padding: 0; background: none; cursor: pointer; }
+#w4s-rt.w4s-noblock .w4s-block { display: none; }
+#w4s-rt .w4s-block { display: contents; }

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wash4You Studio</title>
+<link rel="stylesheet" href="/admin/overlay/studio.css">
+</head>
+<body>
+<header class="top">
+  <div class="top__brand"><span class="top__logo">W</span><b>Wash4You</b><i>Studio</i></div>
+
+  <div class="picker" id="picker">
+    <button class="picker__btn" id="pickerBtn" type="button" title="Choose a page to edit"><span id="pickerLabel">/</span><em>&#9662;</em></button>
+    <div class="picker__pop" id="pickerPop" hidden>
+      <input id="pickerSearch" type="search" placeholder="Search pages..." autocomplete="off">
+      <div class="picker__list" id="pickerList"></div>
+    </div>
+  </div>
+
+  <div class="top__mid">
+    <div class="seg" id="devices" role="group" aria-label="Preview size">
+      <button data-dev="desktop" class="is-on" title="Desktop">&#128421;</button>
+      <button data-dev="tablet" title="Tablet">&#9647;</button>
+      <button data-dev="mobile" title="Mobile">&#128241;</button>
+    </div>
+    <button class="ibtn" id="undoBtn" title="Undo (Ctrl/Cmd+Z)" disabled>&#8630;</button>
+    <button class="ibtn" id="redoBtn" title="Redo (Ctrl/Cmd+Shift+Z)" disabled>&#8631;</button>
+  </div>
+
+  <div class="top__right">
+    <span class="status" id="status">Nothing to save</span>
+    <a class="btn btn--ghost" id="viewBtn" target="_blank" rel="noopener">View page</a>
+    <a class="btn btn--ghost" href="/admin" title="Back to the dashboard">Dashboard</a>
+    <button class="btn btn--save" id="saveBtn" disabled>Save draft</button>
+    <button class="btn btn--publish" id="publishBtn">Publish</button>
+  </div>
+</header>
+
+<main class="app">
+  <aside class="side" id="side">
+    <nav class="tabs" id="tabs" role="tablist">
+      <button class="is-on" data-tab="widgets">Widgets</button>
+      <button data-tab="nav">Navigator</button>
+      <button data-tab="settings">Settings</button>
+      <button data-tab="site">Site</button>
+    </nav>
+    <div class="panel" id="panel-widgets"></div>
+    <div class="panel" id="panel-nav" hidden></div>
+    <div class="panel" id="panel-settings" hidden></div>
+    <div class="panel" id="panel-site" hidden></div>
+  </aside>
+
+  <section class="stage" id="stage">
+    <div class="stage__scroll">
+      <div class="canvas" id="canvas" data-dev="desktop">
+        <iframe id="frame" title="Page canvas"></iframe>
+        <div class="canvas__loading" id="loading">Loading page...</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="modal-back" id="modalBack" hidden><div class="modal" id="modal"></div></div>
+<div class="toast" id="toast"></div>
+<script src="/admin/overlay/csrf.js"></script>
+<script src="/admin/overlay/studio.js"></script>
+</body>
+</html>
