@@ -17,12 +17,19 @@ if (!py) {
   console.log('Using the prebuilt site already committed in the repository (built by GitHub Actions).');
   process.exit(0);
 }
-const pip = spawnSync(py, ['-m', 'pip', '--version'], { stdio: 'ignore' }).status === 0;
-if (pip) {
-  r = run(py, ['-m', 'pip', 'install', '-r', 'requirements.txt']);
-  if (r.status !== 0) r = run(py, ['-m', 'pip', 'install', '--user', '-r', 'requirements.txt']);
-  if (r.status !== 0) r = run(py, ['-m', 'pip', 'install', '--break-system-packages', '-r', 'requirements.txt']);
-  if (r.status !== 0) process.exit(r.status || 1);
+const canImport = () => spawnSync(py, ['-c', 'import jinja2, markupsafe'], { stdio: 'ignore' }).status === 0;
+if (!canImport()) {
+  const pip = spawnSync(py, ['-m', 'pip', '--version'], { stdio: 'ignore' }).status === 0;
+  if (pip) {
+    r = run(py, ['-m', 'pip', 'install', '-r', 'requirements.txt']);
+    if (r.status !== 0) r = run(py, ['-m', 'pip', 'install', '--user', '-r', 'requirements.txt']);
+    if (r.status !== 0) r = run(py, ['-m', 'pip', 'install', '--break-system-packages', '-r', 'requirements.txt']);
+  }
+  if (!canImport()) {
+    console.log('\nPython is here but its packages (jinja2) cannot be installed: skipping the site generator.');
+    console.log('Using the prebuilt site already committed in the repository (built by GitHub Actions).');
+    process.exit(0);
+  }
 }
 r = run(py, ['src/build.py']);
 process.exit(r.status === null ? 1 : r.status);
