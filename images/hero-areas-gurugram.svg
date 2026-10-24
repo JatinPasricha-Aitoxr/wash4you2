@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Map of Gurugram showing Wash4You pickup areas">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b5a9c"/><stop offset="1" stop-color="#0b2a55"/></linearGradient></defs>
+<rect width="1200" height="800" fill="url(#bg)"/>
+<g stroke="#fff" stroke-opacity=".07" stroke-width="1">
+<path d="M0 0V800"/>
+<path d="M60 0V800"/>
+<path d="M120 0V800"/>
+<path d="M180 0V800"/>
+<path d="M240 0V800"/>
+<path d="M300 0V800"/>
+<path d="M360 0V800"/>
+<path d="M420 0V800"/>
+<path d="M480 0V800"/>
+<path d="M540 0V800"/>
+<path d="M600 0V800"/>
+<path d="M660 0V800"/>
+<path d="M720 0V800"/>
+<path d="M780 0V800"/>
+<path d="M840 0V800"/>
+<path d="M900 0V800"/>
+<path d="M960 0V800"/>
+<path d="M1020 0V800"/>
+<path d="M1080 0V800"/>
+<path d="M1140 0V800"/>
+<path d="M1200 0V800"/>
+<path d="M0 0H1200"/>
+<path d="M0 60H1200"/>
+<path d="M0 120H1200"/>
+<path d="M0 180H1200"/>
+<path d="M0 240H1200"/>
+<path d="M0 300H1200"/>
+<path d="M0 360H1200"/>
+<path d="M0 420H1200"/>
+<path d="M0 480H1200"/>
+<path d="M0 540H1200"/>
+<path d="M0 600H1200"/>
+<path d="M0 660H1200"/>
+<path d="M0 720H1200"/>
+<path d="M0 780H1200"/>
+</g>
+<path d="M180 330C190 220 330 130 520 110C700 90 900 130 990 250C1060 340 1040 480 960 590C880 700 700 740 520 735C360 730 230 700 190 580C165 510 170 420 180 330Z" fill="#2a7bc4" fill-opacity=".28" stroke="#9fd0ff" stroke-opacity=".7" stroke-width="3" stroke-dasharray="10 8"/>
+<g fill="none" stroke="#cfe6ff" stroke-opacity=".35" stroke-width="5" stroke-linecap="round"><path d="M200 330C400 330 600 380 980 420"/><path d="M720 110C700 300 650 500 520 735"/><path d="M860 130C880 300 840 450 780 650"/><path d="M300 600C500 540 700 560 960 560"/></g>
+<text x="600" y="62" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="30" font-weight="700" letter-spacing="4" fill="#fff">GURUGRAM</text>
+<g transform="translate(250 300) scale(1)"><path d="M0 0C-16 -22 -22 -32 -22 -42a22 22 0 0 1 44 0C22 -32 16 -22 0 0Z" fill="#fff"/><circle cx="0" cy="-42" r="8" fill="#0b2a55"/></g>
+<rect x="164.5" y="308" width="171" height="30" rx="15" fill="#fff" fill-opacity=".95"/><text x="250" y="329" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="700" fill="#0b2a55">Palam Vihar</text>
+<g transform="translate(560 200) scale(1)"><path d="M0 0C-16 -22 -22 -32 -22 -42a22 22 0 0 1 44 0C22 -32 16 -22 0 0Z" fill="#fff"/><circle cx="0" cy="-42" r="8" fill="#0b2a55"/></g>
+<rect x="487.5" y="208" width="145" height="30" rx="15" fill="#fff" fill-opacity=".95"/><text x="560" y="229" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="700" fill="#0b2a55">Sector 29</text>
+<g transform="translate(720 170) scale(1)"><path d="M0 0C-16 -22 -22 -32 -22 -42a22 22 0 0 1 44 0C22 -32 16 -22 0 0Z" fill="#fff"/><circle cx="0" cy="-42" r="8" fill="#0b2a55"/></g>
+<rect x="641.0" y="178" width="158" height="30" rx="15" fill="#fff" fill-opacity=".95"/><text x="720" y="199" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="700" fill="#0b2a55">Cyber City</text>
+<g transform="translate(860 250) scale(1)"><path d="M0 0C-16 -22 -22 -32 -22 -42a22 22 0 0 1 44 0C22 -32 16 -22 0 0Z" fill="#fff"/><circle cx="0" cy="-42" r="8" fill="#0b2a55"/></g>
+<rect x="774.5" y="258" width="171" height="30" rx="15" fill="#fff" fill-opacity=".95"/><text x="860" y="279" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="700" fill="#0b2a55">DLF Phase 3</text>
+<g transform="translate(650 350) scale(1)"><path d="M0 0C-16 -22 -22 -32 -22 -42a22 22 0 0 1 44 0C22 -32 16 -22 0 0Z" fill="#fff"/><circle cx="0" cy="-42" r="8" fill="#0b2a55"/></g>
+<rect x="590.5" y="358" width="119" height="30" rx="15" fill="#fff" fill-opacity=".95"/><text x="650" y="379" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="700" fill="#0b2a55">MG Road</text>
+<g transform="translate(470 400) scale(1.35)"><path d="M0 0C-16 -22 -22 -32 -22 -42a22 22 0 0 1 44 0C22 -32 16 -22 0 0Z" fill="#f2b134"/><circle cx="0" cy="-42" r="8" fill="#0b2a55"/></g>
+<rect x="384.5" y="408" width="171" height="30" rx="15" fill="#fff" fill-opacity=".95"/><text x="470" y="429" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="700" fill="#0b2a55">Sushant Lok</text>
+<g transform="translate(850 430) scale(1)"><path d="M0 0C-16 -22 -22 -32 -22 -42a22 22 0 0 1 44 0C22 -32 16 -22 0 0Z" fill="#fff"/><circle cx="0" cy="-42" r="8" fill="#0b2a55"/></g>
+<rect x="745.0" y="438" width="210" height="30" rx="15" fill="#fff" fill-opacity=".95"/><text x="850" y="459" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="700" fill="#0b2a55">Golf Course Rd</text>
+<g transform="translate(760 580) scale(1)"><path d="M0 0C-16 -22 -22 -32 -22 -42a22 22 0 0 1 44 0C22 -32 16 -22 0 0Z" fill="#fff"/><circle cx="0" cy="-42" r="8" fill="#0b2a55"/></g>
+<rect x="622.5" y="588" width="275" height="30" rx="15" fill="#fff" fill-opacity=".95"/><text x="760" y="609" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="700" fill="#0b2a55">Golf Course Ext. Rd</text>
+<g transform="translate(560 600) scale(1.35)"><path d="M0 0C-16 -22 -22 -32 -22 -42a22 22 0 0 1 44 0C22 -32 16 -22 0 0Z" fill="#f2b134"/><circle cx="0" cy="-42" r="8" fill="#0b2a55"/></g>
+<rect x="487.5" y="608" width="145" height="30" rx="15" fill="#fff" fill-opacity=".95"/><text x="560" y="629" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="700" fill="#0b2a55">Sector 49</text>
+<g transform="translate(380 660) scale(1)"><path d="M0 0C-16 -22 -22 -32 -22 -42a22 22 0 0 1 44 0C22 -32 16 -22 0 0Z" fill="#fff"/><circle cx="0" cy="-42" r="8" fill="#0b2a55"/></g>
+<rect x="301.0" y="668" width="158" height="30" rx="15" fill="#fff" fill-opacity=".95"/><text x="380" y="689" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="700" fill="#0b2a55">Sohna Road</text>
+</svg>

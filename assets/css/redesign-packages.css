@@ -1,0 +1,296 @@
+/* ============================================================================
+   redesign-packages.css  —  req 10: package-card feature / inclusion list
+   ----------------------------------------------------------------------------
+   Owns ONLY the per-plan detail list inside each .plan-card, i.e. the
+   `<dl class="plan-card__rows">` (You pay / Free bonus / Valid for) rendered
+   by src/templates/page-packages.html from packages.json plans[].
+
+   Problem: those row labels ship at --t-sm (0.8125rem ~ 13px) — too small.
+   Fix: 16px text, line-height 1.6, more room between rows, and a decorative
+   brand-green check pinned to the FIRST line of each label so it never drifts
+   when a label wraps.
+
+   Loading: this file is not listed in base.html; page-packages.html links it
+   from its {% block preload %}. Because that puts it in <head> BEFORE the core
+   sheets, every selector here is scoped under `.plan-grid` (one extra class)
+   so it outranks the plain `.plan-card__rows …` rules in features.css on
+   specificity — winning regardless of stylesheet source order. All colours,
+   spacing and radii come from the base.css :root tokens; nothing invented.
+   ============================================================================ */
+
+:root {
+  /* Decorative check glyph, used as an alpha mask so its colour is token-driven.
+     `fill:none` + a single stroked path → the check shape is the only opaque
+     region, everything else is transparent (masked out). */
+  --w4u-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+}
+
+/* Roomier gap between the rows than the original --s-2. */
+.plan-grid .plan-card__rows {
+  gap: var(--s-3);
+}
+
+/* Top-align label and value so the check sits on the label's first line
+   (rather than the flex baseline of a check + empty box). */
+.plan-grid .plan-card__rows > div {
+  align-items: flex-start;
+}
+
+/* The label becomes the check + text carrier. align-items:flex-start keeps the
+   check locked to the first line; it does not slide down when the text wraps. */
+.plan-grid .plan-card__rows dt {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-2);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Match the value to the label so each row reads as one 16px / 1.6 item. */
+.plan-grid .plan-card__rows dd {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Decorative green check before every label.
+   - box is exactly one line tall (1.6em) with the 1em glyph centred inside,
+     so with the flex-start parent it visually centres on the FIRST line only;
+   - built as a ::before pseudo-element, so it is inherently absent from the
+     accessibility tree (screen readers never announce it) — no aria needed;
+   - colour comes from --brand-green (the logo green, reserved for non-text
+     marks such as check icons) via the mask, not baked into the SVG. */
+.plan-grid .plan-card__rows dt::before {
+  content: "";
+  flex: none;
+  width: 1.15em;
+  height: 1.6em;
+  background-color: var(--brass);
+  -webkit-mask: var(--w4u-check) center / 1em 1em no-repeat;
+          mask: var(--w4u-check) center / 1em 1em no-repeat;
+}
+
+/* On the dark navy VIP card the logo green reads muddy, so lift the check to
+   the same bright green the card already uses for its "free bonus" value
+   (.plan-card--navy .plan-card__rows dd.is-free). Still green, just legible on
+   the deep-navy band. */
+.plan-grid .plan-card--navy .plan-card__rows dt::before {
+  background-color: #7ee0a0;
+}
+
+/* ============================================================
+   Packages banner
+
+   The supplied SVG as a full-bleed band with the live copy over it. The
+   artwork carries no text of its own, so the h1, lede and CTAs here are the
+   only words in the band and stay editable from the admin panel.
+
+   No scrim over it. Unlike the pricing photograph, this ground is a designed
+   navy gradient with a known, narrow luminance range, so white type sits on
+   it directly at full contrast — nothing needs dimming.
+   ============================================================ */
+.packages-hero {
+  position: relative;
+  isolation: isolate;
+  color: #fff;
+  background: url('../images/hero-packages.svg') center / cover no-repeat, #0B2E4C;
+  border-bottom: 1px solid rgba(217, 184, 120, .35);
+  padding-block: clamp(2.5rem, 1.8rem + 3vw, 4.5rem);
+}
+
+/* Single column: the aside that used to fill the right half now sits below
+   the band, and the artwork's tags occupy that side instead. */
+.packages-hero .page-hero__grid { display: block; }
+
+.packages-hero .crumbs { color: rgba(255, 255, 255, .72); }
+.packages-hero .crumbs a { color: #fff; }
+.packages-hero .crumbs a:hover { text-decoration: underline; }
+.packages-hero .crumbs span[aria-hidden] { color: rgba(255, 255, 255, .38); }
+
+.packages-hero .eyebrow { color: #8fe6cd; }
+
+
+.packages-hero h1 { color: #fff; }
+.packages-hero .lede { color: rgba(255, 255, 255, .92); }
+
+/* Below 62rem the copy uses the full column, so the tags must not be in
+   frame at all — at 768px the headline crossed a white tag face and measured
+   1.21:1. Anchoring the background left crops from the right, which is
+   exactly where the tags live, leaving plain gradient under the text. */
+@media (max-width: 61.99rem) {
+  .packages-hero { background-position: left center; }
+}
+
+/* Hold the copy inside the left half so it never runs across the tags. */
+@media (min-width: 62rem) {
+  .packages-hero .crumbs,
+  .packages-hero .eyebrow,
+  .packages-hero h1,
+  .packages-hero .lede,
+  .packages-hero .btn-row { max-width: 52%; }
+}
+
+/* Ghost button on the dark band. */
+.packages-hero .btn--ghost {
+  color: #fff;
+  border-color: rgba(255, 255, 255, .28);
+  background: rgba(255, 255, 255, .10);
+}
+.packages-hero .btn--ghost:hover {
+  border-color: rgba(255, 255, 255, .5);
+  background: rgba(255, 255, 255, .18);
+}
+
+/* The relocated "How the plans work" card. Constrained rather than full
+   width — as a page-wide slab it read as a banner of its own. */
+.packages-how .store-card { max-width: 38rem; }
+
+/* ============================================================
+   SEO sections added from the packages content guide
+   ============================================================ */
+
+/* ---- Per-plan detail on the cards ---- */
+.plan-card__for {
+  margin: var(--s-3) 0 var(--s-2);
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+}
+.plan-card__for span {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 0.15rem;
+}
+.plan-card__includes {
+  list-style: none;
+  margin: 0 0 var(--s-4);
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+.plan-card__includes li {
+  position: relative;
+  padding-left: 1.5rem;
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  line-height: 1.45;
+}
+/* Green tick drawn in CSS — no icon markup per line. */
+.plan-card__includes li::before {
+  content: '';
+  position: absolute;
+  left: 0.2rem; top: 0.4em;
+  width: 0.38rem; height: 0.66rem;
+  border: solid var(--brass-deep);
+  border-width: 0 2.4px 2.4px 0;
+  rotate: 45deg;
+}
+/* Only .plan-card--navy sits on a dark ground (--navy-deep) and needs its
+   ink flipped to white. .plan-card--gold is a light cream gradient
+   (features.css) — the white override that used to also apply here made
+   "Best for" and every "Includes" bullet on the Founder card render white
+   on near-white, i.e. invisible. It keeps the default dark ink instead,
+   and only its tick colour is customised to match the gold accent. */
+.plan-card--navy .plan-card__for,
+.plan-card--navy .plan-card__includes li { color: rgba(255, 255, 255, 0.88); }
+.plan-card--navy .plan-card__for span { color: rgba(255, 255, 255, 0.62); }
+.plan-card--navy .plan-card__includes li::before { border-color: var(--brass-bright); }
+.plan-card--gold .plan-card__includes li::before { border-color: var(--amber); }
+
+/* ---- Shared table shell (why-subscribe + chooser) ---- */
+.pkg-table-wrap {
+  overflow-x: auto;                /* the table scrolls, never the page */
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--paper);
+  box-shadow: var(--shadow-card);
+}
+.pkg-table { width: 100%; min-width: 36rem; border-collapse: collapse; text-align: left; }
+.pkg-table th, .pkg-table td {
+  padding: var(--s-4) var(--s-5);
+  border-bottom: 1px solid var(--line-soft);
+  vertical-align: top;
+}
+.pkg-table thead th {
+  background: var(--navy);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.pkg-table tbody th { color: var(--navy); font-weight: 700; }
+.pkg-table td { color: var(--ink-2); font-size: var(--t-sm); }
+.pkg-table tbody tr:last-child th,
+.pkg-table tbody tr:last-child td { border-bottom: 0; }
+.pkg-table tbody tr:hover { background: var(--brass-tint); }
+.pkg-table__win {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--r-pill);
+  background: var(--brass-tint);
+  color: var(--brass-deep);
+  font-weight: 600;
+}
+
+/* ---- How packages work (blue band) ---- */
+.pkg-steps { border-block: 1px solid rgba(217, 184, 120, .35); }
+.pkg-steps__grid {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: grid;
+  gap: var(--s-4);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 40rem) { .pkg-steps__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64rem) { .pkg-steps__grid { grid-template-columns: repeat(4, 1fr); } }
+.pkg-step {
+  padding: var(--s-5);
+  border-radius: var(--r-lg);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+.pkg-step__num {
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem; height: 2.25rem;
+  margin-bottom: var(--s-3);
+  border-radius: 50%;
+  background: rgba(217, 184, 120, .14);
+  color: var(--brass-bright);
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  font-variant-numeric: tabular-nums;
+}
+.pkg-step h3 { color: #fff; font-size: var(--t-md); margin-bottom: var(--s-1); }
+.pkg-step p { color: rgba(255, 255, 255, 0.84); font-size: var(--t-base); }
+
+/* ---- What the credit covers ---- */
+.spend-grid {
+  display: grid;
+  gap: var(--s-4);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 40rem) { .spend-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64rem) { .spend-grid { grid-template-columns: repeat(3, 1fr); } }
+.spend-card {
+  padding: var(--s-5);
+  border-radius: var(--r-lg);
+  background: var(--wash);
+  border: 1px solid var(--line-soft);
+  border-left: 2px solid var(--navy);
+}
+.spend-card:nth-child(even) { border-left-color: var(--brass); }
+.spend-card h3 { font-size: var(--t-md); color: var(--navy); margin-bottom: var(--s-1); }
+.spend-card p { color: var(--ink-2); font-size: var(--t-sm); }
+
+.packages-hero h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 800; line-height: 1.1; }
+
+/* Family cut-out on the right of the hero (desktop only) */
+.packages-hero__family { display: none; }
+@media (min-width: 62rem) {
+  .packages-hero__family { display: block; position: absolute; right: clamp(1rem, 4vw, 4rem); bottom: 0; width: min(38%, 520px); height: auto; z-index: 1; filter: drop-shadow(0 18px 30px rgba(0, 0, 0, .35)); }
+}
