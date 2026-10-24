@@ -5,10 +5,12 @@ from __future__ import annotations
 
 import html
 import json
+import math
 import os
 import re
 import shutil
 import sys
+from datetime import datetime
 from pathlib import Path
 
 import studio
@@ -229,6 +231,178 @@ def markdown_to_html(text: str) -> str:
     return "\n".join(out)
 
 
+POST_ROOT = "@ROOT@"  # swapped for the page's root_path at render time (see page-blog-post.html)
+
+
+def _slugify(text: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-") or "section"
+
+
+def render_post_markdown(text: str) -> tuple[str, list[dict]]:
+    """Markdown for blog posts: ## / ### headings (with anchor ids), paragraphs,
+    bullet and numbered lists, > quotes, --- rules, **bold**, *italic* and
+    [links](url). Returns (html, table_of_contents).
+
+    Everything is HTML-escaped first, so post copy can never inject markup.
+    Site-relative links ("/pricing/") become POST_ROOT + "pricing/" so they
+    resolve from any page depth, like every other link in the templates.
+    """
+    toc: list[dict] = []
+    if not text:
+        return "", toc
+
+    levels = [len(m.group(1)) for m in re.finditer(r"^(#{1,4})\s", text, re.M)]
+    shift = (2 - min(levels)) if levels else 0
+    used: set[str] = set()
+
+    def link(m: re.Match) -> str:
+        label, url = m.group(1), m.group(2)
+        if url.startswith("/"):
+            return f'<a href="{POST_ROOT}{url.lstrip("/")}">{label}</a>'
+        if url.startswith(("http://", "https://")):
+            return f'<a href="{url}" target="_blank" rel="noopener">{label}</a>'
+        return label  # anything else (javascript:, data:, bare text) is dropped
+
+    def inline(t: str) -> str:
+        t = html.escape(t, quote=False)
+        t = re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)", link, t)
+        t = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", t)
+        t = re.sub(r"(?<![\w*])\*([^*\n]+?)\*(?![\w*])", r"<em>\1</em>", t)
+        return t
+
+    out: list[str] = []
+    para: list[str] = []
+    list_kind: str | None = None
+
+    def flush_para() -> None:
+        if para:
+            out.append("<p>" + inline(" ".join(para)) + "</p>")
+            para.clear()
+
+    def close_list() -> None:
+        nonlocal list_kind
+        if list_kind:
+            out.append(f"</{list_kind}>")
+            list_kind = None
+
+    for raw in text.split("\n"):
+        line = raw.strip()
+        if not line:
+            flush_para(); close_list(); continue
+        heading = re.match(r"^(#{1,4})\s+(.*)$", line)
+        ul = re.match(r"^[-*+]\s+(.*)$", line)
+        ol = re.match(r"^\d+[.)]\s+(.*)$", line)
+        if heading:
+            flush_para(); close_list()
+            level = min(max(len(heading.group(1)) + shift, 2), 4)
+            label = heading.group(2).strip()
+            hid = base = _slugify(label)
+            n = 2
+            while hid in used:
+                hid, n = f"{base}-{n}", n + 1
+            used.add(hid)
+            if level == 2:
+                toc.append({"id": hid, "text": re.sub(r"[*_]", "", label)})
+            out.append(f'<h{level} id="{hid}">{inline(label)}</h{level}>')
+        elif ul or ol:
+            flush_para()
+            kind = "ul" if ul else "ol"
+            if list_kind != kind:
+                close_list()
+                out.append(f"<{kind}>")
+                list_kind = kind
+            out.append("<li>" + inline((ul or ol).group(1)) + "</li>")
+        elif line.startswith(">"):
+            flush_para(); close_list()
+            out.append("<blockquote><p>" + inline(line.lstrip("> ").strip()) + "</p></blockquote>")
+        elif re.match(r"^(-{3,}|\*{3,})$", line):
+            flush_para(); close_list()
+            out.append("<hr>")
+        else:
+            close_list()
+            para.append(line)
+    flush_para(); close_list()
+    return "\n".join(out), toc
+
+
+def _parse_front_matter(raw: str) -> tuple[dict, str]:
+    """`---` YAML front matter, then a Markdown body."""
+    m = re.match(r"^---\s*\n(.*?)\n---\s*\n?(.*)$", raw, re.S)
+    if not m:
+        return {}, raw
+    try:
+        import yaml  # in requirements.txt; the generator only needs it for posts
+        meta = yaml.safe_load(m.group(1)) or {}
+    except ImportError:
+        meta = {}
+        for ln in m.group(1).splitlines():
+            if ":" in ln and not ln.startswith(" "):
+                k, v = ln.split(":", 1)
+                meta[k.strip()] = v.strip().strip("'\"")
+    return meta, m.group(2)
+
+
+def _post_date(value) -> tuple[str, str]:
+    """-> (display like 'June 25, 2026', ISO like '2026-06-25')."""
+    if hasattr(value, "strftime"):  # YAML turned 2026-06-25 into a date
+        return value.strftime("%B %d, %Y").replace(" 0", " "), value.strftime("%Y-%m-%d")
+    text = str(value or "").strip()
+    for fmt in ("%B %d, %Y", "%b %d, %Y", "%Y-%m-%d", "%d %B %Y"):
+        try:
+            d = datetime.strptime(text, fmt)
+            return d.strftime("%B %d, %Y").replace(" 0", " "), d.strftime("%Y-%m-%d")
+        except ValueError:
+            pass
+    return text, ""
+
+
+def load_posts(posts_dir: Path, base_url: str) -> list[dict]:
+    """content/posts/<slug>.md -> post dicts, newest first.
+
+    A post lives at /<slug>/ (the URL the blog has always used, so existing
+    links and search rankings keep working). Only `status: published` posts
+    are built. Front matter: title, date, excerpt, meta_description, category,
+    cover_service_slug (the service the card art falls back to), image.
+    """
+    posts: list[dict] = []
+    for f in sorted(posts_dir.glob("*.md")):
+        try:
+            meta, body = _parse_front_matter(f.read_text(encoding="utf-8"))
+        except Exception as e:  # a YAML slip should name the file, not dump a traceback
+            raise SystemExit(f"{f.name}: front matter is not valid YAML ({e}). Wrap values containing a colon in quotes.")
+        if str(meta.get("status", "published")).lower() != "published":
+            continue
+        title = str(meta.get("title") or "").strip()
+        if not title:
+            raise SystemExit(f"{f.name}: front matter needs a title")
+        shown, iso = _post_date(meta.get("date"))
+        body_html, toc = render_post_markdown(body)
+        words = len(re.findall(r"\w+", body))
+        slug = f.stem
+        excerpt = " ".join(str(meta.get("excerpt") or "").split())
+        posts.append({
+            "slug": slug,
+            "path": f"{slug}/",
+            "url": f"{base_url}/{slug}/",
+            "title": title,
+            "date": shown,
+            "date_iso": iso,
+            "excerpt": excerpt,
+            "meta_description": " ".join(str(meta.get("meta_description") or excerpt).split()),
+            "category": str(meta.get("category") or "Guides").strip(),
+            "art": meta.get("cover_service_slug") or "",
+            "image": meta.get("image") or "",
+            "author": str(meta.get("author") or "The Wash4You team"),
+            "html": body_html,
+            "toc": toc,
+            "words": words,
+            "read_minutes": max(1, math.ceil(words / 200)),
+        })
+    posts.sort(key=lambda p: (p["date_iso"], p["title"]), reverse=True)
+    return posts
+
+
+
 def _make_cms(enabled: bool, styled: set | None = None):
     """Build the `cms()` template global.
 
@@ -370,6 +544,11 @@ def build() -> None:
     packages = load_json(DATA_DIR / "packages.json")
     steam = load_json(DATA_DIR / "steam-iron.json")
     blog = load_json(DATA_DIR / "blog.json")
+    # Posts come from content/posts/*.md (one file per article, full text).
+    # blog.json keeps the page's own copy: meta, hero.
+    _posts_dir = ROOT.parent / "content" / "posts"
+    if _posts_dir.is_dir():
+        blog["posts"] = load_posts(_posts_dir, site["urls"]["base"])
     locations = load_json(DATA_DIR / "locations.json")
     policies = load_json(DATA_DIR / "policies.json")
     pages = load_json(DATA_DIR / "pages.json")
@@ -817,12 +996,51 @@ def build() -> None:
         "depth": 1,
     }))
 
+    # Book a pickup: a real page (not a dialog), so every "Book pickup" button
+    # is a plain link. The WhatsApp buttons are separate pricing chats.
+    pages_to_build.append(("book-pickup/index.html", "page-book-pickup.html", {
+        "meta": {
+            "title": "Book a Free Laundry Pickup in Gurgaon | Wash4You",
+            "description": "Book a free doorstep laundry and dry cleaning pickup in Gurgaon and Delhi NCR. Pick a slot, verify your mobile and get your confirmation on WhatsApp.",
+            "canonical": f"{site['urls']['base']}/book-pickup/",
+        },
+        "depth": 1,
+    }))
+
     # Blog
     pages_to_build.append(("blog/index.html", "page-blog-list.html", {
         "meta": blog["meta"],
         "blog": blog,
         "depth": 1,
     }))
+
+    # Blog posts: one page each at /<slug>/. Related = same category first,
+    # then the rest, newest first. prev/next walk the newest-first list.
+    _taken = {rel for rel, _t, _c in pages_to_build}
+    for _i, _post in enumerate(blog["posts"]):
+        _rel = f"{_post['slug']}/index.html"
+        if _rel in _taken:
+            raise SystemExit(f"Blog post slug '{_post['slug']}' collides with an existing page")
+        _taken.add(_rel)
+        _others = [p for p in blog["posts"] if p["slug"] != _post["slug"]]
+        _others.sort(key=lambda p: p["category"] != _post["category"])  # stable: keeps date order
+        pages_to_build.append((_rel, "page-blog-post.html", {
+            "meta": {
+                "title": _post["title"],
+                "description": _post["meta_description"],
+                "canonical": _post["url"],
+                "og_title": _post["title"],
+                "og_description": _post["meta_description"],
+                "og_image": _post["image"] or "images/og-share.jpg",
+                "og_type": "article",
+            },
+            "post": _post,
+            "blog": blog,
+            "related": _others[:3],
+            "newer_post": blog["posts"][_i - 1] if _i > 0 else None,
+            "older_post": blog["posts"][_i + 1] if _i + 1 < len(blog["posts"]) else None,
+            "depth": 1,
+        }))
 
     # Contact
     pages_to_build.append(("contact-us/index.html", "page-contact.html", {

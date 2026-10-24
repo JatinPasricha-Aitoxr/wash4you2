@@ -10,7 +10,7 @@
     "headline": "Fabric-Care Guides from Gurgaon’s Most Trusted Laundry & Dry Cleaners",
     "subheadline": "Wash4You's own team writes about stains, fabrics, footwear and monsoon drying — the questions customers actually ask us at the door. Practical guides for keeping clothes, shoes and home fabrics looking their best in Gurugram and Delhi NCR."
   },
-  "note": "Blog posts link to the original articles on wash4you.in for the full reading experience.",
+  "note": "Posts are built from content/posts/*.md (one file per article). This file holds only the blog page's own meta and hero copy.",
   "posts": [
     {
       "title": "Laundry Service Cost in Gurgaon: Complete Pricing Guide",

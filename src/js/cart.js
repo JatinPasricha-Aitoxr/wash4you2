@@ -84,9 +84,6 @@ export function initCart(root = document) {
     cards.forEach(renderCardControl)
   }
 
-  // After a pickup is booked the list is done; the WhatsApp message already holds a copy.
-  const clearList = () => { items = []; commit() }
-
   const add = (data, delta = 1) => {
     let it = find(data.slug)
     if (!it) {
@@ -212,175 +209,11 @@ export function initCart(root = document) {
     root.querySelectorAll('[data-cart-book]').forEach((el) => { el.href = buildWhatsApp() })
   }
 
-  /* ---- pickup booking: details -> SMS code -> Fabklean pickup -> WhatsApp ----
-     The Fabklean token lives on the server (server/booking.js); this only talks
-     to /api/booking/*. If that service is offline the form degrades to a plain
-     WhatsApp handoff, so a booking is never lost. */
-  const dialog = root.getElementById('lead-dialog')
-  const form = root.getElementById('lead-form')
-  const otpForm = root.getElementById('lead-otp')
-  const doneBox = root.getElementById('lead-done')
-  let conf = null // { enabled, slots, minDate, maxDate } from the server
-  let details = null // what the customer typed
-  let session = ''
-
-  const api = async (path, body) => {
-    const ctl = new AbortController()
-    const t = setTimeout(() => ctl.abort(), 20000)
-    try {
-      const r = await fetch('/api/booking/' + path, {
-        method: body ? 'POST' : 'GET',
-        headers: body ? { 'Content-Type': 'application/json' } : undefined,
-        body: body ? JSON.stringify(body) : undefined,
-        signal: ctl.signal,
-      })
-      let j = null
-      try { j = await r.json() } catch { /* non-JSON */ }
-      return { status: r.status, j: j || {} }
-    } catch {
-      return { status: 0, j: {} }
-    } finally { clearTimeout(t) }
-  }
-
-  const show = (which) => {
-    form.hidden = which !== 'details'
-    otpForm.hidden = which !== 'otp'
-    doneBox.hidden = which !== 'done'
-    const first = (which === 'details' ? form : which === 'otp' ? otpForm : doneBox).querySelector('input,select,a')
-    if (first && which !== 'details') first.focus()
-  }
-  const setErr = (el, msg) => { el.textContent = msg || ''; el.hidden = !msg }
-  const busy = (btn, on, label) => { btn.disabled = on; if (label) btn.textContent = on ? 'Please wait…' : label }
-  const niceDate = (ymd) => {
-    const d = new Date(ymd + 'T00:00:00')
-    return isNaN(d) ? ymd : d.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' })
-  }
-  const tenDigits = (v) => String(v || '').replace(/\D/g, '').slice(-10)
-
-  async function loadConf() {
-    if (conf) return conf
-    const r = await api('config')
-    conf = r.status === 200 && r.j.enabled ? r.j : { enabled: false }
-    return conf
-  }
-
-  const openLead = async () => {
-    if (!items.length) return
-    if (!dialog || typeof dialog.showModal !== 'function') { window.open(buildWhatsApp(), '_blank', 'noopener'); return }
-    const c = await loadConf()
-    let saved = null
-    try { saved = JSON.parse(localStorage.getItem('w4u-lead') || 'null') } catch { /* ignore */ }
-    if (saved) ['name', 'phone', 'address'].forEach((k) => { if (saved[k] && form.elements[k]) form.elements[k].value = saved[k] })
-
-    // Booking fields only when the booking service is live.
-    form.querySelector('[data-when]').hidden = !c.enabled
-    form.elements.date.required = form.elements.slot.required = !!c.enabled
-    if (c.enabled) {
-      form.elements.date.min = c.minDate
-      form.elements.date.max = c.maxDate
-      if (!form.elements.date.value) form.elements.date.value = c.minDate
-      const sel = form.elements.slot
-      if (sel.options.length <= 1) c.slots.forEach((sl) => sel.add(new Option(sl, sl)))
-    }
-    form.querySelector('[data-lead-submit]').textContent = c.enabled ? 'Send code' : 'Continue to WhatsApp'
-    setErr(dialog.querySelector('[data-lead-error]'), '')
-    session = ''
-    show('details')
-    dialog.showModal()
-  }
-
-  const finish = (title, text, c) => {
-    doneBox.querySelector('[data-done-title]').textContent = title
-    doneBox.querySelector('[data-done-text]').textContent = text
-    doneBox.querySelector('[data-done-wa]').href = buildWhatsApp(c)
-    show('done')
-  }
-
-  if (form && otpForm && dialog) {
-    // Step 1: details -> send SMS code
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault()
-      const err = dialog.querySelector('[data-lead-error]')
-      const btn = form.querySelector('[data-lead-submit]')
-      if (form.elements.company.value) return // honeypot
-      const v = (k) => (form.elements[k].value || '').trim()
-      const phone = tenDigits(v('phone'))
-      if (v('name').length < 2 || !/^[6-9]\d{9}$/.test(phone) || v('address').length < 8) {
-        setErr(err, 'Please add your name, a valid 10-digit mobile number and your full pickup address.')
-        return
-      }
-      if (conf && conf.enabled && (!v('date') || !v('slot'))) { setErr(err, 'Please choose a pickup date and time slot.'); return }
-      setErr(err, '')
-      details = { name: v('name'), phone, address: v('address'), date: v('date'), slot: v('slot'), notes: v('notes') }
-      try { localStorage.setItem('w4u-lead', JSON.stringify({ name: details.name, phone, address: details.address })) } catch { /* ignore */ }
-
-      if (!conf || !conf.enabled) { finish('Almost done', 'Send your list on WhatsApp and we’ll confirm the price and pickup slot.', details); return }
-
-      const label = btn.textContent
-      busy(btn, true, label)
-      const r = await api('otp', { phone })
-      busy(btn, false, label)
-      if (r.status === 200 && r.j.ok) {
-        otpForm.querySelector('[data-otp-phone]').textContent = '+91 ' + phone
-        otpForm.elements.otp.value = ''
-        setErr(otpForm.querySelector('[data-otp-error]'), '')
-        show('otp')
-      } else if (r.status === 400 || r.status === 429) {
-        setErr(err, r.j.error || 'Please check your details and try again.')
-      } else {
-        // Booking service unreachable: keep the customer moving on WhatsApp.
-        finish('Continue on WhatsApp', 'Our booking system is busy right now. Send your list on WhatsApp and we’ll book your pickup for you.', details)
-      }
-    })
-
-    // Step 2: verify code -> create the pickup
-    otpForm.addEventListener('submit', async (e) => {
-      e.preventDefault()
-      const err = otpForm.querySelector('[data-otp-error]')
-      const btn = otpForm.querySelector('[data-otp-submit]')
-      const label = btn.textContent
-      busy(btn, true, label)
-      try {
-        if (!session) {
-          const v = await api('verify', { phone: details.phone, otp: otpForm.elements.otp.value })
-          if (!(v.status === 200 && v.j.ok)) {
-            setErr(err, v.status === 0 || v.status >= 500 ? 'Could not verify right now. Please try again.' : v.j.error || 'That code is not correct.')
-            return
-          }
-          session = v.j.session
-        }
-        const r = await api('schedule', {
-          session, name: details.name, address: details.address,
-          date: details.date, slot: details.slot, notes: details.notes,
-          items: items.map((i) => ({ name: i.name, qty: i.qty })),
-        })
-        if (r.status === 200 && r.j.ok) {
-          // Build the WhatsApp message from the list first, then clear it.
-          finish(`Pickup booked${r.j.orderNo ? ' · ' + r.j.orderNo : ''}`,
-            `${niceDate(r.j.date)}, ${r.j.slot}. Send your list on WhatsApp so we can confirm the price.`,
-            { ...details, orderNo: r.j.orderNo })
-          clearList()
-        } else if (r.status === 401) {
-          session = ''
-          setErr(err, r.j.error || 'Please verify again.')
-        } else if (r.status === 400 || r.status === 429) {
-          setErr(err, r.j.error || 'Please check your details.')
-        } else {
-          finish('Continue on WhatsApp', 'We verified your number but could not complete the booking. Send your list on WhatsApp and we’ll book it for you.', details)
-        }
-      } finally { busy(btn, false, label) }
-    })
-    otpForm.querySelector('[data-otp-back]').addEventListener('click', () => show('details'))
-
-    dialog.addEventListener('click', (e) => {
-      if (e.target === dialog || e.target.closest('[data-lead-close]')) dialog.close()
-    })
-  }
-
-  function buildWhatsApp(c) {
-    const lines = [c && c.orderNo
-      ? `Hi Wash4You! I just booked a pickup (${c.orderNo}). Please share the price for:`
-      : "Hi Wash4You! I'd like to book a free pickup and get the price for:"]
+  // The WhatsApp button is a pricing chat: it opens a conversation with the
+  // selected items pre-filled so we can quote. It never books anything -
+  // booking a pickup is the separate /book-pickup/ page.
+  function buildWhatsApp() {
+    const lines = ["Hi Wash4You! I'd like the price for:"]
     items.forEach((it) => {
       const each = it.price || rupee(it.amount)
       lines.push(`• ${it.name} ×${it.qty} — ${each}`)
@@ -389,16 +222,9 @@ export function initCart(root = document) {
     lines.push(`Subtotal: ${money2(subtotal())}`)
     lines.push(`GST (18%): ${money2(gstAmount())}`)
     lines.push(`Total: ${money2(grandTotal())}`)
-    // Every listed rate is a starting price now (data-from is gone), so this
-    // is stated once for the whole list instead of tagged onto each line.
+    // Every listed rate is a starting price, so this is stated once for the list.
     lines.push('Note: all rates are starting prices; the final price depends on the garment and the work it needs.')
-    if (c) {
-      lines.push('')
-      lines.push(`Name: ${c.name}`, `Mobile: ${c.phone}`, `Address: ${c.address}`)
-      if (c.date || c.slot) lines.push(`Pickup: ${[c.date && niceDate(c.date), c.slot].filter(Boolean).join(', ')}`)
-      if (c.notes) lines.push(`Notes: ${c.notes}`)
-    }
-    lines.push(c && c.orderNo ? 'Thank you!' : 'Please confirm the price and a pickup slot. Thank you!')
+    lines.push('Please confirm the price. Thank you!')
     return waBase + (waBase.includes('?') ? '&' : '?') + 'text=' + encodeURIComponent(lines.join('\n'))
   }
 
@@ -430,9 +256,6 @@ export function initCart(root = document) {
 
   /* ---- events (delegated) ---- */
   root.addEventListener('click', (e) => {
-    const bookTrigger = e.target.closest('[data-cart-book]')
-    if (bookTrigger) { e.preventDefault(); close(); openLead(); return }
-
     const openTrigger = e.target.closest('[data-cart-open], #cart-toggle')
     if (openTrigger) { e.preventDefault(); open(); return }
 
@@ -463,11 +286,6 @@ export function initCart(root = document) {
   window.addEventListener('storage', (e) => {
     if (e.key === KEY) { items = read(); renderBadges(); renderDrawer(); cards.forEach(renderCardControl) }
   })
-
-  // Landed from a "Book pickup" button (?book=1): show the 3-step guide.
-  if (/[?&]book=1\b/.test(location.search)) {
-    root.querySelectorAll('[data-book-steps]').forEach((el) => { el.hidden = false })
-  }
 
   // First paint from whatever is in storage.
   renderBadges()

@@ -248,7 +248,7 @@ sections:
     text: Tell us when suits you. We come to your door, count everything with you, and take it from there.
     buttons:
     - label: Book free pickup
-      href: "pricing/?book=1"
+      href: "book-pickup/"
       style: primary
     - label: WhatsApp us
       href: https://wa.me/916367600500

@@ -193,25 +193,13 @@
   </div>
 </section>
 
-{# Book-pickup landing: every "Book pickup" button on the site lands here with
-   ?book=1. Pick items below, then the list goes to WhatsApp for pricing. #}
-<section class="section section--tight book-steps" id="book" data-book-steps hidden>
-  <div class="wrap">
-    <ol class="book-steps__list">
-      <li><b>1</b> Pick your items below</li>
-      <li><b>2</b> Tap <em>Get pricing on WhatsApp</em></li>
-      <li><b>3</b> We confirm price &amp; pickup slot</li>
-    </ol>
-  </div>
-</section>
-
 {# Toolbar — download the list, or jump straight to booking. #}
 <section class="section section--tight" id="download">
   <div class="wrap">
     <div class="price-toolbar reveal">
       <div class="price-toolbar__text">
         <strong>{% if is_area %}{{ area.label }} price list{% else %}Full price list{% endif %}</strong>
-        <span>Tap <em>Add to Cart</em> on any item, then book the whole list in one message.</span>
+        <span>Tap <em>Add to Cart</em> on any item, then chat with us on WhatsApp for your price, or book a pickup.</span>
       </div>
       <div class="price-toolbar__actions">
         <a class="btn btn--ghost" href="{{ asset_path }}wash4you-price-list.pdf" download>{{ ui('download', 18) }} Download PDF</a>
@@ -432,8 +420,8 @@
 {# Sticky pick bar — appears once something is in the list. #}
 <div class="pick-bar" data-pick-bar hidden>
   <span class="pick-bar__text"><b data-cart-count>0</b> item(s) selected</span>
-  <button class="btn btn--ghost" type="button" data-cart-open>View list</button>
   <a class="btn btn--cta" data-cart-book href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} Get pricing on WhatsApp</a>
+  <a class="btn btn--ghost" href="{{ root_path }}{{ site.urls.booking }}">Book a pickup</a>
 </div>
 
 {% endblock %}

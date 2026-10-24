@@ -9,7 +9,7 @@ header_main:
 
 header_cta:
   label: Book free pickup
-  url: "pricing/?book=1"
+  url: "book-pickup/"
 
 footer_explore:
   - {label: Home, url: ""}

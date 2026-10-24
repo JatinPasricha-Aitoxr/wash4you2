@@ -9,8 +9,8 @@
   },
   "urls": {
     "base": "https://wash4you.in",
-    "booking": "pricing/?book=1",
-    "schedule": "pricing/?book=1",
+    "booking": "book-pickup/",
+    "schedule": "book-pickup/",
     "whatsapp": "https://wa.me/916367600500",
     "phone": "tel:+916367600500",
     "email": "mailto:care@wash4you.in"
@@ -109,7 +109,7 @@
     ],
     "cta": {
       "label": "Book free pickup",
-      "url": "pricing/?book=1"
+      "url": "book-pickup/"
     }
   },
   "pricing_areas": [

@@ -418,7 +418,7 @@
     <div class="svc-grid stagger-children">
       {% for post in blog.posts[:3] %}
       {% set art_svc = services_by_slug.get(post.art) %}
-      <a class="svc svc--photo" href="{{ post.url }}" rel="noopener">
+      <a class="svc svc--photo" href="{{ root_path }}{{ post.path }}">
         <span class="svc__media{% if not (art_svc and art_svc.image) %} svc__media--tonal{% endif %}" aria-hidden="true">
           {% if art_svc and art_svc.image %}
           <img src="{{ asset_path }}{{ art_svc.image | replace('.png', '.webp') }}" alt=""

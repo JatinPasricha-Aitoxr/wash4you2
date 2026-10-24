@@ -2,6 +2,10 @@
 {% from "_icons.html" import ui, service_icon %}
 {% from "_components.html" import page_hero_mascot, hero_visual_block %}
 
+{% block preload %}
+  <link rel="stylesheet" href="{{ asset_path }}css/blog.css?v={{ asset_v }}">
+{% endblock %}
+
 {% block content %}
 
 <section class="page-hero blog-hero" style="--blog-hero-img: url('../images/hero-blog-banner.webp')">
@@ -21,30 +25,40 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section blog-index">
   <div class="wrap">
+    {% set cats = [] %}
+    {% for post in blog.posts %}{% if post.category not in cats %}{% set _ = cats.append(post.category) %}{% endif %}{% endfor %}
+
+    {% if cats | length > 1 %}
+    <div class="blog-filter" role="group" aria-label="Filter articles by topic">
+      <button class="blog-filter__btn" type="button" data-blog-filter="" aria-pressed="true">All <span>{{ blog.posts | length }}</span></button>
+      {% for c in cats %}
+      <button class="blog-filter__btn" type="button" data-blog-filter="{{ c }}" aria-pressed="false">{{ c }} <span>{{ blog.posts | selectattr('category', 'equalto', c) | list | length }}</span></button>
+      {% endfor %}
+    </div>
+    {% endif %}
+
     <h2 class="visually-hidden">Latest articles</h2>
-    <div class="svc-grid stagger-children">
+    <div class="post-grid post-grid--index" data-blog-grid>
       {% for post in blog.posts %}
       {% set art_svc = services_by_slug.get(post.art) %}
-      <article class="svc svc--photo">
-        <span class="svc__media{% if not (art_svc and art_svc.image) %} svc__media--tonal{% endif %}" aria-hidden="true">
-          {% if post.image or (art_svc and art_svc.image) %}
-          <img src="{{ asset_path }}{{ post.image or (art_svc.image | replace('.png', '.webp')) }}" alt=""
-               width="500" height="500" loading="lazy" decoding="async">
-          {% else %}
-          {{ service_icon(post.art, 44) }}
-          {% endif %}
+      {% set img = post.image or (art_svc.image | replace('.png', '.webp') if art_svc and art_svc.image else '') %}
+      <article class="post-card{% if loop.first %} post-card--feature{% endif %}" data-blog-card data-topic="{{ post.category }}">
+        <span class="post-card__media{% if not img %} post-card__media--tonal{% endif %}" aria-hidden="true">
+          {% if img %}<img src="{{ asset_path }}{{ img }}" alt="" width="600" height="375" loading="{{ 'eager' if loop.first else 'lazy' }}" decoding="async">
+          {% else %}{{ service_icon(post.art, 44) }}{% endif %}
         </span>
-        <span class="svc__body">
-          <p class="mono"{{ cms('blog:posts.' ~ loop.index0 ~ '.date') }}>{{ post.date }}</p>
-          <h3><a class="svc__link" href="{{ post.url }}"{{ cms('blog:posts.' ~ loop.index0 ~ '.title') }}>{{ post.title }}</a></h3>
-          <p{{ cms('blog:posts.' ~ loop.index0 ~ '.excerpt') }}>{{ post.excerpt }}</p>
-          <span class="link-arrow">Read {{ ui('arrow-right', 16) }}</span>
-        </span>
+        <div class="post-card__body">
+          <p class="post-card__meta"><span class="blog-chip blog-chip--sm">{{ post.category }}</span> <span>{{ post.date }}</span> <span aria-hidden="true">·</span> <span>{{ post.read_minutes }} min read</span></p>
+          <h3><a class="post-card__link" href="{{ root_path }}{{ post.path }}">{{ post.title }}</a></h3>
+          <p class="post-card__excerpt">{{ post.excerpt }}</p>
+          <span class="link-arrow">Read article {{ ui('arrow-right', 16) }}</span>
+        </div>
       </article>
       {% endfor %}
     </div>
+    <p class="blog-empty" data-blog-empty hidden>No articles in this topic yet. <a href="{{ root_path }}blog/">See all articles</a>.</p>
   </div>
 </section>
 
