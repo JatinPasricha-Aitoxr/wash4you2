@@ -86,4 +86,4 @@ sections:
       heading: Ready to reclaim your weekends?
       text: "Stop spending Sundays sorting, washing and ironing. Let Wash4You handle it."
       buttons:
-        - {label: "Schedule your free pickup", href: "book-pickup/", style: primary}
+        - {label: "Schedule your free pickup", href: "https://app.wash4you.in/website/W10795", style: primary, external: true}

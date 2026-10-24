@@ -73,7 +73,7 @@
         <h1>{{ area.h1 }}</h1>
         <p class="lede">{{ area.lede }}</p>
         <div class="btn-row">
-          <a class="btn btn--cta btn--lg" href="{{ root_path }}{{ site.urls.booking }}">Book Your Pickup</a>
+          <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book Your Pickup</a>
           <a class="btn btn--ghost btn--lg" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} WhatsApp us</a>
         </div>
       </div>
@@ -184,7 +184,7 @@
       <h2>Free collection from {{ area.name }}.</h2>
       <p>Tell us what you have and where you are, and we will give you the next day we can reach you — a real date, not a promise.</p>
       <div class="btn-row">
-        <a class="btn btn--cta btn--lg" href="{{ root_path }}{{ site.urls.booking }}">Book Your Pickup</a>
+        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book Your Pickup</a>
         <a class="btn btn--on-navy btn--lg" href="{{ root_path }}locate-us/">Find Your Area</a>
         <a class="btn btn--on-navy btn--lg" href="{{ site.urls.phone }}">{{ ui('phone', 18) }} {{ site.contact.phone }}</a>
       </div>

@@ -53,4 +53,4 @@ If a garment still feels slightly damp, a quick pass with a steam iron on a suit
 
 ## How Wash4You can help
 
-When the weather will not cooperate, let us do the drying. Our laundry is collected from your door and returned folded, usually within 24 hours, using proper machine drying so your clothes never sit damp. [See laundry rates](/pricing/) or [book a free pickup](/book-pickup/).
+When the weather will not cooperate, let us do the drying. Our laundry is collected from your door and returned folded, usually within 24 hours, using proper machine drying so your clothes never sit damp. [See laundry rates](/pricing/) or [book a free pickup](https://app.wash4you.in/website/W10795).

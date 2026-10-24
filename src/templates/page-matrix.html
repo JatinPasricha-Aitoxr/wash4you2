@@ -57,7 +57,7 @@
         <h1 style="margin-top:var(--s-4)">{{ entry.h1 }}</h1>
         <p class="lede">{{ entry.lede }}</p>
         <div class="btn-row">
-          <a class="btn btn--cta btn--lg" href="{{ root_path }}{{ site.urls.booking }}">Book Your Pickup</a>
+          <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book Your Pickup</a>
           <a class="btn btn--ghost btn--lg" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} WhatsApp us</a>
         </div>
         {{ page_hero_mascot_inline(asset_path) }}
@@ -69,7 +69,7 @@
         <span class="svc__icon">{{ service_icon(service.slug, 36) }}</span>
         <strong>{{ service.name }} in {{ locality_name }}</strong>
         <p>Free doorstep pickup and delivery. Every piece counted with you before it leaves.</p>
-        <a class="btn btn--cta btn--block" href="{{ root_path }}{{ site.urls.booking }}">Book free pickup</a>
+        <a class="btn btn--cta btn--block" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book free pickup</a>
         <a class="btn btn--ghost btn--block" href="{{ site.urls.phone }}">{{ ui('phone', 18) }} {{ site.contact.phone }}</a>
       </aside>
       </div>
@@ -165,7 +165,7 @@
       <h2>Book {{ service.name | lower }} in {{ locality_name }}.</h2>
       <p>Free pickup and delivery at your door, at a time that suits you.</p>
       <div class="btn-row">
-        <a class="btn btn--cta btn--lg" href="{{ root_path }}{{ site.urls.booking }}">Book Your Pickup</a>
+        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book Your Pickup</a>
         <a class="btn btn--on-navy btn--lg" href="{{ root_path }}locate-us/">Find Your Area</a>
         <a class="btn btn--on-navy btn--lg" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} WhatsApp us</a>
       </div>

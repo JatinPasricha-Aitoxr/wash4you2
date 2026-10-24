@@ -54,4 +54,4 @@ Store clean, dry pillowcases folded in a breathable cotton bag or drawer. Avoid 
 
 ## How Wash4You can help
 
-If you would rather not hand wash, our linen care team will do it for you. [See bed linen rates](/pricing/) or [book a free pickup](/book-pickup/).
+If you would rather not hand wash, our linen care team will do it for you. [See bed linen rates](/pricing/) or [book a free pickup](https://app.wash4you.in/website/W10795).

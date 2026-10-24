@@ -49,4 +49,4 @@ When you count detergent, water, electricity, drying and your own time, home lau
 
 ## How Wash4You can help
 
-We collect from your door, count everything with you, clean each order separately and deliver it back, free of charge, across Gurugram, Delhi, Noida, Faridabad and Ghaziabad. [Choose your items](/book-pickup/) and get your first order at 25% off.
+We collect from your door, count everything with you, clean each order separately and deliver it back, free of charge, across Gurugram, Delhi, Noida, Faridabad and Ghaziabad. [Choose your items](https://app.wash4you.in/website/W10795) and get your first order at 25% off.

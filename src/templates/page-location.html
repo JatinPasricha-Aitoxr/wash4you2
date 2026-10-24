@@ -67,7 +67,7 @@
         <h1>{{ area.h1 or area.title }}</h1>
         <p class="lede">{{ area.lede or area.description }}</p>
         <div class="btn-row">
-          <a class="btn btn--cta btn--lg" href="{{ root_path }}{{ site.urls.booking }}">Book Your Pickup</a>
+          <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book Your Pickup</a>
           <a class="btn btn--ghost btn--lg" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} WhatsApp us</a>
         </div>
         {% if area.local_notes %}{{ page_hero_mascot_inline(asset_path) }}{% endif %}
@@ -213,7 +213,7 @@
       <h2>Free pickup in {{ area.name }}.</h2>
       <p>Tell us a time that suits you. We come to your door, count everything with you, and take it from there.</p>
       <div class="btn-row">
-        <a class="btn btn--cta btn--lg" href="{{ root_path }}{{ site.urls.booking }}">Book Your Pickup</a>
+        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book Your Pickup</a>
         <a class="btn btn--on-navy btn--lg" href="{{ root_path }}locate-us/">Find Your Area</a>
         <a class="btn btn--on-navy btn--lg" href="{{ site.urls.phone }}">{{ ui('phone', 18) }} {{ site.contact.phone }}</a>
       </div>

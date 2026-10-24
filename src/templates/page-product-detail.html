@@ -100,7 +100,7 @@
         </div>
 
         <div class="prod-hero__actions">
-          <a class="btn btn--cta btn--lg" href="{{ root_path }}{{ site.urls.booking }}">Book a Pickup</a>
+          <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book a Pickup</a>
           <a class="btn btn--on-navy btn--lg" href="#service-selector">View Pricing</a>
         </div>
 
@@ -210,7 +210,7 @@
             <button type="button" class="btn btn-add-cart" id="product-add-cart-btn" data-add aria-label="Add {{ product.name }} to pickup list">
               {{ ui('plus', 16) }} Add to Cart
             </button>
-            <a class="btn btn--navy" href="{{ root_path }}{{ site.urls.booking }}">
+            <a class="btn btn--navy" href="{{ site.urls.booking }}" target="_blank" rel="noopener">
               Book a Pickup
             </a>
           </div>
@@ -607,7 +607,7 @@
       </div>
 
       <div class="prod-doorstep-actions">
-        <a class="btn btn--cta btn--lg" href="{{ root_path }}{{ site.urls.booking }}">
+        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">
           {{ product.doorstepExperience.cta }}
         </a>
       </div>
@@ -700,7 +700,7 @@
         <h2 class="prod-final-cta__title">{{ product.finalCta.title }}</h2>
         <p class="prod-final-cta__desc">{{ product.finalCta.subtitle }}</p>
         <div class="prod-final-cta__btns">
-          <a class="btn btn--cta btn--lg" href="{{ root_path }}{{ site.urls.booking }}">
+          <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">
             {{ product.finalCta.primaryCta }}
           </a>
           <a class="btn btn--on-navy btn--lg" href="{{ root_path }}pricing/">

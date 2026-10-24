@@ -62,4 +62,4 @@ sections:
     props:
       buttons:
         - {label: "Questions? Contact us", href: "contact-us/", style: secondary}
-        - {label: "Book free pickup", href: "book-pickup/", style: primary}
+        - {label: "Book free pickup", href: "https://app.wash4you.in/website/W10795", style: primary, external: true}

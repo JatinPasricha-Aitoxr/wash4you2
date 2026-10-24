@@ -54,4 +54,4 @@ Act fast, but gently. Blot, do not rub, and avoid hot water or household cleaner
 
 ## How Wash4You can help
 
-Silk sarees, kurtas, blouses and dupattas are handled individually by our team. A saree starts at ₹199, a kurta at ₹119 and a blouse at ₹79 (GST extra). [See rates](/pricing/) or [book a free pickup](/book-pickup/).
+Silk sarees, kurtas, blouses and dupattas are handled individually by our team. A saree starts at ₹199, a kurta at ₹119 and a blouse at ₹79 (GST extra). [See rates](/pricing/) or [book a free pickup](https://app.wash4you.in/website/W10795).

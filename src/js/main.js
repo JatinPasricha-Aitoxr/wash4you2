@@ -27,7 +27,6 @@ import { initPriceFilter } from './priceFilter.js'
 import { initCoverageFilter } from './coverageFilter.js'
 import { initSvcFilter } from './svcFilter.js'
 import { initBlogFilter } from './blogFilter.js'
-import { initBooking } from './booking.js'
 
 const boot = (name, fn) => {
   try {
@@ -96,4 +95,3 @@ boot('price-filter', initPriceFilter)
 boot('coverage-filter', initCoverageFilter)
 boot('svc-filter', initSvcFilter)
 boot('blog-filter', initBlogFilter)
-boot('booking', () => initBooking(document))

@@ -49,4 +49,4 @@ Sunlight fades silk and weakens fibre. Keep the wardrobe away from direct sun an
 
 ## How Wash4You can help
 
-Before you store a wedding saree, sherwani or silk outfit, get it cleaned and professionally packed. [See our services](/services/) or [book a free pickup](/book-pickup/).
+Before you store a wedding saree, sherwani or silk outfit, get it cleaned and professionally packed. [See our services](/services/) or [book a free pickup](https://app.wash4you.in/website/W10795).

@@ -996,17 +996,6 @@ def build() -> None:
         "depth": 1,
     }))
 
-    # Book a pickup: a real page (not a dialog), so every "Book pickup" button
-    # is a plain link. The WhatsApp buttons are separate pricing chats.
-    pages_to_build.append(("book-pickup/index.html", "page-book-pickup.html", {
-        "meta": {
-            "title": "Book a Free Laundry Pickup in Gurgaon | Wash4You",
-            "description": "Book a free doorstep laundry and dry cleaning pickup in Gurgaon and Delhi NCR. Pick a slot, verify your mobile and get your confirmation on WhatsApp.",
-            "canonical": f"{site['urls']['base']}/book-pickup/",
-        },
-        "depth": 1,
-    }))
-
     # Blog
     pages_to_build.append(("blog/index.html", "page-blog-list.html", {
         "meta": blog["meta"],
@@ -1362,6 +1351,16 @@ def build() -> None:
                    f'<meta http-equiv="refresh" content="0; url={new_url}">'
                    '<meta name="robots" content="noindex,follow"></head>'
                    f'<body><a href="{new_url}">{html.escape(svc["name"])}</a></body></html>')
+
+    # /book-pickup/ was briefly a page of its own. Booking now lives on the external
+    # booking page; this keeps the old address working (kept out of the sitemap).
+    _book = site["urls"]["booking"]
+    write_html(DIST_DIR / "book-pickup" / "index.html",
+               '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Book your pickup | Wash4You</title>'
+               f'<meta http-equiv="refresh" content="0; url={_book}">'
+               '<meta name="robots" content="noindex"></head>'
+               f'<body><p>Opening the Wash4You booking page… <a href="{_book}">Tap here if nothing happens</a>.</p>'
+               f'<script>location.replace({json.dumps(_book)})</script></body></html>')
 
     # Sitemap, derived from the page registry so it can never drift out of
     # sync with what was actually built.

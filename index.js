@@ -7,18 +7,9 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = __dirname;
-
-// Local secrets: read .env when present (Hostinger sets real env vars instead).
-try {
-  for (const line of fs.readFileSync(path.join(ROOT, '.env'), 'utf8').split(/\r?\n/)) {
-    const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*?)\s*$/);
-    if (m && !m[1].startsWith('#') && process.env[m[1]] === undefined) process.env[m[1]] = m[2].replace(/^["']|["']$/g, '');
-  }
-} catch { /* no .env - fine */ }
-const booking = require('./server/booking');
 const PORT = parseInt(process.env.PORT || '3000', 10);
 const BLOCKED_TOP = new Set(['src', 'cms', 'webapp', 'tools', 'node_modules', 'dist', 'dist-edit', 'dist2', 'content',
-  'schemas', 'scripts', 'server', 'templates', 'client-assets', 'admin', 'menu', 'packages-src', '.git', '.github']);
+  'schemas', 'scripts', 'templates', 'client-assets', 'admin', 'menu', 'packages-src', '.git', '.github']);
 const BLOCKED_FILES = new Set(['package.json', 'package-lock.json', 'requirements.txt', 'build.py', 'index.js',
   'vercel.json', 'readme.md', 'client-guide.md']);
 const TYPES = {
@@ -42,7 +33,6 @@ function resolve(urlPath) {
 }
 
 http.createServer((req, res) => {
-  if (booking.handle(req, res)) return;
   if (req.method !== 'GET' && req.method !== 'HEAD') { res.writeHead(405, { Allow: 'GET, HEAD' }); return res.end(); }
   let file = resolve(req.url);
   const notFound = () => {

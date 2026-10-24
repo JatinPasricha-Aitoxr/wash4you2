@@ -211,7 +211,7 @@ export function initCart(root = document) {
 
   // The WhatsApp button is a pricing chat: it opens a conversation with the
   // selected items pre-filled so we can quote. It never books anything -
-  // booking a pickup is the separate /book-pickup/ page.
+  // "Book a pickup" is a separate link to the external booking page.
   function buildWhatsApp() {
     const lines = ["Hi Wash4You! I'd like the price for:"]
     items.forEach((it) => {

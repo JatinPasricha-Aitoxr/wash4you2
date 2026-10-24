@@ -66,4 +66,4 @@ Home cleaning is fine for light dust and marks. But suede, nubuck, patent leathe
 
 ## How Wash4You can help
 
-Our shoe care team handles leather, suede, sneakers and boots. Leather shoes start at ₹499, sneakers at ₹349 and sports shoes at ₹299 (GST extra). [See shoe cleaning](/services/shoe-cleaning/) or [pick your items](/book-pickup/).
+Our shoe care team handles leather, suede, sneakers and boots. Leather shoes start at ₹499, sneakers at ₹349 and sports shoes at ₹299 (GST extra). [See shoe cleaning](/services/shoe-cleaning/) or [pick your items](https://app.wash4you.in/website/W10795).

@@ -13,8 +13,8 @@ brand:
 
 urls:
   base: https://wash4you.in
-  booking: "book-pickup/"
-  schedule: "book-pickup/"
+  booking: "https://app.wash4you.in/website/W10795"
+  schedule: "https://app.wash4you.in/website/W10795"
   whatsapp: https://wa.me/916367600500
   phone: "tel:+916367600500"
   email: "mailto:care@wash4you.in"

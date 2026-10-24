@@ -9,7 +9,7 @@ header_main:
 
 header_cta:
   label: Book free pickup
-  url: "book-pickup/"
+  url: "https://app.wash4you.in/website/W10795"
 
 footer_explore:
   - {label: Home, url: ""}

@@ -258,7 +258,7 @@
           {{ ui('cart', 20) }}
           <span class="cart-toggle__count" data-cart-count aria-hidden="true">0</span>
         </button>
-        <a class="btn btn--cta header__cta" href="{{ root_path }}{{ site.nav.cta.url }}">{{ site.nav.cta.label }}</a>
+        <a class="btn btn--cta header__cta" href="{{ site.nav.cta.url }}" target="_blank" rel="noopener">{{ site.nav.cta.label }}</a>
         <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
           {{ ui('menu', 22) }}
         </button>
@@ -322,7 +322,7 @@
         {% endfor %}
       </nav>
       <div class="mobile-nav__foot">
-        <a class="btn btn--cta btn--lg btn--block" href="{{ root_path }}{{ site.nav.cta.url }}">{{ site.nav.cta.label }}</a>
+        <a class="btn btn--cta btn--lg btn--block" href="{{ site.nav.cta.url }}" target="_blank" rel="noopener">{{ site.nav.cta.label }}</a>
         <a class="btn btn--ghost btn--block" href="{{ site.urls.phone }}">{{ ui('phone', 18) }} {{ site.contact.phone }}</a>
       </div>
     </div>
@@ -426,7 +426,7 @@
           <h3>Book on the Wash4You app</h3>
           <p>Scan the QR code to schedule your free pickup in a minute.</p>
           <div class="footer__app-btns">
-            <a class="btn btn--cta" href="{{ root_path }}{{ site.urls.schedule }}">Book pickup</a>
+            <a class="btn btn--cta" href="{{ site.urls.schedule }}" target="_blank" rel="noopener">Book pickup</a>
             {% if site.app and site.app.ios %}<a class="btn btn--ghost footer__app-store" href="{{ site.app.ios }}" target="_blank" rel="noopener">Download on the App Store</a>{% endif %}
             {% if site.app and site.app.android %}<a class="btn btn--ghost footer__app-store" href="{{ site.app.android }}" target="_blank" rel="noopener">Get it on Google Play</a>{% endif %}
           </div>
@@ -537,7 +537,7 @@
         <a class="btn btn--cta cart-cta__btn cart-cta__wa" data-cart-book href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">
           {{ ui('whatsapp', 18) }} Get pricing on WhatsApp
         </a>
-        <a class="btn btn--ghost cart-cta__btn" href="{{ root_path }}{{ site.urls.booking }}">
+        <a class="btn btn--ghost cart-cta__btn" href="{{ site.urls.booking }}" target="_blank" rel="noopener">
           {{ ui('check-badge', 18) }} Book a pickup
         </a>
       </div>
@@ -548,7 +548,7 @@
   {# Sticky booking bar — mobile only, appears past the hero #}
   <div class="cta-bar" id="mobile-cta-bar">
     <a class="btn btn--ghost" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} WhatsApp</a>
-    <a class="btn btn--cta" href="{{ root_path }}{{ site.nav.cta.url }}">Book pickup</a>
+    <a class="btn btn--cta" href="{{ site.nav.cta.url }}" target="_blank" rel="noopener">Book pickup</a>
   </div>
 
   {# Desktop's equivalent of the mobile sticky bar above: mobile always has a
@@ -562,7 +562,7 @@
   </div>
 
   {# Floating "Book Pickup" button — every page, every viewport #}
-  <a class="book-fab" href="{{ root_path }}{{ site.nav.cta.url }}" aria-label="Book free pickup">Book Pickup</a>
+  <a class="book-fab" href="{{ site.nav.cta.url }}" target="_blank" rel="noopener" aria-label="Book free pickup">Book Pickup</a>
 
   <script src="{{ asset_path }}js/main.js?v={{ asset_v }}" defer></script>
   {% block scripts %}{% endblock %}
