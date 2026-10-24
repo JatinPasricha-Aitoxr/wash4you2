@@ -248,9 +248,8 @@ sections:
     text: Tell us when suits you. We come to your door, count everything with you, and take it from there.
     buttons:
     - label: Book free pickup
-      href: https://app.wash4you.in/website/W10795?brand=WASH4U
+      href: "pricing/?book=1"
       style: primary
-      external: true
     - label: WhatsApp us
       href: https://wa.me/916367600500
       style: secondary

@@ -31,5 +31,5 @@ sections:
     visible: true
     props:
       buttons:
-        - {label: Book free pickup, href: "https://app.wash4you.in/website/W10795?brand=WASH4U", style: primary, external: true}
+        - {label: Book free pickup, href: "pricing/?book=1", style: primary}
         - {label: See pricing, href: "pricing/", style: secondary}
