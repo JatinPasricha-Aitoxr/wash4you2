@@ -35,3 +35,8 @@ client-assets/
 cms/node_modules/
 cms/.env
 cms/data/
+
+# Local secrets (Fabklean API token etc.) - never commit
+.env
+.env.*
+!.env.example

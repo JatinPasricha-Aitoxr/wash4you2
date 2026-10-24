@@ -103,7 +103,7 @@
     {% endif %}
 
     <div class="btn-row">
-      <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book free pickup</a>
+      <a class="btn btn--cta btn--lg" href="{{ root_path }}{{ site.urls.booking }}">Book free pickup</a>
       <a class="btn btn--ghost btn--lg" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} Ask about an item</a>
     </div>
     {{ page_hero_mascot_inline(asset_path) }}
@@ -190,6 +190,18 @@
       })();
     </script>
     {% endif %}
+  </div>
+</section>
+
+{# Book-pickup landing: every "Book pickup" button on the site lands here with
+   ?book=1. Pick items below, then the list goes to WhatsApp for pricing. #}
+<section class="section section--tight book-steps" id="book" data-book-steps hidden>
+  <div class="wrap">
+    <ol class="book-steps__list">
+      <li><b>1</b> Pick your items below</li>
+      <li><b>2</b> Tap <em>Get pricing on WhatsApp</em></li>
+      <li><b>3</b> We confirm price &amp; pickup slot</li>
+    </ol>
   </div>
 </section>
 
@@ -408,7 +420,7 @@
       <h2{{ cms('pricing:cta.title') }}>{{ pricing.cta.title }}</h2>
       <p{{ cms('pricing:cta.subtitle') }}>{{ pricing.cta.subtitle }}</p>
       <div class="btn-row">
-        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener"{{ cms('pricing:cta.button') }}>{{ pricing.cta.button }}</a>
+        <a class="btn btn--cta btn--lg" href="{{ root_path }}{{ site.urls.booking }}"{{ cms('pricing:cta.button') }}>{{ pricing.cta.button }}</a>
         <a class="btn btn--on-navy btn--lg" href="{{ site.urls.phone }}">{{ ui('phone', 18) }} {{ site.contact.phone }}</a>
       </div>
     </div>
@@ -417,6 +429,13 @@
 
 </div>{# /.pricing-page #}
 {{ feature('bike', 'left') }}
+{# Sticky pick bar — appears once something is in the list. #}
+<div class="pick-bar" data-pick-bar hidden>
+  <span class="pick-bar__text"><b data-cart-count>0</b> item(s) selected</span>
+  <button class="btn btn--ghost" type="button" data-cart-open>View list</button>
+  <a class="btn btn--cta" data-cart-book href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">{{ ui('whatsapp', 18) }} Get pricing on WhatsApp</a>
+</div>
+
 {% endblock %}
 
 {% block scripts %}

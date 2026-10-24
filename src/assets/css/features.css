@@ -872,3 +872,31 @@ body.cart-lock { overflow: hidden; }
 .plan-feature__icon svg { width: 1.25rem; height: 1.25rem; }
 .plan-feature h3 { font-size: var(--t-md); margin-bottom: 2px; }
 .plan-feature p { font-size: var(--t-sm); color: var(--ink-3); line-height: 1.5; }
+
+/* Book-pickup flow on the pricing page */
+.book-steps__list { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; justify-content: center; list-style: none; margin: 0; padding: .9rem 1.25rem; background: #f3f8ff; border: 1px solid #d6e6fb; border-radius: 14px; }
+.book-steps__list li { display: flex; align-items: center; gap: .55rem; font-weight: 600; color: #0b1e3c; }
+.book-steps__list b { display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--cta, #e2a93b); color: #0b1e3c; }
+.pick-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 70; display: flex; align-items: center; gap: .75rem; justify-content: center; flex-wrap: wrap; padding: .75rem 1rem; background: #fff; border-top: 1px solid #d6e6fb; box-shadow: 0 -8px 24px rgba(11, 30, 60, .14); }
+.pick-bar[hidden] { display: none; }
+.pick-bar__text { font-weight: 600; color: #0b1e3c; }
+body:has(.pick-bar:not([hidden])) .book-fab, body:has(.pick-bar:not([hidden])) .cta-bar { display: none; }
+
+/* Pickup details dialog */
+.lead-dialog { border: 0; border-radius: 18px; padding: 0; width: min(94vw, 30rem); box-shadow: 0 24px 60px rgba(11, 30, 60, .35); }
+.lead-dialog::backdrop { background: rgba(11, 30, 60, .55); }
+.lead-form { display: grid; gap: .8rem; padding: 1.25rem; }
+.lead-form__head { display: flex; align-items: center; justify-content: space-between; }
+.lead-form__head h2 { margin: 0; font-size: 1.25rem; }
+.lead-form__sub { margin: 0; color: #4a5a72; font-size: .95rem; }
+.lead-form label { display: grid; gap: .3rem; font-weight: 600; font-size: .9rem; color: #0b1e3c; }
+.lead-form input, .lead-form textarea, .lead-form select { font: inherit; padding: .65rem .75rem; border: 1px solid #c5d3e6; border-radius: 10px; background: #fff; }
+.lead-form input:focus, .lead-form textarea:focus, .lead-form select:focus { outline: 2px solid var(--cta, #e2a93b); outline-offset: 1px; }
+.lead-form__row { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+.lead-form__hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.lead-form__err { margin: 0; color: #b3261e; font-size: .9rem; }
+.lead-form__ok { margin: 0; font-weight: 700; font-size: 1.1rem; color: #14683a; }
+.lead-form__link { background: none; border: 0; padding: .25rem 0; color: #0b5cad; text-decoration: underline; cursor: pointer; font: inherit; }
+.lead-form form, .lead-form #lead-done { display: grid; gap: .8rem; }
+.lead-form form[hidden], .lead-form #lead-done[hidden] { display: none; }
+.lead-form [data-when][hidden] { display: none; }
