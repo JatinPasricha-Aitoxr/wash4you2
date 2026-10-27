@@ -79,7 +79,7 @@
         </details>
         {% endif %}
 
-        {{ post.html | replace('@ROOT@', root_path) | safe }}
+        {{ post.html | replace('@ROOT@', root_path) | replace('@ASSET@', asset_path) | safe }}
 
         <div class="post-share" aria-label="Share this article">
           <span>Share</span>

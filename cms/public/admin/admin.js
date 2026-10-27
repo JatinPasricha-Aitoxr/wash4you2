@@ -49,8 +49,8 @@
       var rows = o.activity.map(function (a) { return h("tr", {}, h("td", { text: when(a.at) }), h("td", { text: a.by || "-" }), h("td", { text: a.action.replace(/_/g, " ") }), h("td", { text: a.detail })); });
       main.replaceChildren(
         h("div", { class: "top" }, h("h1", { text: "Overview" }), h("span", { class: "sp" }),
-          h("a", { class: "btn btn--primary", href: "/studio" }, "Open visual editor"), h("a", { class: "btn", href: o.siteUrl, target: "_blank", rel: "noopener" }, "View live site")),
-        h("div", { class: "cards" }, card(o.pages, "Editable pages"), card(o.drafts, "Unpublished changes"), card(o.media, "Images in library"), card(o.revisions, "Published versions")),
+          h("button", { class: "btn", onclick: function () { show("blog"); } }, "Write a blog post"), h("a", { class: "btn btn--primary", href: "/studio" }, "Open visual editor"), h("a", { class: "btn", href: o.siteUrl, target: "_blank", rel: "noopener" }, "View live site")),
+        h("div", { class: "cards" }, card(o.pages, "Editable pages"), o.posts != null ? card(o.posts, "Blog posts") : null, card(o.drafts, "Unpublished changes"), card(o.media, "Images in library"), card(o.revisions, "Published versions")),
         h("div", { class: "panel" }, h("h2", { text: "Status" }),
           h("p", { text: o.lastPublish ? "Last published " + when(o.lastPublish.at) + ": " + o.lastPublish.message : "Nothing has been published from the admin yet." }),
           h("p", { class: "status" + (o.drafts ? " warn" : ""), text: o.drafts ? o.drafts + " file(s) staged as drafts. Open Drafts & publishing to review and publish." : "No unpublished changes." }),
@@ -68,7 +68,7 @@
         d.pages.filter(function (p) { return !s || p.path.toLowerCase().indexOf(s) >= 0; }).forEach(function (p) { (groups[p.group] = groups[p.group] || []).push(p); });
         var out = Object.keys(groups).map(function (g) {
           var rows = groups[g].slice(0, 150).map(function (p) {
-            return h("tr", {}, h("td", { text: p.path }), h("td", {}, h("a", { class: "btn", href: "/studio?p=" + encodeURIComponent(p.path) }, "Edit visually"), " ", h("button", { class: "btn", onclick: function () { seoFor(p.path); } }, "SEO")));
+            return h("tr", {}, h("td", { text: p.path }), h("td", {}, p.post ? h("button", { class: "btn", onclick: function () { window.W4UAdmin.openPost(p.path.replace(/\//g, "")); } }, "Edit post") : h("a", { class: "btn", href: "/studio?p=" + encodeURIComponent(p.path) }, "Edit visually"), " ", h("button", { class: "btn", onclick: function () { seoFor(p.path); } }, "SEO")));
           });
           return h("div", { class: "panel" }, h("h2", { text: g + " (" + groups[g].length + ")" }), h("table", {}, h("tbody", {}, rows)));
         });
@@ -224,6 +224,9 @@
         h("button", { class: "btn", onclick: function () { api("/admin/api/users", { username: nu.value, password: np.value }).then(function () { nu.value = np.value = ""; toast("User added."); loadUsers(); }).catch(fail); } }, "Add administrator"))));
     return loadUsers();
   };
+
+  // Shared helpers for the sections that live in their own files (blog.js).
+  window.W4UAdmin = { h: h, api: api, toast: toast, fail: fail, when: when, field: field, modal: modal, closeModal: closeModal, readFile: readFile, VIEWS: VIEWS, main: main, show: show };
 
   api("/admin/api/me").then(function (d) { me = d; document.getElementById("who").textContent = "Signed in as " + d.user.username; var v0 = (location.hash || "#overview").slice(1); show(typeof VIEWS[v0] === "function" && v0.charAt(0) !== "_" ? v0 : "overview"); }).catch(fail);
 })();

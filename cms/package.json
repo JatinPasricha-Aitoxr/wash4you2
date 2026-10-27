@@ -4,7 +4,9 @@
   "private": true,
   "description": "Hosted visual admin for the Wash4You static site (Node.js + MySQL, publishes through GitHub).",
   "main": "src/server.js",
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "start": "node src/server.js",
     "migrate": "node src/migrate.js",
@@ -16,6 +18,7 @@
     "adm-zip": "^0.5.16",
     "express": "^4.21.2",
     "mysql2": "^3.11.5",
-    "sanitize-html": "^2.14.0"
+    "sanitize-html": "^2.14.0",
+    "yaml": "^2.9.1"
   }
 }

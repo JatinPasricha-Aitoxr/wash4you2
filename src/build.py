@@ -231,7 +231,8 @@ def markdown_to_html(text: str) -> str:
     return "\n".join(out)
 
 
-POST_ROOT = "@ROOT@"  # swapped for the page's root_path at render time (see page-blog-post.html)
+POST_ROOT = "@ROOT@"    # swapped for the page's root_path at render time (see page-blog-post.html)
+POST_ASSET = "@ASSET@"  # ... and for its asset_path (post images live under assets/images/)
 
 
 def _slugify(text: str) -> str:
@@ -255,17 +256,33 @@ def render_post_markdown(text: str) -> tuple[str, list[dict]]:
     shift = (2 - min(levels)) if levels else 0
     used: set[str] = set()
 
+    def attr(v: str) -> str:
+        """Make a value safe inside a double-quoted HTML attribute. The text is already
+        escaped for < > &, but quotes survive that, and one would end the attribute and
+        let a crafted link add its own (onmouseover=...). Spaces cannot occur here."""
+        return v.replace('"', "%22").replace("'", "%27")
+
     def link(m: re.Match) -> str:
         label, url = m.group(1), m.group(2)
         if url.startswith("/"):
-            return f'<a href="{POST_ROOT}{url.lstrip("/")}">{label}</a>'
+            return f'<a href="{POST_ROOT}{attr(url.lstrip("/"))}">{label}</a>'
         if url.startswith(("http://", "https://")):
-            return f'<a href="{url}" target="_blank" rel="noopener">{label}</a>'
+            return f'<a href="{attr(url)}" target="_blank" rel="noopener">{label}</a>'
         return label  # anything else (javascript:, data:, bare text) is dropped
+
+    def image(m: re.Match) -> str:
+        alt, url = m.group(1).replace('"', "&quot;"), m.group(2)
+        # Only the media library (images/...) or an https image; nothing else becomes an <img>.
+        if re.fullmatch(r"images/[A-Za-z0-9_\-./]+", url) and ".." not in url:
+            return f'<img src="{POST_ASSET}{url}" alt="{alt}" loading="lazy">'
+        if url.startswith("https://"):
+            return f'<img src="{attr(url)}" alt="{alt}" loading="lazy">'
+        return alt
 
     def inline(t: str) -> str:
         t = html.escape(t, quote=False)
-        t = re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)", link, t)
+        t = re.sub(r"!\[([^\]]*)\]\(([^)\s]+)\)", image, t)
+        t = re.sub(r"(?<!!)\[([^\]]+)\]\(([^)\s]+)\)", link, t)
         t = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", t)
         t = re.sub(r"(?<![\w*])\*([^*\n]+?)\*(?![\w*])", r"<em>\1</em>", t)
         return t
@@ -366,15 +383,22 @@ def load_posts(posts_dir: Path, base_url: str) -> list[dict]:
     """
     posts: list[dict] = []
     for f in sorted(posts_dir.glob("*.md")):
+        # One bad post must never stop the whole site from building (and so from
+        # publishing anything else): skip it and say why in the build log.
         try:
             meta, body = _parse_front_matter(f.read_text(encoding="utf-8"))
-        except Exception as e:  # a YAML slip should name the file, not dump a traceback
-            raise SystemExit(f"{f.name}: front matter is not valid YAML ({e}). Wrap values containing a colon in quotes.")
+        except Exception as e:
+            print(f"WARNING: skipping post {f.name}: front matter is not valid YAML ({e}). Wrap values containing a colon in quotes.")
+            continue
+        if not isinstance(meta, dict):
+            print(f"WARNING: skipping post {f.name}: it has no front matter")
+            continue
         if str(meta.get("status", "published")).lower() != "published":
             continue
         title = str(meta.get("title") or "").strip()
         if not title:
-            raise SystemExit(f"{f.name}: front matter needs a title")
+            print(f"WARNING: skipping post {f.name}: front matter needs a title")
+            continue
         shown, iso = _post_date(meta.get("date"))
         body_html, toc = render_post_markdown(body)
         words = len(re.findall(r"\w+", body))
@@ -1009,7 +1033,8 @@ def build() -> None:
     for _i, _post in enumerate(blog["posts"]):
         _rel = f"{_post['slug']}/index.html"
         if _rel in _taken:
-            raise SystemExit(f"Blog post slug '{_post['slug']}' collides with an existing page")
+            print(f"WARNING: skipping post '{_post['slug']}': that address is already used by another page")
+            continue
         _taken.add(_rel)
         _others = [p for p in blog["posts"] if p["slug"] != _post["slug"]]
         _others.sort(key=lambda p: p["category"] != _post["category"])  # stable: keeps date order

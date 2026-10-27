@@ -54,3 +54,25 @@ th{font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:.05e
 .modal{background:#fff;border-radius:14px;padding:22px;width:min(480px,92vw)}
 
 .row select{width:auto;min-width:160px}.row input[type=search]{width:auto}
+
+/* ---- Blog posts ---- */
+.ed{display:grid;gap:18px;grid-template-columns:minmax(0,1fr)}
+@media(min-width:1100px){.ed{grid-template-columns:minmax(0,1.55fr) minmax(320px,1fr);align-items:start}.ed__side{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow:auto}}
+.ed .panel h2{margin-bottom:10px}
+.bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}.bar .btn{padding:5px 10px;font-size:13px}
+textarea.md{min-height:440px;font:14px/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;tab-size:2}
+.hint{color:var(--mute);font-size:13px;margin:6px 0 0}.hint.good{color:var(--green-d)}.hint.bad{color:var(--red)}
+.slugrow{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--mute)}.slugrow input{flex:1;min-width:0}
+.cover img{display:block;max-width:100%;max-height:220px;border-radius:10px;border:1px solid var(--line)}
+.badge.ok{background:#e4f5ea;color:var(--green-d)}.badge.bad{background:#fbe7e3;color:var(--red)}
+.pvwrap{margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:#fff;max-height:70vh;overflow:auto}
+.pvtitle{margin:0 0 8px;font-size:20px;line-height:1.25}
+.pv{font-size:15px;line-height:1.7}.pv h2{font-size:19px;margin:20px 0 6px}.pv h3{font-size:16px;margin:16px 0 4px}.pv h4{font-size:15px}
+.pv p{margin:0 0 12px}.pv ul,.pv ol{margin:0 0 12px;padding-left:22px}.pv li{margin:3px 0}.pv a{color:var(--navy)}
+.pv img{max-width:100%;height:auto;border-radius:8px}.pv blockquote{margin:12px 0;padding:6px 14px;border-left:4px solid #d9b878;background:#faf8f4}.pv hr{border:0;border-top:1px solid var(--line)}
+.modal:has(.pick){width:min(860px,94vw);max-height:90vh;overflow:auto}
+
+/* links styled as buttons, and table links */
+a.btn{display:inline-block;text-decoration:none;color:inherit}a.btn--primary{color:#fff}
+td a{color:var(--navy);text-decoration:none}td a:hover{text-decoration:underline}
+td.nw{white-space:nowrap}

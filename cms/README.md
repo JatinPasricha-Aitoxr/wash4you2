@@ -23,6 +23,7 @@ The existing local tool (`python3 src/admin/server.py`) still works and is uncha
 | Area | What it does |
 |---|---|
 | **Visual editor** (`/studio`) | The real page in the middle. Click text to edit, click an image to replace it, drag widgets in, reorder / hide / duplicate / delete sections, set backgrounds, colours, spacing, per-device visibility, desktop/tablet/mobile preview, undo/redo, autosave (15 s), unsaved-changes warning. |
+| **Blog posts** | Write, edit, hide, delete and publish articles: title, web address, date, topic, summary, search description, cover image, and a Markdown editor (toolbar for headings, bold, links, lists, quotes, library images) with a live preview. Each post is one file, `content/posts/<slug>.md`. Save draft keeps it private; **Publish** commits just that post (and any new images it uses). |
 | **Drafts** | *Save draft* stores your work in the database. The live site does **not** change. Reopening a page shows your latest draft. |
 | **Publish** | Commits every draft in one step. The site rebuilds and goes live in a few minutes. |
 | **Revisions** | Every publish (and draft saves) is kept. *Restore* puts a version back as a draft; nothing goes live until you publish. |
@@ -38,7 +39,8 @@ The existing local tool (`python3 src/admin/server.py`) still works and is uncha
 * Login lockout: 5 failures per 15 minutes per IP and per username. Constant-time comparison; unknown users cost the same time as known ones.
 * Every `/admin/api` route requires a session (tested). The site canvas and dashboard redirect to login.
 * All JSON is validated on the server: widget types, section ids, link schemes (no `javascript:`), CSS values (charset allow-list, same as the build), rich text and "Custom HTML" are sanitised (no `<script>`, handlers, or foreign iframes).
-* The repository adapter can only write `src/data/**/*.json` and `src/assets/images/**`. It cannot touch code, workflows or `.env`.
+* The repository adapter can only write `src/data/**/*.json`, `src/assets/images/**` and `content/posts/<slug>.md`. It cannot touch code, workflows or `.env`.
+* Blog posts: the web address is validated (lowercase letters, numbers, hyphens), cannot be a reserved or already-used page, and is locked once created. Article text is Markdown that the site build HTML-escapes; links may only be `https://` or site-relative, images only from the media library or `https://`. The editor preview is rendered server-side, escaped and sanitised again.
 * Secrets only come from environment variables; nothing sensitive is in the repository.
 
 ## One-time setup on Hostinger
@@ -64,6 +66,8 @@ The existing local tool (`python3 src/admin/server.py`) still works and is uncha
 
 ## Day to day
 
+**Blog:** `/admin` → **Blog posts** → *New post* → write → *Save draft* → *Publish post*. See `CLIENT-GUIDE.md`.
+
 1. `/admin` → **Pages & editor** → pick a page → edit → **Save draft** (also autosaves).
 2. **Publish**. Wait a few minutes for the rebuild, then **Refresh editor build** to see it in the editor.
 3. Something wrong? **Revisions → Restore → Publish**.
@@ -75,7 +79,7 @@ cd cms && npm install
 DB_DRIVER=sqlite REPO_DRIVER=local NODE_ENV=development PORT=3111 \
   ADMIN_USER=admin ADMIN_PASSWORD='Some-long-pass-1' node src/create-admin.js
 DB_DRIVER=sqlite REPO_DRIVER=local NODE_ENV=development PORT=3111 node src/server.js
-npm test          # 29 tests: auth, CSRF, authorization, validation, sanitising, publish, revisions, media, SEO
+npm test          # 47 tests: auth, CSRF, authorization, validation, sanitising, publish, revisions, media, SEO, blog posts
 ```
 
 With `REPO_DRIVER=local` the app edits the checkout in `LOCAL_REPO_DIR` (default: the repo) and serves
@@ -87,3 +91,5 @@ With `REPO_DRIVER=local` the app edits the checkout in `LOCAL_REPO_DIR` (default
 * The editor canvas is the *last published build* with your saved drafts laid over it, not a full rebuild.
 * Removing a style override that was already published still shows the published style in the canvas until the rebuild.
 * Redirect management is not included (static hosting cannot do 301s safely).
+* Blog: a post's web address cannot be changed after it exists (that would break its links). There is no scheduling: *Publish* goes live at the next rebuild. A malformed or conflicting post file is skipped by the build (with a warning in the Actions log) rather than failing the whole site.
+* The post list reads each article from GitHub (cached by file hash), so the first load after a restart is a little slower.

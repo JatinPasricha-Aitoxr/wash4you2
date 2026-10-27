@@ -159,6 +159,11 @@ class Content {
     await db.exec('INSERT INTO drafts (path, content, data, kind, updated_by, updated_at) VALUES (?,?,?,?,?,?)',
       [p, null, buf, 'bin', userId, Date.now()]);
   }
+  // Stage the removal of a published file; it is deleted from the repo on publish.
+  async stageDelete(p, userId) {
+    await db.exec('DELETE FROM drafts WHERE path = ?', [p]);
+    await db.exec('INSERT INTO drafts (path, content, data, kind, updated_by, updated_at) VALUES (?,?,?,?,?,?)', [p, null, null, 'del', userId, Date.now()]);
+  }
   async saveStore(store, data, userId) {
     await this.saveDraftText(storePath(store), JSON.stringify(data, null, 2) + '\n', userId);
   }
@@ -208,26 +213,35 @@ class Content {
     for (const r of rows) await db.exec('INSERT INTO revision_files (revision_id, path, content, data, kind) VALUES (?,?,?,?,?)', [revId, r.path, r.content, r.data, r.kind]);
     return rows.length;
   }
-  // Validate every staged JSON file before it can go live.
-  async validateDrafts() {
-    const rows = await db.query("SELECT path, content, kind FROM drafts WHERE kind = 'text'");
+  // Validate every staged text file before it can go live: JSON stores must
+  // parse, blog posts must have valid front matter and fields.
+  async validateDrafts(rows) {
+    rows = rows || await db.query("SELECT path, content, kind FROM drafts WHERE kind = 'text'");
     for (const r of rows) {
-      try { JSON.parse(r.content); } catch { throw new Error(`${r.path} is not valid JSON`); }
+      if (r.kind !== 'text') continue;
+      if (r.path.endsWith('.json')) {
+        try { JSON.parse(r.content); } catch { throw new Error(`${r.path} is not valid JSON`); }
+      } else if (r.path.endsWith('.md')) {
+        require('./posts').checkDraftFile(r.path, r.content);
+      }
     }
     return rows.length;
   }
 
-  async publish(userId, message) {
-    const rows = await db.query('SELECT path, content, data, kind FROM drafts');
+  // Publish every draft as ONE commit - or only `paths` (e.g. a single blog post
+  // and the images it uses), leaving other drafts untouched.
+  async publish(userId, message, paths) {
+    let rows = await db.query('SELECT path, content, data, kind FROM drafts');
+    if (Array.isArray(paths)) rows = rows.filter((r) => paths.includes(r.path));
     if (!rows.length) return { published: false, files: 0, message: 'No drafts to publish.' };
-    await this.validateDrafts();
+    await this.validateDrafts(rows);
     const files = {};
     for (const r of rows) files[r.path] = r.kind === 'bin' ? Buffer.from(r.data) : r.kind === 'del' ? null : r.content;
     const msg = (message || 'Update site content via admin').slice(0, 200);
     const sha = await this.repo.commit(files, `${msg}\n\nPublished from the Wash4You admin.`);
     const rev = await db.exec('INSERT INTO revisions (kind, message, user_id, commit_sha, created_at) VALUES (?,?,?,?,?)', ['publish', msg, userId, sha, Date.now()]);
     for (const r of rows) await db.exec('INSERT INTO revision_files (revision_id, path, content, data, kind) VALUES (?,?,?,?,?)', [rev.insertId, r.path, r.content, r.data, r.kind]);
-    await db.exec('DELETE FROM drafts');
+    for (const r of rows) await db.exec('DELETE FROM drafts WHERE path = ?', [r.path]);
     return { published: true, files: rows.length, revision: rev.insertId, sha };
   }
 

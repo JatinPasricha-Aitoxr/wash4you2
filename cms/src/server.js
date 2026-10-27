@@ -11,6 +11,7 @@ const { Media, validateUpload } = require('./media');
 const { renderBlock } = require('./blocks');
 const editsite = require('./editsite');
 const { overlayDrafts } = require('./canvas');
+const { Posts, preview: previewPost } = require('./posts');
 
 const PUBLIC = path.join(__dirname, '..', 'public');
 const wrap = (fn) => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
@@ -22,6 +23,7 @@ function createApp({ repo, content, media } = {}) {
   repo = repo || repoMod.create();
   content = content || new Content(repo);
   media = media || new Media(repo, content);
+  const posts = new Posts(repo, content);
   const app = express();
   app.disable('x-powered-by');
   app.set('trust proxy', 1);
@@ -93,9 +95,10 @@ function createApp({ repo, content, media } = {}) {
     const lastPub = await db.one("SELECT created_at, message FROM revisions WHERE kind = 'publish' ORDER BY id DESC LIMIT 1");
     const m = await media.list({ limit: 1 });
     const pages = await studioPages();
+    const postList = await posts.list().catch(() => null);
     const log = await db.query('SELECT a.action, a.detail, a.at, u.username FROM audit_log a LEFT JOIN users u ON u.id = a.user_id ORDER BY a.id DESC LIMIT 8');
     res.json({
-      drafts: drafts.length, pages: pages.length, media: m.total, revisions: (await db.one("SELECT COUNT(*) AS n FROM revisions WHERE kind = 'publish'")).n * 1,
+      drafts: drafts.length, pages: pages.length, posts: postList ? postList.length : null, media: m.total, revisions: (await db.one("SELECT COUNT(*) AS n FROM revisions WHERE kind = 'publish'")).n * 1,
       lastPublish: lastPub ? { at: Number(lastPub.created_at), message: lastPub.message } : null,
       recent: revs, editSite: editsite.status(), repoDriver: repo.name, siteUrl: config.publicSiteUrl,
       activity: log.map((r) => ({ action: r.action, detail: r.detail, at: Number(r.at), by: r.username })),
@@ -107,9 +110,10 @@ function createApp({ repo, content, media } = {}) {
     const f = editsite.safeFile('sitemap.xml'); const out = [];
     const main = ['/', '/services/', '/pricing/', '/packages/', '/about-us/', '/locate-us/', '/contact-us/', '/blog/', '/steam-iron/', '/wash4you-overview/', '/best-dryclean-near-me/', '/best-dryclean-in-gurgaon/'];
     if (f) for (const m of fs.readFileSync(f, 'utf8').matchAll(/<loc>([^<]+)<\/loc>/g)) { let p; try { p = new URL(m[1]).pathname || '/'; } catch { continue; } out.push(p); }
-    const group = (p) => main.includes(p) ? 'Main pages' : p.startsWith('/products/') ? 'Products' : p.startsWith('/services/') ? 'Services' : p.startsWith('/blog/') ? 'Blog' : p.startsWith('/laundry-service-') ? 'Area pages' : 'Other';
+    const postSlugs = new Set((await repo.list('content/posts/').catch(() => [])).map((f) => f.path.split('/').pop().replace(/\.md$/, '')));
+    const group = (p) => main.includes(p) ? 'Main pages' : p.startsWith('/products/') ? 'Products' : p.startsWith('/services/') ? 'Services' : (p.startsWith('/blog/') || postSlugs.has(p.replace(/\//g, ''))) ? 'Blog' : p.startsWith('/laundry-service-') ? 'Area pages' : 'Other';
     const order = { 'Main pages': 0, Services: 1, Products: 2, Blog: 3, 'Area pages': 4, Other: 5 };
-    return out.map((p) => ({ path: p, group: group(p) })).sort((a, b) => order[a.group] - order[b.group] || (main.indexOf(a.path) < 0 ? 999 : main.indexOf(a.path)) - (main.indexOf(b.path) < 0 ? 999 : main.indexOf(b.path)) || a.path.localeCompare(b.path));
+    return out.map((p) => ({ path: p, group: group(p), post: postSlugs.has(p.replace(/\//g, '')) })).sort((a, b) => order[a.group] - order[b.group] || (main.indexOf(a.path) < 0 ? 999 : main.indexOf(a.path)) - (main.indexOf(b.path) < 0 ? 999 : main.indexOf(b.path)) || a.path.localeCompare(b.path));
   }
   api.get('/studio/pages', wrap(async (req, res) => res.json({ pages: await studioPages() })));
   api.get('/studio/state', wrap(async (req, res) => res.json({
@@ -164,6 +168,44 @@ function createApp({ repo, content, media } = {}) {
     else if (action === 'reorder') { const o = req.body.order; if (!Array.isArray(o) || o.length !== posts.length) return res.status(400).json({ error: 'bad order' }); blog.posts = o.map((i) => posts[i]); }
     else return res.status(400).json({ error: `unknown blog action ${action}` });
     await content.saveStore('blog', blog, user(req)); await auth.audit(req, 'blog_' + action); res.json({ ok: true, posts: blog.posts });
+  }));
+
+
+  // ---------------------------------------------------------- blog posts
+  // One Markdown file per article (content/posts/<slug>.md), staged as drafts
+  // and published as a commit like any other content. See src/posts.js.
+  api.get('/posts', wrap(async (req, res) => res.json({ posts: await posts.list(), categories: await posts.categories(), siteUrl: config.publicSiteUrl.replace(/\/+$/, '') })));
+  api.get('/posts/item', wrap(async (req, res) => res.json({ post: await posts.get(String(req.query.slug || '')) })));
+  api.get('/posts/slug-check', wrap(async (req, res) => {
+    const slug = String(req.query.slug || '');
+    const problem = await posts.slugProblem(slug);           // validates the format first
+    if (problem) return res.json({ ok: false, problem });
+    const taken = !!(await content.getText(`content/posts/${slug}.md`));
+    res.json({ ok: !taken, problem: taken ? 'A post with that web address already exists.' : '' });
+  }));
+  api.post('/posts/save', wrap(async (req, res) => {
+    const post = await posts.save(req.body || {}, user(req));
+    await auth.audit(req, 'post_saved', post.slug); res.json({ ok: true, post });
+  }));
+  api.post('/posts/status', wrap(async (req, res) => {
+    const post = await posts.setStatus(String((req.body || {}).slug || ''), (req.body || {}).status, user(req));
+    await auth.audit(req, 'post_status', `${post.slug}:${post.status}`); res.json({ ok: true, post });
+  }));
+  api.post('/posts/delete', wrap(async (req, res) => {
+    await posts.remove(String((req.body || {}).slug || ''), user(req));
+    await auth.audit(req, 'post_deleted', String(req.body.slug)); res.json({ ok: true });
+  }));
+  api.post('/posts/discard', wrap(async (req, res) => {
+    await posts.discard(String((req.body || {}).slug || ''), user(req));
+    await auth.audit(req, 'post_discarded', String(req.body.slug)); res.json({ ok: true });
+  }));
+  api.post('/posts/preview', wrap(async (req, res) => res.json(previewPost((req.body || {}).body))));
+  api.post('/posts/publish', wrap(async (req, res) => {
+    let r;
+    try { r = await posts.publish(String((req.body || {}).slug || ''), String((req.body || {}).message || ''), user(req)); }
+    catch (e) { return res.status(e.status || 422).json({ error: e.message }); }
+    await auth.audit(req, 'post_published', `${req.body.slug} (${r.files} file(s))`);
+    res.json({ ok: true, ...r, steps: r.published ? ['Published to the repository.', 'The site rebuilds automatically; the post is live in a few minutes.'] : [r.message] });
   }));
 
   // -------------------------------------------------- drafts / publish / revisions

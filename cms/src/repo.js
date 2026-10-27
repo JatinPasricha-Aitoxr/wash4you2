@@ -9,7 +9,11 @@ const config = require('./config');
 
 const SAFE_PATH = /^(?!\/)(?!.*\.\.)[A-Za-z0-9_\-./ ]+$/;
 // The admin may only ever touch these locations in the repo.
-const WRITABLE = [/^src\/data\/[A-Za-z0-9_\-/]+\.json$/, /^src\/assets\/images\/[A-Za-z0-9_\-/.]+$/];
+const WRITABLE = [
+  /^src\/data\/[A-Za-z0-9_\-/]+\.json$/,
+  /^src\/assets\/images\/[A-Za-z0-9_\-/.]+$/,
+  /^content\/posts\/[a-z0-9]+(?:-[a-z0-9]+)*\.md$/,   // blog posts: one Markdown file each
+];
 function assertWritable(p) {
   if (!SAFE_PATH.test(p) || !WRITABLE.some((re) => re.test(p))) throw new Error(`path not allowed: ${p}`);
 }
@@ -33,8 +37,10 @@ function localDriver(root) {
     async read(p) { const f = abs(p); return fs.existsSync(f) ? fs.readFileSync(f) : null; },
     async list(prefix) {
       const out = []; walk(abs(prefix), out);
-      return out.map((f) => ({ path: path.relative(root, f).split(path.sep).join('/'), size: fs.statSync(f).size }));
+      return out.map((f) => { const st = fs.statSync(f); return { path: path.relative(root, f).split(path.sep).join('/'), size: st.size, sha: `${st.mtimeMs}-${st.size}` }; });
     },
+    // Names at the top of the repo (the site's page folders and files).
+    async topLevel() { return new Set(fs.readdirSync(root)); },
     async commit(files, message) {
       for (const [p, v] of Object.entries(files)) {
         assertWritable(p);
@@ -79,8 +85,9 @@ function githubDriver(g) {
       return Buffer.from(await res.arrayBuffer());
     },
     async list(prefix) {
-      return (await tree()).filter((t) => t.path.startsWith(prefix)).map((t) => ({ path: t.path, size: t.size }));
+      return (await tree()).filter((t) => t.path.startsWith(prefix)).map((t) => ({ path: t.path, size: t.size, sha: t.sha }));
     },
+    async topLevel() { return new Set((await tree()).map((t) => t.path.split('/')[0])); },
     // One atomic commit for all files (Git Data API).
     async commit(files, message) {
       for (const p of Object.keys(files)) assertWritable(p);

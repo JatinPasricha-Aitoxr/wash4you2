@@ -13,6 +13,7 @@ on:
     paths:
       - "src/data/**"
       - "src/assets/images/**"
+      - "content/posts/**"      # blog posts written in the admin
       - "src/templates/**"
       - "src/*.py"
       - "src/js/**"

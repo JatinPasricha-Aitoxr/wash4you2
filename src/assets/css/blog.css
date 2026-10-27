@@ -130,6 +130,7 @@ a.blog-chip:hover { background: var(--green); color: #fff; }
 }
 .post-body blockquote { margin: var(--s-5) 0; padding: var(--s-4) var(--s-5); background: var(--wash); border-left: 4px solid var(--brass); border-radius: 0 var(--r-md) var(--r-md) 0; }
 .post-body blockquote p { margin: 0; }
+.post-body img { display: block; max-width: 100%; height: auto; margin: var(--s-5) 0; border-radius: var(--r-md); }
 .post-body hr { border: 0; border-top: 1px solid var(--line); margin: var(--s-7) 0; }
 /* The closing "How Wash4You can help" section gets a soft panel. */
 .post-body h2:last-of-type { margin-top: var(--s-8); }

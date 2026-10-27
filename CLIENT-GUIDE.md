@@ -61,12 +61,43 @@ you can use WhatsApp and email, you can use this.
 
 ## Writing a blog post
 
-1. Click **Blog** in the left menu, then **+ New post**.
-2. Write your title and body. You can use `##` for a heading and `**bold
-   text**` for bold — the site turns that into proper formatting.
-3. Choose **Draft** (not visible yet), **Scheduled** (goes live
-   automatically at a date/time you pick — within about an hour of that
-   time), or **Published** (goes live at the next publish).
+Everything for the blog is under **Blog posts** in the left menu.
+
+**Write a new post**
+
+1. Click **Blog posts**, then **New post**.
+2. Fill in the **Title**. The web address is created for you (you can change
+   it before you save the first time; after that it is locked so old links
+   never break). A green tick means the address is free.
+3. Pick a **Publish date** and a **Topic** (choose one that exists, or type a
+   new one). Write a short **Summary** (this is the text on the blog page).
+   The **Search description** is optional.
+4. Choose a **Cover image** from your media library, or upload a new one.
+5. Write the **Article**. The buttons above the box add headings, bold,
+   links, lists, quotes and pictures. A blank line starts a new paragraph.
+   The **Preview** on the right shows how it will read as you type.
+6. Click **Save draft** whenever you like. A draft is private: it is not on
+   the website. (The editor also saves for you every 30 seconds.)
+7. When you're happy, click **Publish post**. The website rebuilds and the
+   post appears in a few minutes, on the blog page and at its own address.
+
+**Change a post that is already live:** open it from the list, edit it and
+click **Publish changes**. Until you do, visitors still see the old version.
+Changed your mind? **Discard changes** returns to the live version.
+
+**Hide a post without deleting it:** set **Visibility** to *Hidden* and
+publish. Set it back to *Visible* and publish to bring it back.
+
+**Delete a post:** click **Delete** in the list, then **Publish deletion**
+(or **Undo delete** to keep it).
+
+Good to know:
+- Links to other pages of the site start with `/` (for example `/pricing/`);
+  links to other websites start with `https://`.
+- Images in an article come from the media library. New uploads are
+  published automatically together with the post that uses them.
+- The post's own address can't be a name the website already uses (such as
+  `pricing` or an area page) — the form tells you straight away.
 
 ## Handling an order
 
