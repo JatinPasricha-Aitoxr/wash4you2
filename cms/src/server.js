@@ -285,7 +285,9 @@ function createApp({ repo, content, media } = {}) {
   app.get('/admin/logout', wrap(async (req, res) => { await auth.destroySession(req); auth.setSessionCookie(res, '', 0); res.redirect('/admin/login'); }));
   app.get('/admin/assets/:f', (req, res) => { const f = path.join(PUBLIC, 'admin', path.basename(req.params.f)); fs.existsSync(f) ? sendFile(res, f) : res.status(404).end(); });
   app.get('/admin/overlay/:f', (req, res) => { const f = path.join(PUBLIC, 'studio', path.basename(req.params.f)); fs.existsSync(f) ? sendFile(res, f) : res.status(404).end(); });
-  app.get(['/', '/admin', '/admin/'], gate, (req, res) => { res.set('Content-Security-Policy', ADMIN_CSP); sendFile(res, path.join(PUBLIC, 'admin', 'index.html')); });
+  app.get(['/', '/admin', '/admin/'], gate, (req, res, next) => {
+    if (req.path === '/' && 'studio' in req.query) return next();   // the visual editor's canvas of the home page
+    res.set('Content-Security-Policy', ADMIN_CSP); sendFile(res, path.join(PUBLIC, 'admin', 'index.html')); });
   app.get('/studio', gate, (req, res) => { res.set('Content-Security-Policy', ADMIN_CSP); sendFile(res, path.join(PUBLIC, 'studio', 'studio.html')); });
 
   // Everything else is the site canvas (the editable build) - signed-in only.
