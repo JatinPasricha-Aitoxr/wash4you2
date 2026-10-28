@@ -329,10 +329,14 @@ function inject(html, studioFrame) {
 }
 
 async function main() {
-  await db.init();
-  await require('./schema').migrate();
+  // Listen first: Hostinger gives the entry file ~3 s to call listen(), and the
+  // database connection must not be allowed to eat into that.
   const app = createApp();
   app.listen(config.port, () => console.log(`Wash4You admin listening on :${config.port} (${config.repoDriver} repo, ${config.dbDriver} db)`));
+  await db.init();
+  await require('./schema').migrate();
 }
-if (require.main === module) main().catch((e) => { console.error(e); process.exit(1); });
+// Hostinger loads the entry file through its own wrapper (require.main !== module),
+// so start unless the test runner is only importing createApp.
+if (require.main === module || !process.env.NODE_TEST_CONTEXT) main().catch((e) => { console.error(e); process.exit(1); });
 module.exports = { createApp };
