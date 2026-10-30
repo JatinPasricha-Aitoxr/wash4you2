@@ -1,0 +1,489 @@
+/* ============================================================
+   Wash4You — layout
+   Header, hero, footer, mobile navigation, sticky booking bar.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   Header
+   ------------------------------------------------------------ */
+
+.header {
+  position: sticky;
+  /* Docks directly under the pinned offer strip (--promo-h, set by JS —
+     see base.html) rather than at the viewport top. Falls back to 0 when
+     the offer is off, or before the script has measured it. */
+  top: var(--promo-h, 0px);
+  z-index: 100;
+  background: rgba(255,255,255,.88);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 220ms var(--ease-out), box-shadow 220ms var(--ease-out);
+}
+.header--scrolled {
+  border-bottom-color: var(--line);
+  box-shadow: 0 1px 12px rgba(16,27,46,.05);
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-5);
+  min-height: 4.5rem;
+}
+
+.header__logo { display: flex; align-items: center; flex: none; }
+.header__logo img { height: 2.25rem; width: auto; }
+
+.header__nav { display: none; }
+@media (min-width: 62rem) {
+  .header__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--s-6);
+    margin-inline: auto;
+  }
+}
+
+.header__link {
+  position: relative;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--ink-2);
+  padding-block: var(--s-2);
+  transition: color 180ms var(--ease-out);
+}
+.header__link:hover { color: var(--ink); }
+.header__link::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 2px;
+  background: var(--brass);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 220ms var(--ease-out);
+}
+.header__link:hover::after,
+.header__link.is-active::after { transform: scaleX(1); }
+.header__link.is-active { color: var(--ink); }
+
+.header__actions { display: flex; align-items: center; gap: var(--s-3); flex: none; }
+
+.header__phone {
+  display: none;
+  align-items: center;
+  gap: var(--s-2);
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: .02em;
+}
+.header__phone svg { width: 1rem; height: 1rem; color: var(--brass-deep); }
+@media (min-width: 48rem) { .header__phone { display: inline-flex; } }
+
+/* Scoped to .header on purpose. ui.css loads after this file, so a bare
+   .header__cta would lose to .btn { display: inline-flex } at equal
+   specificity and the CTA would reappear on mobile. */
+.header .header__cta { display: none; }
+@media (min-width: 62rem) { .header .header__cta { display: inline-flex; } }
+
+.menu-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem; height: 2.75rem;
+  border-radius: var(--r-md);
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+@media (min-width: 62rem) { .menu-toggle { display: none; } }
+.menu-toggle svg { width: 1.375rem; height: 1.375rem; }
+
+/* ------------------------------------------------------------
+   Mobile navigation
+   ------------------------------------------------------------ */
+
+.mobile-nav {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: var(--paper);
+  display: flex;
+  flex-direction: column;
+  /* closed by default; the motion layer animates this open */
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out), visibility 0s 220ms;
+}
+.mobile-nav.is-open {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+  transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out), visibility 0s;
+}
+
+.mobile-nav__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 4.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.mobile-nav__body { flex: 1; overflow-y: auto; padding-block: var(--s-5); }
+
+.mobile-nav__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--s-4) 0;
+  font-family: var(--font-display);
+  font-variation-settings: 'wdth' 104;
+  font-size: var(--t-xl);
+  font-weight: 700;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line-soft);
+}
+.mobile-nav__link svg { width: 1.25rem; height: 1.25rem; color: var(--ink-3); }
+.mobile-nav__link.is-active { color: var(--navy); }
+
+.mobile-nav__foot { padding: var(--s-5) 0 var(--s-8); display: grid; gap: var(--s-3); }
+
+/* Both #menu-toggle and #menu-close carry .menu-toggle, which is display:none
+   at >= 62rem. Without this, a nav opened on a phone and then widened (rotate,
+   desktop resize, tablet split view) becomes a full-screen overlay with its
+   own close button hidden — an inescapable trap. Removing the panel entirely
+   at desktop widths closes that off in CSS, with no JS breakpoint listener. */
+@media (min-width: 62rem) {
+  .mobile-nav { display: none; }
+}
+
+/* ------------------------------------------------------------
+   Hero — the thesis.
+   Care-symbol eyebrow, the client's own care-label line, then the
+   proof slider immediately. No stock photography, no gradient mesh.
+   ------------------------------------------------------------ */
+
+/* Bottom padding is deliberately short — the promises strip that follows
+   carries its own top padding, and doubling them left a dead band. */
+.hero { padding-block: clamp(2rem, 1.4rem + 2.6vw, 3.5rem) clamp(2rem, 1.4rem + 2.6vw, 3.25rem); }
+
+.hero__grid { display: grid; gap: var(--s-7); align-items: center; }
+@media (min-width: 64rem) {
+  .hero__grid { grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr); gap: var(--s-8); }
+}
+
+.hero__copy { max-width: 36rem; }
+
+/* the care-symbol strip that opens the page */
+.hero__care {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-3);
+  margin-bottom: var(--s-5);
+  padding-bottom: var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+.hero__care-symbols { display: flex; gap: var(--s-3); flex: none; }
+.hero__care-symbols svg {
+  width: 1.25rem; height: 1.25rem;
+  stroke: var(--navy); fill: none; stroke-width: 1.5;
+}
+.hero__care-text {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  /* flex items default to min-width:auto and will not shrink below their
+     content — without this the tracked-out mono string forces page overflow */
+  min-width: 0;
+}
+
+.hero h1 { margin-bottom: var(--s-5); }
+.hero__sub { font-size: var(--t-lg); color: var(--ink-2); margin-bottom: var(--s-6); max-width: 30rem; }
+
+.hero__trust {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-6);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+}
+.hero__trust-stars { display: flex; gap: 2px; color: var(--amber); flex: none; }
+.hero__trust-stars svg { width: 0.9375rem; height: 0.9375rem; fill: currentColor; }
+
+.hero__proof { position: relative; }
+
+/* ------------------------------------------------------------
+   Sticky mobile booking bar
+   ------------------------------------------------------------ */
+
+.cta-bar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 120;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--gutter) calc(var(--s-3) + env(safe-area-inset-bottom));
+  background: rgba(255,255,255,.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--line);
+  /* Hidden until the visitor scrolls past the hero. `visibility` is animated
+     alongside the transform so the two links inside are not reachable by Tab
+     while the bar is parked off-screen. */
+  transform: translateY(101%);
+  visibility: hidden;
+  transition: transform 300ms var(--ease-out), visibility 0s 300ms;
+}
+.cta-bar.is-visible {
+  transform: none;
+  visibility: visible;
+  transition: transform 300ms var(--ease-out), visibility 0s;
+}
+@media (min-width: 62rem) { .cta-bar { display: none; } }
+
+/* Media-gated to match the bar itself. scroll.js sets `has-cta-bar` at every
+   width, so an ungated rule leaves desktop with 76px of padding reserved for
+   a bar that is display:none. */
+@media (max-width: 61.99rem) {
+  body.has-cta-bar { padding-bottom: 4.75rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-bar { transition: none; }
+}
+
+/* ------------------------------------------------------------
+   Desktop quick-contact side rail — the .cta-bar above, for desktop.
+   ------------------------------------------------------------ */
+
+.side-rail {
+  display: none;
+}
+@media (min-width: 62rem) {
+  .side-rail {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+    position: fixed;
+    right: var(--s-5);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 80;
+  }
+}
+
+.side-rail__btn {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--r-pill);
+  background: #fff;
+  color: var(--navy);
+  box-shadow: var(--shadow-lg);
+  transition: transform 160ms var(--ease-out), background 160ms var(--ease-out), color 160ms var(--ease-out);
+}
+.side-rail__btn svg { width: 1.375rem; height: 1.375rem; }
+.side-rail__btn:hover { transform: translateX(-.25rem); }
+
+/* WhatsApp leads in brand green, same tone the mobile bar's "Chat" CTAs use. */
+.side-rail__btn--whatsapp { background: var(--wa-green); color: #fff; }
+.side-rail__btn--whatsapp:hover { background: var(--wa-green-hover); }
+
+@media (prefers-reduced-motion: reduce) {
+  .side-rail__btn { transition: none; }
+  .side-rail__btn:hover { transform: none; }
+}
+
+@media print { .side-rail { display: none; } }
+
+/* ------------------------------------------------------------
+   Footer
+   ------------------------------------------------------------ */
+
+.footer {
+  background: var(--navy-deep);
+  color: rgba(255,255,255,.66);
+  padding-block: var(--s-9) var(--s-6);
+  font-size: var(--t-base);   /* navigation, not fine print */
+}
+
+.footer__grid {
+  display: grid;
+  gap: var(--s-7);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 40rem) { .footer__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 68rem) { .footer__grid { grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: var(--s-8); } }
+
+.footer__brand img { height: 2.25rem; width: auto; margin-bottom: var(--s-4); }
+.footer__brand p { max-width: 24rem; line-height: 1.6; }
+
+.footer__contact { display: grid; gap: var(--s-2); margin-top: var(--s-5); }
+.footer__contact a { display: flex; align-items: flex-start; gap: var(--s-3); color: #fff; font-weight: 600; }
+.footer__contact svg { width: 1.125rem; height: 1.125rem; flex: none; margin-top: .15rem; color: var(--brass-bright); }
+.footer__contact span { font-weight: 400; color: rgba(255,255,255,.66); }
+
+.footer h3 {
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  /* .42 measured 3.81:1 on --navy-deep; .55 clears 4.5:1 */
+  color: rgba(255,255,255,.55);
+  margin-bottom: var(--s-4);
+}
+
+.footer__links { display: grid; gap: var(--s-3); }
+.footer__links a { transition: color 160ms var(--ease-out); }
+.footer__links a:hover { color: #fff; }
+
+.footer__more-areas {
+  margin-top: var(--s-4);
+  font-size: var(--t-sm);
+  line-height: 1.55;
+}
+.footer__more-areas a { color: #fff; font-weight: 600; text-decoration: underline; text-underline-offset: .15em; }
+
+.footer__social { display: flex; gap: var(--s-3); margin-top: var(--s-5); }
+.footer__social a {
+  width: 2.5rem; height: 2.5rem;
+  display: grid; place-items: center;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 50%;
+  color: rgba(255,255,255,.72);
+  transition: border-color 180ms var(--ease-out), color 180ms var(--ease-out);
+}
+.footer__social a:hover { border-color: #fff; color: #fff; }
+.footer__social svg { width: 1.125rem; height: 1.125rem; }
+
+.footer__bottom {
+  margin-top: var(--s-8);
+  padding-top: var(--s-5);
+  border-top: 1px solid rgba(255,255,255,.12);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3) var(--s-5);
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--t-xs);
+  color: rgba(255,255,255,.5);
+}
+
+/* Stores block in the footer — real addresses are a local SEO signal */
+.footer__store { margin-bottom: var(--s-4); }
+.footer__store strong { display: block; color: #fff; font-weight: 700; margin-bottom: var(--s-1); }
+.footer__store address { font-style: normal; line-height: 1.55; }
+
+/* All Products — every priced item, not just the 15 broad service
+   categories above. One column per pricing category (5 of them). */
+.footer__products {
+  margin-top: var(--s-8);
+  padding-top: var(--s-7);
+  border-top: 1px solid rgba(255,255,255,.12);
+}
+.footer__product-groups {
+  display: grid;
+  gap: var(--s-6);
+  grid-template-columns: 1fr;
+  margin-top: var(--s-2);
+}
+@media (min-width: 40rem) { .footer__product-groups { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 68rem) { .footer__product-groups { grid-template-columns: repeat(5, 1fr); } }
+.footer__product-group-title {
+  font-weight: 600;
+  color: rgba(255,255,255,.85);
+  font-size: var(--t-sm);
+  margin-bottom: var(--s-3);
+}
+.footer__product-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-3);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer__product-list a {
+  font-size: var(--t-xs);
+  color: rgba(255,255,255,.6);
+  transition: color 160ms var(--ease-out);
+}
+.footer__product-list a:hover { color: #fff; }
+
+
+/* ---- Header row capacity (PREREQUISITE for the --t-sm change) ----------
+   .header__nav is a nowrap flex row with no scroll. Raising --t-sm grows
+   .header__phone inside it, and the search-toggle button added later
+   widened the row further, so the band with no slack left (the CTA would
+   be pushed under the viewport edge) now runs the whole way from 992px to
+   ~1360px, not just to 1199px. The phone number is already reachable from
+   the topbar and the mobile bar, so it is the correct thing to drop across
+   that whole band; the nav gap is tightened too, since even phone-less the
+   992-1100px end of the band is still short of room otherwise.
+   ------------------------------------------------------------------------ */
+@media (min-width: 62rem) and (max-width: 87.4rem) {
+  .header__phone { display: none; }
+  .header__nav { gap: var(--s-3); }
+}
+
+/* Explore — guide and hub pages in their own row above All Products */
+.footer__explore {
+  margin-top: var(--s-8);
+  padding-top: var(--s-7);
+  border-top: 1px solid rgba(255,255,255,.12);
+}
+.footer__explore-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  list-style: none;
+  padding: 0;
+  margin: var(--s-2) 0 0;
+}
+.footer__explore-list a {
+  display: inline-block;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  font-size: var(--t-xs);
+  color: rgba(255,255,255,.75);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.18);
+  transition: color 160ms var(--ease-out), background 160ms var(--ease-out);
+}
+.footer__explore-list a:hover { color: #fff; background: rgba(255,255,255,.08); }
+.footer__explore-list a.is-feature {
+  color: var(--brass-bright);
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px rgba(217,184,120,.45);
+}
+.footer__explore-list a.is-feature:hover { color: #fff; background: rgba(217,184,120,.14); }
+
+/* Floating Book Pickup button */
+.book-fab { position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 60; padding: .85rem 1.35rem; border-radius: 999px; background: var(--cta, #e2a93b); color: #0b1e3c; font-weight: 700; letter-spacing: .01em; text-decoration: none; box-shadow: 0 10px 28px rgba(11, 30, 60, .28); transition: transform .2s ease, box-shadow .2s ease; }
+.book-fab:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(11, 30, 60, .34); }
+@media (max-width: 61.99rem) { .book-fab { bottom: 5rem; right: .9rem; } }
+.footer__drycleaned { margin: var(--s-8, 2rem) 0 var(--s-6, 1.5rem); padding-top: var(--s-6, 1.5rem); border-top: 1px solid rgba(255, 255, 255, .14); }
+.footer__drycleaned-list { list-style: none; margin: var(--s-4, 1rem) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+.footer__drycleaned-list li { padding: .3rem .75rem; border: 1px solid rgba(255, 255, 255, .22); border-radius: 999px; font-size: .85rem; }
+
+/* Footer: app + QR */
+.footer__app { display: grid; grid-template-columns: auto 1fr auto; gap: var(--s-6, 1.5rem); align-items: center; margin: var(--s-8, 2rem) 0; padding: var(--s-6, 1.5rem); border: 1px solid rgba(255, 255, 255, .16); border-radius: 18px; background: rgba(255, 255, 255, .05); }
+.footer__app-mascot { width: 96px; height: 96px; object-fit: contain; }
+.footer__app-copy h3 { margin: 0 0 .35rem; }
+.footer__app-copy p { margin: 0 0 var(--s-4, 1rem); opacity: .85; }
+.footer__app-btns { display: flex; flex-wrap: wrap; gap: .6rem; }
+.footer__app-qr { margin: 0; text-align: center; }
+.footer__app-qr img { display: block; width: 168px; height: 168px; background: #fff; padding: 8px; border-radius: 12px; }
+.footer__app-qr figcaption { margin-top: .4rem; font-size: .85rem; opacity: .85; }
+@media (max-width: 640px) { .footer__app { grid-template-columns: 1fr; text-align: center; justify-items: center; } .footer__app-btns { justify-content: center; } }

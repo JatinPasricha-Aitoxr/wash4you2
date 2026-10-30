@@ -1,0 +1,346 @@
+/* ============================================================
+   Hero = photograph. Text on a light ground, a relevant photo beside it.
+   Loaded last so it overrides the navy / full-bleed-photo heroes on the
+   service, product and pricing pages. Plain .page-hero pages are already
+   light and just gain the photo in their second column.
+   ============================================================ */
+
+.hero-photo {
+  margin: 0;
+  border-radius: var(--r-lg, 1rem);
+  overflow: hidden;
+  box-shadow: 0 20px 44px rgba(13, 35, 80, .22);
+  background: var(--navy-tint, #e9edf6);
+}
+.hero-photo img { display: block; width: 100%; max-width: none; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
+
+/* ---- Service detail ---- */
+.svc-hero {
+  --svc-ground: #f3f7fb;
+  background: var(--wash, #f3f7fb);
+  color: var(--navy-deep, #0d2350);
+  border-bottom: 0;
+}
+.svc-hero .crumbs, .svc-hero .crumbs a { color: var(--navy, #14336b); }
+.svc-hero .crumbs span[aria-hidden] { color: rgba(20, 51, 107, .4); }
+.svc-hero h1 { color: var(--navy-deep, #0d2350); }
+.svc-hero .lede { color: #334a6b; }
+.svc-hero .btn--ghost { color: var(--navy, #14336b); border-color: rgba(20, 51, 107, .35); background: #fff; }
+.svc-hero .btn--ghost:hover { border-color: var(--navy, #14336b); background: var(--navy-tint, #e9edf6); }
+.svc-hero .neon-kw { color: var(--green-cta, #198639); text-shadow: none; }
+.svc-hero .svc-stage__chip { color: var(--navy, #14336b); }
+
+/* ---- Product ---- */
+.prod-hero { background: var(--wash, #f3f7fb); color: var(--navy-deep, #0d2350); }
+.prod-hero::before { display: none; }
+.prod-hero .crumbs a { color: var(--navy, #14336b); }
+.prod-hero .crumbs a:hover { color: var(--brass-deep, #8a6a2e); }
+.prod-hero .crumbs span { color: rgba(20, 51, 107, .4); }
+.prod-hero .crumbs span:last-child { color: var(--navy-deep, #0d2350); }
+.prod-badge { background: #fff; border-color: rgba(20, 51, 107, .25); color: var(--navy, #14336b); }
+.prod-hero__title { color: var(--navy-deep, #0d2350); }
+.prod-hero__lede { color: #334a6b; }
+.prod-hero__stat { background: #fff; border-color: rgba(20, 51, 107, .15); color: var(--navy-deep, #0d2350); }
+.prod-hero__stat strong { color: var(--navy-deep, #0d2350); }
+.prod-hero .btn--ghost, .prod-hero .btn--outline, .prod-hero .btn--on-navy { color: var(--navy, #14336b); border-color: rgba(20, 51, 107, .35); background: #fff; }
+.prod-hero .city-toggle--hero { background: #fff; box-shadow: inset 0 0 0 1px rgba(20, 51, 107, .15); }
+.prod-hero .city-toggle--hero .city-toggle__label { color: var(--navy-deep, #0d2350); }
+.prod-hero .city-toggle--hero .city-toggle__btn { color: var(--navy-deep, #0d2350); }
+.prod-hero .city-toggle--hero .city-toggle__btn.is-active { background: var(--navy-deep, #0d2350); color: #fff; }
+
+
+/* ---- Justified paragraphs, site-wide ----
+   :where() keeps specificity at zero, so any component that deliberately sets
+   its own alignment (centred leads, captions, cards) still wins. */
+:where(p, .lede, .prose li) { text-align: justify; text-justify: inter-word; hyphens: auto; -webkit-hyphens: auto; }
+@media (max-width: 40rem) { :where(p, .lede, .prose li) { hyphens: auto; word-spacing: -0.02em; } }
+
+/* ---- Service-page before/after: bigger, and readable on the light hero ---- */
+.svc-stage--proof { max-width: 600px; }
+.svc-stage--proof .ba__frame { --ba-ratio: 4 / 3; box-shadow: 0 0 0 5px #fff, 0 22px 38px -18px rgba(13, 35, 80, .45); }
+.svc-stage--proof .ba__caption { color: #334a6b; }
+.svc-stage--proof .ba__caption strong { color: var(--navy-deep, #0d2350); }
+@media (min-width: 60rem) { .svc-hero .page-hero__grid { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); } }
+
+/* ---- Hero before/after: same height as the copy beside it, top-aligned ---- */
+.hero-ba, .prod-hero__ba, .svc-stage--proof, .svc-proof { min-width: 0; }
+.hero-ba .ba, .prod-hero__ba .ba, .svc-proof .ba { margin: 0; }
+@media (min-width: 62rem) {
+  .svc-hero .page-hero__grid,
+  .prod-hero__grid,
+  .page-hero__grid { align-items: stretch; }
+  .svc-stage--proof { max-width: none; margin: 0; display: flex; flex-direction: column; }
+  .svc-proof, .hero-ba, .prod-hero__ba, .hero-ba-col > .hero-ba { display: flex; flex-direction: column; flex: 1; }
+  .prod-hero__ba, .hero-ba { min-height: 24rem; }
+  .svc-proof .ba, .hero-ba .ba, .prod-hero__ba .ba { flex: 1; display: flex; flex-direction: column; }
+  .svc-proof .ba__frame, .hero-ba .ba__frame, .prod-hero__ba .ba__frame,
+  .svc-stage--proof .ba__frame { flex: 1; aspect-ratio: auto; min-height: 24rem; }
+}
+.hero-ba-col { display: grid; gap: var(--s-4, 1rem); align-content: start; }
+.prod-hero__ba .ba__caption, .hero-ba .ba__caption { color: #334a6b; }
+.prod-hero__ba .ba__caption strong, .hero-ba .ba__caption strong { color: var(--navy-deep, #0d2350); }
+
+/* ---- Real results on service pages: every pair in the same frame ---- */
+.proof-grid .ba__frame { --ba-ratio: 4 / 3; }
+.proof-grid .ba__img { object-fit: cover; object-position: center; }
+.proof-grid .ba-pair img { aspect-ratio: 2 / 3; object-fit: cover; object-position: center; }
+.proof-grid { align-items: start; }
+
+/* Hero image top and bottom line up with the copy: no mascot hanging below the buttons */
+.svc-hero .page-hero__mascot-inline,
+.page-hero .page-hero__mascot-inline { display: none; }
+@media (min-width: 62rem) {
+  .svc-hero .svc-stage--proof, .prod-hero__ba, .hero-ba { align-self: stretch; margin-top: 0; }
+  .svc-hero .page-hero__grid > div:first-child > :first-child { margin-top: 0; }
+  .svc-hero h1 { margin-top: var(--s-4); }
+}
+@media (min-width: 62rem) { .prod-hero__ba { margin-top: .75rem; } }
+
+/* Photo variant of the hero picture: fills the same box a before/after would */
+.hero-ba--photo, .prod-hero__ba.hero-ba--photo, .svc-proof.hero-ba--photo { display: flex; flex-direction: column; }
+.hero-ba--photo .hero-photo { flex: 1; position: relative; min-height: 22rem; }
+.hero-ba--photo .hero-photo img { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; object-fit: cover; object-position: center 30%; }
+@media (max-width: 61.99rem) { .hero-ba--photo .hero-photo { min-height: 0; } .hero-ba--photo .hero-photo img { position: static; aspect-ratio: 4 / 3; } }
+
+/* ============================================================
+   No cropping: heroes show the whole picture at its own proportions.
+   (Overrides the stretch-to-copy rules above.)
+   ============================================================ */
+.hero-photo img,
+.hero-ba--photo .hero-photo img { position: static; width: 100%; height: auto; aspect-ratio: auto; object-fit: contain; }
+.hero-ba--photo .hero-photo { flex: none; min-height: 0; position: static; background: transparent; box-shadow: none; }
+.hero-photo { background: transparent; }
+
+/* before/after: frame takes the pair's own ratio, images contained */
+.svc-stage--proof .ba__frame, .svc-proof .ba__frame, .hero-ba .ba__frame, .prod-hero__ba .ba__frame {
+  flex: none; min-height: 0; aspect-ratio: var(--ba-ratio, 4 / 3);
+}
+.ba__frame .ba__img { object-fit: contain; background: #f3f5f9; }
+.svc-proof .ba, .hero-ba .ba, .prod-hero__ba .ba { flex: none; }
+
+@media (min-width: 62rem) {
+  .svc-stage--proof, .svc-proof, .hero-ba, .prod-hero__ba { flex: none; align-self: start; min-height: 0; }
+  .svc-hero .page-hero__grid, .prod-hero__grid, .page-hero__grid { align-items: start; }
+}
+
+/* Real results grid: same frame for every pair, whole picture inside it */
+.proof-grid .ba__img { object-fit: contain; }
+.svc-stage--proof .svc-stage__chip { position: static; display: block; margin-top: .75rem; text-align: right; }
+
+/* ---- SEO keywords in the main heading: green text ---- */
+mark.seo-hl {
+  background: none;
+  padding: 0;
+  margin: 0;
+  color: var(--green-cta, #198639) !important;
+  -webkit-text-fill-color: var(--green-cta, #198639);
+  font-style: inherit;
+  font-weight: inherit;
+}
+/* on the navy home hero the logo green reads better */
+.home-hero mark.seo-hl, .section--navy mark.seo-hl, .pricing-hero mark.seo-hl {
+  color: var(--brand-green, #21b14b) !important;
+  -webkit-text-fill-color: var(--brand-green, #21b14b);
+  text-shadow: 0 0 .35em rgba(33, 177, 75, .55);
+}
+
+/* Slider arrows are always visible, including on phones */
+.reviews-head .rail-nav { display: flex; }
+.reviews-head { align-items: flex-end; }
+@media (max-width: 47.99rem) { .reviews-head { flex-direction: column; align-items: flex-start; gap: var(--s-4, 1rem); } }
+
+/* ---- Before/after arrow buttons ---- */
+.ba__nav {
+  position: absolute; bottom: .75rem; z-index: 4;
+  width: 2.5rem; height: 2.5rem; border-radius: 50%;
+  display: grid; place-items: center; padding: 0; border: 0; cursor: pointer;
+  background: rgba(255, 255, 255, .92); color: var(--navy-deep, #0d2350);
+  box-shadow: 0 4px 14px rgba(13, 35, 80, .3);
+  transition: transform .15s ease, background .15s ease;
+}
+.ba__nav:hover { background: #fff; transform: scale(1.08); }
+.ba__nav:focus-visible { outline: 3px solid var(--green-cta, #198639); outline-offset: 2px; }
+.ba__nav--prev { left: .75rem; }
+.ba__nav--next { right: .75rem; }
+.svc-stage--proof .svc-stage__chip { display: flex; justify-content: flex-end; border: 0; background: none; box-shadow: none; padding: 0; }
+
+/* Hero before/after: frame uses the photograph's OWN proportions, so it is
+   filled edge to edge with nothing cropped and no empty bars. */
+.svc-stage--proof .ba__frame, .svc-proof .ba__frame, .hero-ba .ba__frame, .prod-hero__ba .ba__frame { --ba-ratio: unset; }
+.svc-stage--proof .ba__img, .svc-proof .ba__img, .hero-ba .ba__img, .prod-hero__ba .ba__img { object-fit: cover; background: none; }
+
+/* ============================================================
+   Larger hero before/after, running the full height of the copy:
+   top edge level with the first line, bottom edge level with the buttons.
+   The frame stretches to the text and the photo covers it (a few percent
+   trimmed at most, since the pair is chosen to be close to square).
+   ============================================================ */
+@media (min-width: 62rem) {
+  .svc-hero .page-hero__grid,
+  .prod-hero__grid,
+  .page-hero__grid:not(.about-hero__grid) { align-items: stretch; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); }
+
+  .svc-stage--proof, .svc-proof, .prod-hero__ba, .hero-ba:not(.hero-ba--photo) {
+    align-self: stretch; width: 100%; display: flex; flex-direction: column; flex: 1; min-height: 0;
+  }
+  .svc-proof .ba, .prod-hero__ba .ba, .hero-ba:not(.hero-ba--photo) .ba { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+  .svc-stage--proof .ba__frame, .svc-proof .ba__frame, .prod-hero__ba .ba__frame, .hero-ba:not(.hero-ba--photo) .ba__frame {
+    flex: 1; aspect-ratio: auto; max-height: none; min-height: 30rem;
+  }
+}
+
+/* Cut-out hero (transparent PNG): no card, just the object, large */
+.hero-photo--cutout { background: none !important; box-shadow: none !important; border-radius: 0 !important; }
+.hero-photo--cutout img { max-height: 40rem !important; filter: drop-shadow(0 24px 30px rgba(13, 35, 80, .28)); }
+.pricing-hero mark.seo-hl { text-shadow: 0 2px 10px rgba(0, 0, 0, .6), 0 0 .3em rgba(33, 177, 75, .45); }
+
+/* ============================================================
+   Hero picture is exactly as tall as the copy beside it (top of the first
+   line to the bottom of the buttons) and never makes the hero taller.
+   Images are absolutely placed inside a box that the text height defines.
+   ============================================================ */
+@media (min-width: 62rem) {
+  .svc-stage--proof, .svc-proof, .prod-hero__ba, .hero-ba { position: relative; min-height: 20rem; }
+  .svc-stage--proof .ba__caption, .svc-proof .ba__caption, .prod-hero__ba .ba__caption, .hero-ba .ba__caption { display: none; }
+  .svc-stage--proof .svc-stage__chip { display: none; }
+
+  .svc-proof .ba, .prod-hero__ba .ba, .hero-ba .ba { position: absolute; inset: 0; display: block; }
+  .svc-stage--proof .ba__frame, .svc-proof .ba__frame, .prod-hero__ba .ba__frame, .hero-ba .ba__frame {
+    position: absolute; inset: 0; min-height: 0; height: 100%; flex: none;
+  }
+
+  /* photographs / posters: whole image, centred, inside the same box */
+  .hero-ba--photo .hero-photo { position: absolute; inset: 0; min-height: 0; display: block; }
+  .hero-ba--photo .hero-photo img,
+  .hero-photo--cutout img {
+    position: absolute; inset: 0; width: 100%; height: 100%; max-height: none !important;
+    object-fit: contain; object-position: center; margin: 0;
+  }
+}
+
+
+/* ---- Packages: full-width banner, copy over its bright left half ---- */
+.packages-hero {
+  background: url('../images/hero-packages-family.webp') right center / cover no-repeat, #f3f7fb;
+  color: var(--navy-deep, #0d2350);
+  border-bottom: 0;
+  min-height: 42vw;
+  display: flex; align-items: center;
+  padding-block: clamp(1.5rem, 3vw, 2.5rem);
+}
+.packages-hero > .wrap { width: 100%; }
+.packages-hero .crumbs, .packages-hero .crumbs a { color: var(--navy, #14336b); }
+.packages-hero .crumbs span[aria-hidden] { color: rgba(20, 51, 107, .4); }
+.packages-hero .eyebrow { color: var(--navy, #14336b); }
+.packages-hero h1 { color: var(--navy-deep, #0d2350); font-size: clamp(1.6rem, 2.6vw, 2.4rem); line-height: 1.1; margin-bottom: .75rem; }
+.packages-hero .lede { color: #223a5e; font-size: clamp(.85rem, 1vw, .98rem); line-height: 1.5; }
+.packages-hero .btn--ghost { color: var(--navy, #14336b); border-color: rgba(20, 51, 107, .35); background: #fff; }
+.packages-hero__family, .packages-hero .page-hero__mascot-inline { display: none; }
+.packages-hero .btn-row { margin-top: 1rem; flex-wrap: wrap; }
+.packages-hero .btn--lg { padding: .7rem 1.2rem; font-size: .95rem; }
+@media (min-width: 62rem) {
+  .packages-hero .page-hero__grid { display: block; }
+  .packages-hero .crumbs, .packages-hero .eyebrow, .packages-hero h1, .packages-hero .lede, .packages-hero .btn-row { max-width: 34%; }
+  .packages-hero .lede { text-align: left; hyphens: none; }
+}
+@media (max-width: 61.99rem) {
+  .packages-hero { min-height: 0; background: linear-gradient(rgba(255, 255, 255, .88), rgba(255, 255, 255, .88)), url('../images/hero-packages-family.webp') 78% center / cover no-repeat, #f3f7fb; }
+}
+
+/* ---- Banner copy sits on a backing panel so it reads over any artwork ---- */
+.areas-hero__panel,
+.pricing-hero__panel,
+.packages-hero .page-hero__grid > div {
+  padding: clamp(1rem, 2vw, 1.75rem) clamp(1.1rem, 2.2vw, 2rem);
+  border-radius: 18px;
+  width: fit-content;
+  max-width: 100%;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.areas-hero__panel,
+.pricing-hero__panel {
+  background: rgba(8, 22, 52, .72);
+  border: 1px solid rgba(255, 255, 255, .14);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, .3);
+}
+.packages-hero .page-hero__grid > div {
+  background: rgba(255, 255, 255, .86);
+  border: 1px solid rgba(20, 51, 107, .12);
+  box-shadow: 0 12px 36px rgba(13, 35, 80, .18);
+}
+@media (min-width: 62rem) {
+  .areas-hero__panel, .pricing-hero__panel { max-width: 56%; }
+  .packages-hero .page-hero__grid > div { max-width: 40%; }
+  .packages-hero .page-hero__grid > div > * { max-width: none; }
+  .areas-hero .areas-hero__panel > * { max-width: none; }
+}
+
+/* Pricing: Packages-style banner, copy on a frosted white panel over its left half. */
+.pricing-hero--banner {
+  background: var(--pricing-hero-img) center top / 100% auto no-repeat, #f3f7fb;
+  min-height: 33.4vw; color: var(--navy-deep, #0d2350);
+  padding-block: clamp(1rem, 1.6vw, 1.5rem);
+}
+.pricing-hero--banner .pricing-hero__panel {
+  background: rgba(255, 255, 255, .88);
+  border: 1px solid rgba(20, 51, 107, .12);
+  box-shadow: 0 12px 36px rgba(13, 35, 80, .18);
+}
+.pricing-hero--banner .crumbs, .pricing-hero--banner .crumbs a { color: var(--navy, #14336b); text-shadow: none; }
+.pricing-hero--banner .crumbs span[aria-hidden] { color: rgba(20, 51, 107, .4); }
+.pricing-hero--banner .eyebrow { color: var(--navy, #14336b); text-shadow: none; }
+.pricing-hero--banner .pricing-hero__title { color: var(--navy-deep, #0d2350); text-shadow: none; font-size: clamp(1.5rem, 2.4vw, 2.2rem); line-height: 1.12; margin-bottom: .75rem; }
+.pricing-hero--banner .btn--ghost { color: var(--navy, #14336b); border-color: rgba(20, 51, 107, .35); background: #fff; }
+.pricing-hero--banner mark.seo-hl { text-shadow: none; }
+.pricing-hero-intro .pricing-hero__lede { color: var(--ink-2, #223a5e); text-shadow: none; text-align: center; font-size: var(--t-lg, 1.1rem); margin: 0; }
+@media (min-width: 62rem) {
+  .pricing-hero--banner .pricing-hero__panel { max-width: 38%; }
+  .pricing-hero--banner .crumbs { margin-bottom: .5rem; }
+  .pricing-hero--banner .btn-row { margin-top: .75rem; }
+  .pricing-hero--banner .btn--lg { padding: .6rem 1rem; font-size: .9rem; }
+}
+@media (max-width: 61.99rem) {
+  .pricing-hero--banner { min-height: 0; background: linear-gradient(rgba(255,255,255,.88), rgba(255,255,255,.88)), var(--pricing-hero-img) 40% center / cover no-repeat, #f3f7fb; }
+}
+.pricing-hero--banner .page-hero__mascot-inline { display: none; }
+
+/* Pricing + About: exactly like Packages — banner covers the band, whole copy on the panel. */
+.pricing-hero--banner { background: var(--pricing-hero-img) right center / cover no-repeat, #f3f7fb; min-height: 42vw; }
+.page-about .about-hero--banner { background: url('../images/hero-about-banner.webp') right center / cover no-repeat, #f3f7fb; min-height: 42vw; }
+.pricing-hero--banner .pricing-hero__lede { color: #223a5e; text-shadow: none; font-size: clamp(.85rem, 1vw, .98rem); line-height: 1.5; }
+@media (min-width: 62rem) {
+  .pricing-hero--banner .pricing-hero__panel, .page-about .about-hero--banner .about-hero__copy { max-width: 40%; }
+}
+
+/* Blog: same banner treatment as Packages / Pricing. */
+.blog-hero {
+  background: var(--blog-hero-img) right center / cover no-repeat, #f3f7fb;
+  min-height: 42vw; display: flex; align-items: center;
+  padding-block: clamp(1rem, 1.6vw, 1.5rem); border-bottom: 0;
+}
+.blog-hero > .wrap { width: 100%; }
+.blog-hero .page-hero__grid { display: block; }
+.blog-hero .page-hero__grid > div {
+  width: fit-content; max-width: 100%;
+  padding: clamp(1rem, 2vw, 1.75rem) clamp(1.1rem, 2.2vw, 2rem);
+  border-radius: 18px; background: rgba(255, 255, 255, .88);
+  border: 1px solid rgba(20, 51, 107, .12); box-shadow: 0 12px 36px rgba(13, 35, 80, .18);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.blog-hero .crumbs, .blog-hero .crumbs a, .blog-hero .eyebrow { color: var(--navy, #14336b); }
+.blog-hero .crumbs span[aria-hidden] { color: rgba(20, 51, 107, .4); }
+.blog-hero h1 { color: var(--navy-deep, #0d2350); font-size: clamp(1.5rem, 2.4vw, 2.2rem); line-height: 1.12; margin-bottom: .75rem; }
+.blog-hero .lede { color: #223a5e; font-size: clamp(.85rem, 1vw, .98rem); line-height: 1.5; }
+@media (min-width: 62rem) { .blog-hero .page-hero__grid > div { max-width: 35%; } .blog-hero .crumbs { margin-bottom: .5rem; } }
+@media (max-width: 61.99rem) {
+  /* Phone artwork carries its own headline; the real copy follows beneath it. */
+  .blog-hero { display: block; min-height: 0; background: #f3f7fb; padding-block: 0 1.5rem; }
+  .blog-hero::before {
+    content: ""; display: block; width: 100%;
+    aspect-ratio: 907 / 1607;
+    background: url('../images/hero-blog-banner-mobile.webp') center top / 100% auto no-repeat;
+  }
+  .blog-hero > .wrap { padding-top: 1.25rem; }
+  .blog-hero .page-hero__grid > div { background: none; border: 0; box-shadow: none; padding: 0; backdrop-filter: none; -webkit-backdrop-filter: none; }
+}

@@ -1,0 +1,632 @@
+/* ============================================================
+   Wash4You — Pricing (2026 redesign)
+
+   Owns the /pricing/ page and the per-area /pricing/<slug>/ pages.
+   Loaded exclusively on page-pricing.html via its {% block preload %}.
+
+   Load order note: this file is linked in the <head> preload block, i.e.
+   BEFORE the shared stylesheets (features.css / page.css / ui.css). Every
+   rule that has to override one of those is therefore scoped under
+   `.pricing-page` (or uses a compound selector) so it out-specifies the
+   single-class base rule regardless of source order.
+
+   All colour comes from the brand tokens in base.css :root — none invented.
+   ============================================================ */
+
+/* ---- Keyword highlight ------------------------------------------------
+   The gidmgurugram heading pattern, identical to the sibling redesign
+   sheets: the heading body sits in brand-blue (or white on a dark ground)
+   and the 2-3 most important keywords ride a green rounded highlight.
+   Dark ink on the brand green measures ~6.2:1; white on that hue would
+   fail, so the pill text stays dark. */
+.kw {
+  font-style: italic;
+  font-weight: 480;
+  color: var(--brass-bright);
+}
+
+.kw-text { color: var(--brass-deep); }
+
+/* ============================================================
+   Hero: full-bleed photo at full strength, no wash across the frame.
+   No boxed panel behind the text any more — the copy runs the full
+   normal content width (.wrap, same as every other section) instead of
+   being pinned into a half-width tinted card. The banner's sky runs
+   from deep blue to white cloud right where the copy sits (1.41:1 for
+   dark ink, 1.39:1 for white against the brightest patch — illegible
+   either way), so a text-shadow carries legibility instead of a
+   background tint.
+   ============================================================ */
+.pricing-hero {
+  position: relative;
+  isolation: isolate;
+  color: #fff;
+  min-height: max(24rem, 56vh);
+  display: flex;
+  align-items: center;
+  background: var(--pricing-hero-img, none) center / cover no-repeat, var(--navy-deep);
+  padding-block: clamp(2.75rem, 2rem + 4vw, 5rem);
+  border-bottom: 1px solid rgba(217, 184, 120, .35);
+}
+.pricing-hero__panel {
+  max-width: none;
+}
+
+/* Breadcrumbs + eyebrow on the dark ground. */
+.pricing-hero .crumbs { color: rgba(255, 255, 255, .85); text-shadow: 0 1px 8px rgba(0, 0, 0, .6); }
+.pricing-hero .crumbs a { color: #fff; }
+.pricing-hero .crumbs a:hover { text-decoration: underline; }
+.pricing-hero .crumbs span[aria-hidden] { color: rgba(255, 255, 255, .5); }
+
+.pricing-hero .eyebrow { color: #bfe6cb; text-shadow: 0 1px 8px rgba(0, 0, 0, .6); }
+
+.pricing-hero__title {
+  color: #fff;
+  margin-bottom: var(--s-4);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, .65);
+}
+
+.pricing-hero__lede {
+  color: rgba(255, 255, 255, .95);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, .6);
+}
+
+/* The GST notice repeated in the hero header. inline-block so the text
+   between "GST" and "(18%)" keeps its natural word spacing. */
+.pricing-hero__gst {
+  display: inline-block;
+  margin-top: var(--s-5);
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, .14);
+  border: 1px solid rgba(255, 255, 255, .28);
+  color: #fff;
+  font-size: var(--t-sm);
+  font-weight: 600;
+}
+.pricing-hero__gst strong { color: #fff; }
+
+.pricing-hero .btn-row { margin-top: var(--s-6); }
+
+/* Ghost buttons assume a light ground; recolour for the photo. */
+.pricing-hero .btn--ghost {
+  color: #fff;
+  border-color: rgba(255, 255, 255, .28);
+  background: rgba(255, 255, 255, .10);
+}
+.pricing-hero .btn--ghost:hover {
+  border-color: rgba(255, 255, 255, .5);
+  background: rgba(255, 255, 255, .18);
+}
+
+/* The copy runs the full .wrap width (72rem, same page gutter as every
+   other section) instead of being pinned to the left half — `.wrap`
+   already carries `margin-inline: auto`, so no extra width cap is needed
+   here at all. */
+
+/* Phones crop the 2.36:1 frame to something near-square. Anchor it right so
+   the garments, not an empty slice of sky, are what shows behind the copy.
+   One value, not three: `background` above only declares two layers (the
+   photo, then --navy-deep as a plain colour), so a 3-value list here mapped
+   "right center" onto the colour layer — a no-op — and left the photo on
+   its default centred position, i.e. never actually applied on phones. */
+@media (max-width: 47.99rem) {
+  .pricing-hero { background-position: right center; }
+}
+
+/* ============================================================
+   Req 2b + Req 6 — Intro bar: location selector + GST notice
+   ============================================================ */
+.pricing-intro__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+
+/* Location selector */
+.pricing-location {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+}
+.pricing-location__label {
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.pricing-location__field {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.pricing-location__select {
+  appearance: none;
+  -webkit-appearance: none;
+  min-width: 12.5rem;
+  padding: 0.7rem 2.75rem 0.7rem 1rem;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--paper);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: var(--t-base);
+  cursor: pointer;
+  transition: border-color 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
+}
+.pricing-location__select:hover { border-color: var(--brand-blue); }
+.pricing-location__select:focus-visible { border-color: var(--brand-blue); }
+.pricing-location__chevron {
+  position: absolute;
+  right: 0.85rem;
+  display: inline-flex;
+  color: var(--brand-blue);
+  pointer-events: none;
+}
+
+/* GST notice (light ground) — clear, visible above the first row of cards. */
+.gst-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.6rem 1rem;
+  border-radius: var(--r-pill);
+  background: var(--brass-tint);
+  border: 1px solid var(--brass);
+  color: var(--ink-2);
+  font-size: var(--t-sm);
+  font-weight: 600;
+  line-height: 1.2;
+}
+.gst-badge strong { color: var(--brass-deep); }
+.gst-badge--solo { margin: 0; }
+
+/* Live "Prices for <Area>, Gurugram" heading (req 2b). */
+.pricing-location__heading {
+  color: var(--brand-blue);
+  font-size: var(--t-xl);
+  margin-top: var(--s-5);
+}
+
+/* ============================================================
+   Req 4 — Grid: 4 desktop -> 3 -> 2 -> 2, even gutters, equal widths
+   1200px+ : 4  |  992-1199 : 3  |  768-991 : 2  |  <768 : 2
+   Two columns even on a phone: one card per row read as a plain list of
+   58 items, and two narrower cards still show the photo, name and price. */
+.pricing-page .price-grid {
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--s-4) var(--s-3);
+}
+@media (min-width: 48rem) {   /* >= 768px */
+  .pricing-page .price-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 62rem) {   /* >= 992px */
+  .pricing-page .price-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 75rem) {   /* >= 1200px */
+  .pricing-page .price-grid { grid-template-columns: repeat(4, 1fr); }
+}
+/* At two-up on a narrow phone each card is ~150px wide — tighten the body
+   so the name, price and button still fit without wrapping onto a third
+   or fourth line. */
+@media (max-width: 30rem) {
+  .pricing-page .price-card__body { padding: var(--s-3); gap: var(--s-1); }
+  .pricing-page .price-card__name { font-size: var(--t-sm); }
+  .pricing-page .price-card__add { font-size: var(--t-sm); padding-inline: var(--s-2); }
+  .pricing-page .price-card__add svg { margin-right: var(--s-1); }
+}
+
+/* ============================================================
+   Req 3 — Cards: subtle single-layer shadow, hover lift, equal height,
+   full-width "Add to Cart" pinned to the bottom.
+   ============================================================ */
+.pricing-page .price-card {
+  box-shadow: var(--shadow-card);
+  transition:
+    transform 200ms var(--ease-out),
+    box-shadow 200ms var(--ease-out),
+    border-color 200ms var(--ease-out);
+}
+/* Slight lift on hover — translateY + a marginally stronger (still neutral,
+   single-layer) shadow. No heavy or coloured shadow. */
+.pricing-page .price-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(16, 27, 46, .12);
+  border-color: var(--line);
+}
+
+/* The card is already a flex column (features.css). Group the name + price
+   at the top and push the control (button / qty stepper) to the very bottom
+   so every card in a row ends its button on the same line regardless of how
+   long the item name wraps. */
+.pricing-page .price-card__meta { margin-top: 0; }
+.pricing-page .price-card__control { margin-top: auto; }
+
+/* Req 6 — small "+ GST" label beside every price. */
+.price-card__gst {
+  font-size: var(--t-xs);
+  font-weight: 600;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+/* Req 3 — filled green "Add to Cart" button, full width, consistent height.
+   The data-* hooks and the button element are untouched (cart.js re-renders
+   this same element); only its look changes here, never its label.
+
+   This block used to finish the label with
+       .price-card__add::after { content: "\00a0to\00a0Cart" }
+   from a time when the button's own text was just "Add". Both writers now
+   emit the whole label already — page-pricing.html and cart.js's
+   renderCardControl() both say "Add to Cart" — so that pseudo-element was
+   appending a second copy and the button read "Add to Cart to Cart".
+
+   It was also mis-escaped. A CSS hex escape consumes up to six hex digits,
+   so "\00a0Cart" parsed as \00A0C ("C" swallowed into the codepoint)
+   followed by "art" — the computed value was literally " toꃊrt", which is
+   the garbled glyph that showed on every card. Terminating the escape
+   ("\00a0 Cart") would have fixed the mojibake but kept the duplication,
+   so the rule is gone entirely. The label belongs to the markup. */
+.pricing-page .price-card__add {
+  width: 100%;
+  min-height: 2.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  border: 0;
+  border-radius: var(--r-md);
+  background: var(--brand-green-cta);
+  color: #fff;
+  font-weight: 700;
+  font-size: var(--t-base);
+  letter-spacing: .01em;
+  transition: background-color 160ms var(--ease-out), transform 120ms var(--ease-out);
+}
+.pricing-page .price-card__add svg {
+  width: 1rem;
+  height: 1rem;
+  margin-right: var(--s-2);
+}
+.pricing-page .price-card__add:hover { background: var(--green-deep); color: #fff; }
+.pricing-page .price-card__add:active { transform: translateY(1px); }
+
+/* Added state — the quantity stepper cart.js swaps in. Themed green and
+   shaped to match the Add button (same height + radius) so the control
+   never changes size when an item is added. */
+.pricing-page .price-card__control .qty {
+  width: 100%;
+  min-height: 2.9rem;
+  justify-content: space-between;
+  border-radius: var(--r-md);
+  border-color: var(--brand-green-cta);
+  background: var(--green-tint);
+}
+.pricing-page .price-card__control .qty__btn {
+  height: 2.9rem;
+  color: var(--green-deep);
+}
+.pricing-page .price-card__control .qty__btn:hover { background: rgba(33, 177, 75, .14); }
+.pricing-page .price-card__control .qty__n { color: var(--green-deep); }
+
+/* ---- Small screens ---- */
+@media (max-width: 30rem) {
+  .pricing-intro__bar { flex-direction: column; align-items: stretch; }
+  .pricing-location { justify-content: space-between; }
+  .pricing-location__field { flex: 1; }
+  .pricing-location__select { width: 100%; }
+  .gst-badge { justify-content: center; }
+}
+
+/* ---- "Starts from" label + photo-less cards ----------------------------
+   Every rate on this page is a starting price, so the label is part of the
+   price block rather than a per-item flag. It is quiet by design: the number
+   stays the loudest thing on the card. --ink-3 is 4.94:1 on white; this text
+   is 11px, so it uses --ink-2 (8.95:1) instead. */
+.price-card__from {
+  display: block;
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  line-height: 1;
+  margin-bottom: 0.15rem;
+}
+
+/* Items with no photograph yet. A branded tile rather than a stand-in
+   picture of a different garment. */
+.price-card__media--none {
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(135deg, var(--navy-tint) 0%, var(--green-tint) 100%);
+}
+.price-card__placeholder { color: var(--brand-blue); opacity: 0.55; }
+
+/* Second line of the GST notice, under the badge. Deliberately quieter than
+   the badge — it is a qualifier, not a headline — but --ink-2 (8.95:1), not
+   --ink-3, because it carries the one caveat that changes what a customer
+   actually pays. */
+.gst-note {
+  margin: var(--s-3) 0 0;
+  max-width: 46rem;
+  font-size: var(--t-sm);
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.gst-note a {
+  color: var(--green);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.gst-note a:hover { color: var(--green-deep); }
+
+/* ============================================================
+   SEO sections added from the pricing content guide
+   ============================================================ */
+.price-intro__title { font-size: var(--t-xl); color: var(--navy); margin-bottom: var(--s-3); }
+.price-intro__body { color: var(--ink-2); }
+.price-intro__links { margin-top: var(--s-3); font-size: var(--t-sm); color: var(--ink-2); }
+.price-intro__links a { color: var(--green); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.price-intro__links a:hover { color: var(--green-deep); }
+
+/* ---- Why our pricing is different (blue band) ---- */
+.price-diff { background: var(--navy); border-block: 3px solid var(--brand-green); }
+.diff-grid {
+  display: grid;
+  gap: var(--s-4);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 44rem) { .diff-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 68rem) { .diff-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.diff-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--s-3);
+  align-items: start;
+  padding: var(--s-5);
+  border-radius: var(--r-lg);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+.diff-card__tick {
+  grid-row: 1 / span 2;
+  display: inline-grid;
+  place-items: center;
+  width: 1.9rem; height: 1.9rem;
+  border-radius: 50%;
+  background: var(--brand-green);
+  color: #06210f;          /* dark on the bright brand green */
+}
+.diff-card h3 { color: #fff; font-size: var(--t-base); margin: 0 0 0.15rem; }
+.diff-card p { color: rgba(255, 255, 255, 0.84); font-size: var(--t-sm); margin: 0; }
+
+/* ---- Add-ons table ---- */
+.addon-table-wrap {
+  overflow-x: auto;               /* the table scrolls, never the page */
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--paper);
+  box-shadow: var(--shadow-card);
+}
+.addon-table { width: 100%; min-width: 34rem; border-collapse: collapse; text-align: left; }
+.addon-table th, .addon-table td {
+  padding: var(--s-4) var(--s-5);
+  border-bottom: 1px solid var(--line-soft);
+  vertical-align: top;
+}
+.addon-table thead th {
+  background: var(--navy);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.addon-table tbody th { color: var(--navy); font-weight: 700; white-space: nowrap; }
+.addon-table td { color: var(--ink-2); font-size: var(--t-sm); }
+.addon-table tbody tr:last-child th,
+.addon-table tbody tr:last-child td { border-bottom: 0; }
+.addon-table tbody tr:hover { background: var(--green-tint); }
+.addon-table__price {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--r-pill);
+  background: var(--green-tint);
+  color: var(--green-deep);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   Category watermark + the price finder
+   ============================================================ */
+
+/* ---- Watermark behind each category heading ----
+   Same device as the service cards: one line-art scene, currentColor, low
+   opacity, sitting behind the heading rather than beside it. */
+.price-cat { position: relative; overflow: hidden; }
+.price-cat__head { position: relative; }
+.price-cat__bg {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  translate: 0 -50%;
+  width: min(34%, 15rem);
+  height: auto;
+  z-index: 0;
+  color: var(--brand-blue);
+  opacity: 0.12;
+  pointer-events: none;
+}
+.price-cat__head > *:not(.price-cat__bg) { position: relative; z-index: 1; }
+/* Alternate the hue so consecutive bands do not repeat. */
+.price-cat:nth-child(even) .price-cat__bg { color: var(--green-brand); opacity: 0.14; }
+
+@media (max-width: 47.99rem) {
+  /* On a phone the heading fills the width; a watermark behind it competes
+     with the words instead of sitting behind them. */
+  .price-cat__bg { width: 42%; opacity: 0.08; }
+}
+
+/* ---- The finder ---- */
+.price-finder {
+  display: grid;
+  gap: var(--s-3);
+  margin-bottom: var(--s-6);
+}
+.price-finder__search {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 0.55rem 0.9rem;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-pill);
+  background: var(--paper);
+  box-shadow: var(--shadow-card);
+  transition: border-color 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
+}
+.price-finder__search:focus-within {
+  border-color: var(--brand-green);
+  box-shadow: 0 0 0 4px rgba(33, 177, 75, 0.14);
+}
+.price-finder__search > svg { color: var(--green); flex: none; }
+.price-finder__search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: none;
+  font: inherit;
+  font-size: var(--t-base);
+  color: var(--ink);
+  padding: 0.35rem 0;
+}
+.price-finder__search input::placeholder { color: var(--ink-3); }
+.price-finder__search input::-webkit-search-cancel-button { display: none; }
+
+.price-finder__clear {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.9rem; height: 1.9rem;
+  border: 0;
+  border-radius: 50%;
+  background: var(--wash-2);
+  color: var(--ink-2);
+  cursor: pointer;
+}
+.price-finder__clear:hover { background: var(--line); color: var(--ink); }
+
+.price-finder__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+.price-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  background: var(--paper);
+  color: var(--ink-2);
+  font-size: var(--t-base);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 160ms var(--ease-out), border-color 160ms var(--ease-out), color 160ms var(--ease-out), translate 200ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .price-chip:hover {
+    background: var(--green-cta);
+    border-color: var(--green-cta);
+    color: #fff;
+    translate: 0 -2px;
+  }
+}
+/* The section you are actually reading. */
+.price-chip.is-current {
+  background: var(--navy-tint);
+  border-color: var(--brand-blue);
+  color: var(--navy);
+}
+
+.price-finder__count {
+  margin: 0;
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  min-height: 1.2em;      /* reserve the line so the grid never jumps */
+}
+
+.price-cat__empty { color: var(--ink-2); }
+
+@media (prefers-reduced-motion: reduce) {
+  .price-chip:hover { translate: none; }
+}
+
+/* ============================================================
+   B2B — main /pricing/ page only (quote-based, no published rates)
+   ============================================================ */
+.b2b__grid { display: grid; gap: var(--s-8); align-items: start; }
+@media (min-width: 62rem) { .b2b__grid { grid-template-columns: 1.1fr 0.9fr; gap: var(--s-9); } }
+
+.b2b__copy h2 { margin: var(--s-3) 0 var(--s-4); }
+.b2b__lede { color: var(--ink-2); font-size: var(--t-md); line-height: 1.65; margin: 0 0 var(--s-7); text-align: left; hyphens: manual; }
+
+.b2b__segments {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: var(--s-3);
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+}
+.b2b__segments li {
+  display: flex; flex-direction: column; gap: 0.2rem;
+  padding: var(--s-4) var(--s-5);
+  border-radius: var(--r-md);
+  background: #fff;
+  border-left: 3px solid var(--brass);
+}
+.b2b__segments strong { font-family: var(--font-display); font-size: 1.05rem; color: var(--navy-deep); }
+.b2b__segments span { font-size: var(--t-sm); color: var(--ink-2); line-height: 1.5; }
+
+.b2b__card {
+  padding: var(--s-7) var(--s-6);
+  border-radius: var(--r-xl);
+  background: var(--navy-deep);
+  color: #fff;
+  box-shadow: 0 24px 50px rgba(13, 35, 80, 0.22);
+}
+.b2b__card-title {
+  margin: 0 0 var(--s-4);
+  font-family: var(--font-mono); font-size: var(--t-xs);
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--brass-bright);
+}
+.b2b__includes { list-style: none; margin: 0 0 var(--s-6); padding: 0; display: grid; gap: var(--s-3); }
+.b2b__includes li { display: flex; gap: var(--s-3); align-items: flex-start; font-size: var(--t-sm); line-height: 1.5; color: rgba(255, 255, 255, 0.9); }
+.b2b__tick {
+  flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center;
+  width: 1.35rem; height: 1.35rem; border-radius: 50%;
+  background: rgba(25, 134, 57, 0.25); color: #7fdc9a;
+}
+
+.b2b__quote { padding: var(--s-5); border-radius: var(--r-lg); background: rgba(255, 255, 255, 0.07); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12); }
+.b2b__quote-title { margin: 0 0 var(--s-2); font-family: var(--font-display); font-size: var(--t-lg); color: #fff; }
+.b2b__quote p { margin: 0 0 var(--s-4); font-size: var(--t-sm); color: rgba(255, 255, 255, 0.78); text-align: left; }
+.b2b__btns { display: flex; flex-wrap: wrap; gap: var(--s-3); }
+.b2b__btns .btn { flex: 1 1 12rem; justify-content: center; }
+.b2b__btns .btn--ghost { color: #fff; border-color: rgba(255, 255, 255, 0.35); background: transparent; }
+.b2b__btns .btn--ghost:hover { background: rgba(255, 255, 255, 0.1); border-color: #fff; }
+.b2b__phone { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: var(--s-4); color: var(--brass-bright); font-weight: 600; font-size: var(--t-sm); }
+
+.b2b__note { margin: var(--s-5) 0 0; font-size: var(--t-xs); line-height: 1.55; color: rgba(255, 255, 255, 0.7); text-align: left; }
+.b2b__note a { color: var(--brass-bright); font-weight: 600; white-space: nowrap; }

@@ -1,0 +1,467 @@
+/* ============================================================
+   Wash4You — Areas We Serve (2026 redesign)
+
+   Owns the /locate-us/ page only: the full-bleed hero, the
+   embedded coverage map, and the keyword-highlight headings.
+   Loaded exclusively on page-locate-us.html via its
+   {% block preload %}.
+
+   All colour comes from the global brand tokens in base.css
+   :root — no invented values.
+   ============================================================ */
+
+/* ---- Keyword highlight ------------------------------------------------
+   The gidmgurugram heading pattern: the heading body sits in brand-blue
+   (or white on a dark ground) and the 2–3 most important keywords ride a
+   green rounded highlight. Dark ink on the brand green measures ≈6.2:1;
+   white on that hue would fail, so the pill text stays dark. */
+/* Keyword emphasis inside the dark hero headlines (locate-us + pricing):
+   the serif italic in brass — the same voice as the home hero's offer
+   phrase. Every .kw in the templates sits on a navy ground. */
+.kw {
+  font-style: italic;
+  font-weight: 480;
+  color: var(--brass-bright);
+}
+
+/* A lighter-touch variant: green TEXT, no pill — for secondary headings
+   where a second pill would over-crowd the ground. */
+.kw-text { color: var(--brass-deep); }
+
+/* ============================================================
+   Hero — full-bleed photo, navy overlay, white headline
+   ============================================================ */
+.areas-hero {
+  position: relative;
+  isolation: isolate;
+  color: #fff;
+  /* No scrim. The banner is a designed navy ground with a narrow luminance
+     range, so white type sits on it directly — unlike a photograph, there is
+     nothing here that needs flattening. */
+  background:
+    var(--areas-hero-img, none) center / cover no-repeat,
+    var(--navy-deep);
+  padding-block: clamp(3.25rem, 2.3rem + 5vw, 6.5rem);
+  border-bottom: 1px solid rgba(217, 184, 120, .35);
+}
+
+/* .areas-hero__inner is the .wrap and carries `margin-inline: auto`, so a
+   width cap here would CENTRE the column rather than pin it left. The measure
+   lives on the children instead. */
+
+/* Hold the copy inside the left half so it never runs across the route map.
+   Below 62rem the map is cropped out of frame (see background-position) and
+   the copy uses the full column. */
+@media (min-width: 62rem) {
+  .areas-hero .crumbs,
+  .areas-hero .eyebrow,
+  .areas-hero__title,
+  .areas-hero .lede,
+  .areas-hero .btn-row { max-width: 52%; }
+}
+
+/* The pins live in the right third; anchoring left crops them out rather
+   than letting the copy sit on top of them. */
+@media (max-width: 61.99rem) {
+  .areas-hero { background-position: left center; }
+}
+
+/* Breadcrumbs and eyebrow need to flip to light on the dark ground.
+   Scoped under .areas-hero so they out-specify the base rules. */
+.areas-hero .crumbs { color: rgba(255, 255, 255, .72); }
+.areas-hero .crumbs a { color: #fff; }
+.areas-hero .crumbs a:hover { text-decoration: underline; }
+.areas-hero .crumbs span[aria-hidden] { color: rgba(255, 255, 255, .38); }
+
+.areas-hero .eyebrow { color: #bfe6cb; }
+
+
+.areas-hero__title {
+  color: #fff;
+  margin-bottom: var(--s-4);
+}
+
+.areas-hero .lede {
+  color: rgba(255, 255, 255, .9);
+  max-width: 40rem;
+}
+
+.areas-hero .btn-row { margin-top: var(--s-6); }
+
+/* Ghost buttons assume a light ground; recolour for the photo. */
+.areas-hero .btn--ghost {
+  color: #fff;
+  border-color: rgba(255, 255, 255, .28);
+  background: rgba(255, 255, 255, .10);
+}
+.areas-hero .btn--ghost:hover {
+  border-color: rgba(255, 255, 255, .5);
+  background: rgba(255, 255, 255, .18);
+}
+
+/* ============================================================
+   Coverage map
+   ============================================================ */
+.areas-map {
+  max-width: 1000px;
+  margin: 0 auto var(--s-7);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  background: var(--wash-2);
+}
+.areas-map__frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+}
+.areas-map__frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+/* Give the map more height on narrow screens where 16:9 goes letterbox-thin. */
+@media (max-width: 40rem) {
+  .areas-map__frame { aspect-ratio: 4 / 3; }
+}
+
+/* ============================================================
+   Keyword headings on the areas section (light ground)
+   ============================================================ */
+.kw-head { color: var(--brand-blue); }
+
+.areas-list-title {
+  color: var(--brand-blue);
+  margin-bottom: var(--s-5);
+}
+
+.areas-note {
+  margin-top: var(--s-6);
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+}
+
+/* ============================================================
+   Card hover — areas page only
+
+   Both card types on this page fill green and lift: the two store cards and
+   the ten locality links.
+
+   Scoped to .page-areas because redesign-areas.css is loaded site-wide from
+   base.html, and .area-link / .store-card also appear on home, pricing,
+   contact and the service pages, where this hover was not asked for.
+
+   `translate`, never `transform`: both grids carry .stagger-children, and
+   animations.css reserves transform/opacity for the reveal — a live
+   transition on those re-fires every time reveal.js clears its inline style.
+
+   Gated on real hover so a tap on a touch device cannot leave a card stuck
+   green with no way to clear it.
+   ============================================================ */
+@media (hover: hover) and (pointer: fine) {
+  .page-areas .area-link,
+  .page-areas .store-card {
+    transition:
+      background-color 220ms var(--ease-out),
+      border-color 220ms var(--ease-out),
+      box-shadow 260ms var(--ease-out),
+      translate 260ms var(--ease-out);
+  }
+
+  /* #198639, not the logo green: white text on it is 4.66:1, the bright
+     #21b14b only 2.82:1. */
+  .page-areas .area-link:hover,
+  .page-areas .area-link:focus-visible,
+  .page-areas .store-card:hover,
+  .page-areas .store-card:focus-within {
+    background: var(--green-cta);
+    border-color: var(--green-cta);
+    box-shadow: 0 12px 26px rgba(16, 27, 46, 0.20);
+  }
+
+  /* The locality links are small, so they lift less than the store cards —
+     a 6px hop on a 44px-tall chip reads as a jump rather than a lift. */
+  .page-areas .area-link:hover,
+  .page-areas .area-link:focus-visible { translate: 0 -3px; color: #fff; }
+  .page-areas .area-link:hover svg,
+  .page-areas .area-link:focus-visible svg { color: #fff; }
+
+  .page-areas .store-card:hover,
+  .page-areas .store-card:focus-within {
+    translate: 0 -6px;
+    /* The card's own inherited ink stays --ink-2 (1.92:1 on green) unless it
+       is reset here. The children below are recoloured individually, but a
+       bare text node added later would inherit this. */
+    color: #fff;
+  }
+
+  /* Everything inside the store card was inked for a white ground. */
+  .page-areas .store-card:hover strong,
+  .page-areas .store-card:focus-within strong,
+  .page-areas .store-card:hover address,
+  .page-areas .store-card:focus-within address,
+  .page-areas .store-card:hover .mono,
+  .page-areas .store-card:focus-within .mono,
+  .page-areas .store-card:hover p,
+  .page-areas .store-card:focus-within p { color: #fff; }
+
+  /* The Directions / Call buttons sit on green now: a --line border and navy
+     label are both invisible against it. */
+  .page-areas .store-card:hover .btn--ghost,
+  .page-areas .store-card:focus-within .btn--ghost {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, 0.12);
+  }
+  .page-areas .store-card:hover .btn--ghost:hover,
+  .page-areas .store-card:focus-within .btn--ghost:hover {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.22);
+  }
+  .page-areas .store-card:hover .btn--ghost svg,
+  .page-areas .store-card:focus-within .btn--ghost svg { color: #fff; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Keep the colour — that is the feedback. Drop only the movement. */
+  .page-areas .area-link:hover,
+  .page-areas .area-link:focus-visible,
+  .page-areas .store-card:hover,
+  .page-areas .store-card:focus-within { translate: none; }
+}
+
+/* ============================================================
+   Full NCR coverage list
+   ============================================================ */
+.coverage-note {
+  margin-top: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  border-left: 2px solid var(--brass);
+  background: var(--brass-tint);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  color: var(--ink-2);
+  font-size: var(--t-sm);
+}
+
+/* ---- Search ---- */
+.coverage-finder { display: grid; gap: var(--s-2); margin-bottom: var(--s-6); }
+.coverage-finder__search {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 0.55rem 0.9rem;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-pill);
+  background: var(--paper);
+  box-shadow: var(--shadow-card);
+  transition: border-color 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
+}
+.coverage-finder__search:focus-within {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 4px rgba(20, 51, 107, 0.10);
+}
+.coverage-finder__search > svg { color: var(--ink-3); flex: none; }
+.coverage-finder__search input {
+  flex: 1; min-width: 0;
+  border: 0; outline: none; background: none;
+  font: inherit; font-size: var(--t-base); color: var(--ink);
+  padding: 0.35rem 0;
+}
+.coverage-finder__search input::placeholder { color: var(--ink-3); }
+.coverage-finder__search input::-webkit-search-cancel-button { display: none; }
+.coverage-finder__clear {
+  flex: none;
+  display: grid; place-items: center;
+  width: 1.9rem; height: 1.9rem;
+  border: 0; border-radius: 50%;
+  background: var(--wash-2); color: var(--ink-2);
+  cursor: pointer;
+}
+.coverage-finder__clear:hover { background: var(--line); color: var(--ink); }
+.coverage-finder__count {
+  margin: 0;
+  font-size: var(--t-sm);
+  color: var(--brass-deep);
+  font-weight: 600;
+  min-height: 1.2em;          /* reserve the line so nothing jumps */
+}
+
+/* ---- Cities ---- */
+.coverage-cities { display: grid; gap: var(--s-7); }
+.coverage-city__name {
+  font-size: var(--t-xl);
+  color: var(--navy);
+  margin-bottom: var(--s-1);
+}
+.coverage-city__note { color: var(--ink-2); font-size: var(--t-sm); margin-bottom: var(--s-4); }
+
+.coverage-cols {
+  display: grid;
+  gap: var(--s-4);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 40rem) { .coverage-cols { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64rem) { .coverage-cols { grid-template-columns: repeat(4, 1fr); } }
+
+.coverage-col {
+  padding: var(--s-4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--paper);
+}
+.coverage-col h4 {
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: var(--s-3);
+  padding-bottom: var(--s-2);
+  border-bottom: 1px solid var(--line-soft);
+}
+.coverage-col ul {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: grid;
+  gap: 0.3rem;
+  /* Long sector runs are capped and scroll inside the card rather than
+     turning the page into a phone book. */
+  max-height: 22rem;
+  overflow-y: auto;
+}
+.coverage-col li { font-size: var(--t-sm); color: var(--ink-2); line-height: 1.5; }
+
+/* The ten highlighted localities — the ones with their own page. */
+.coverage-hit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.15rem 0.5rem;
+  margin-left: -0.5rem;
+  border-radius: var(--r-pill);
+  background: var(--brass-tint);
+  color: var(--brass-deep);
+  font-weight: 700;
+  text-decoration: none;
+}
+.coverage-hit svg { color: currentColor; }
+@media (hover: hover) and (pointer: fine) {
+  .coverage-hit { transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out); }
+  .coverage-hit:hover { background: var(--green-cta); color: #fff; }
+}
+
+.coverage-empty {
+  margin-top: var(--s-5);
+  padding: var(--s-4);
+  border: 1px dashed var(--line);
+  border-radius: var(--r-lg);
+  color: var(--ink-2);
+  text-align: center;
+}
+
+/* ============================================================
+   Areas page — service menu, steps, why-us
+   ============================================================ */
+.area-table-wrap {
+  overflow-x: auto;               /* the table scrolls, never the page */
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--paper);
+  box-shadow: var(--shadow-card);
+}
+.area-table { width: 100%; min-width: 38rem; border-collapse: collapse; text-align: left; }
+.area-table th, .area-table td {
+  padding: var(--s-4) var(--s-5);
+  border-bottom: 1px solid var(--line-soft);
+  vertical-align: top;
+}
+.area-table thead th {
+  background: var(--navy);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.area-table tbody th { white-space: nowrap; }
+.area-table tbody th a {
+  color: var(--navy);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.area-table tbody th a:hover { color: var(--brass-deep); }
+.area-table td { color: var(--ink-2); font-size: var(--t-sm); }
+.area-table tbody tr:last-child th,
+.area-table tbody tr:last-child td { border-bottom: 0; }
+.area-table tbody tr:hover { background: var(--brass-tint); }
+.area-table__ideal {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--r-pill);
+  background: var(--brass-tint);
+  color: var(--brass-deep);
+  font-weight: 600;
+}
+
+/* ---- How it works (blue band) ---- */
+.area-steps { border-block: 1px solid rgba(217, 184, 120, .35); }
+.area-steps__grid {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: var(--s-4);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 40rem) { .area-steps__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64rem) { .area-steps__grid { grid-template-columns: repeat(4, 1fr); } }
+.area-step {
+  padding: var(--s-5);
+  border-radius: var(--r-lg);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+.area-step__num {
+  display: inline-grid; place-items: center;
+  width: 2.25rem; height: 2.25rem;
+  margin-bottom: var(--s-3);
+  border-radius: 50%;
+  background: rgba(217, 184, 120, .14);
+  color: var(--brass-bright);
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  font-variant-numeric: tabular-nums;
+}
+.area-step h3 { color: #fff; font-size: var(--t-md); margin-bottom: var(--s-1); }
+.area-step p { color: rgba(255, 255, 255, 0.84); font-size: var(--t-base); }
+
+/* ---- Why choose us ---- */
+.area-why {
+  display: grid; gap: var(--s-4);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 40rem) { .area-why { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64rem) { .area-why { grid-template-columns: repeat(3, 1fr); } }
+.area-why__card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--s-3);
+  align-items: start;
+  padding: var(--s-5);
+  border-radius: var(--r-lg);
+  background: var(--wash);
+  border: 1px solid var(--line-soft);
+  border-left: 2px solid var(--brass);
+}
+.area-why__tick {
+  grid-row: 1 / span 2;
+  display: inline-grid; place-items: center;
+  width: 1.9rem; height: 1.9rem;
+  border-radius: 50%;
+  background: var(--brass-tint);
+  color: var(--brass-deep);
+}
+.area-why__card h3 { font-size: var(--t-base); color: var(--navy); margin: 0 0 0.15rem; }
+.area-why__card p { color: var(--ink-2); font-size: var(--t-sm); margin: 0; }
