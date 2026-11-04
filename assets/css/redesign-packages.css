@@ -294,3 +294,90 @@
 @media (min-width: 62rem) {
   .packages-hero__family { display: block; position: absolute; right: clamp(1rem, 4vw, 4rem); bottom: 0; width: min(38%, 520px); height: auto; z-index: 1; filter: drop-shadow(0 18px 30px rgba(0, 0, 0, .35)); }
 }
+
+/* ============================================================================
+   Packages page — photo tiles + "at a glance" table (mirrors the printed table)
+   ============================================================================ */
+
+/* Seven cards in a 3-up grid leave one alone on the last row: centre it. */
+@media (min-width: 64rem) {
+  .plan-grid > .plan-card:last-child:nth-child(3n + 1) { grid-column: 2; }
+}
+
+/* Category photo tiles */
+.pkg-tiles {
+  display: grid;
+  gap: var(--s-3);
+  margin-top: var(--s-4);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (min-width: 40rem) { .pkg-tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.pkg-tile {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+}
+.pkg-tile img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.pkg-tile__label {
+  display: block;
+  padding: .55rem .75rem;
+  color: #fff;
+  font-weight: 700;
+  font-size: var(--t-sm);
+  line-height: 1.25;
+  text-align: center;
+}
+.pkg-tile__label--blue  { background: linear-gradient(180deg, #1d56b8, #0d2f78); }
+.pkg-tile__label--green { background: linear-gradient(180deg, #23a04a, #167232); }
+
+/* At-a-glance table */
+.pkg-glance__wrap {
+  overflow-x: auto;
+  border-radius: var(--r-xl);
+  border: 1px solid #cfe0f5;
+  background: linear-gradient(180deg, #f4f9ff, #eaf3fd);
+  box-shadow: var(--shadow-card);
+}
+.pkg-glance__table { width: 100%; border-collapse: separate; border-spacing: 0 .4rem; padding: .4rem; text-align: center; }
+.pkg-glance__table thead th {
+  background: linear-gradient(180deg, #1d56b8, #0d2f78);
+  color: #fff;
+  padding: .85rem .5rem;
+  font-size: var(--t-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.pkg-glance__table thead th:first-child { border-radius: var(--r-md) 0 0 var(--r-md); }
+.pkg-glance__table thead th:last-child  { border-radius: 0 var(--r-md) var(--r-md) 0; }
+.pkg-glance__table tbody th, .pkg-glance__table tbody td { padding: .7rem .5rem; font-size: 1.05rem; font-weight: 700; color: var(--navy-deep); }
+.pkg-glance__table tbody tr td { background: rgba(255,255,255,.7); }
+.pkg-glance__table tbody tr td:last-child  { border-radius: 0 var(--r-md) var(--r-md) 0; }
+.pkg-glance__name {
+  display: block;
+  padding: .6rem 1rem;
+  border-radius: var(--r-md);
+  background: linear-gradient(180deg, #1d56b8, #0d2f78);
+  color: #fff;
+  font-size: 1.05rem;
+  letter-spacing: .02em;
+}
+.pkg-glance__table tr.is-gold .pkg-glance__name { background: linear-gradient(180deg, #e0a52a, #b57f10); }
+.pkg-glance__save { color: #167232 !important; }
+.pkg-glance__save--note { font-size: .8rem !important; line-height: 1.25; text-transform: uppercase; }
+.pkg-glance__valid { color: var(--navy-deep); }
+.pkg-glance__valid.is-unlimited { color: #167232 !important; text-transform: uppercase; }
+@media (max-width: 40rem) {
+  .pkg-glance__table thead th { font-size: .62rem; letter-spacing: 0; padding: .6rem .2rem; }
+  .pkg-glance__table tbody th, .pkg-glance__table tbody td { font-size: .78rem; padding: .5rem .2rem; }
+  .pkg-glance__name { font-size: .78rem; padding: .45rem .3rem; }
+  .pkg-glance__save--note { font-size: .58rem !important; }
+}
+/* Two-up on tablet/phone: the seventh card spans the full row instead of sitting in half of it. */
+@media (max-width: 63.99rem) {
+  .plan-grid > .plan-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
