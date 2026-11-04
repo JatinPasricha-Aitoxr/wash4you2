@@ -254,7 +254,7 @@
       {% if (product_urls or {}).get(slug) %}
       <a href="{{ root_path }}{{ product_urls[slug] }}" class="svc-shot-link" style="text-decoration:none; color:inherit; display:block;">
         <figure class="svc-shot" style="cursor:pointer;">
-          <img src="{{ asset_path }}images/pricing/{{ slug }}.webp"
+          <img src="{{ asset_path }}{{ (gi.img | replace('.png', '.webp')) if gi and gi.img else 'images/pricing/' ~ slug ~ '.webp' }}"
                alt="{{ gi.name if gi else slug.replace('-', ' ') | title }} cleaned by Wash4You {{ service.name | lower }} in Gurugram"
                width="400" height="400" loading="lazy" decoding="async">
           <figcaption>
@@ -265,7 +265,7 @@
       </a>
       {% else %}
       <figure class="svc-shot">
-        <img src="{{ asset_path }}images/pricing/{{ slug }}.webp"
+        <img src="{{ asset_path }}{{ (gi.img | replace('.png', '.webp')) if gi and gi.img else 'images/pricing/' ~ slug ~ '.webp' }}"
              alt="{{ gi.name if gi else slug.replace('-', ' ') | title }} cleaned by Wash4You {{ service.name | lower }} in Gurugram"
              width="400" height="400" loading="lazy" decoding="async">
         <figcaption>

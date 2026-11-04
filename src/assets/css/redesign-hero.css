@@ -44,6 +44,13 @@
 .prod-hero__stat strong { color: var(--navy-deep, #0d2350); }
 .prod-hero .btn--ghost, .prod-hero .btn--outline, .prod-hero .btn--on-navy { color: var(--navy, #14336b); border-color: rgba(20, 51, 107, .35); background: #fff; }
 .prod-hero .city-toggle--hero { background: #fff; box-shadow: inset 0 0 0 1px rgba(20, 51, 107, .15); }
+
+/* /wash4you-overview/ — its stat tiles and jump links were written for a dark hero */
+.ov-hero .ov-facts li { background: #fff; box-shadow: inset 0 0 0 1px rgba(20, 51, 107, .15); }
+.ov-hero .ov-facts strong { color: var(--brass-deep, #8a6a2e); }
+.ov-hero .ov-facts span { color: var(--navy, #14336b); }
+.ov-hero .ov-jump a { color: var(--navy, #14336b); box-shadow: inset 0 0 0 1px rgba(20, 51, 107, .3); }
+.ov-hero .ov-jump a:hover { background: rgba(20, 51, 107, .08); }
 .prod-hero .city-toggle--hero .city-toggle__label { color: var(--navy-deep, #0d2350); }
 .prod-hero .city-toggle--hero .city-toggle__btn { color: var(--navy-deep, #0d2350); }
 .prod-hero .city-toggle--hero .city-toggle__btn.is-active { background: var(--navy-deep, #0d2350); color: #fff; }
