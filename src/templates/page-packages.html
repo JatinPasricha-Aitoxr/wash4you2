@@ -101,18 +101,55 @@
   </div>
 </section>
 
-{# What every plan can be spent on #}
+{# What every plan can be spent on — photo tiles, as on the printed package table #}
 <section class="section section--tight section--wash">
   <div class="wrap">
     <p class="eyebrow">One balance, every service</p>
-    <div class="plan-covers stagger-children">
+    <div class="pkg-tiles stagger-children">
       {% for c in packages.covers %}
-      <div class="plan-cover">
-        <span class="plan-cover__icon">{{ service_icon(c.icon, 26) }}</span>
-        <span{{ cms('packages:covers.' ~ loop.index0 ~ '.label') }}>{{ c.label }}</span>
-      </div>
+      <figure class="pkg-tile">
+        <img src="{{ asset_path }}{{ c.img }}" alt="" width="400" height="400" loading="lazy" decoding="async">
+        <figcaption class="pkg-tile__label pkg-tile__label--{{ c.tone or 'blue' }}"{{ cms('packages:covers.' ~ loop.index0 ~ '.label') }}>{{ c.label }}</figcaption>
+      </figure>
       {% endfor %}
     </div>
+  </div>
+</section>
+
+{# All seven plans at a glance — the same table the client prints #}
+<section class="section pkg-glance" id="compare">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Compare plans</p>
+      <h2>Seven plans. One simple rule: pay less, get more.</h2>
+      <p>Pay the package cost, get the package value to spend on any service. The difference is your saving.</p>
+    </div>
+    <div class="pkg-glance__wrap reveal">
+      <table class="pkg-glance__table">
+        <caption class="visually-hidden">Wash4You packages: cost, value, saving and validity</caption>
+        <thead>
+          <tr>
+            <th scope="col">Package</th>
+            <th scope="col">Package cost</th>
+            <th scope="col">Package value</th>
+            <th scope="col">You save</th>
+            <th scope="col">Validity</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in packages.plans %}
+          <tr{% if p.tier %} class="is-{{ p.tier }}"{% endif %}>
+            <th scope="row"><span class="pkg-glance__name"{{ cms('packages:plans.' ~ loop.index0 ~ '.name') }}>{{ p.name }}</span></th>
+            <td{{ cms('packages:plans.' ~ loop.index0 ~ '.cost') }}>{{ p.cost }}</td>
+            <td{{ cms('packages:plans.' ~ loop.index0 ~ '.balance') }}>{{ p.balance }}</td>
+            <td class="pkg-glance__save{% if not p.benefit %} pkg-glance__save--note{% endif %}"{{ cms('packages:plans.' ~ loop.index0 ~ '.free') }}>{{ p.free }}</td>
+            <td class="pkg-glance__valid{% if p.validity == 'Unlimited' %} is-unlimited{% endif %}"{{ cms('packages:plans.' ~ loop.index0 ~ '.validity') }}>{{ p.validity }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p class="plan-foot mono mono--note">Prices exclusive of GST. Free pickup and delivery on every plan.</p>
   </div>
 </section>
 
@@ -121,8 +158,8 @@
   <div class="wrap">
     <div class="section-head reveal">
       <p class="eyebrow">Choose your plan</p>
-      <h2>Pay once. Get bonus balance on top.</h2>
-      <p>Each plan adds a free-service bonus to what you pay — that bonus is your saving. Spend the combined balance on any service before it expires.</p>
+      <h2>Pay once. Get more value back.</h2>
+      <p>Each plan gives you more value than you pay — the difference is your saving. Spend the balance on any service before it expires.</p>
     </div>
 
     <div class="plan-grid stagger-children">
@@ -131,7 +168,7 @@
         {% if p.badge %}<span class="plan-card__badge"{{ cms('packages:plans.' ~ loop.index0 ~ '.badge') }}>{{ p.badge }}</span>{% endif %}
         <div class="plan-card__head">
           <h3 class="plan-card__name"{{ cms('packages:plans.' ~ loop.index0 ~ '.name') }}>{{ p.name }}</h3>
-          <span class="plan-card__benefit" aria-label="{{ p.benefit }} more value">+{{ p.benefit }} value</span>
+          {% if p.benefit %}<span class="plan-card__benefit" aria-label="{{ p.benefit }} more value">+{{ p.benefit }} value</span>{% endif %}
         </div>
         {# You pay / you get, side by side and clearly labelled — the balance
            number alone, bold and first, was reading as an amount owed. #}

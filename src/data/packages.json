@@ -1,112 +1,141 @@
 {
-  "_source": "Package tiers, prices, balances, validity and benefit % are from the client's official 'Premium Laundry & Dryclean Packages' graphic (WhatsApp 2026-07-22). Prepaid-wallet model: pay the package cost, receive a free-service bonus, spend the combined balance on any service before it expires. All figures are the client's own — do not invent tiers or change numbers.",
+  "_source": "Package tiers, costs, values, savings and validity are from the client's 'Premium Laundry & Dryclean Packages' table (supplied 2026-11). Prepaid-wallet model: pay the package cost, receive the package value to spend on any service before it expires. Gold's saving is one free shirt/pant/jeans dry clean rather than a rupee amount. Percentages = saving ÷ cost. All figures are the client's own — do not invent tiers or change numbers.",
   "meta": {
     "title": "Laundry Packages Gurgaon | Prepaid Plans & Subscriptions",
-    "description": "Prepaid Wash4You laundry packages in Gurgaon & NCR: six plans from ₹2,500, up to 60% more value in bonus credit, spendable on any service. Free pickup.",
+    "description": "Prepaid Wash4You laundry packages in Gurgaon & NCR: seven plans from ₹1,100, up to 50% more value, spendable on any service. Free pickup.",
     "canonical": "https://wash4you.in/packages/",
     "og_title": "Wash4You Packages — Save More with Smart Cleaning Plans",
-    "og_description": "Prepaid cleaning wallets with bonus balance and up to 60% more value. Free doorstep pickup and delivery across Gurgaon & NCR."
+    "og_description": "Prepaid cleaning wallets with bonus value of up to 50%. Free doorstep pickup and delivery across Gurgaon & NCR."
   },
   "hero": {
     "eyebrow": "Packages",
     "headline": "Gurgaon & Delhi NCR’s Best-Value Laundry & Dry-Cleaning Plans",
-    "subheadline": "Wash4You packages let you load a wallet once and receive bonus balance on top, then spend it on any service — dry cleaning, laundry, shoes, leather and home fabric care. The bigger the plan, the more you save, and free doorstep pickup and delivery is included on every one."
+    "subheadline": "Wash4You packages let you pay once and get more value back, then spend it on any service — dry cleaning, laundry, shoes, leather and home fabric care. The bigger the plan, the more you save, and free doorstep pickup and delivery is included on every one."
   },
-  "how": "Every plan is a prepaid balance. You pay the package cost, we add a free-service bonus, and you spend the combined total on any service until it expires. No item is billed differently inside a plan.",
+  "how": "Every plan is a prepaid balance. You pay the package cost, you get the package value to spend, and you use it on any service until it expires. No item is billed differently inside a plan.",
   "covers": [
     {
-      "label": "Premium Dry Clean",
-      "icon": "premium-dry-cleaning"
-    },
-    {
-      "label": "Shoe Care",
-      "icon": "shoe-cleaning"
-    },
-    {
-      "label": "Steam Iron",
-      "icon": "steam-ironing"
+      "label": "Dry Cleaning",
+      "img": "images/pricing/coat.webp",
+      "tone": "blue"
     },
     {
       "label": "Premium Laundry",
-      "icon": "eco-friendly-laundry"
+      "img": "images/pricing/premium-laundry.webp",
+      "tone": "green"
+    },
+    {
+      "label": "Shoe Care",
+      "img": "images/pricing/sports-shoes.webp",
+      "tone": "blue"
+    },
+    {
+      "label": "Steam Iron",
+      "img": "images/pricing/wash-and-steam-iron.webp",
+      "tone": "green"
     },
     {
       "label": "Leather Care",
-      "icon": "leather-cleaning"
+      "img": "images/pricing/handbag-leather.webp",
+      "tone": "blue"
     },
     {
-      "label": "Toy, Carpet & Household",
-      "icon": "carpet-cleaning"
+      "label": "Curtain & Carpet Care",
+      "img": "images/pricing/curtain.webp",
+      "tone": "green"
+    },
+    {
+      "label": "Sofa & Upholstery",
+      "img": "images/proof/sofa-after.webp",
+      "tone": "blue"
+    },
+    {
+      "label": "Blanket & Quilt Care",
+      "img": "images/pricing/double-blanket.webp",
+      "tone": "green"
     }
   ],
   "plans": [
     {
+      "name": "Gold",
+      "cost": "₹1,100",
+      "free": "1 shirt / pant / jeans dry clean free",
+      "balance": "₹1,100",
+      "validity": "90 days",
+      "best_for": "First-time users trying a package",
+      "includes": [
+        "₹1,100 spendable on any service",
+        "One shirt, pant or jeans dry-cleaned free",
+        "Valid for 90 days"
+      ]
+    },
+    {
       "name": "Diamond",
       "cost": "₹2,500",
-      "free": "₹500",
-      "balance": "₹3,000",
-      "validity": "3 months",
-      "benefit": "20%",
-      "best_for": "Solo professionals, students, first-time users",
+      "free": "₹350",
+      "balance": "₹2,850",
+      "validity": "6 months",
+      "benefit": "14%",
+      "best_for": "Solo professionals, students, regular users",
       "includes": [
-        "₹3,000 spendable on any service",
-        "Standard turnaround"
+        "₹2,850 spendable on any service",
+        "Valid for 6 months"
       ]
     },
     {
       "name": "Platinum",
       "cost": "₹5,000",
-      "free": "₹1,500",
-      "balance": "₹6,500",
-      "validity": "6 months",
-      "benefit": "30%",
+      "free": "₹1,000",
+      "balance": "₹6,000",
+      "validity": "1 year",
+      "benefit": "20%",
       "best_for": "Couples, small families, regular users",
       "includes": [
-        "₹6,500 spendable on any service",
-        "Suits a household of two to three"
+        "₹6,000 spendable on any service",
+        "Valid for a full year"
       ]
     },
     {
       "name": "Elite",
       "cost": "₹10,000",
-      "free": "₹3,500",
-      "balance": "₹13,500",
-      "validity": "1 year",
-      "benefit": "35%",
+      "free": "₹2,500",
+      "balance": "₹12,500",
+      "validity": "Unlimited",
+      "benefit": "25%",
       "best_for": "Families of three to four, high-volume households",
       "includes": [
-        "₹13,500 spendable on any service",
+        "₹12,500 spendable on any service",
         "Priority scheduling — skip the queue",
-        "One-year validity, no expiry pressure"
+        "Unlimited validity — never expires"
       ]
     },
     {
       "name": "Premier",
       "cost": "₹20,000",
-      "free": "₹8,000",
-      "balance": "₹28,000",
-      "validity": "1 year",
-      "benefit": "40%",
+      "free": "₹6,000",
+      "balance": "₹26,000",
+      "validity": "Unlimited",
+      "benefit": "30%",
       "best_for": "Large families, housing societies, small businesses",
       "includes": [
-        "₹28,000 spendable on any service",
+        "₹26,000 spendable on any service",
         "Priority scheduling",
         "Express delivery upgrades on request",
-        "One-year validity"
+        "Unlimited validity"
       ]
     },
     {
       "name": "Founder",
       "cost": "₹30,000",
-      "free": "₹15,000",
-      "balance": "₹45,000",
+      "free": "₹12,000",
+      "balance": "₹42,000",
       "validity": "Unlimited",
-      "benefit": "50%",
+      "benefit": "40%",
       "badge": "Most popular",
       "tier": "gold",
       "best_for": "Loyal customers, small offices, salons, gyms",
       "includes": [
-        "₹45,000 spendable on any service",
+        "₹42,000 spendable on any service",
         "Priority scheduling",
         "Express delivery upgrades included",
         "Unlimited validity — never expires",
@@ -116,15 +145,15 @@
     {
       "name": "VIP",
       "cost": "₹50,000",
-      "free": "₹30,000",
-      "balance": "₹80,000",
+      "free": "₹25,000",
+      "balance": "₹75,000",
       "validity": "Unlimited",
-      "benefit": "60%",
+      "benefit": "50%",
       "badge": "Best value",
       "tier": "navy",
       "best_for": "Corporate clients, hotels, large housing societies",
       "includes": [
-        "₹80,000 spendable on any service",
+        "₹75,000 spendable on any service",
         "Top-priority scheduling",
         "Unlimited validity",
         "Dedicated account manager",
@@ -157,7 +186,7 @@
   },
   "intro": {
     "title": "Laundry packages & subscription plans in Gurgaon",
-    "body": "Tired of paying full price every time? A Wash4You prepaid package gives you up to 60% more value in bonus credit, priority service and free pickup and delivery. The model is simple: top up once, spend the balance on any service, and let the bonus do the rest. Whether you are a solo professional, a busy family or a corporate client, one of the six plans below will fit."
+    "body": "Tired of paying full price every time? A Wash4You prepaid package gives you up to 50% more value, priority service on the larger plans and free pickup and delivery. The model is simple: pay once, spend the balance on any service, and let the extra value do the rest. Whether you are a first-time user, a busy family or a corporate client, one of the seven plans below will fit."
   },
   "why_subscribe": {
     "eyebrow": "Why subscribe",
@@ -171,7 +200,7 @@
       {
         "label": "Effective cost",
         "without": "Full price every time",
-        "with": "Up to 60% more value in bonus credit"
+        "with": "Up to 50% more value on your spend"
       },
       {
         "label": "Scheduling",
@@ -191,7 +220,7 @@
       {
         "label": "Validity",
         "without": "—",
-        "with": "3 months to unlimited"
+        "with": "90 days to unlimited"
       }
     ]
   },
@@ -258,6 +287,11 @@
     ],
     "rows": [
       {
+        "who": "Trying a package for the first time",
+        "plan": "Gold",
+        "why": "Lowest commitment, with one dry clean free."
+      },
+      {
         "who": "Solo professional",
         "plan": "Diamond",
         "why": "Low commitment — a way to try us out."
@@ -265,7 +299,7 @@
       {
         "who": "Working couple",
         "plan": "Platinum",
-        "why": "Covers two to three months comfortably."
+        "why": "A full year to use it, comfortably."
       },
       {
         "who": "Family of three to four",
@@ -275,12 +309,12 @@
       {
         "who": "Large or joint family",
         "plan": "Premier",
-        "why": "Bulk saving with a full year to use it."
+        "why": "Bulk saving and the balance never expires."
       },
       {
         "who": "Salon, gym or small hotel",
         "plan": "Founder",
-        "why": "Unlimited validity suits commercial use."
+        "why": "Unlimited validity and a big saving suit commercial use."
       },
       {
         "who": "Corporate office or hotel",
@@ -306,7 +340,7 @@
     },
     {
       "q": "What happens if my plan expires before I use the full credit?",
-      "a": "Diamond, Platinum, Elite and Premier are time-limited, so pick a validity that matches how much you actually send us. Founder and VIP credit never expires — if you are unsure, start with one of those."
+      "a": "Gold, Diamond and Platinum are time-limited (90 days, 6 months and 1 year), so pick a validity that matches how much you actually send us. Elite, Premier, Founder and VIP credit never expires — if you are unsure, start with one of those."
     },
     {
       "q": "Can I get a refund on unused credit?",
@@ -314,7 +348,7 @@
     },
     {
       "q": "Is GST included in the package price?",
-      "a": "No. Package prices are exclusive of GST, which is applied as per government norms at the time of purchase. The credit you receive, bonus included, is your full spendable balance."
+      "a": "No. Package prices are exclusive of GST, which is applied as per government norms at the time of purchase. The package value you receive is your full spendable balance."
     },
     {
       "q": "Can I share a package with family or flatmates?",
@@ -334,7 +368,7 @@
     },
     {
       "q": "What is the difference between Founder and VIP?",
-      "a": "Both have unlimited validity. VIP adds a bigger bonus (₹30,000 against ₹15,000), 60% extra value against 50%, top-priority scheduling and a dedicated account manager."
+      "a": "Both have unlimited validity. VIP gives you more value (₹75,000 for ₹50,000, a ₹25,000 saving, against ₹42,000 for ₹30,000 on Founder), top-priority scheduling and a dedicated account manager."
     },
     {
       "q": "Are there any hidden charges?",
