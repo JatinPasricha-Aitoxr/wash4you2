@@ -134,22 +134,32 @@
             <th scope="col">Package value</th>
             <th scope="col">You save</th>
             <th scope="col">Validity</th>
+            <th scope="col" class="pkg-glance__buy-h">Buy</th>
           </tr>
         </thead>
         <tbody>
           {% for p in packages.plans %}
-          <tr{% if p.tier %} class="is-{{ p.tier }}"{% endif %}>
+          {# Each row is a cart item: src/js/cart.js picks up [data-price-item] and
+             renders the Add-to-Cart button / quantity stepper into [data-cart-control]. #}
+          <tr{% if p.tier %} class="is-{{ p.tier }}"{% endif %}
+              data-price-item data-pack="1" data-slug="package-{{ p.name | lower }}"
+              data-name="{{ p.name }} Package" data-amount="{{ p.cost | replace('₹','') | replace(',','') }}"
+              data-price="{{ p.cost }}">
             <th scope="row"><span class="pkg-glance__name"{{ cms('packages:plans.' ~ loop.index0 ~ '.name') }}>{{ p.name }}</span></th>
             <td{{ cms('packages:plans.' ~ loop.index0 ~ '.cost') }}>{{ p.cost }}</td>
             <td{{ cms('packages:plans.' ~ loop.index0 ~ '.balance') }}>{{ p.balance }}</td>
             <td class="pkg-glance__save{% if not p.benefit %} pkg-glance__save--note{% endif %}"{{ cms('packages:plans.' ~ loop.index0 ~ '.free') }}>{{ p.free }}</td>
             <td class="pkg-glance__valid{% if p.validity == 'Unlimited' %} is-unlimited{% endif %}"{{ cms('packages:plans.' ~ loop.index0 ~ '.validity') }}>{{ p.validity }}</td>
+            <td class="pkg-glance__buy" data-cart-control>
+              <button class="price-card__add" type="button" data-add
+                      aria-label="Add {{ p.name }} package to your cart">{{ ui('plus', 16) }} <span class="price-card__add-label">Add to Cart</span></button>
+            </td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
-    <p class="plan-foot mono mono--note">Prices exclusive of GST. Free pickup and delivery on every plan.</p>
+    <p class="plan-foot mono mono--note">Prices exclusive of GST. Free pickup and delivery on every plan. Add a package to your cart, then send it to us on WhatsApp to pay.</p>
   </div>
 </section>
 

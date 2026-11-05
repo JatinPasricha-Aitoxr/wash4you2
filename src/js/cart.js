@@ -61,6 +61,8 @@ export function initCart(root = document) {
   const totalEl = drawer.querySelector('[data-cart-total]')
   const bookBtn = drawer.querySelector('[data-cart-book]')
   const clearBtn = drawer.querySelector('[data-cart-clear]')
+  const noteEl = drawer.querySelector('[data-cart-note]')
+  const waLabel = drawer.querySelector('[data-cart-wa-label]')
   const waBase = drawer.getAttribute('data-whatsapp') || 'https://wa.me/916367600500'
 
   const cards = Array.from(root.querySelectorAll('[data-price-item]'))
@@ -95,6 +97,7 @@ export function initCart(root = document) {
         price: data.price || '',
         img: data.img || '',
         from: data.from === '1' || data.from === true,
+        pack: data.pack === '1' || data.pack === true,
         qty: 0,
       }
       items.push(it)
@@ -134,7 +137,7 @@ export function initCart(root = document) {
     if (!it || it.qty === 0) {
       control.innerHTML =
         `<button class="price-card__add" type="button" data-add aria-label="Add ${escapeAttr(name)} to your pickup list">` +
-        `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Add to Cart</button>`
+        `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> <span class="price-card__add-label">Add to Cart</span></button>`
       return
     }
     control.innerHTML =
@@ -205,6 +208,10 @@ export function initCart(root = document) {
     if (subtotalEl) subtotalEl.textContent = money2(subtotal())
     if (gstEl) gstEl.textContent = money2(gstAmount())
     if (totalEl) totalEl.textContent = money2(grandTotal())
+    // A cart of only prepaid packages is a purchase, not a price enquiry.
+    const onlyPacks = items.length > 0 && items.every((i) => i.pack)
+    if (noteEl) noteEl.hidden = onlyPacks
+    if (waLabel) waLabel.textContent = onlyPacks ? 'Buy on WhatsApp' : 'Get pricing on WhatsApp'
     if (bookBtn) bookBtn.href = buildWhatsApp()
     root.querySelectorAll('[data-cart-book]').forEach((el) => { el.href = buildWhatsApp() })
   }
@@ -213,7 +220,11 @@ export function initCart(root = document) {
   // selected items pre-filled so we can quote. It never books anything -
   // "Book a pickup" is a separate link to the external booking page.
   function buildWhatsApp() {
-    const lines = ["Hi Wash4You! I'd like the price for:"]
+    // Packages are bought outright (prepaid), everything else is a price enquiry —
+    // so a cart of only packages says "buy" and drops the starting-price note.
+    const hasItems = items.some((i) => !i.pack)
+    const onlyPacks = items.length > 0 && !hasItems
+    const lines = [onlyPacks ? "Hi Wash4You! I'd like to buy:" : "Hi Wash4You! I'd like the price for:"]
     items.forEach((it) => {
       const each = it.price || rupee(it.amount)
       lines.push(`• ${it.name} ×${it.qty} — ${each}`)
@@ -222,9 +233,9 @@ export function initCart(root = document) {
     lines.push(`Subtotal: ${money2(subtotal())}`)
     lines.push(`GST (18%): ${money2(gstAmount())}`)
     lines.push(`Total: ${money2(grandTotal())}`)
-    // Every listed rate is a starting price, so this is stated once for the list.
-    lines.push('Note: all rates are starting prices; the final price depends on the garment and the work it needs.')
-    lines.push('Please confirm the price. Thank you!')
+    // Every listed item rate is a starting price, so this is stated once for the list.
+    if (hasItems) lines.push('Note: all rates are starting prices; the final price depends on the garment and the work it needs.')
+    lines.push(onlyPacks ? 'Please share the payment details. Thank you!' : 'Please confirm the price. Thank you!')
     return waBase + (waBase.includes('?') ? '&' : '?') + 'text=' + encodeURIComponent(lines.join('\n'))
   }
 

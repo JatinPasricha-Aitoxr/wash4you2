@@ -529,13 +529,13 @@
          estimate. It was 13px grey and sat between a bold total and two
          buttons, where nobody saw it. Now a real notice — but a calm one,
          since it sets an expectation rather than reporting an error. #}
-      <p class="cart-note">
+      <p class="cart-note" data-cart-note>
         <span class="cart-note__icon" aria-hidden="true">{{ ui('info', 18) }}</span>
         <span><b>Indicative estimate.</b> ‘From’ items are priced after inspection.</span>
       </p>
       <div class="cart-cta">
         <a class="btn btn--cta cart-cta__btn cart-cta__wa" data-cart-book href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener">
-          {{ ui('whatsapp', 18) }} Get pricing on WhatsApp
+          {{ ui('whatsapp', 18) }} <span data-cart-wa-label>Get pricing on WhatsApp</span>
         </a>
         <a class="btn btn--ghost cart-cta__btn" href="{{ site.urls.booking }}" target="_blank" rel="noopener">
           {{ ui('check-badge', 18) }} Book a pickup
