@@ -50,9 +50,9 @@
         "address": {
           "@type": "PostalAddress",
           "streetAddress": {{ loc.street | tojson }},
-          "addressLocality": "Gurugram",
-          "addressRegion": "Haryana",
-          "postalCode": "{{ loc.postal_code }}",
+          "addressLocality": {{ (loc.city or 'Gurugram') | tojson }},
+          "addressRegion": {{ (loc.region or 'Haryana') | tojson }},{% if loc.postal_code %}
+          "postalCode": {{ loc.postal_code | tojson }},{% endif %}
           "addressCountry": "IN"
         }
       }{% endfor %}
@@ -89,8 +89,7 @@
   </div>
 </section>
 
-{% if site.show_stores %}
-<section class="section">
+<section class="section" id="stores">
   <div class="wrap">
     <div class="section-head reveal">
       <p class="eyebrow">Come to us</p>
@@ -111,7 +110,6 @@
     </div>
   </div>
 </section>
-{% endif %}
 
 <section class="section section--wash">
   <div class="wrap">

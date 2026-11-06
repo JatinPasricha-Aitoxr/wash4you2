@@ -31,7 +31,9 @@
       "postal_code": "122009",
       "address": "Gate No. 3, Shop No. 180, GF Shushant, Vyapar Kendra Road, Block C, Sushant Lok Phase I, Sector 43, Gurugram, Haryana 122009",
       "map_url": "https://maps.google.com/?q=Wash4You+Vyapar+Kendra+Sushant+Lok+Phase+I+Sector+43+Gurugram+122009",
-      "phone": "+91 63 67 600 500"
+      "phone": "+91 63 67 600 500",
+      "city": "Gurugram",
+      "region": "Haryana"
     },
     {
       "id": "arcadia",
@@ -41,6 +43,30 @@
       "postal_code": "122018",
       "address": "AG-75, Ground Floor, Block-A, Unitech Arcadia, Sector 49, Gurugram, Haryana 122018",
       "map_url": "https://maps.google.com/?q=Wash4You+Unitech+Arcadia+Sector+49+Gurugram+122018",
+      "phone": "+91 63 67 600 500",
+      "city": "Gurugram",
+      "region": "Haryana"
+    },
+    {
+      "id": "sector-7",
+      "name": "Wash4You Sector 7",
+      "street": "L92, New Colony Market",
+      "locality": "Sector 7",
+      "city": "Gurugram",
+      "region": "Haryana",
+      "address": "L92, New Colony Market, Sector 7, Gurugram, Haryana",
+      "map_url": "https://maps.google.com/?q=Wash4You+L92+New+Colony+Market+Sector+7+Gurugram+Haryana",
+      "phone": "+91 63 67 600 500"
+    },
+    {
+      "id": "vasant-vihar",
+      "name": "Wash4You Vasant Vihar",
+      "street": "Shop No. 4, C-3, LSC, Paschimi Marg",
+      "locality": "Vasant Vihar",
+      "city": "New Delhi",
+      "region": "Delhi",
+      "address": "Shop No. 4, C-3, LSC, Paschimi Marg, Vasant Vihar, New Delhi",
+      "map_url": "https://maps.google.com/?q=Wash4You+Shop+No.+4+C-3+LSC+Paschimi+Marg+Vasant+Vihar+New+Delhi",
       "phone": "+91 63 67 600 500"
     }
   ],

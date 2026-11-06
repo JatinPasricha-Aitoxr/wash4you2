@@ -31,13 +31,13 @@
       "tagItem": "Near You",
       "near": {
         "eyebrow": "Wash4You Near You",
-        "title": "Two Stores in Gurugram. Pickup Wherever You Are.",
-        "subtitle": "The nearest dry cleaner is the one that comes to you. Our valets collect across Delhi NCR from our two Gurugram stores, so a professional dryclean is never more than a booking away.",
+        "title": "Three Stores in Gurugram. Pickup Wherever You Are.",
+        "subtitle": "The nearest dry cleaner is the one that comes to you. Our valets collect across Delhi NCR from our Gurugram stores, so a professional dryclean is never more than a booking away.",
         "cta": "Check Your Area"
       },
       "local": null,
       "faqs": [
-        { "q": "Where is the nearest Wash4You dry cleaner?", "a": "Wash4You has two stores in Gurugram — Sushant Lok Phase I (Sector 43) and Unitech Arcadia (Sector 49). Most customers never visit either: we pick up from your door for free across Gurugram, Delhi, Noida, Faridabad and Ghaziabad." },
+        { "q": "Where is the nearest Wash4You dry cleaner?", "a": "Wash4You has three stores in Gurugram — Sushant Lok Phase I (Sector 43), Unitech Arcadia (Sector 49) and New Colony Market (Sector 7) — and one in Vasant Vihar, Delhi. Most customers never visit either: we pick up from your door for free across Gurugram, Delhi, Noida, Faridabad and Ghaziabad." },
         { "q": "Is pickup free near me?", "a": "Yes. Doorstep pickup and delivery are free in every area we serve. Use Locate Us to check your sector or society." },
         { "q": "How long does dry cleaning take?", "a": "Turnaround is confirmed when we collect your order, depending on the item and the finish it needs." },
         { "q": "How much does dry cleaning cost?", "a": "Dryclean starts from {price:shirt} per piece for everyday clothes like shirts, trousers and jeans. Every item has a published price on our price list, exclusive of 18% GST, with no pickup charge." },
@@ -49,7 +49,7 @@
       "slug": "best-dryclean-in-gurgaon",
       "meta": {
         "title": "Best Dry Cleaning in Gurgaon — Free Pickup | Wash4You",
-        "description": "Best dry cleaning in Gurgaon from Wash4You: two Gurugram stores, commercial dryclean machines and free doorstep pickup across {gurugram} localities.",
+        "description": "Best dry cleaning in Gurgaon from Wash4You: three Gurugram stores, commercial dryclean machines and free doorstep pickup across {gurugram} localities.",
         "og_title": "Best Dryclean in Gurgaon | Wash4You",
         "og_description": "Professional dryclean care from Sushant Lok and Sector 49, with free doorstep pickup across Gurugram."
       },
@@ -60,7 +60,7 @@
       "near": {
         "eyebrow": "Wash4You in Gurugram",
         "title": "Based in Gurugram, Serving All of It",
-        "subtitle": "Wash4You is a Gurugram business with two stores in the city. Our valets run daily routes across DLF, Golf Course Road, Sohna Road, the new sectors and everywhere in between.",
+        "subtitle": "Wash4You is a Gurugram business with three stores in the city. Our valets run daily routes across DLF, Golf Course Road, Sohna Road, the new sectors and everywhere in between.",
         "cta": "Find Your Sector"
       },
       "local": {
