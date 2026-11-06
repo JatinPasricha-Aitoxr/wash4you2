@@ -1,0 +1,266 @@
+/* ============================================================
+   Motion layer
+   ============================================================
+
+   Travel is NOT declared in this file. Every scroll reveal's y-offset now
+   comes from the Motion keyframes in src/js/motion/ (fadeUp() in tokens.js),
+   so a bundle that 404s, is blocked, or throws can only ever leave content
+   faded, never stranded at an offset.
+
+   The hidden state is therefore OPACITY ONLY, and it is gated on `html.js`
+   (set inline in base.html:28, before any stylesheet is even requested), so:
+     - no JS at all      -> `.js` never lands, nothing is ever hidden
+     - JS but no bundle  -> the motion-failsafe keyframe below un-hides
+                            everything at 1400ms
+     - JS + bundle       -> src/js/motion/reveal.js animates, then adds
+                            `.is-revealed` and releases its inline styles
+
+   CRITICAL: nothing in this file may put a `transition` on `opacity` or
+   `transform` for a `.reveal` / `.stagger-children` target. Motion commits
+   its final value as an inline style and reveal.js then clears it; a live
+   transition on those properties would re-fire on every release and visibly
+   slide the element back. Contact feedback (hover, press, chevron, header,
+   nav panel, CTA bar) is owned by ui.css / layout.css and is untouched here.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   Easing token
+   ------------------------------------------------------------
+   `--ease-enter` is byte-identical to what Motion's `'easeOut'` string
+   resolves to (the native `ease-out` keyword), so the CSS hero cascade and
+   the JS scroll reveals share one personality.
+
+   `--ease-out` (base.css:78) is an expo-out with a hard front load. It stays
+   exactly as it is and remains correct for the <= 300ms micro-interactions
+   throughout layout.css / ui.css / page.css — but at 500ms its front load is
+   obvious, which is why the hero does not use it.
+
+   Declared here defensively: animations.css is the last stylesheet base.html
+   loads, so this definition is idempotent if the same token is also added to
+   base.css. Without it, `animation: hero-in 500ms var(--ease-enter) both`
+   would be invalid at computed-value time, which resolves the whole shorthand
+   to `animation: none` and would leave the hero at opacity 0 permanently.
+   ------------------------------------------------------------ */
+:root {
+  --ease-enter: cubic-bezier(0, 0, .58, 1);
+}
+
+/* ------------------------------------------------------------
+   Hidden state — opacity only, never transform
+   ------------------------------------------------------------ */
+.js .reveal,
+.js .stagger-children > * {
+  opacity: 0;
+
+  /* Failsafe. If the bundle 404s, is blocked by an extension, or throws
+     before booting, this forces every hidden hook visible at 1400ms.
+
+     `forwards`, never `both`: `both` would back-fill opacity 0 during the
+     delay, which is what the cascade already says, but would also outrank
+     `.is-revealed` afterwards. It animates opacity ONLY and never transform,
+     so it can never strand content at an offset and can never beat a CSS
+     hover rule. Script-generated (WAAPI) animations outrank CSS animations in
+     composite order, so Motion still wins for as long as it is running.
+
+     Must stay in sync with FAILSAFE_MS in src/js/motion/tokens.js. */
+  animation: motion-failsafe 1ms linear 1400ms forwards;
+}
+
+@keyframes motion-failsafe {
+  to { opacity: 1; }
+}
+
+/* Disarmed by reveal.js the moment the bundle boots. Without this the keyframe
+   still fires at 1400ms and forces opacity:1 on hooks that have not been
+   scrolled to, which Motion then re-hides as it animates them — a visible
+   flash on every below-the-fold reveal. */
+.js.motion-ready .reveal,
+.js.motion-ready .stagger-children > * {
+  animation: none;
+}
+
+/* `.page-hero` is the interior-page hero. Its content is above the fold on
+   every service, locality and matrix page, so it is settled by reveal.js and
+   must never be hidden waiting on a deferred bundle. */
+.js .page-hero .reveal,
+.js .page-hero.reveal {
+  opacity: 1;
+  animation: none;
+}
+
+/* ------------------------------------------------------------
+   Revealed state — written by src/js/motion/reveal.js
+   ------------------------------------------------------------
+   Replaces the retired `.is-visible`. The rename is deliberate: any stale
+   `.is-visible` rule or handler left anywhere in the tree now fails loudly
+   instead of half-working. (`.cta-bar.is-visible` in layout.css is a
+   different component and is unaffected.)
+
+   reveal.js adds this class BEFORE it clears its inline styles, so there is
+   no frame in which the element is un-hidden by neither. */
+.js .reveal.is-revealed,
+.js .stagger-children.is-revealed > * {
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------
+   Never hidden
+   ------------------------------------------------------------
+   Legal bodies, live forms, the 404 escape route, SEO price rows and the
+   preloaded LCP image. Enforced here as well as in NEVER_ANIMATE in
+   tokens.js, because the bundle is `defer`: a JS-only filter still leaves a
+   real window at first paint in which an entire legal page is invisible.
+
+   Both the self form (`.x.reveal`) and the descendant form (`.x .reveal`)
+   are listed, mirroring reveal.js's `el.matches(sel) || el.closest(sel)`
+   test, so CSS and JS can never disagree about which hooks are exempt. */
+.js .policy-section.reveal,
+.js .contact-form.reveal,
+.js .page-404.reveal,
+.js .pricing-grid.reveal,
+.js .hero__proof.reveal,
+.js .policy-section .reveal,
+.js .contact-form .reveal,
+.js .page-404 .reveal,
+.js .pricing-grid .reveal,
+.js .hero__proof .reveal {
+  opacity: 1;
+  animation: none;
+}
+
+.js .policy-section.stagger-children > *,
+.js .contact-form.stagger-children > *,
+.js .page-404.stagger-children > *,
+.js .pricing-grid.stagger-children > *,
+.js .policy-section .stagger-children > *,
+.js .contact-form .stagger-children > *,
+.js .page-404 .stagger-children > *,
+.js .pricing-grid .stagger-children > * {
+  opacity: 1;
+  animation: none;
+}
+
+/* ------------------------------------------------------------
+   Off switch
+   ------------------------------------------------------------
+   `html.motion-off` is added by reveal.js for ?noanim, prefers-reduced-motion
+   at boot, no IntersectionObserver, or a caught throw during boot. It only
+   ever ADDS visibility, so applying it after first paint can never flash. */
+.js.motion-off .reveal,
+.js.motion-off .stagger-children > * {
+  opacity: 1;
+  animation: none;
+  transform: none;
+}
+
+/* ------------------------------------------------------------
+   Hero — CSS-owned
+   ------------------------------------------------------------
+   The bundle is loaded `defer` (base.html:222), so it executes after HTML
+   parse and after five render-blocking stylesheets. A CSS keyframe starts at
+   first paint and needs no bundle; Motion cannot beat that, so the hero
+   cascade lives here and src/js/motion/hero.js only guards it.
+
+   Four beats at 90ms (HERO_BEAT), keyed off the reveal-delay-N classes
+   already in page-home.html. The H1 shares beat 0 with the care note above
+   it — the care note is a label, not a beat, and the headline must never be
+   the second thing to land. Fully settled at 770ms.
+
+   `.hero` exists on page-home.html only; interior pages use `.page-hero`,
+   whose H1 is their LCP element and which carries no motion hook at all. */
+@keyframes hero-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.js .hero .reveal { animation: hero-in 500ms var(--ease-enter) both; }
+
+.js .hero .reveal.reveal-delay-1 { animation-delay: 0ms; }    /* h1 — beat 0 */
+.js .hero .reveal.reveal-delay-2 { animation-delay: 90ms; }
+.js .hero .reveal.reveal-delay-3 { animation-delay: 180ms; }
+.js .hero .reveal.reveal-delay-4 { animation-delay: 270ms; }
+
+/* LCP candidate — preloaded with fetchpriority="high" (page-home.html:6).
+   An element at opacity 0 has not painted, so any entrance here postpones
+   Largest Contentful Paint. It gets no motion of any kind.
+
+   It carries `reveal-delay-2` (page-home.html:60), so the (0,4,0) beat rule
+   above still sets its `animation-delay` — harmless, because this rule ties
+   `.js .hero .reveal` on specificity (0,3,0) and wins on source order, which
+   sets `animation-name: none`. A delay on no animation is inert. */
+.js .hero__proof.reveal {
+  opacity: 1;
+  animation: none;
+}
+
+/* Set by hero.js for ?noanim, a mid-session flip to reduced motion, a late
+   boot, or a bfcache restore. Last hero rule in the file, so it beats the
+   per-beat rules at equal specificity. */
+.js .hero.hero--settled .reveal {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+/* ------------------------------------------------------------
+   Banner — the home hero on page-home.html. Same CSS-owned entrance
+   as .hero: keyframe from first paint, no bundle dependency. There is
+   no hero.js hook for it, so the `both` fill alone holds the end state.
+   ------------------------------------------------------------ */
+.js .banner .reveal { animation: hero-in 500ms var(--ease-enter) both; }
+.js .banner .reveal.reveal-delay-1 { animation-delay: 0ms; }
+.js .banner .reveal.reveal-delay-2 { animation-delay: 90ms; }
+.js .banner .reveal.reveal-delay-3 { animation-delay: 180ms; }
+.js .banner .reveal.reveal-delay-4 { animation-delay: 270ms; }
+
+/* LCP candidate — the mascot. Never hidden, never animated, or LCP is
+   postponed. Ties the rule above on (0,3,0) and wins on source order. */
+.js .banner__art.reveal { opacity: 1; animation: none; }
+
+/* Reduced motion / ?noanim — settle instantly. Last, so it wins at (0,3,0). */
+.js.motion-off .banner .reveal { animation: none; opacity: 1; transform: none; }
+
+/* ------------------------------------------------------------
+   Reduced motion
+   ------------------------------------------------------------
+   Two independent mechanisms, both reachable without JS:
+   1. `animation-delay: 0ms` collapses the failsafe's 1400ms wait to zero and
+      `animation-duration: 0.01ms` completes it instantly, so the hidden state
+      is neutralised by CSS at t=0 even if the bundle never runs.
+   2. The explicit opacity/transform reset below, in case any of the above is
+      ever narrowed.
+   reveal.js additionally takes the motion-off branch at boot and clears every
+   inline style, because a media query cannot reach a style WAAPI wrote inline.
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .js .reveal,
+  .js .stagger-children > *,
+  .js .hero .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   Print
+   ------------------------------------------------------------
+   A print or print-to-PDF pass can run before any observer has fired, and
+   headless renderers that print rather than scroll would otherwise emit blank
+   sections. Additive visibility only. */
+@media print {
+  .js .reveal,
+  .js .stagger-children > *,
+  .js .hero .reveal {
+    opacity: 1 !important;
+    animation: none !important;
+    transform: none !important;
+  }
+}

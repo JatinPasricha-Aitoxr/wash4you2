@@ -1,0 +1,805 @@
+/* ============================================================
+   Wash4You — service card background vectors
+   "What we clean" (home) and the full services grid.
+
+   Each .svc card carries a large line-art scene of the thing it
+   cleans, drawn by service_bg() in _icons.html. It sits in the
+   bottom-right corner and bleeds off the card edge, so it reads
+   as a watermark behind the copy rather than a second icon
+   competing with .svc__icon.
+
+   Rules it has to obey:
+     - never touch the text contrast: it lives under the content,
+       tinted at a low alpha of the brand navy;
+     - never intercept the card's click target;
+     - never reflow anything — it is absolutely positioned and the
+       card reserves no space for it.
+   ============================================================ */
+
+/* .svc is also the blog-post card, which has no watermark — so the
+   clipping is opted into by .svc--art rather than applied to every
+   card that happens to share the shell. */
+.svc--art {
+  /* the vector bleeds past the corner; the radius does the trimming */
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.svc__bg {
+  position: absolute;
+  /* Only a sliver leaves the card. Bleeding hard looks arbitrary —
+     the shoe becomes a hill, the cap becomes a curve — so the corner
+     just clips the outline rather than eating half the drawing. */
+  right: -5%;
+  bottom: -7%;
+  width: 54%;
+  max-width: 10.5rem;
+  height: auto;
+  z-index: 0;
+  color: var(--navy);
+  opacity: 0.11;
+  pointer-events: none;
+  transform-origin: 88% 88%;
+  transition:
+    opacity 320ms var(--ease-out),
+    transform 420ms var(--ease-out),
+    color 320ms var(--ease-out);
+}
+
+/* Lift every real child of the card above the watermark. The
+   ::after click overlay on .svc__link rides along with its h3. */
+.svc--art > *:not(.svc__bg) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- Contrast, which is what actually constrains this ----------
+   The card blurb is --ink-3 (#677283). That measures 4.94:1 on
+   white — it clears 4.5:1, but only by 0.44. A watermark stroke
+   passing behind a line of it darkens the local ground enough to
+   push it under: navy at just 6% alpha already lands the text at
+   4.43:1, and at the 11% used here it is 4.06:1. There is no
+   opacity that is both visible and safe against --ink-3.
+
+   So the blurb moves to --ink-2, the site's own body-copy token.
+   On white that is 9.0:1, and under the darkest point of the
+   watermark it still holds 7.4:1 — the drawing can be seen and
+   the text never drops below the floor. Headings are --ink and
+   the care tag paints an opaque --paper background, so neither
+   needed changing.                                              */
+.svc--art p { color: var(--ink-2); }
+
+/* Fade the drawing out as it approaches the copy. Full strength
+   is spent in the empty bottom-right corner where nothing sits;
+   by the top-left, where the blurb runs, it is a third of that.
+   Belt and braces on top of the colour change above.            */
+.svc__bg {
+  -webkit-mask-image: linear-gradient(135deg, rgba(0, 0, 0, 0.32) 0%, rgba(0, 0, 0, 0.72) 42%, #000 78%);
+  mask-image: linear-gradient(135deg, rgba(0, 0, 0, 0.32) 0%, rgba(0, 0, 0, 0.72) 42%, #000 78%);
+}
+
+/* ---- Alternating tint ------------------------------------------
+   Nine cards of identical navy watermark reads as wallpaper. Every
+   third card takes the brand green instead, which breaks the grid
+   into a rhythm without introducing a colour that is not ours.
+   Both are non-text graphics at <15% alpha, so the 4.5:1 floor
+   does not apply and the copy above them is unaffected.          */
+.svc--art:nth-child(3n - 1) .svc__bg { color: var(--brass); opacity: 0.12; }
+.svc--art:nth-child(3n) .svc__bg { color: var(--brand-blue); opacity: 0.12; }
+
+/* ============================================================
+   Hover / focus — a quiet lift.
+
+   THE LIFT USES `translate`, NOT `transform`, AND THAT IS LOAD-BEARING.
+   These cards are `.stagger-children > *`, and reveal.js animates them in
+   on `transform`, commits the final value inline, then clears it — a live
+   CSS transition on `transform` re-fires on that release. The independent
+   `translate` property composes with the reveal instead of fighting it.
+
+   The green flood fill is retired: a card that turns into a giant button
+   on approach reads as a marketplace, not a service. The card rises 2px,
+   the shadow deepens, the border warms to brass, and the watermark leans
+   in a breath. Everything keeps its resting colour.
+   ============================================================ */
+.svc--art {
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    translate 200ms ease;
+}
+
+.svc--art:hover,
+.svc--art:focus-within {
+  border-color: var(--brass);
+  box-shadow: var(--shadow-md);
+  translate: 0 -2px;
+}
+
+.svc--art:hover .svc__bg,
+.svc--art:focus-within .svc__bg {
+  opacity: 0.16;
+  transform: scale(1.03);
+}
+
+/* ---- Small screens ---------------------------------------------
+   One card per column means the card is wide and short, so the
+   same 62% would swamp the copy. Pull it in and down.            */
+@media (max-width: 40rem) {
+  .svc__bg {
+    width: 40%;
+    max-width: 8rem;
+    right: -4%;
+    bottom: -8%;
+    opacity: 0.10;
+  }
+  .svc--art:nth-child(3n - 1) .svc__bg { opacity: 0.11; }
+  .svc--art:nth-child(3n) .svc__bg { opacity: 0.11; }
+}
+
+/* Reduced motion keeps the colour change — that is information, not
+   decoration — and drops the travel and the scale. */
+@media (prefers-reduced-motion: reduce) {
+  .svc__bg { transition: opacity 320ms linear, color 320ms linear; }
+  .svc--art {
+    transition:
+      background-color 260ms linear,
+      border-color 260ms linear,
+      box-shadow 260ms linear;
+  }
+  .svc--art:hover,
+  .svc--art:focus-within { translate: none; }
+  .svc--art:hover .svc__bg,
+  .svc--art:focus-within .svc__bg { transform: none; }
+}
+
+/* Print and forced-colours: a watermark is noise in both. */
+@media print {
+  .svc__bg { display: none; }
+}
+@media (forced-colors: active) {
+  .svc__bg { display: none; }
+}
+
+/* ============================================================
+   Services banner
+
+   The supplied SVG as a full-bleed band with the live copy over it.
+
+   No scrim: this is a designed navy ground with a narrow luminance range,
+   so white type sits on it directly. (The pricing photograph needed one
+   because its sky ran from deep blue to white cloud.)
+   ============================================================ */
+.services-hero {
+  position: relative;
+  isolation: isolate;
+  color: #fff;
+  background: url('../images/hero-services.svg') center / cover no-repeat, #0B2E4C;
+  border-bottom: 1px solid rgba(217, 184, 120, .35);
+  padding-block: clamp(2.5rem, 1.8rem + 3vw, 4.5rem);
+}
+
+.services-hero .crumbs { color: rgba(255, 255, 255, .72); }
+.services-hero .crumbs a { color: #fff; }
+.services-hero .crumbs a:hover { text-decoration: underline; }
+.services-hero .crumbs span[aria-hidden] { color: rgba(255, 255, 255, .38); }
+
+.services-hero .eyebrow { color: #8fe6cd; }
+
+
+.services-hero h1 { color: #fff; }
+.services-hero .lede { color: rgba(255, 255, 255, .92); }
+
+/* page-hero__grid is a two-column grid, so the copy already sits in a ~600px
+   column. Capping THAT at 52% left ~310px — enough to stack the two CTAs and
+   push the band 200px taller. Single column here; the 52% below is then
+   measured against the full wrap, which is what it was meant to be. */
+.services-hero .page-hero__grid { display: block; }
+
+/* Hold the copy inside the left half so it never runs across the rail.
+   btn-row is deliberately NOT capped — the buttons are a fixed-size row and
+   a cap only makes them wrap. */
+@media (min-width: 62rem) {
+  .services-hero .crumbs,
+  .services-hero .eyebrow,
+  .services-hero h1,
+  .services-hero .lede { max-width: 52%; }
+}
+
+/* The rail hangs off the right edge of the artwork, and `cover` crops evenly
+   from both sides — at 1440 that removed 318px a side and cut the rail in
+   half. Anchoring right keeps all six badges in frame and crops the empty
+   gradient on the left instead. */
+@media (min-width: 62rem) {
+  .services-hero { background-position: right center; }
+}
+
+/* Below 62rem the copy uses the full column, so the rail must be out of
+   frame entirely — anchoring left crops from the right, where it hangs. */
+@media (max-width: 61.99rem) {
+  .services-hero { background-position: left center; }
+}
+
+/* Ghost button on the dark band. */
+.services-hero .btn--ghost {
+  color: #fff;
+  border-color: rgba(255, 255, 255, .28);
+  background: rgba(255, 255, 255, .10);
+}
+.services-hero .btn--ghost:hover {
+  border-color: rgba(255, 255, 255, .5);
+  background: rgba(255, 255, 255, .18);
+}
+
+/* ============================================================
+   "Where we collect" — blue band, green cards on hover
+   ============================================================ */
+.collect-band {
+  background: var(--navy);
+  border-top: 1px solid rgba(217, 184, 120, .35);
+  border-bottom: 1px solid rgba(217, 184, 120, .35);
+}
+
+/* .area-link was drawn for a white ground: --ink label, --line border and
+   --ink-3 arrow are all but invisible on navy. */
+.collect-band .area-link {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.06);
+}
+.collect-band .area-link svg { color: rgba(255, 255, 255, 0.72); }
+
+@media (hover: hover) and (pointer: fine) {
+  .collect-band .area-link {
+    transition:
+      background-color 220ms var(--ease-out),
+      border-color 220ms var(--ease-out),
+      box-shadow 260ms var(--ease-out),
+      translate 260ms var(--ease-out);
+  }
+  /* #198639, not the logo green: white text on it is 4.66:1, the bright
+     #21b14b only 2.82:1.
+
+     `translate`, never `transform` — .areas carries .stagger-children and
+     animations.css reserves transform/opacity for the reveal. */
+  .collect-band .area-link:hover,
+  .collect-band .area-link:focus-visible {
+    background: rgba(255, 255, 255, .10);
+    border-color: rgba(217, 184, 120, .55);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.28);
+    translate: 0 -3px;
+    color: #fff;
+  }
+  .collect-band .area-link:hover svg,
+  .collect-band .area-link:focus-visible svg { color: #fff; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Keep the colour — that is the feedback. Drop only the movement. */
+  .collect-band .area-link:hover,
+  .collect-band .area-link:focus-visible { translate: none; }
+}
+
+/* ============================================================
+   Services page — finder, menu table, steps, why
+   ============================================================ */
+.svc-finder { display: grid; gap: var(--s-2); margin-bottom: var(--s-5); }
+.svc-finder__search {
+  display: flex; align-items: center; gap: var(--s-2);
+  padding: 0.55rem 0.9rem;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-pill);
+  background: var(--paper);
+  box-shadow: var(--shadow-card);
+  transition: border-color 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
+}
+.svc-finder__search:focus-within {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 4px rgba(33, 177, 75, 0.14);
+}
+.svc-finder__search > svg { color: var(--ink-3); flex: none; }
+.svc-finder__search input {
+  flex: 1; min-width: 0; border: 0; outline: none; background: none;
+  font: inherit; font-size: var(--t-base); color: var(--ink); padding: 0.35rem 0;
+}
+.svc-finder__search input::placeholder { color: var(--ink-3); }
+.svc-finder__search input::-webkit-search-cancel-button { display: none; }
+.svc-finder__clear {
+  flex: none; display: grid; place-items: center;
+  width: 1.9rem; height: 1.9rem;
+  border: 0; border-radius: 50%;
+  background: var(--wash-2); color: var(--ink-2); cursor: pointer;
+}
+.svc-finder__clear:hover { background: var(--line); color: var(--ink); }
+.svc-finder__count {
+  margin: 0; font-size: var(--t-sm); color: var(--brass-deep);
+  font-weight: 600; min-height: 1.2em;
+}
+
+/* ---- Menu table ---- */
+.svc-table-wrap {
+  overflow-x: auto;                /* the table scrolls, never the page */
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--paper);
+  box-shadow: var(--shadow-card);
+}
+.svc-menu { width: 100%; min-width: 34rem; border-collapse: collapse; text-align: left; }
+.svc-menu th, .svc-menu td {
+  padding: var(--s-4) var(--s-5);
+  border-bottom: 1px solid var(--line-soft);
+  vertical-align: top;
+}
+.svc-menu thead th {
+  background: var(--navy); color: #fff;
+  font-family: var(--font-mono); font-size: var(--t-sm);
+  letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500;
+}
+.svc-menu tbody th a {
+  color: var(--navy); font-weight: 700;
+  text-decoration: underline; text-underline-offset: 2px;
+}
+.svc-menu tbody th a:hover { color: var(--brass-deep); }
+.svc-menu td { color: var(--ink-2); font-size: var(--t-sm); }
+.svc-menu tbody tr:last-child th,
+.svc-menu tbody tr:last-child td { border-bottom: 0; }
+.svc-menu tbody tr:hover { background: var(--brass-tint); }
+.svc-menu__turn {
+  display: inline-block; padding: 0.2rem 0.6rem;
+  border-radius: var(--r-pill);
+  background: var(--green-tint); color: var(--brass-deep);
+  font-weight: 600; white-space: nowrap;
+}
+
+/* ---- How it works ---- */
+.svc-steps { border-block: 1px solid rgba(217, 184, 120, .35); }
+.svc-steps__grid {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: var(--s-4); grid-template-columns: 1fr;
+}
+@media (min-width: 40rem) { .svc-steps__grid { grid-template-columns: repeat(2, 1fr); } }
+/* Seven steps: 4-up leaves a tidy 4+3, which reads better than 7 in a row. */
+@media (min-width: 68rem) { .svc-steps__grid { grid-template-columns: repeat(4, 1fr); } }
+.svc-step {
+  padding: var(--s-5);
+  border-radius: var(--r-lg);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+.svc-step__num {
+  display: inline-grid; place-items: center;
+  width: 2.25rem; height: 2.25rem; margin-bottom: var(--s-3);
+  border-radius: 50%;
+  background: rgba(217, 184, 120, .14);
+  color: var(--brass-bright);                  /* dark on the bright brand green */
+  font-family: var(--font-mono); font-size: var(--t-sm);
+}
+.svc-step h3 { color: #fff; font-size: var(--t-md); margin-bottom: var(--s-1); }
+.svc-step p { color: rgba(255, 255, 255, 0.84); font-size: var(--t-base); }
+
+/* ---- Why choose us ---- */
+.svc-why { display: grid; gap: var(--s-4); grid-template-columns: 1fr; }
+@media (min-width: 40rem) { .svc-why { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64rem) { .svc-why { grid-template-columns: repeat(4, 1fr); } }
+.svc-why__card {
+  display: grid; grid-template-columns: auto 1fr;
+  column-gap: var(--s-3); align-items: start;
+  padding: var(--s-5);
+  border-radius: var(--r-lg);
+  background: var(--wash);
+  border: 1px solid var(--line-soft);
+  border-left: 4px solid var(--brand-green);
+}
+.svc-why__tick {
+  grid-row: 1 / span 2;
+  display: inline-grid; place-items: center;
+  width: 1.9rem; height: 1.9rem;
+  border-radius: 50%;
+  background: var(--brand-green); color: #06210f;
+}
+.svc-why__card h3 { font-size: var(--t-base); color: var(--navy); margin: 0 0 0.15rem; }
+.svc-why__card p { color: var(--ink-2); font-size: var(--t-sm); margin: 0; }
+
+/* ---- Service gallery — what this service actually covers ---------------
+
+   The 15 service pages were text-only. These are the price-list cut-outs
+   filtered to the items each service handles, with the real rate under
+   each — so the section answers "what do you clean" and "what does it
+   cost" in one pass, and every figure is read from pricing.json at build
+   time rather than typed.
+
+   Framed as "what we clean", NOT as our work: they are product shots.
+   The before/after block further down the page is the work. Services with
+   no honestly matching artwork render no gallery at all.
+   ------------------------------------------------------------------------ */
+.svc-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-4);
+}
+@media (min-width: 40rem) { .svc-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 62rem) { .svc-gallery { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+
+.svc-shot {
+  margin: 0;
+  padding: var(--s-3);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  transition: border-color .18s ease, box-shadow .18s ease, translate .18s ease;
+}
+.svc-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  /* contain, not cover: the cut-outs carry their own #eee ground and baked
+     rounded corners, and cropping them clips the garment */
+  object-fit: contain;
+}
+.svc-shot figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  margin-top: var(--s-2);
+}
+.svc-shot figcaption span {
+  font-size: var(--t-sm);
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--ink-2);
+}
+.svc-shot figcaption b {
+  font-family: var(--font-display);
+  font-size: var(--t-base);
+  font-weight: 700;
+  letter-spacing: -.01em;
+  color: var(--navy-deep);
+  font-variant-numeric: tabular-nums;
+}
+.svc-shot figcaption small {
+  font-family: var(--font-sans);
+  font-size: var(--t-xs);
+  font-weight: 400;
+  color: var(--ink-3);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .svc-shot:hover {
+    border-color: var(--brand-blue);
+    box-shadow: 0 12px 26px rgba(16, 27, 46, .12);
+    translate: 0 -4px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .svc-shot { transition: none; }
+  .svc-shot:hover { translate: none; }
+}
+
+/* ============================================================
+   SERVICE DETAIL HERO — .svc-hero
+
+   Emitted ONLY by page-service-detail.html. Nothing below hangs off bare
+   .page-hero or .page-hero__grid, so page-matrix (~150 pages),
+   page-location (~10), page-blog-list, page-contact, page-policy (4) and
+   page-steam-iron are untouched. This file is the last stylesheet
+   base.html loads, so .svc-hero .page-hero__grid (0,2,0) beats
+   page.css's .page-hero__grid (0,1,0) with no !important.
+   ============================================================ */
+.svc-hero{
+  --svc-ground:#0d2350;              /* the ONE colour every keyline matches */
+  position:relative; isolation:isolate; color:#fff; overflow:clip;
+  /* Pure CSS gradient, deliberately. hero-services.svg silently drops its
+     6 <text> nodes as a background; hero-about.svg carries a baked
+     "25+ YEARS" badge with no business on a service page; and ANY
+     background-image is an LCP candidate. A gradient never is, and costs
+     zero requests. */
+  background:
+    radial-gradient(76% 118% at 88% 4%,  rgba(32,96,160,.60) 0%, rgba(32,96,160,0) 62%),
+    radial-gradient(60% 100% at 2% 100%, rgba(33,177,75,.18) 0%, rgba(33,177,75,0) 68%),
+    linear-gradient(168deg, var(--navy) 0%, var(--svc-ground) 70%);
+  border-bottom:3px solid var(--green-brand);   /* replaces page.css's 1px --line */
+  padding-block:clamp(2.5rem,1.8rem+3vw,4.25rem) clamp(2.25rem,1.6rem+2.6vw,3.75rem);
+}
+.svc-hero .crumbs{color:rgba(255,255,255,.60)}
+.svc-hero .crumbs a{color:rgba(255,255,255,.84)}
+.svc-hero .crumbs a:hover{color:#fff}
+.svc-hero .crumbs span[aria-hidden]{color:rgba(255,255,255,.36)}
+/* 48px -> 52px. NOT 56px: at 3.5rem the Bricolage swap flips
+   curtains-cleaning and sofa-cleaning between 2 and 3 lines and takes CLS
+   from ~0.0007 to ~0.022. 52px is the largest size that holds line counts
+   across all 15 headlines at 1440. */
+.svc-hero h1{color:#fff;font-size:clamp(2.25rem,1.7rem+2.2vw,3.25rem);line-height:1.04;letter-spacing:-.02em}
+/* page.css's 38rem cap is inert here — the track is only ~600px. */
+.svc-hero .lede{color:rgba(255,255,255,.82);max-width:34rem}
+.svc-hero .btn--ghost{color:#fff;border-color:rgba(255,255,255,.40);background:rgba(255,255,255,.06)}
+.svc-hero .btn--ghost:hover{border-color:#fff;background:rgba(255,255,255,.14)}
+
+/* start-aligned, so a webfont swap in column one can never re-centre the
+   artwork in column two — the CLS 0.60 lesson from the home hero. */
+@media (min-width:60rem){
+  .svc-hero .page-hero__grid{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);align-items:start}
+  .svc-hero .svc-stage{margin-top:.25rem}
+}
+
+/* ---- the stage: a fixed-ratio box, so the whole composition is laid out
+   before a single image byte arrives ---------------------------------- */
+.svc-stage{position:relative;width:100%;max-width:400px;margin-inline:auto;aspect-ratio:1/.96;z-index:1}
+@media (min-width:60rem){.svc-stage{margin-inline:auto 0}}
+.svc-stage--2{aspect-ratio:1/.88}
+.svc-stage--1{aspect-ratio:1/.82}
+
+/* TOP-anchored wash. top/left/width/height only — never bottom, never
+   translateY(-50%). */
+.svc-stage__glow{position:absolute;top:-4%;left:-10%;width:120%;height:88%;border-radius:50%;z-index:0;pointer-events:none;
+  background:radial-gradient(circle at 52% 44%, rgba(33,177,75,.24) 0%, rgba(94,168,255,.18) 40%, rgba(13,35,80,0) 70%)}
+
+.svc-card{position:absolute;margin:0}
+
+/* THE CROP IS THE WHOLE TRICK, and overflow:hidden performs it. Every
+   plate is an opaque rgb(239,239,239) square with only the corners
+   transparent — and pricing/sneakers.webp and pricing/premium-laundry.webp
+   have no alpha at all, so their corners are opaque WHITE. Cropping 4% off
+   every side deletes the baked radius, every transparent pixel and both
+   white-corner cases in ONE rule. Every gallery slug keeps >=19px (4.75%)
+   of dead ground on its tightest side, so nothing clips. The one library
+   file under 4% is kurta-heavy at 3.75%, and it is in no gallery — if it
+   is ever added, take the crop to 3%. */
+.svc-card__plate{display:block;overflow:hidden;border-radius:14px;background:#efefef;
+  /* 1) a ZERO-blur ring in the ground colour: a sticker cut, so two
+        overlapping #efefef plates read as two objects, not one grey blob.
+     2) the soft layer sits entirely OUTSIDE the plate box, so neither
+        layer doubles the contact shadow baked INSIDE the artwork. */
+  box-shadow:0 0 0 5px var(--svc-ground), 0 22px 38px -18px rgba(0,0,0,.75)}
+/* width 108% + margin -4% (percentages resolve against the parent's width)
+   keeps the parent square and bleeds 4% off each edge. */
+.svc-card__plate img{display:block;width:108%;height:auto;margin:-4%}
+
+/* ---- the three compositions. Rotation is capped at 6deg on purpose:
+   each plate carries its own BAKED contact shadow, so rotating a card
+   rotates its light source. Past ~6deg three cards light from three
+   directions. */
+.svc-stage--3 .svc-card--1{width:54%;left:1%; top:1%; z-index:3;transform:rotate(-4deg)}
+.svc-stage--3 .svc-card--2{width:43%;left:55%;top:23%;z-index:4;transform:rotate(5deg)}
+.svc-stage--3 .svc-card--3{width:36%;left:16%;top:57%;z-index:2;transform:rotate(-6deg)}
+
+.svc-stage--2 .svc-card--1{width:55%;left:0;  top:2%; z-index:3;transform:rotate(-4deg)}
+.svc-stage--2 .svc-card--2{width:45%;left:52%;top:34%;z-index:4;transform:rotate(5deg)}
+
+.svc-stage--1 .svc-card--1   {width:52%;left:5%; top:3%; z-index:3;transform:rotate(-4deg)}
+.svc-stage--1 .svc-card--mark{width:34%;left:56%;top:36%;z-index:2;transform:rotate(5deg)}
+
+/* ---- the universal chip. Its value comes from price_index[gallery[0]] —
+   the SAME object that feeds offers.price in the JSON-LD — so the visible
+   price and the structured data cannot disagree. */
+.svc-stage__chip{
+  position:absolute;left:-.55rem;bottom:-.5rem;z-index:6;margin:0;
+  display:inline-flex;align-items:baseline;gap:.4em;white-space:nowrap;
+  padding:.4rem .9rem;border-radius:999px;
+  background:var(--paper);color:var(--navy-deep);
+  border:1px solid var(--brass);
+  font-family:var(--font-display);font-weight:600;font-size:1rem;line-height:1.15;
+  box-shadow:0 0 0 4px var(--svc-ground)}
+.svc-stage__chip span{font-family:var(--font-mono);font-weight:500;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--brass-deep)}
+.svc-stage__chip small{font-weight:400;font-size:.68rem;opacity:.85}
+
+/* On the mark-only branch the stage is content-height, so the chip must
+   NOT be bottom-anchored inside it — that is the anchoring failure the
+   home page paid 0.60 CLS for. column-reverse puts the chip (last in DOM)
+   above the card, in normal flow, where it cannot shift anything. */
+.svc-stage--mark{position:relative;display:flex;flex-direction:column-reverse;align-items:flex-start;gap:var(--s-4);aspect-ratio:auto;max-width:400px}
+.svc-stage--mark .svc-stage__chip{position:static;margin:0}
+.svc-stage--proof .svc-stage__chip{left:auto;right:-.35rem;bottom:-1.1rem}
+
+/* ---- the mark card: service_bg() as SUBJECT, which means undoing every
+   watermark rule it was authored with. It is the purpose-drawn 160-unit
+   scene that exists for all 15 slugs — the mattress with pillow, the
+   handbag with its dashed stitch line, the plush toy with bubbles. Inline
+   SVG: no request, never an LCP candidate. */
+.svc-card--mark{
+  display:grid;gap:var(--s-4);align-content:center;padding:var(--s-5);
+  border:1px solid rgba(255,255,255,.28);border-radius:14px;
+  background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.035));
+  box-shadow:0 0 0 5px var(--svc-ground), 0 22px 38px -18px rgba(0,0,0,.75)}
+.svc-card__art{display:block;line-height:0}
+
+/* service_bg() emits class="svc__bg", which this file styles as a
+   bottom-right card WATERMARK (absolute, right:-5%, 11% opacity, a mask
+   and a 420ms transition). Here it is the subject, so all of it is undone.
+   The descendant selector is (0,2,0) and every watermark rule is (0,1,0),
+   so this wins in every media query regardless of source order — no
+   !important, and no edit to the rules the services grid depends on. */
+.svc-card__art .svc__bg{
+  position:static;right:auto;bottom:auto;
+  width:100%;max-width:none;height:auto;
+  color:#8fd9a8;opacity:.92;stroke-width:2.2;
+  transform:none;transition:none;
+  -webkit-mask-image:none;mask-image:none}
+
+/* solo state — mattress, bag, toy */
+.svc-stage--mark .svc-card--solo{position:static;width:100%;padding:var(--s-6)}
+.svc-card--solo .svc-card__art{max-width:15rem;margin-inline:auto}
+.svc-card__specs{list-style:none;margin:0;padding:0;display:grid;gap:.5rem}
+.svc-card__specs li{position:relative;padding-left:1.35rem;font-size:var(--t-sm);line-height:1.45;color:rgba(255,255,255,.90)}
+.svc-card__specs li::before{content:"";position:absolute;left:0;top:.45em;width:.55rem;height:.55rem;border-radius:2px;background:var(--green-brand)}
+
+/* companion state — carpet, curtains, accessories */
+.svc-stage--1 .svc-card--mark{display:grid;place-items:center;padding:11%}
+.svc-stage--1 .svc-card--mark .svc__bg{opacity:.85}
+
+/* ---- the proof branch: shoe-cleaning and sofa-cleaning keep real
+   evidence in the hero, in the same card language as the plates. */
+.svc-stage--proof{max-width:320px;aspect-ratio:auto}
+@media (min-width:60rem){.svc-stage--proof{margin-inline:auto 0}}
+.svc-proof .ba{margin:0}
+
+/* THE FIX THAT MATTERS. --ba-ratio is set in an INLINE style attribute on
+   the .ba element itself, and no stylesheet rule beats an inline custom
+   property. A rule written as `.svc-proof .ba{--ba-ratio:...}` therefore
+   does NOTHING and the frame silently keeps 760/710. Declaring it on
+   .ba__frame — which only INHERITS the inline value — is what actually
+   wins, because a direct declaration beats an inherited one. 16/10 at
+   320px = 64,000px2, below the smallest lede on either page, so the
+   photograph can no longer take LCP. */
+.svc-stage--proof .ba__frame{
+  --ba-ratio:16/10;
+  border-radius:14px;
+  box-shadow:0 0 0 5px var(--svc-ground), 0 22px 38px -18px rgba(0,0,0,.75)}
+
+/* ui.css already sets object-fit:cover on .ba__img, so re-framing crops
+   rather than squashes. --ba-inset comes from proof.json's "inset": 1.09
+   on the sofa pair only, applied IDENTICALLY to both frames so the wipe
+   stays dimension-locked; it removes the white crescent a circular crop
+   bit out of the source. transform:scale is compositor-only. */
+.svc-stage--proof .ba__img{object-position:center 62%;transform:scale(var(--ba-inset,1))}
+
+.svc-stage--proof .ba__label{background:rgba(13,35,80,.82);color:#fff}
+.svc-stage--proof .ba__caption{color:rgba(255,255,255,.74)}
+.svc-stage--proof .ba__caption strong{color:#fff}
+
+/* ---- phones. The stage follows the copy and sits AFTER the CTAs, so the
+   buttons never move down the screen; the cost is paid below the fold. */
+@media (max-width:59.99rem){
+  .svc-stage{max-width:260px;margin:2rem auto 0}
+  .svc-stage--proof{max-width:none;margin-inline:0}
+  .svc-stage--mark{max-width:none}
+  .svc-card__plate{border-radius:11px;box-shadow:0 0 0 4px var(--svc-ground), 0 14px 26px -14px rgba(0,0,0,.7)}
+  .svc-card--mark{box-shadow:0 0 0 4px var(--svc-ground), 0 14px 26px -14px rgba(0,0,0,.7)}
+  .svc-card--solo .svc-card__art{max-width:11rem}
+  .svc-stage__chip{font-size:.9rem}
+  .svc-hero .lede{max-width:none}
+}
+
+/* ---- motion: opacity + transform only, gated on .js so a no-JS render
+   shows the final state, and wrapped in no-preference so under `reduce` no
+   animation rule EXISTS rather than being overridden later. will-change is
+   deliberately omitted — three permanent compositor layers on every
+   service page is not worth a 520ms entrance. */
+@media (prefers-reduced-motion:no-preference){
+  .js .svc-card{animation:svcIn .52s cubic-bezier(.22,.7,.3,1) both}
+  .js .svc-card--1{animation-delay:.04s}
+  .js .svc-card--2{animation-delay:.12s}
+  .js .svc-card--3,
+  .js .svc-stage--1 .svc-card--mark{animation-delay:.20s}
+  .js .svc-stage__chip{animation:svcIn .5s .26s cubic-bezier(.22,.7,.3,1) both}
+  .js .svc-stage__glow{animation:svcFade .9s ease-out both}
+}
+/* Only a from-keyframe: the implicit to-keyframe is the element's own
+   underlying transform, so each card settles into its own rotation rather
+   than being flattened to none. */
+@keyframes svcIn{from{opacity:0;transform:translateY(14px) scale(.96)}}
+@keyframes svcFade{from{opacity:0}}
+
+/* ---- Method comparison table (service pages that define `comparison`) ---
+   Rides .svc-menu, already styled and already responsive-scrolled by
+   .svc-table-wrap. Only the row-header column and the note are new. */
+.svc-compare th[scope="row"]{
+  text-align:left;
+  font-weight:700;
+  color:var(--navy);
+  white-space:nowrap;
+}
+/* Column 2 is what we actually use, so it carries the emphasis. */
+.svc-compare tbody td:first-of-type{color:var(--ink);font-weight:500}
+.svc-compare tbody td:last-child{color:var(--ink-3)}
+.svc-table__note{
+  margin:var(--s-5) auto 0;
+  max-width:70ch;
+  font-size:var(--t-sm);
+  line-height:1.6;
+  color:var(--ink-3);
+}
+
+/* ---- Matrix sibling links -------------------------------------------- */
+.matrix-links { display: grid; gap: var(--s-8); }
+@media (min-width: 56rem) { .matrix-links { grid-template-columns: 1fr 1fr; gap: var(--s-7); } }
+.matrix-links h2 { font-size: var(--t-lg); margin-bottom: var(--s-4); }
+
+
+/* ============================================================
+   Service PHOTO cards — the image showcase (2026 imagery pass).
+
+   One pattern for all fifteen: a large photo header on the shared
+   studio tone (3:2, graded, 16px frame), text below on a clean
+   surface. Hover: the classic premium move — the image scales 1.04
+   inside its clipped frame over 400ms while the card lifts 2px.
+
+   The three services without honest photography yet (bag, toy,
+   mattress) take the same frame with their line icon on the tone —
+   a designed system state, not a wrong-object stock photo.
+   ============================================================ */
+.svc--photo {
+  padding: 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.svc__media {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 3 / 2;
+  background: var(--photo-tone);
+  border-bottom: 1px solid var(--line-soft);
+  overflow: hidden;
+}
+.svc__media img {
+  width: 86%;
+  height: 86%;
+  object-fit: contain;
+  border-radius: var(--r-sm);
+  filter: var(--photo-grade);
+  transition: transform 400ms ease;
+}
+.svc__media--tonal { color: var(--navy); }
+.svc__media--tonal svg { width: 2.75rem; height: 2.75rem; opacity: .8; }
+
+.svc--photo:hover .svc__media img,
+.svc--photo:focus-within .svc__media img { transform: scale(1.04); }
+
+.svc__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  flex: 1;
+}
+.svc__body p { flex: 1; color: var(--ink-2); font-size: var(--t-sm); line-height: 1.6; }
+
+/* On the navy band the card headings keep their own ink (the cards are
+   light islands); svc-band rules in redesign-home already handle this. */
+
+@media (prefers-reduced-motion: reduce) {
+  .svc__media img { transition: none; }
+  .svc--photo:hover .svc__media img,
+  .svc--photo:focus-within .svc__media img { transform: none; }
+}
+@media (forced-colors: active) {
+  .svc__media { border-bottom: 1px solid CanvasText; }
+}
+
+/* Tables: larger, easier-to-read text everywhere (client request) */
+.svc-menu th, .svc-menu td, .svc-table th, .svc-table td, .price-table th, .price-table td,
+.area-table th, .area-table td, .pkg-table th, .pkg-table td, .ov-table th, .ov-table td,
+.prod-table th, .prod-table td { font-size: 1.0625rem; line-height: 1.55; }
+.svc-menu thead th, .svc-table thead th, .price-table thead th, .area-table thead th,
+.pkg-table thead th, .ov-table thead th, .prod-table thead th { font-size: .95rem; }
+.svc-menu th[scope="row"], .prod-table th[scope="row"] { font-size: 1.1rem; font-weight: 700; }
+
+
+/* Services hero: the family photograph replaces the blue artwork band. Copy sits
+   on a light ground above it; the photo is the banner. */
+.services-hero { background: var(--wash, #f3f7fb); color: var(--navy-deep, #0d2350); border-bottom: 0; }
+.services-hero .crumbs, .services-hero .crumbs a { color: var(--navy, #14336b); }
+.services-hero .crumbs span[aria-hidden] { color: rgba(20, 51, 107, .4); }
+.services-hero .eyebrow { color: var(--navy, #14336b); }
+.services-hero h1 { color: var(--navy-deep, #0d2350); }
+.services-hero .lede { color: #334a6b; }
+.services-hero .crumbs, .services-hero .eyebrow, .services-hero h1, .services-hero .lede { max-width: none; }
+.services-hero .lede { max-width: 48rem; }
+.services-hero__photo { margin: clamp(1.5rem, 3vw, 2.5rem) 0 0; border-radius: var(--r-lg, 1rem); overflow: hidden; box-shadow: 0 20px 44px rgba(13, 35, 80, .22); }
+.services-hero__photo img { display: block; width: 100%; height: auto; }
+.services-hero .btn--ghost { color: var(--navy, #14336b); border-color: rgba(20, 51, 107, .35); background: #fff; }
+.services-hero .btn--ghost:hover { border-color: var(--navy, #14336b); background: var(--navy-tint, #e9edf6); }
+.services-hero .page-hero__grid { display: grid; gap: clamp(1.5rem, 3vw, 2.5rem); align-items: center; }
+@media (min-width: 62rem) { .services-hero .page-hero__grid { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); } }
+.services-hero__photo { margin: 0; }

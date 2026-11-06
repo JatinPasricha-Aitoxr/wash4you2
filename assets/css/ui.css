@@ -1,0 +1,971 @@
+/* ============================================================
+   Wash4You — UI components
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   Buttons
+   ------------------------------------------------------------ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  /* 48px min height — comfortably over the 44px touch floor */
+  min-height: 3rem;
+  padding: 0.8125rem 1.5rem;
+  /* The one radius — buttons hold the same 16px as cards and images. */
+  border-radius: var(--r-lg);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: background-color 200ms ease,
+              border-color 200ms ease,
+              color 200ms ease,
+              box-shadow 200ms ease,
+              translate 200ms ease;
+}
+/* Small, honest hover lift. `translate`, never `transform` — the reveal
+   layer owns transform for stagger targets. */
+.btn:hover { translate: 0 -1px; }
+@media (prefers-reduced-motion: reduce) {
+  .btn:hover { translate: none; }
+}
+
+.btn svg { width: 1.125rem; height: 1.125rem; flex: none; }
+
+.btn--cta {
+  background: var(--green-cta);
+  color: #fff;
+  box-shadow: var(--shadow-cta);
+}
+.btn--cta:hover { background: var(--green-deep); }
+.btn--cta:active { background: var(--green-deep); }
+
+.btn--navy { background: var(--navy); color: #fff; }
+.btn--navy:hover { background: var(--navy-deep); }
+
+.btn--ghost {
+  background: transparent;
+  color: var(--navy);
+  border-color: var(--line);
+}
+.btn--ghost:hover { border-color: var(--navy); background: var(--navy-tint); }
+
+.btn--on-navy {
+  background: rgba(255,255,255,.10);
+  color: #fff;
+  border-color: rgba(255,255,255,.28);
+}
+.btn--on-navy:hover { background: rgba(255,255,255,.18); border-color: rgba(255,255,255,.5); }
+
+.btn--lg { min-height: 3.5rem; padding: 1rem 2rem; font-size: 1.0625rem; }
+.btn--block { width: 100%; }
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+}
+@media (max-width: 30rem) {
+  .btn-row { flex-direction: column; }
+  .btn-row .btn { width: 100%; }
+}
+
+/* Text link that reads as an action */
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-weight: 600;
+  color: var(--navy);
+  border-bottom: 2px solid transparent;
+  transition: border-color 180ms var(--ease-out);
+}
+.link-arrow:hover { border-bottom-color: var(--brass); }
+.link-arrow svg { width: 1rem; height: 1rem; }
+
+/* ------------------------------------------------------------
+   The care label — the site's signature structural device.
+   A small woven tag carrying the real care symbols for a service.
+   ------------------------------------------------------------ */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 0.3125rem 0.75rem;
+  background: var(--wash-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+.tag__symbols {
+  display: inline-flex;
+  gap: 0.3125rem;
+  align-items: center;
+}
+.tag__symbols svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  stroke: var(--ink-3);
+  fill: none;
+  stroke-width: 1.5;
+}
+
+/* Variant hooks kept for the templates that pass them; both resolve to
+   the same muted chip so the page holds one chip voice. */
+.tag--green { border-color: var(--line); }
+.tag--green .tag__symbols svg { stroke: var(--ink-3); }
+
+.tag--on-navy {
+  background: rgba(255,255,255,.07);
+  border-color: rgba(255,255,255,.2);
+  color: rgba(255,255,255,.72);
+}
+.tag--on-navy .tag__symbols svg { stroke: rgba(255,255,255,.72); }
+
+/* ------------------------------------------------------------
+   Before / after — the proof mechanic.
+
+   Structure: the AFTER image is the base layer at full width. The
+   BEFORE image sits in a clipped overlay whose width is driven by
+   --pos. A real <input type=range> is the control, so keyboard and
+   screen-reader support come for free rather than being bolted on.
+
+   With JS disabled --pos stays at its CSS default of 50%, which
+   degrades to a clean split view with both alt texts intact.
+   ------------------------------------------------------------ */
+
+.ba {
+  --pos: 50%;
+  margin: 0;
+}
+
+.ba__frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  background: var(--wash-2);
+  box-shadow: var(--shadow-lg);
+  /* a hairline so the frame has an edge before the images decode */
+  outline: 1px solid rgba(16, 27, 46, .08);
+  outline-offset: -1px;
+  /* set inline from the asset's real dimensions — reserves space, no CLS */
+  aspect-ratio: var(--ba-ratio, 16 / 9);
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  /* the clipped before-image can size to 100cqw of this frame as a pure-CSS
+     fallback, so the split aligns before ba.js runs (or with JS off) */
+  container-type: inline-size;
+}
+
+.ba__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  filter: var(--photo-grade);
+}
+
+.ba__clip {
+  position: absolute;
+  inset: 0;
+  width: var(--pos);
+  overflow: hidden;
+  pointer-events: none;
+}
+/* the clipped child must stay the width of the FRAME, not the clip,
+   or the before image squashes as the divider moves */
+.ba__clip .ba__img { width: var(--ba-frame-w, 100cqw); max-width: none; }
+
+.ba__divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--pos);
+  width: 2px;
+  margin-left: -1px;
+  background: rgba(255, 255, 255, .95);
+  box-shadow: 0 0 0 1px rgba(13, 35, 80, .14), 0 0 12px rgba(13, 35, 80, .18);
+  pointer-events: none;
+}
+
+.ba__knob {
+  position: absolute;
+  top: 50%;
+  left: var(--pos);
+  transform: translate(-50%, -50%);
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  /* The designed grip: accent fill, white glyph, hairline ring. */
+  background: var(--brass-deep);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .28),
+    0 1px 2px rgba(13, 35, 80, .18),
+    0 8px 20px rgba(13, 35, 80, .30);
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  color: #fff;
+}
+.ba__knob svg { width: 1.25rem; height: 1.25rem; }
+
+/* The real control. Invisible, full-bleed, fully operable. */
+.ba__range {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: ew-resize;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+.ba__range::-webkit-slider-thumb { -webkit-appearance: none; width: 3rem; height: 100%; }
+.ba__range::-moz-range-thumb { width: 3rem; height: 100%; border: 0; opacity: 0; }
+.ba__range:focus-visible ~ .ba__knob {
+  outline: 3px solid var(--navy);
+  outline-offset: 3px;
+}
+
+.ba__label {
+  position: absolute;
+  top: var(--s-3);
+  z-index: 2;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--r-pill);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #fff;
+  pointer-events: none;
+}
+.ba__label--before { left: var(--s-3); background: rgba(16,27,46,.78); }
+.ba__label--after  { right: var(--s-3); background: var(--brass-deep); }
+
+.ba__caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-2) var(--s-4);
+  margin-top: var(--s-4);
+}
+.ba__caption strong { font-weight: 700; color: var(--ink); }
+.ba__caption span { font-family: var(--font-mono); font-size: var(--t-xs); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+
+/* Static pair — used when two source panels are not co-aligned
+   and a drag slider would misrepresent them. */
+.ba-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; border-radius: var(--r-lg); overflow: hidden; }
+.ba-pair figure { position: relative; margin: 0; }
+.ba-pair img { width: 100%; aspect-ratio: 1 / 1.6; object-fit: cover; filter: var(--photo-grade); }
+
+/* ------------------------------------------------------------
+   Promise strip — the four brand promises
+   ------------------------------------------------------------ */
+
+.promises {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+@media (min-width: 56rem) { .promises { grid-template-columns: repeat(4, 1fr); } }
+
+.promise {
+  background: var(--paper);
+  padding: var(--s-5) var(--s-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+.promise__icon {
+  width: 2rem; height: 2rem;
+  color: var(--navy);
+  margin-bottom: var(--s-1);
+}
+.promise__icon svg { width: 100%; height: 100%; }
+.promise h3 {
+  font-size: 0.9375rem;
+  font-family: var(--font-sans);
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.promise p { font-size: var(--t-sm); color: var(--ink-3); line-height: 1.45; }
+
+/* ------------------------------------------------------------
+   Service cards
+   ------------------------------------------------------------ */
+
+/* Two-up from the smallest phone: a single column of service/blog cards
+   read as a plain list. minmax(0, 1fr), not a bare 1fr, so a card's own
+   content can never force it wider than its column share. */
+.svc-grid {
+  display: grid;
+  gap: var(--s-3) var(--s-4);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (min-width: 64rem) { .svc-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.svc {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-6) var(--s-5);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  transition: border-color 200ms ease, box-shadow 200ms ease, translate 200ms ease;
+}
+.svc:hover { border-color: var(--brass); box-shadow: var(--shadow-md); translate: 0 -2px; }
+.svc:focus-within { border-color: var(--brass); }
+@media (prefers-reduced-motion: reduce) {
+  .svc:hover { translate: none; }
+}
+
+.svc__icon { width: 2.25rem; height: 2.25rem; color: var(--navy); }
+.svc__icon svg { width: 100%; height: 100%; }
+
+.svc h3 { font-size: var(--t-lg); }
+
+/* the whole card is clickable, but the link text stays the a11y target */
+.svc__link::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
+
+.svc p { font-size: var(--t-base); color: var(--ink-3); line-height: 1.55; flex: 1; }
+.svc .tag { align-self: flex-start; }
+
+/* Two-up on a phone means each card is ~150-180px wide — tighten padding
+   and type so the title, blurb and care tag still fit without the card
+   feeling cramped. */
+@media (max-width: 30rem) {
+  .svc { padding: var(--s-4) var(--s-3); gap: var(--s-2); }
+  .svc h3 { font-size: var(--t-base); }
+  .svc p { font-size: var(--t-sm); }
+}
+
+/* ------------------------------------------------------------
+   Process steps — a genuine sequence, so numbering carries meaning
+   ------------------------------------------------------------ */
+
+.steps { display: grid; gap: var(--s-5); counter-reset: step; }
+@media (min-width: 52rem) { .steps { grid-template-columns: repeat(3, 1fr); gap: var(--s-6); } }
+
+.step { position: relative; padding-top: var(--s-6); }
+.step::before {
+  counter-increment: step;
+  content: counter(step, decimal-leading-zero);
+  position: absolute;
+  top: 0; left: 0;
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  font-weight: 500;
+  letter-spacing: .12em;
+  color: var(--brass-deep);
+}
+.step::after {
+  content: '';
+  position: absolute;
+  top: 0.4rem; left: 2.5rem; right: 0;
+  height: 1px;
+  background: var(--line);
+}
+.step:last-child::after { display: none; }
+@media (max-width: 51.99rem) { .step::after { display: none; } }
+
+.step h3 { font-size: var(--t-lg); margin-bottom: var(--s-2); }
+.step p { font-size: var(--t-sm); color: var(--ink-3); }
+
+/* ------------------------------------------------------------
+   Reviews — real faces, real quotes
+   ------------------------------------------------------------ */
+
+.review-rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(17.5rem, 20rem);
+  gap: var(--s-4);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-bottom: var(--s-2);
+  /* let cards bleed to the screen edge on mobile */
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--gutter);
+}
+.review-rail::-webkit-scrollbar { display: none; }
+.review-rail > * { scroll-snap-align: start; }
+
+.review {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  height: 100%;
+}
+
+/* ---- Photo testimonial card (2026 imagery pass) --------------------
+   The photographed-at-the-door shots ARE the content: a full-width
+   1:1 graded photo header, then stars, the serif quote, and the
+   attribution below on a clean surface. The tiny avatar is retired —
+   the photo is the person. */
+.review--photo { padding: 0; overflow: hidden; }
+.review__photo {
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--photo-tone);
+}
+.review__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: var(--photo-grade);
+  transition: transform 400ms ease;
+}
+.review--photo:hover .review__photo img { transform: scale(1.04); }
+.review--photo .review__stars,
+.review--photo .review__quote,
+.review--photo .review__more { margin-inline: var(--s-5); }
+.review--photo .review__stars { margin-top: var(--s-4); }
+.review--photo .review__who {
+  margin: 0;
+  padding: var(--s-3) var(--s-5) var(--s-5);
+}
+@media (prefers-reduced-motion: reduce) {
+  .review__photo img { transition: none; }
+  .review--photo:hover .review__photo img { transform: none; }
+}
+
+.review__stars { display: flex; gap: 2px; color: var(--amber); }
+.review__stars svg { width: 1rem; height: 1rem; fill: currentColor; }
+
+.review blockquote {
+  font-family: var(--font-display);
+  font-size: var(--t-md);
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--ink);
+  font-weight: 500;
+  flex: 1;
+}
+
+/* ---- Short cards + read-more -------------------------------------------
+   The cards were as tall as their longest quote, and one 143-character
+   review set the height for all nine. The quote is clamped to three lines
+   and the rest moves into a popup.
+
+   Gated on `.js`. Without the bundle there is no popup to open, so
+   clamping would make the tail of a long review unreachable — no-JS gets
+   the full quote and a taller card, which is the correct trade.
+
+   `flex: 0 1 auto` overrides the `flex: 1` above: with flex-grow the
+   clamped block still stretched to fill the card and the saving vanished. */
+.js .review__quote {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  flex: 0 1 auto;
+}
+
+/* Pushes .review__who to the bottom now that the quote no longer grows. */
+.js .review__who { margin-top: auto; }
+
+.review__more {
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: var(--t-base);
+  font-weight: 700;
+  color: var(--brand-blue);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.review__more:hover { color: var(--navy); }
+
+/* The whole card is tappable (reviewModal.js), so show the affordance on
+   the card rather than only on the 80px of underlined text. */
+.review.is-clamped { cursor: pointer; }
+.review.is-clamped:hover .review__more { color: var(--navy); }
+
+/* ---- Review popup ----
+   A native <dialog>, built once by reviewModal.js and reused for every
+   card, so nine reviews do not mean nine hidden copies in the HTML. */
+.review-dialog {
+  width: min(34rem, calc(100vw - 2rem));
+  max-height: min(80vh, 40rem);
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 24px 60px rgba(16, 27, 46, 0.28);
+  overflow: hidden;
+}
+.review-dialog::backdrop { background: rgba(16, 27, 46, 0.55); }
+.review-dialog__body {
+  padding: var(--s-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  overflow-y: auto;
+  max-height: min(80vh, 40rem);
+}
+.review-dialog__body .review__quote,
+.review-dialog blockquote {
+  /* Never clamped in the popup — that is the whole point of it. */
+  display: block;
+  -webkit-line-clamp: none;
+  overflow: visible;
+  font-family: var(--font-display);
+  font-size: var(--t-lg);
+  font-weight: 500;
+  line-height: 1.55;
+  margin: 0;
+}
+.review-dialog__close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--wash-2);
+  color: var(--ink-2);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.review-dialog__close:hover { background: var(--line); color: var(--ink); }
+
+/* ---- Review hover: a quiet lift --------------------------------------
+   Gated on real hover so a tap on a phone cannot leave a card stuck in
+   its hover state. The card rises 2px and the shadow deepens; nothing
+   inverts, nothing floods with colour.
+   ------------------------------------------------------------------------ */
+@media (hover: hover) and (pointer: fine) {
+  .review {
+    transition:
+      border-color 200ms ease,
+      box-shadow 200ms ease,
+      translate 200ms ease;
+  }
+
+  .review:hover,
+  .review:focus-within {
+    border-color: var(--brass);
+    box-shadow: var(--shadow-md);
+    translate: 0 -2px;
+  }
+
+  /* The video card is a photo tile — it keeps its own poster hover. */
+  .review--video:hover,
+  .review--video:focus-within {
+    border-color: var(--line);
+    box-shadow: none;
+    translate: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .review { transition: border-color 150ms linear, box-shadow 150ms linear; }
+  .review:hover, .review:focus-within { translate: none; }
+}
+
+/* ---- Pinned video + scrolling reviews ----------------------------------
+   Card one sits on the left and never moves; cards two to n scroll as a
+   carousel beside it. Two independent tracks, at EVERY width.
+
+   The pinned card is deliberately NOT a child of .review-rail — inside the
+   scroll container it would scroll away with the quotes, and
+   `position: sticky` would keep it visible only by having the other cards
+   slide underneath it.
+   ------------------------------------------------------------------------ */
+.reviews-split {
+  display: grid;
+  /* Percentage on the first track, not a fixed rem: on a 390px phone a fixed
+     21rem column leaves the rail ~90px. 40% keeps both tracks usable, and
+     min() caps the card once there is room so it never becomes a billboard. */
+  grid-template-columns: min(40%, 21rem) minmax(0, 1fr);
+  gap: var(--s-4);
+  align-items: stretch;
+}
+@media (min-width: 62rem) {
+  /* 21rem matches the rail's own card width, so the pinned card reads as one
+     of the set rather than a sidebar. */
+  .reviews-split { grid-template-columns: 21rem minmax(0, 1fr); gap: var(--s-5); }
+}
+
+/* .review-rail bleeds to BOTH screen edges with a negative inline margin. The
+   left bleed would slide the first quote under the pinned card, so only the
+   right one survives here — that is also what makes the next card peek. */
+.reviews-split .review-rail {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+/* The rail's default track is minmax(17.5rem, 20rem) — 280px minimum, which
+   is wider than the whole rail column on a phone once 40% has gone to the
+   pinned card. Sizing the track off the column instead keeps exactly one
+   quote in view with the next one peeking. */
+@media (max-width: 61.99rem) {
+  /* A single value, not minmax(0, 92%): minmax sizes to max-content clamped
+     into the range, and with a 0 floor every track collapsed to its
+     min-content width — 50px cards. */
+  .reviews-split .review-rail { grid-auto-columns: 92%; }
+}
+
+/* align-items: stretch gives this column the row's height; the card fills it,
+   so the pinned card and the rail cards always end on the same line.
+
+   padding-bottom mirrors .review-rail's own --s-2 scrollbar gutter. Without
+   it the rail's cards sit 8px shorter than the pinned card and the two
+   columns end on different lines. */
+.reviews-pinned {
+  display: flex;
+  min-width: 0;
+  padding-bottom: var(--s-2);
+}
+.reviews-pinned .review { width: 100%; }
+
+/* Tablet — the card still fits its caption, just tighter. */
+@media (min-width: 48rem) and (max-width: 61.99rem) {
+  .reviews-pinned .review__play { min-height: 8rem; }
+  .reviews-pinned .review__who { padding: var(--s-3) var(--s-4) var(--s-4); }
+}
+
+/* Phone — poster only. At ~140px of card width the caption wrapped to four
+   lines and "ON LOCATION, GURUGRAM" broke across three, which pushed the
+   whole row to 310px tall to accommodate text nobody can comfortably read.
+   The card becomes a pure video tile: the title still reaches screen readers
+   through the play button's aria-label, and it is shown in the popup.
+
+   The pinned track also drops to 33% here so the quote beside it gets a
+   usable measure. */
+@media (max-width: 47.99rem) {
+  .reviews-split { grid-template-columns: min(33%, 11rem) minmax(0, 1fr); }
+  .reviews-pinned .review__who { display: none; }
+  .reviews-pinned .review__play { min-height: 100%; }
+  /* Cover the whole tile rather than a band: with the full card height to
+     work with, the 9:16 frame is close to its native shape. */
+  .reviews-pinned .review__poster { object-position: center 38%; }
+  /* 3.25rem covered a third of a 117px-wide tile. */
+  .reviews-pinned .review__play-badge { width: 2.5rem; height: 2.5rem; }
+  .reviews-pinned .review__play-badge svg { width: 16px; height: 16px; }
+}
+
+/* ---- Video review card (pinned first in the rail) ----------------------
+   Same shell as a text review so the rail stays visually uniform: same
+   width, same border, same height. Only the contents differ. */
+.review--video { padding: 0; overflow: hidden; }
+
+/* The poster is a button, not a decorated div — it is the control that
+   opens the player, so it must be focusable and announced as such. */
+.review__play {
+  position: relative;
+  display: block;
+  width: 100%;
+  /* flex-basis 0 + min-height, NOT `flex: 1` alone. The poster is 1080x1920,
+     so with an auto basis the button's intrinsic height was the image's and
+     the video card set the height of the whole rail — every text card went
+     from 262px to 603px. The poster is taken out of flow below, which leaves
+     this button with no intrinsic height at all: the row is sized by the text
+     cards, and the poster fills whatever height the button is given.
+     min-height is the floor for the case where a rail holds only videos. */
+  flex: 1 1 0;
+  min-height: 7rem;
+  padding: 0;
+  border: 0;
+  background: var(--navy-deep);
+  cursor: pointer;
+  overflow: hidden;
+}
+.review__poster {
+  /* Absolute so its 9:16 intrinsic size never feeds back into the layout. */
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* The Short is 9:16 and the card is landscape, so only a horizontal band of
+     the frame survives. 44% down is where a talking-head vertical puts the
+     subject's face — 32% cut through the burnt-in caption instead. A generic
+     default: override per video only if one crops badly. */
+  object-position: center 44%;
+  filter: var(--photo-grade);
+  transition: transform 320ms var(--ease-out);
+}
+.review--video:hover .review__poster { transform: scale(1.04); }
+
+.review__play-badge {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 3.25rem;
+  height: 3.25rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  /* YouTube red is recognisable and unambiguous as "video" here; it is a
+     non-text mark, so it carries no contrast requirement of its own. */
+  background: #ff0033;
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  padding-left: 3px;   /* optical centring — a triangle's visual mass sits left */
+  transition: transform 200ms var(--ease-out);
+}
+.review--video:hover .review__play-badge { transform: scale(1.08); }
+
+/* The attribution row sits back inside the padding the card gave up. */
+.review--video .review__who {
+  margin: 0;
+  padding: var(--s-4) var(--s-5) var(--s-5);
+}
+.review__video-mark { color: #ff0033; display: inline-flex; flex: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .review__poster, .review__play-badge { transition: none; }
+  .review--video:hover .review__poster,
+  .review--video:hover .review__play-badge { transform: none; }
+}
+
+/* ---- The player, inside the popup ----
+   9:16 so a Short is never letterboxed, capped by height so it cannot grow
+   past the viewport on a laptop. */
+.review-dialog__video {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  width: 100%;
+  max-height: 70vh;
+  margin-inline: auto;
+  background: #000;
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+.review-dialog__video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+/* A vertical video in a 34rem-wide dialog would be taller than any screen,
+   so the video popup is narrower than the quote popup. */
+.review-dialog--video { width: min(24rem, calc(100vw - 2rem)); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .review-dialog[open] { animation: review-pop 180ms var(--ease-out); }
+  @keyframes review-pop {
+    from { opacity: 0; transform: translateY(8px) scale(0.98); }
+    to   { opacity: 1; transform: none; }
+  }
+}
+
+.review__who { display: flex; align-items: center; gap: var(--s-3); margin-top: var(--s-2); }
+.review__who img {
+  width: 2.75rem; height: 2.75rem;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--wash-2);
+}
+.review__name { font-weight: 700; color: var(--ink); font-size: 0.9375rem; line-height: 1.25; }
+.review__meta {
+  display: flex; align-items: center; gap: var(--s-1);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs); letter-spacing: .08em; text-transform: uppercase;
+  color: var(--brass-deep);
+}
+.review__meta svg { width: 0.875rem; height: 0.875rem; }
+
+.rail-nav { display: flex; gap: var(--s-2); }
+.rail-nav button {
+  width: 2.75rem; height: 2.75rem;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  color: var(--navy);
+  display: grid; place-items: center;
+  transition: border-color 180ms var(--ease-out), background-color 180ms var(--ease-out);
+}
+.rail-nav button:hover { border-color: var(--navy); background: var(--navy-tint); }
+.rail-nav svg { width: 1.125rem; height: 1.125rem; }
+
+/* ui.js sets `disabled` on these at the ends of the rail. Without a visual
+   state a disabled arrow looks identical to a live one and simply ignores
+   clicks. Listed after :hover so it also cancels it. */
+.rail-nav button[disabled] {
+  opacity: .35;
+  pointer-events: none;
+  cursor: default;
+  border-color: var(--line);
+  background: none;
+}
+
+/* ------------------------------------------------------------
+   FAQ — hook names preserved for the motion layer
+   ------------------------------------------------------------ */
+
+.faq { border-top: 1px solid var(--line); }
+.faq-item { border-bottom: 1px solid var(--line); }
+
+.faq-item__question {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding: var(--s-5) 0;
+  text-align: left;
+  font-family: var(--font-sans);
+  font-size: var(--t-md);
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.faq-item__icon {
+  flex: none;
+  width: 1.5rem; height: 1.5rem;
+  margin-top: 0.15rem;
+  color: var(--navy);
+  transition: transform 240ms var(--ease-out);
+}
+.faq-item.is-open .faq-item__icon { transform: rotate(45deg); }
+
+/* Disclosure is pure CSS: a 0fr -> 1fr grid row animates to the content's
+   real height with no JS measurement at all. ui.js only toggles .is-open and
+   the aria state, so the panel can never be left stuck shut by a bundle that
+   failed to boot — and there is no offsetHeight read on the click path. */
+.faq-item__answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 280ms var(--ease-out);
+}
+.faq-item.is-open .faq-item__answer { grid-template-rows: 1fr; }
+
+/* The 0fr row only collapses if the child itself clips. */
+.faq-item__answer > div {
+  overflow: hidden;
+  min-height: 0;
+  color: var(--ink-2);
+  font-size: var(--t-base);
+}
+.faq-item.is-open .faq-item__answer > div { padding-bottom: var(--s-5); }
+
+/* Without JS every answer must be readable and the toggle affordance gone. */
+html:not(.js) .faq-item__answer { grid-template-rows: 1fr; }
+html:not(.js) .faq-item__answer > div { padding-bottom: var(--s-5); }
+html:not(.js) .faq-item__icon { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-item__answer { transition: none; }
+}
+
+/* ------------------------------------------------------------
+   Area links — internal linking surface for local SEO
+   ------------------------------------------------------------ */
+
+.areas {
+  display: grid;
+  gap: var(--s-2);
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+}
+.area-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  font-weight: 600;
+  font-size: var(--t-base);
+  color: var(--ink);
+  transition: border-color 180ms var(--ease-out), background-color 180ms var(--ease-out);
+}
+.area-link:hover { border-color: var(--navy); background: var(--navy-tint); }
+.area-link svg { width: 1rem; height: 1rem; color: var(--ink-3); flex: none; }
+
+/* ------------------------------------------------------------
+   CTA band
+   ------------------------------------------------------------ */
+
+.cta-band {
+  background: var(--navy-deep);
+  color: rgba(255,255,255,.82);
+  border-radius: var(--r-xl);
+  padding: var(--s-8) var(--s-6);
+  text-align: center;
+}
+.cta-band h2 { color: #fff; margin-bottom: var(--s-4); }
+.cta-band p { max-width: 34rem; margin-inline: auto; margin-bottom: var(--s-6); }
+.cta-band .btn-row { justify-content: center; }
+
+/* ------------------------------------------------------------
+   Prose — for long-form SEO body copy
+   ------------------------------------------------------------ */
+
+.prose { max-width: 42rem; }
+/* Inside the narrow wrap the column IS the measure, so let the prose fill it
+   rather than sitting 5rem short of its own container. */
+.wrap--narrow > .prose { max-width: none; }
+.prose h2 { font-size: var(--t-xl); margin-top: var(--s-8); margin-bottom: var(--s-3); }
+.prose h3 { font-size: var(--t-lg); margin-top: var(--s-6); margin-bottom: var(--s-2); }
+.prose > *:first-child { margin-top: 0; }
+.prose p { margin-bottom: var(--s-4); }
+.prose ul { margin-bottom: var(--s-4); display: grid; gap: var(--s-2); }
+.prose li { position: relative; padding-left: var(--s-5); }
+.prose li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0.65em;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--brass);
+}
+.prose a { color: var(--navy); font-weight: 600; border-bottom: 1px solid var(--line); }
+.prose a:hover { border-bottom-color: var(--navy); }
+
+/* Review graphics rail (fixed set on every page) */
+.review-rail--shots, .review-rail:has(.review-shot) { grid-auto-columns: minmax(13.5rem, 16rem); align-items: start; }
+.review-shot { margin: 0; border-radius: var(--r-lg, 16px); overflow: hidden; box-shadow: var(--shadow-card); background: #fff; }
+.review-shot img { display: block; width: 100%; height: auto; }
+.reviews-split .review-rail:has(.review-shot) { grid-auto-columns: minmax(13.5rem, 16rem); }

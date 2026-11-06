@@ -1,0 +1,101 @@
+<svg viewBox="0 0 1920 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+  <!--
+    About hero banner.
+
+    Supplied artwork with its right-hand text block removed: the
+    "WASH4YOU · ABOUT US" eyebrow, the "A Promise, Woven In." headline, the
+    two-line sub-copy and the three chips. The page's own h1 and lede sit
+    over that side and stay editable from the admin panel.
+
+    Also removed: the two milestone captions on the stitch line. They were
+    baked-in narrative that "Our story" already tells in editable copy.
+    Their dots are kept — a stitched line with milestones reads as a journey
+    without needing labels.
+
+    The sub-copy said "Two decades" while the badge says 25+; that
+    contradiction went with it. (It also carried a mojibake dash: "time â".)
+
+    The 25+ badge is KEPT: the same claim appears in the client's own About
+    copy, so the artwork and the page agree.
+  -->
+  <defs>
+    <linearGradient id="abbg" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0E3A5C"/>
+      <stop offset="55%" stop-color="#0B2E4C"/>
+      <stop offset="100%" stop-color="#081F38"/>
+    </linearGradient>
+
+    <radialGradient id="abglow" cx="82%" cy="20%" r="60%">
+      <stop offset="0%" stop-color="#2F7FE0" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#2F7FE0" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="abglow2" cx="14%" cy="70%" r="55%">
+      <stop offset="0%" stop-color="#6FE3C4" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#6FE3C4" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="abbadgeFill" cx="35%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E6F1FC"/>
+    </radialGradient>
+
+    <filter id="abbadgeShadow" x="-60%" y="-60%" width="220%" height="220%">
+      <feDropShadow dx="0" dy="14" stdDeviation="20" flood-color="#04162A" flood-opacity="0.45"/>
+    </filter>
+
+    <filter id="abdotShadow" x="-100%" y="-100%" width="300%" height="300%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#04162A" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- background -->
+  <rect width="1920" height="640" fill="url(#abbg)"/>
+  <rect width="1920" height="640" fill="url(#abglow)"/>
+  <rect width="1920" height="640" fill="url(#abglow2)"/>
+
+  <!-- fine ambient flecks (fabric texture, not bubbles) -->
+  <g fill="#F4FAFF">
+    <circle cx="900" cy="80" r="2.5" opacity="0.3"/>
+    <circle cx="1030" cy="130" r="2" opacity="0.25"/>
+    <circle cx="860" cy="470" r="2.5" opacity="0.25"/>
+    <circle cx="700" cy="60" r="2" opacity="0.3"/>
+    <circle cx="960" cy="380" r="2" opacity="0.22"/>
+    <circle cx="770" cy="230" r="2.5" opacity="0.2"/>
+  </g>
+
+  <!-- ============ LEFT: STITCHED JOURNEY + 25 YEARS BADGE ============ -->
+  <g>
+    <!-- running-stitch thread path -->
+    <path d="M150,560 C 224,478 176,418 258,400 C 336,382 292,326 372,320 C 428,316 452,300 480,300"
+          fill="none" stroke="#F4FAFF" stroke-opacity="0.45" stroke-width="3"
+          stroke-dasharray="3 11" stroke-linecap="round"/>
+
+    <!-- needle at the start of the thread -->
+    <g transform="translate(150,560) rotate(35)">
+      <rect x="-3" y="-46" width="6" height="46" rx="3" fill="#6FE3C4"/>
+      <ellipse cx="0" cy="-46" rx="3.2" ry="6" fill="none" stroke="#6FE3C4" stroke-width="2"/>
+    </g>
+
+    <!-- milestone dots -->
+    <g filter="url(#abdotShadow)"><circle cx="258" cy="400" r="7" fill="#6FE3C4"/></g>
+    <g filter="url(#abdotShadow)"><circle cx="372" cy="320" r="7" fill="#F4B740"/></g>
+
+    <!-- 25+ years badge -->
+    <g filter="url(#abbadgeShadow)">
+      <circle cx="560" cy="230" r="112" fill="url(#abbadgeFill)"/>
+      <circle cx="560" cy="230" r="112" fill="none" stroke="#2F7FE0" stroke-width="4"/>
+      <circle cx="560" cy="230" r="128" fill="none" stroke="#2F7FE0" stroke-opacity="0.25" stroke-width="2"/>
+    </g>
+    <text x="560" y="252" text-anchor="middle" font-family="'Bricolage Grotesque',Georgia,serif" font-size="68" font-weight="800" fill="#0B2138">25+</text>
+    <!-- Two lines, not one. The original set this in Manrope, which the site
+         does not load; in Hanken Grotesk the 23-character string renders about
+         220px wide and burst straight through a 224px-diameter badge. -->
+    <text x="560" y="281" text-anchor="middle" font-family="'Hanken Grotesk',system-ui,sans-serif" font-size="13" font-weight="800" letter-spacing="1.4" fill="#2F7FE0">YEARS OF</text>
+    <text x="560" y="301" text-anchor="middle" font-family="'Hanken Grotesk',system-ui,sans-serif" font-size="13" font-weight="800" letter-spacing="1.4" fill="#2F7FE0">EUROPEAN CRAFT</text>
+  </g>
+
+  <!-- bottom hem: stitched edge instead of a suds wave, ties to the craft theme -->
+  <rect x="0" y="596" width="1920" height="44" fill="#081F38" fill-opacity="0.55"/>
+  <line x1="0" y1="596" x2="1920" y2="596" stroke="#F4FAFF" stroke-opacity="0.28" stroke-width="2" stroke-dasharray="10 9"/>
+</svg>

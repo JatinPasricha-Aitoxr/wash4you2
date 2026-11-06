@@ -1,0 +1,225 @@
+/* ============================================================
+   Wash4You — page-level compositions
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   Proof gallery
+   ------------------------------------------------------------ */
+
+.proof-grid {
+  display: grid;
+  gap: var(--s-8);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 56rem) {
+  .proof-grid { grid-template-columns: repeat(2, 1fr); gap: var(--s-7); }
+}
+
+.proof-grid__summary {
+  margin-top: var(--s-3);
+  font-size: var(--t-base);
+  color: var(--ink-3);
+  max-width: 34rem;
+}
+
+/* ------------------------------------------------------------
+   Reviews header — heading and rail controls on one line
+   ------------------------------------------------------------ */
+
+.reviews-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-5);
+  margin-bottom: var(--s-7);
+}
+/* On phones the permanent row cramps the home blog section (heading + the
+   "Read the blog" button); stack it so both get full width. */
+@media (max-width: 40rem) {
+  .reviews-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-4);
+  }
+}
+/* the arrows are a convenience; the rail scrolls and swipes without them */
+.reviews-head .rail-nav { display: none; flex: none; }
+@media (min-width: 48rem) { .reviews-head .rail-nav { display: flex; } }
+
+.testimonial-rail-wrap { position: relative; }
+
+/* ------------------------------------------------------------
+   Interior page header — services, localities, policies
+   ------------------------------------------------------------ */
+
+.page-hero {
+  padding-block: clamp(2.5rem, 1.9rem + 2.6vw, 4rem) clamp(2rem, 1.5rem + 2.2vw, 3.25rem);
+  border-bottom: 1px solid var(--line);
+}
+.page-hero__grid { display: grid; gap: var(--s-6); }
+@media (min-width: 60rem) {
+  .page-hero__grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: var(--s-8); align-items: center; }
+}
+.page-hero h1 { margin-bottom: var(--s-4); }
+.page-hero .lede { max-width: 38rem; }
+.page-hero .btn-row { margin-top: var(--s-6); }
+
+/* Mascot companion, reused from the home page's Why section on the plain
+   two-column page-hero pages (contact, blog, locations, steam-iron,
+   pricing matrix, policies). Decorative only: alt="" + aria-hidden. */
+.page-hero__mascot, .page-hero__mascot--sm { display: none; }
+@media (min-width: 60rem) {
+  .page-hero__mascot {
+    display: block;
+    width: clamp(10rem, 14vw, 15rem);
+    height: auto;
+    justify-self: end;
+  }
+}
+@media (max-width: 59.999rem) {
+  .page-hero__mascot--sm {
+    display: block;
+    width: clamp(5.5rem, 22vw, 7rem);
+    height: auto;
+    margin: var(--s-6) auto 0;
+  }
+}
+@media print { .page-hero__mascot, .page-hero__mascot--sm { display: none; } }
+.page-hero__mascot-inline {
+  display: block;
+  width: clamp(4.5rem, 14vw, 6rem);
+  height: auto;
+  margin: var(--s-4) 0 0;
+}
+@media print { .page-hero__mascot-inline { display: none; } }
+
+/* Breadcrumbs */
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2);
+  margin-bottom: var(--s-5);
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.crumbs a { color: var(--navy); }
+.crumbs a:hover { text-decoration: underline; }
+.crumbs span[aria-hidden] { color: var(--line); }
+
+/* ------------------------------------------------------------
+   Service detail
+   ------------------------------------------------------------ */
+
+.svc-detail { display: grid; gap: var(--s-8); }
+@media (min-width: 62rem) {
+  .svc-detail { grid-template-columns: minmax(0, 1fr) 20rem; gap: var(--s-9); align-items: start; }
+}
+
+.svc-aside {
+  position: sticky;
+  top: 6rem;
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-5);
+  background: var(--wash);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+}
+.svc-aside h3 { font-size: var(--t-lg); }
+.svc-aside p { font-size: var(--t-sm); color: var(--ink-3); }
+
+.checklist { display: grid; gap: var(--s-4); }
+@media (min-width: 40rem) { .checklist { grid-template-columns: repeat(2, 1fr); } }
+.checklist li {
+  padding-left: var(--s-6);
+  position: relative;
+  font-size: var(--t-sm);
+}
+.checklist strong { display: block; color: var(--ink); font-size: var(--t-base); margin-bottom: 2px; }
+.checklist li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: .45em;
+  width: 1rem; height: 1rem;
+  border-radius: 50%;
+  background: var(--brass-tint);
+  box-shadow: inset 0 0 0 2px var(--brass);
+}
+
+/* ------------------------------------------------------------
+   Locality pages
+   ------------------------------------------------------------ */
+
+.locality-services {
+  display: grid;
+  gap: var(--s-3);
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+}
+
+.store-card {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--paper);
+}
+.store-card strong { font-size: var(--t-md); color: var(--ink); }
+.store-card address { font-style: normal; font-size: var(--t-sm); color: var(--ink-3); line-height: 1.55; }
+
+.store-grid { display: grid; gap: var(--s-4); }
+@media (min-width: 44rem) { .store-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* ------------------------------------------------------------
+   Pricing
+   ------------------------------------------------------------ */
+
+.price-table { width: 100%; border-collapse: collapse; font-size: var(--t-sm); }
+.price-table th,
+.price-table td { padding: var(--s-3) var(--s-4); text-align: left; border-bottom: 1px solid var(--line); }
+.price-table th {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.price-table td:last-child { text-align: right; font-weight: 700; color: var(--ink); white-space: nowrap; }
+.table-scroll { overflow-x: auto; }
+
+/* ------------------------------------------------------------
+   Long-form pages — policies, blog, about
+   ------------------------------------------------------------ */
+
+.doc { padding-block: var(--section-y); }
+.doc .prose { margin-inline: auto; }
+
+/* ------------------------------------------------------------
+   Contact form
+   ------------------------------------------------------------ */
+
+.form { display: grid; gap: var(--s-4); }
+.field { display: grid; gap: var(--s-2); }
+.field label { font-weight: 600; font-size: var(--t-base); color: var(--ink); }
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--paper);
+  font-size: 1rem; /* 16px — stops iOS zooming the viewport on focus */
+  transition: border-color 160ms var(--ease-out);
+}
+.field textarea { min-height: 8rem; resize: vertical; }
+.field input:focus,
+.field select:focus,
+.field textarea:focus { border-color: var(--navy); outline-offset: 1px; }
+.field__hint { font-size: var(--t-sm); color: var(--ink-3); }

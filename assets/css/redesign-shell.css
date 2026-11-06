@@ -1,0 +1,503 @@
+/* ============================================================
+   Wash4You — 2026 redesign: SHELL layer
+   Owns the chrome shared by every page: the top utility strip, the
+   white nav (logo + links + Contact), the click-to-open Pricing
+   location dropdown, and the two-CTA + GST cart drawer footer.
+
+   Loaded LAST (after base/layout/ui/page/features/animations), so its
+   rules win at equal specificity without !important. Colours come only
+   from the brand tokens defined in base.css :root — nothing invented.
+
+   Local constant: --wa-green is a WhatsApp-recognisable green darkened
+   to 5.1:1 with white text (the bright #25D366 fails AA), used for the
+   secondary "Chat on WhatsApp" CTA so it reads distinct from the green
+   primary while staying legible.
+   ============================================================ */
+
+:root {
+  --wa-green:       #0c7d59;
+  --wa-green-hover: #0a6a4c;
+}
+
+/* ------------------------------------------------------------
+   req 2a — Top utility strip: brand-blue ground, everything white.
+   ------------------------------------------------------------ */
+.topbar { background: var(--brand-blue); color: #fff; }
+.topbar a { color: rgba(255, 255, 255, .92); }
+.topbar a:hover { color: #fff; }
+/* phone + area icons were brand-green; on the blue strip they read white */
+.topbar__phone svg,
+.topbar__area svg { color: #fff; }
+.topbar__socials a { color: rgba(255, 255, 255, .92); }
+
+/* req 2 — Contact is the prominent nav item: 18px semibold, white,
+   still vertically centred with the socials in the strip. */
+.topbar__link {
+  font-size: 1.125rem;   /* 18px */
+  font-weight: 600;
+  color: #fff;
+}
+
+/* ------------------------------------------------------------
+   req 2 — Nav logo + link sizing on the white header.
+   Fixed height, width auto, object-fit:contain so the wordmark is
+   never stretched. 36px up to the desktop breakpoint, 48px on desktop.
+   ------------------------------------------------------------ */
+.header__logo img {
+  height: 2.25rem;       /* 36px — mobile / tablet */
+  width: auto;
+  object-fit: contain;
+}
+@media (min-width: 62rem) {
+  .header__logo img { height: 3rem; }   /* 48px — desktop */
+}
+
+/* Other main-nav links → 16px (was 15px). Applies to the Pricing toggle
+   button too, which carries .header__link. */
+.header__link { font-size: 1rem; }
+
+/* ------------------------------------------------------------
+   req 2b — Pricing "by area" click-to-open dropdown.
+   Replaces the hover mega for Pricing. Shown only when JS adds .is-open
+   to the wrapper (no :hover / :focus-within trigger). The inner content
+   reuses the .mega__lead / .mega__label / .mega__areas / .mega__area
+   styles from features.css; this layer owns the panel shell + toggle.
+   ------------------------------------------------------------ */
+.nav-locdrop { position: relative; }
+
+.nav-locdrop__toggle { cursor: pointer; }
+.nav-locdrop.is-open .header__caret { transform: rotate(180deg); }
+
+.nav-locdrop__panel {
+  position: absolute;
+  top: calc(100% + .55rem);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  z-index: 130;
+  width: min(24rem, 88vw);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--s-5);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 180ms var(--ease-out),
+              transform 180ms var(--ease-out),
+              visibility 0s 180ms;
+}
+.nav-locdrop.is-open .nav-locdrop__panel {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+  transition: opacity 180ms var(--ease-out),
+              transform 180ms var(--ease-out),
+              visibility 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-locdrop__panel { transition: none; }
+}
+
+/* ------------------------------------------------------------
+   req 8 — Cart summary: Subtotal / GST (18%) / Total (Total bold).
+   Replaces the old single "Estimated total" row.
+   ------------------------------------------------------------ */
+.cart-summary {
+  display: grid;
+  gap: var(--s-2);
+  margin: 0 0 var(--s-1);
+}
+.cart-summary dt,
+.cart-summary dd { margin: 0; }
+.cart-summary__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+.cart-summary__row dt { color: var(--ink-2); font-weight: 600; }
+.cart-summary__row dd {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.cart-summary__row--total {
+  margin-top: var(--s-1);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--line);
+}
+.cart-summary__row--total dt {
+  font-family: var(--font-display);
+  font-variation-settings: 'wdth' 104;
+  font-weight: 800;
+  color: var(--ink);
+}
+.cart-summary__row--total dd {
+  font-size: var(--t-lg);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* ------------------------------------------------------------
+   req 9 — Two cart CTAs: Schedule (primary green) + Chat on WhatsApp.
+   Stacked full-width on mobile, side-by-side on desktop, equal width
+   (1fr 1fr) and equal height (grid rows stretch, shared min-height).
+   ------------------------------------------------------------ */
+.cart-cta {
+  display: grid;
+  gap: var(--s-2);
+  grid-template-columns: 1fr;   /* stacked — mobile */
+}
+@media (min-width: 30rem) {
+  .cart-cta { grid-template-columns: 1fr 1fr; }   /* side-by-side — desktop */
+}
+.cart-cta__btn {
+  min-height: 3.25rem;
+  padding: var(--s-2) var(--s-3);
+  font-size: var(--t-base);   /* was 0.9375rem — same navigation as the
+                                 desktop mega menu, so the same size */
+  line-height: 1.15;
+  white-space: normal;
+  text-align: center;
+}
+/* Secondary — WhatsApp-recognisable green, white text + icon. */
+/* Secondary: WhatsApp-green outline so "Schedule pickup" reads as the single
+   filled primary and this doesn't compete with it as a second solid button. */
+.cart-cta__wa {
+  background: transparent;
+  color: var(--wa-green);
+  border: 1.5px solid var(--wa-green);
+  box-shadow: none;
+}
+.cart-cta__wa:hover,
+.cart-cta__wa:active { background: rgba(12, 125, 89, .08); }
+
+/* ------------------------------------------------------------
+   Mobile menu — type scale and polish
+
+   layout.css sizes .mobile-nav__link at var(--t-xl), which resolves to
+   24.2px on a 390px phone, in Bricolage Grotesque 700 — the DISPLAY face
+   at headline size. Six of those stacked reads as a list of headlines
+   rather than a menu: heavy, cramped against the chevrons, and it pushed
+   the whole nav to 430px tall.
+
+   Reset to a real nav scale (17px, the size iOS/Android list rows use),
+   then spend the reclaimed space on things that make it feel considered:
+   calmer rows with proper tap targets, a legible parent/child hierarchy,
+   brand colour on the current page, and the sewn-label notch this site
+   uses everywhere else as its active marker.
+   ------------------------------------------------------------ */
+
+/* The panel body keeps its .wrap gutter — do not zero it. The footer CTA
+   shares this container, so removing the gutter full-bleeds the rows while
+   leaving the button inset, and the two left edges stop agreeing. Rows are
+   inset pills within the gutter instead, aligned to the logo and the CTA. */
+
+.mobile-nav__link {
+  position: relative;
+  /* 17px — was var(--t-xl) / 24.2px */
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  line-height: 1.25;
+  /* 52px row: comfortably over the 44px tap-target floor, 20px shorter
+     than the 72px rows the display size forced */
+  min-height: 3.25rem;
+  padding: 0.85rem 0.7rem 0.85rem 0.7rem;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line-soft);
+  border-radius: var(--r-sm);
+  transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out);
+}
+
+/* The chevron/arrow was 1.25rem next to 24px text; at 17px it dominated. */
+.mobile-nav__link svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  color: var(--ink-3);
+  flex: none;
+  transition: color 160ms var(--ease-out);
+}
+
+/* Press feedback — phones have no hover, so :active is the only affordance. */
+.mobile-nav__link:active {
+  background-color: var(--navy-tint);
+  color: var(--navy);
+}
+.mobile-nav__link:active svg { color: var(--navy); }
+
+/* Current page: brand blue plus the garment-label stitch notch on the left,
+   the same device .tag uses. --brand-blue on --paper is 6.40:1. */
+.mobile-nav__link.is-active {
+  color: var(--brand-blue);
+  background-color: var(--navy-tint);
+}
+.mobile-nav__link.is-active::before {
+  content: '';
+  position: absolute;
+  left: -0.15rem;
+  top: 50%;
+  translate: 0 -50%;
+  width: 3px;
+  height: 1.4rem;
+  border-radius: 0 2px 2px 0;
+  background: var(--brand-blue);
+}
+.mobile-nav__link.is-active svg { color: var(--brand-blue); }
+
+/* ---- Accordion groups (Services) ----
+   The open group gets a tinted well so the sublist reads as contained
+   rather than as six more top-level rows. */
+.mobile-nav__group {
+  border-bottom: 1px solid var(--line-soft);
+  border-radius: var(--r-sm);
+  transition: background-color 180ms var(--ease-out);
+}
+.mobile-nav__group[open] { background: var(--wash); }
+.mobile-nav__group[open] > summary { color: var(--brand-blue); }
+.mobile-nav__group[open] > summary svg { color: var(--brand-blue); }
+
+/* ---- Child links ----
+   Must sit clearly below the parent: 15px vs 17px, lighter ink, and a
+   hairline spine so the indent reads as structure. --ink-2 is 9.0:1. */
+.mobile-nav__sub {
+  gap: 0;
+  margin-left: 1.15rem;
+  padding: 0.1rem 0 0.7rem;
+  border-left: 2px solid var(--line);
+}
+.mobile-nav__sub a {
+  display: block;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ink-2);
+  /* 40px rows — dense enough for 15 services, still a usable target */
+  min-height: 2.5rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  transition: background-color 140ms var(--ease-out), color 140ms var(--ease-out);
+}
+.mobile-nav__sub a:active {
+  background-color: var(--navy-tint);
+  color: var(--navy);
+}
+.mobile-nav__sub-all {
+  color: var(--brand-blue) !important;
+  font-weight: 700 !important;
+}
+
+/* A coloured seam under the logo bar so the panel is not an unbroken
+   white sheet — picks up the brand green rule used across the site. */
+.mobile-nav__top {
+  border-bottom: 1px solid var(--line);
+  box-shadow: inset 0 -2px 0 -1px var(--brass);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav__link,
+  .mobile-nav__link svg,
+  .mobile-nav__group,
+  .mobile-nav__sub a { transition: none; }
+}
+
+/* ------------------------------------------------------------
+   First-order offer strip — every page, above the utility bar.
+
+   Pinned to the very top of the viewport at every scroll position, on
+   every page — sticky rather than fixed: it is already the first thing
+   in <body>, so its own sticky threshold (top: 0) is crossed the instant
+   the page scrolls at all, giving the exact same permanently-visible
+   result as `position: fixed` without needing to reserve space for it
+   manually (sticky keeps its normal-flow footprint until it locks).
+
+   The utility bar below it still scrolls away as before; only the header
+   needs to know this strip's height, since it stacks its own sticky
+   position directly beneath it — see `--promo-h`, measured by the inline
+   script at the end of base.html (the strip's height is set dynamically
+   because the copy can wrap to two lines on narrow phones).
+   ------------------------------------------------------------ */
+.promo-strip {
+  position: sticky;
+  top: 0;
+  z-index: 110;
+  background: linear-gradient(90deg, var(--brand-green-cta), var(--green-cta));
+  color: #fff;
+}
+.promo-strip__inner { display: flex; justify-content: center; padding-block: .4rem; }
+.promo-strip__text {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin: 0;
+  font-size: var(--t-xs);
+  font-weight: 600;
+  text-align: center;
+}
+.promo-strip__text svg { flex: none; }
+.promo-strip__value {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  letter-spacing: .02em;
+  background: rgba(255, 255, 255, .18);
+  padding: .1rem .5rem;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+}
+@media (max-width: 30rem) {
+  .promo-strip__text { font-size: .6875rem; gap: var(--s-1); }
+}
+
+/* ------------------------------------------------------------
+   Search — header toggle + slide-down panel. Client-side only:
+   no backend on a static host, so the index (window.__SEARCH_INDEX__,
+   inlined in base.html) is filtered entirely in the browser.
+   ------------------------------------------------------------ */
+.search-toggle {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: border-color 160ms var(--ease-out), color 160ms var(--ease-out);
+}
+.search-toggle:hover { border-color: var(--navy); color: var(--navy); }
+
+/* The header icon is desktop-only. Below 992px the hamburger menu is
+   always present anyway (layout.css) and already has its own "Search the
+   site" row (.search-toggle--mobile below); a second icon squeezed in next
+   to the hamburger is not just redundant, it is what pushed the header
+   past the viewport edge on a 320px phone. */
+#search-toggle { display: none; }
+@media (min-width: 62rem) {
+  #search-toggle { display: inline-grid; }
+}
+
+.search-toggle--mobile {
+  width: 100%;
+  height: auto;
+  justify-content: flex-start;
+  gap: var(--s-2);
+  padding: .85rem 1rem;
+  margin-bottom: var(--s-3);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* A real popup, not a bar: .site-search is a full-viewport, invisible
+   positioning layer (pointer-events:none even when open, so a click on
+   the dimmed area falls through to .site-search-backdrop underneath and
+   closes it) that centres .site-search__inner — the actual card — a
+   little below the header. Only the card itself takes clicks. */
+.site-search {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+  padding: 10vh var(--s-4) var(--s-6);
+  overflow-y: auto;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms var(--ease-out), visibility 0s 200ms;
+}
+.site-search.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 200ms var(--ease-out), visibility 0s;
+}
+.site-search__inner {
+  pointer-events: auto;
+  width: min(34rem, 100%);
+  height: fit-content;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-lg);
+  padding: var(--s-5);
+  transform: translateY(-10px) scale(.97);
+  transition: transform 220ms var(--ease-out);
+}
+.site-search.is-open .site-search__inner {
+  transform: translateY(0) scale(1);
+}
+.site-search__field {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-lg);
+  color: var(--ink-3);
+}
+.site-search__field:focus-within { border-color: var(--navy); }
+.site-search__field input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: var(--t-base);
+  color: var(--ink);
+  font-family: inherit;
+}
+.site-search__close {
+  border: 0;
+  background: transparent;
+  color: var(--ink-3);
+  cursor: pointer;
+  display: inline-grid;
+  place-items: center;
+}
+.site-search__results {
+  list-style: none;
+  margin: var(--s-3) 0 0;
+  padding: 0;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+.site-search__results li + li { border-top: 1px solid var(--line-soft); }
+.site-search__results a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-2);
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--r-sm);
+}
+.site-search__results a:hover,
+.site-search__results a:focus-visible { background: var(--wash); color: var(--navy); }
+.site-search__results a small {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.site-search__empty { margin: var(--s-4) var(--s-2) 0; color: var(--ink-3); font-size: var(--t-sm); }
+
+.site-search-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 190;
+  background: rgba(10, 20, 40, .45);
+}
+html.search-open { overflow: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  .site-search,
+  .site-search__inner { transition: none; }
+}
