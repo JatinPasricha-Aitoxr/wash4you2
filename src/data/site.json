@@ -65,9 +65,10 @@
       "locality": "Vasant Vihar",
       "city": "New Delhi",
       "region": "Delhi",
-      "address": "Shop No. 4, C-3, LSC, Paschimi Marg, Vasant Vihar, New Delhi",
-      "map_url": "https://maps.google.com/?q=Wash4You+Shop+No.+4+C-3+LSC+Paschimi+Marg+Vasant+Vihar+New+Delhi",
-      "phone": "+91 63 67 600 500"
+      "address": "Shop No. 4, C-3, LSC, Paschimi Marg, Vasant Vihar, New Delhi 110057",
+      "map_url": "https://maps.app.goo.gl/6y593yksSHGktSgk9",
+      "phone": "+91 63 67 600 500",
+      "postal_code": "110057"
     }
   ],
   "promises": [
