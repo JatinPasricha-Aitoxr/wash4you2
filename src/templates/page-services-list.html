@@ -133,7 +133,7 @@
                data-name="{{ s.name }} {{ s.slug }} {{ s.best_for }} {{ s.short_description }}">
         <span class="svc__media{% if not s.image %} svc__media--tonal{% endif %}" aria-hidden="true">
           {% if s.image %}
-          <img src="{{ asset_path }}{{ s.image | replace('.png', '.webp') }}" alt=""
+          <img src="{{ asset_path }}{{ s.image | replace('.png', '.webp') }}" alt="{{ s.name }}"
                width="500" height="500" loading="lazy" decoding="async">
           {% else %}
           {{ service_icon(s.slug, 44) }}

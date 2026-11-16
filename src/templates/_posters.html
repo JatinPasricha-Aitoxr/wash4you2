@@ -7,7 +7,7 @@
   <div class="wrap">
     <div class="poster-feature__grid poster-feature__grid--{{ side }}">
       <a class="poster-feature__art reveal" href="{{ href }}"{{ ' target="_blank" rel="noopener"' if f.url }} tabindex="-1" aria-hidden="true">
-        <img src="{{ asset_path }}{{ f.src }}" alt="" width="1080" height="1440" loading="lazy" decoding="async">
+        <img src="{{ asset_path }}{{ f.src }}" alt="{{ f.alt }}" width="1080" height="1440" loading="lazy" decoding="async">
       </a>
       <div class="poster-feature__copy reveal">
         <p class="eyebrow"{{ cms('posters:features.' ~ key ~ '.eyebrow') }}>{{ f.eyebrow }}</p>

@@ -62,7 +62,7 @@
     <div class="ba__clip" aria-hidden="true">
       <img class="ba__img ba__img--before"
            src="{{ asset_path }}{{ pair.before }}"
-           alt=""
+           alt="{{ pair.alt_before }}"
            width="{{ pair.width }}" height="{{ pair.height }}"
            {% if not eager %}loading="lazy"{% endif %} decoding="async">
     </div>
