@@ -1,0 +1,162 @@
+<svg viewBox="0 0 1920 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+  <!--
+    Services hero banner.
+
+    Supplied artwork with its left text block removed: the "WASH4YOU ·
+    SERVICES" eyebrow, the "Every Fabric, Every Finish." headline, the
+    two-line sub-copy and the three feature chips. The page's own h1, lede
+    and CTAs sit over this band and are editable from the admin panel;
+    baked-in copy would compete with them and could not be changed.
+
+    Two of those lines were also wrong: the sub-copy said "twelve
+    specialties" and a chip said "12 Specialties", but services.json lists
+    15. (The sub-copy also carried a mojibake dash, "curtains â".)
+
+    The hanging rail is kept, labels and all — LAUNDRY, DRY CLEAN, IRONING,
+    SHOES, BAGS and LEATHER are all real services on this page, so they
+    describe the illustration rather than making a claim.
+  -->
+  <defs>
+    <linearGradient id="svbg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E3A5C"/>
+      <stop offset="55%" stop-color="#0B2E4C"/>
+      <stop offset="100%" stop-color="#081F38"/>
+    </linearGradient>
+
+    <radialGradient id="svglow" cx="18%" cy="18%" r="60%">
+      <stop offset="0%" stop-color="#2F7FE0" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#2F7FE0" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="svglow2" cx="88%" cy="12%" r="50%">
+      <stop offset="0%" stop-color="#6FE3C4" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#6FE3C4" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="svwave1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2F7FE0" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#6FE3C4" stop-opacity="0.35"/>
+    </linearGradient>
+
+    <linearGradient id="svwave2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#12508A" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#1a6aa8" stop-opacity="0.9"/>
+    </linearGradient>
+
+    <filter id="svbadgeShadow" x="-60%" y="-60%" width="220%" height="220%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#04162A" flood-opacity="0.4"/>
+    </filter>
+
+    <filter id="svrodShadow" x="-20%" y="-100%" width="140%" height="300%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#04162A" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- background -->
+  <rect width="1920" height="640" fill="url(#svbg)"/>
+  <rect width="1920" height="640" fill="url(#svglow)"/>
+  <rect width="1920" height="640" fill="url(#svglow2)"/>
+
+  <!-- scattered bubbles -->
+  <g fill="none" stroke="#F4FAFF">
+    <circle cx="120" cy="90" r="5" fill="#F4FAFF" opacity="0.25"/>
+    <circle cx="205" cy="150" r="9" opacity="0.18" stroke-width="1.5"/>
+    <circle cx="760" cy="70" r="4" fill="#6FE3C4" opacity="0.35"/>
+    <circle cx="640" cy="560" r="6" fill="#F4FAFF" opacity="0.2"/>
+    <circle cx="880" cy="520" r="10" opacity="0.15" stroke-width="1.5"/>
+    <circle cx="60" cy="420" r="7" opacity="0.15" stroke-width="1.5"/>
+    <circle cx="900" cy="160" r="4" fill="#F4FAFF" opacity="0.22"/>
+    <circle cx="980" cy="260" r="12" opacity="0.13" stroke-width="1.5"/>
+    <circle cx="850" cy="330" r="3" fill="#6FE3C4" opacity="0.3"/>
+    <circle cx="1000" cy="90" r="6" opacity="0.15" stroke-width="1.5"/>
+  </g>
+
+  <!-- suds waves bottom -->
+  <path d="M0,520 C 260,470 480,560 760,510 C 1040,460 1240,540 1520,500 C 1680,478 1820,510 1920,495 L1920,640 L0,640 Z" fill="url(#svwave2)"/>
+  <path d="M0,560 C 300,600 560,520 860,555 C 1120,585 1360,530 1620,560 C 1740,574 1840,558 1920,545 L1920,640 L0,640 Z" fill="url(#svwave1)"/>
+
+  <!-- ============ RIGHT: SERVICE RAIL ============ -->
+  <g>
+    <!-- rail rod -->
+    <g filter="url(#svrodShadow)">
+      <rect x="1270" y="70" width="16" height="46" rx="4" fill="#0E3A5C" stroke="#F4FAFF" stroke-opacity="0.25"/>
+      <rect x="1834" y="70" width="16" height="46" rx="4" fill="#0E3A5C" stroke="#F4FAFF" stroke-opacity="0.25"/>
+      <rect x="1268" y="92" width="584" height="8" rx="4" fill="#F4FAFF" fill-opacity="0.55"/>
+    </g>
+
+    <!-- Laundry -->
+    <g>
+      <path d="M1310,100 L1300,118 L1320,118 Z" fill="none" stroke="#F4FAFF" stroke-opacity="0.5" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="1310" y1="118" x2="1310" y2="178" stroke="#F4FAFF" stroke-opacity="0.4" stroke-width="2"/>
+      <g filter="url(#svbadgeShadow)">
+        <circle cx="1310" cy="216" r="38" fill="#FFFFFF"/>
+        <circle cx="1310" cy="216" r="38" fill="none" stroke="#2F7FE0" stroke-width="3"/>
+      </g>
+      <path d="M1310,198 C 1322,214 1330,224 1330,233 C 1330,244 1321,252 1310,252 C 1299,252 1290,244 1290,233 C 1290,224 1298,214 1310,198 Z" fill="#2F7FE0"/>
+      <text x="1310" y="278" text-anchor="middle" font-family="'Hanken Grotesk',system-ui,sans-serif" font-size="13" font-weight="800" letter-spacing="1.2" fill="#CBE0F4">LAUNDRY</text>
+    </g>
+
+    <!-- Dry Clean -->
+    <g>
+      <path d="M1421,100 L1411,118 L1431,118 Z" fill="none" stroke="#F4FAFF" stroke-opacity="0.5" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="1421" y1="118" x2="1421" y2="238" stroke="#F4FAFF" stroke-opacity="0.4" stroke-width="2"/>
+      <g filter="url(#svbadgeShadow)">
+        <circle cx="1421" cy="276" r="38" fill="#FFFFFF"/>
+        <circle cx="1421" cy="276" r="38" fill="none" stroke="#F4B740" stroke-width="3"/>
+      </g>
+      <path d="M1421,256 L1431,272 L1421,296 L1411,272 Z" fill="#F4B740"/>
+      <path d="M1421,262 L1426,272 L1421,286 L1416,272 Z" fill="#FFFFFF"/>
+      <text x="1421" y="338" text-anchor="middle" font-family="'Hanken Grotesk',system-ui,sans-serif" font-size="13" font-weight="800" letter-spacing="1.2" fill="#CBE0F4">DRY CLEAN</text>
+    </g>
+
+    <!-- Ironing -->
+    <g>
+      <path d="M1532,100 L1522,118 L1542,118 Z" fill="none" stroke="#F4FAFF" stroke-opacity="0.5" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="1532" y1="118" x2="1532" y2="198" stroke="#F4FAFF" stroke-opacity="0.4" stroke-width="2"/>
+      <g filter="url(#svbadgeShadow)">
+        <circle cx="1532" cy="236" r="38" fill="#FFFFFF"/>
+        <circle cx="1532" cy="236" r="38" fill="none" stroke="#6FE3C4" stroke-width="3"/>
+      </g>
+      <path d="M1512,226 C 1512,220 1518,216 1528,216 L1542,216 C 1550,216 1554,222 1552,229 L1548,244 C 1547,248 1543,250 1538,250 L1518,250 C 1514,250 1511,247 1511,243 Z" fill="#3FBF9C"/>
+      <rect x="1524" y="210" width="10" height="8" rx="2" fill="#3FBF9C"/>
+      <text x="1532" y="298" text-anchor="middle" font-family="'Hanken Grotesk',system-ui,sans-serif" font-size="13" font-weight="800" letter-spacing="1.2" fill="#CBE0F4">IRONING</text>
+    </g>
+
+    <!-- Shoes -->
+    <g>
+      <path d="M1643,100 L1633,118 L1653,118 Z" fill="none" stroke="#F4FAFF" stroke-opacity="0.5" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="1643" y1="118" x2="1643" y2="168" stroke="#F4FAFF" stroke-opacity="0.4" stroke-width="2"/>
+      <g filter="url(#svbadgeShadow)">
+        <circle cx="1643" cy="206" r="38" fill="#FFFFFF"/>
+        <circle cx="1643" cy="206" r="38" fill="none" stroke="#2F7FE0" stroke-width="3"/>
+      </g>
+      <path d="M1622,214 C 1622,206 1628,200 1634,200 C 1637,200 1639,202 1642,204 C 1647,208 1652,209 1660,209 C 1664,209 1666,212 1665,216 L1663,220 C 1662,222 1660,223 1658,223 L1626,223 C 1623,223 1621,221 1621,218 Z" fill="#2F7FE0"/>
+      <text x="1643" y="268" text-anchor="middle" font-family="'Hanken Grotesk',system-ui,sans-serif" font-size="13" font-weight="800" letter-spacing="1.2" fill="#CBE0F4">SHOES</text>
+    </g>
+
+    <!-- Bags -->
+    <g>
+      <path d="M1754,100 L1744,118 L1764,118 Z" fill="none" stroke="#F4FAFF" stroke-opacity="0.5" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="1754" y1="118" x2="1754" y2="208" stroke="#F4FAFF" stroke-opacity="0.4" stroke-width="2"/>
+      <g filter="url(#svbadgeShadow)">
+        <circle cx="1754" cy="246" r="38" fill="#FFFFFF"/>
+        <circle cx="1754" cy="246" r="38" fill="none" stroke="#F4B740" stroke-width="3"/>
+      </g>
+      <path d="M1738,236 C 1738,230 1741,227 1745,227 L1763,227 C 1767,227 1770,230 1770,236 L1772,258 C 1772,262 1769,265 1765,265 L1743,265 C 1739,265 1736,262 1736,258 Z" fill="#F4B740"/>
+      <path d="M1745,227 C 1745,220 1749,215 1754,215 C 1759,215 1763,220 1763,227" fill="none" stroke="#F4B740" stroke-width="3.5"/>
+      <text x="1754" y="308" text-anchor="middle" font-family="'Hanken Grotesk',system-ui,sans-serif" font-size="13" font-weight="800" letter-spacing="1.2" fill="#CBE0F4">BAGS</text>
+    </g>
+
+    <!-- Leather -->
+    <g>
+      <path d="M1830,100 L1820,118 L1840,118 Z" fill="none" stroke="#F4FAFF" stroke-opacity="0.5" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="1830" y1="118" x2="1830" y2="178" stroke="#F4FAFF" stroke-opacity="0.4" stroke-width="2"/>
+      <g filter="url(#svbadgeShadow)">
+        <circle cx="1830" cy="216" r="38" fill="#FFFFFF"/>
+        <circle cx="1830" cy="216" r="38" fill="none" stroke="#6FE3C4" stroke-width="3"/>
+      </g>
+      <path d="M1810,200 L1822,200 L1830,210 L1838,200 L1850,200 L1850,206 L1843,232 L1817,232 L1810,206 Z" fill="#3FBF9C"/>
+      <text x="1830" y="278" text-anchor="middle" font-family="'Hanken Grotesk',system-ui,sans-serif" font-size="13" font-weight="800" letter-spacing="1.2" fill="#CBE0F4">LEATHER</text>
+    </g>
+  </g>
+</svg>

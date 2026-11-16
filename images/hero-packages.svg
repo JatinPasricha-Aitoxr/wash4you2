@@ -1,0 +1,129 @@
+<svg viewBox="0 0 1920 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+  <!--
+    Packages hero banner.
+
+    Supplied artwork, with every text element removed: the headline block,
+    the eyebrow, the two-line sub-copy, the three feature chips, the
+    "MOST POPULAR" pill and the tier labels inside the tags.
+
+    Two reasons, not one:
+
+    1. The page's own <h1>, lede and CTAs sit over this band. Baked-in copy
+       would compete with them and cannot be edited from the admin panel.
+
+    2. The copy was also wrong for this business. The tags read
+       ESSENTIAL / Signature / PREMIUM with pickup-frequency descriptions,
+       but Wash4You's plans are Diamond, Platinum, Elite, Premier, Founder
+       and VIP — prepaid wallet top-ups with a bonus balance, not tiers of
+       collection frequency. The sub-copy also said "Eco hydrocarbon
+       dry-cleaning"; site.json records that the hydrocarbon claim was
+       deliberately removed as unverifiable.
+
+    What remains is atmosphere and shape: the gradient ground, the two
+    glows, the bubbles, the suds waves and three blank luggage tags with
+    their icons and coloured feet.
+  -->
+  <defs>
+    <linearGradient id="pkbg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E3A5C"/>
+      <stop offset="55%" stop-color="#0B2E4C"/>
+      <stop offset="100%" stop-color="#081F38"/>
+    </linearGradient>
+
+    <radialGradient id="pkglow" cx="18%" cy="18%" r="60%">
+      <stop offset="0%" stop-color="#2F7FE0" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#2F7FE0" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="pkglow2" cx="88%" cy="10%" r="45%">
+      <stop offset="0%" stop-color="#6FE3C4" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#6FE3C4" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="pkwave1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2F7FE0" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#6FE3C4" stop-opacity="0.35"/>
+    </linearGradient>
+
+    <linearGradient id="pkwave2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#12508A" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#1a6aa8" stop-opacity="0.9"/>
+    </linearGradient>
+
+    <linearGradient id="pktagFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#EAF4FF"/>
+    </linearGradient>
+
+    <filter id="pktagShadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#04162A" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- background -->
+  <rect width="1920" height="640" fill="url(#pkbg)"/>
+  <rect width="1920" height="640" fill="url(#pkglow)"/>
+  <rect width="1920" height="640" fill="url(#pkglow2)"/>
+
+  <!-- scattered bubbles -->
+  <g fill="none" stroke="#F4FAFF">
+    <circle cx="120" cy="90" r="5" fill="#F4FAFF" opacity="0.25"/>
+    <circle cx="205" cy="150" r="9" opacity="0.18" stroke-width="1.5"/>
+    <circle cx="760" cy="70" r="4" fill="#6FE3C4" opacity="0.35"/>
+    <circle cx="640" cy="540" r="6" fill="#F4FAFF" opacity="0.2"/>
+    <circle cx="880" cy="500" r="10" opacity="0.15" stroke-width="1.5"/>
+    <circle cx="1040" cy="120" r="3" fill="#F4B740" opacity="0.4"/>
+    <circle cx="60" cy="420" r="7" opacity="0.15" stroke-width="1.5"/>
+    <circle cx="1180" cy="560" r="5" fill="#F4FAFF" opacity="0.2"/>
+    <circle cx="900" cy="160" r="4" fill="#F4FAFF" opacity="0.22"/>
+    <circle cx="980" cy="260" r="12" opacity="0.13" stroke-width="1.5"/>
+    <circle cx="850" cy="330" r="3" fill="#6FE3C4" opacity="0.3"/>
+    <circle cx="1060" cy="380" r="6" opacity="0.16" stroke-width="1.5"/>
+    <circle cx="940" cy="440" r="4" fill="#F4FAFF" opacity="0.2"/>
+    <circle cx="1000" cy="90" r="6" opacity="0.15" stroke-width="1.5"/>
+  </g>
+
+  <!-- suds waves bottom -->
+  <path d="M0,520 C 260,470 480,560 760,510 C 1040,460 1240,540 1520,500 C 1680,478 1820,510 1920,495 L1920,640 L0,640 Z" fill="url(#pkwave2)"/>
+  <path d="M0,560 C 300,600 560,520 860,555 C 1120,585 1360,530 1620,560 C 1740,574 1840,558 1920,545 L1920,640 L0,640 Z" fill="url(#pkwave1)"/>
+
+  <!-- connecting strings -->
+  <g fill="none" stroke="#F4FAFF" stroke-opacity="0.35" stroke-width="2">
+    <path d="M1278,40 C 1268,70 1298,90 1293,120"/>
+    <path d="M1484,10 C 1474,45 1506,65 1499,95"/>
+    <path d="M1650,70 C 1640,100 1670,118 1662,148"/>
+  </g>
+
+  <!-- Tag 1 -->
+  <g transform="translate(1178,110) rotate(-7)" filter="url(#pktagShadow)">
+    <path d="M20,0 H210 A20,20 0 0 1 230,20 V300 A20,20 0 0 1 210,320 H20 A20,20 0 0 1 0,300 V20 A20,20 0 0 1 20,0 Z" fill="url(#pktagFace)"/>
+    <circle cx="115" cy="26" r="9" fill="#0E3A5C"/>
+    <circle cx="115" cy="26" r="4.5" fill="#081F38"/>
+    <circle cx="66" cy="80" r="22" fill="#EAF4FF" stroke="#2F7FE0" stroke-width="2"/>
+    <path d="M56,80 L64,88 L78,72" stroke="#2F7FE0" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M0,298 H230 V310 H0 Z" fill="#2F7FE0"/>
+    <path d="M20,320 A20,20 0 0 1 0,300 V298 H230 V300 A20,20 0 0 1 210,320 Z" fill="#2F7FE0"/>
+  </g>
+
+  <!-- Tag 2 (front, largest) -->
+  <g transform="translate(1392,58) rotate(4)" filter="url(#pktagShadow)">
+    <path d="M22,0 H236 A22,22 0 0 1 258,22 V336 A22,22 0 0 1 236,358 H22 A22,22 0 0 1 0,336 V22 A22,22 0 0 1 22,0 Z" fill="url(#pktagFace)"/>
+    <circle cx="129" cy="29" r="10" fill="#0E3A5C"/>
+    <circle cx="129" cy="29" r="5" fill="#081F38"/>
+    <circle cx="72" cy="128" r="24" fill="#EAF4FF" stroke="#F4B740" stroke-width="2.5"/>
+    <path d="M72,112 l4.5,10 11,1.5 -8,7.5 2,11 -9.5,-5.5 -9.5,5.5 2,-11 -8,-7.5 11,-1.5 Z" fill="#F4B740"/>
+    <rect x="0" y="326" width="258" height="14" fill="#F4B740"/>
+    <path d="M0,336 H258 V338 A22,22 0 0 1 236,358 H22 A22,22 0 0 1 0,336 Z" fill="#F4B740"/>
+  </g>
+
+  <!-- Tag 3 -->
+  <g transform="translate(1558,130) rotate(-3)" filter="url(#pktagShadow)">
+    <path d="M20,0 H210 A20,20 0 0 1 230,20 V300 A20,20 0 0 1 210,320 H20 A20,20 0 0 1 0,300 V20 A20,20 0 0 1 20,0 Z" fill="url(#pktagFace)"/>
+    <circle cx="115" cy="26" r="9" fill="#0E3A5C"/>
+    <circle cx="115" cy="26" r="4.5" fill="#081F38"/>
+    <circle cx="66" cy="80" r="22" fill="#EAF4FF" stroke="#6FE3C4" stroke-width="2"/>
+    <path d="M55,84 C 60,68 72,68 77,84 C 70,79 62,79 55,84 Z" fill="#3FBF9C"/>
+    <path d="M0,298 H230 V310 H0 Z" fill="#6FE3C4"/>
+    <path d="M20,320 A20,20 0 0 1 0,300 V298 H230 V300 A20,20 0 0 1 210,320 Z" fill="#6FE3C4"/>
+  </g>
+</svg>

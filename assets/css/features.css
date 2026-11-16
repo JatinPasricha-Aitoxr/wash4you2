@@ -1,0 +1,880 @@
+/* ============================================================
+   Wash4You — feature components (added in the client-feedback pass)
+
+   Top utility bar · header mega-dropdowns · mobile-nav accordions ·
+   pickup-list cart (toggle, drawer, lines, qty stepper) · home banner ·
+   Why section · 7-step flow · home blog cards · pricing image grid +
+   add-to-cart · pricing toolbar · packages.
+
+   Loaded after page.css and before animations.css. Uses only the tokens
+   defined in base.css — no new colours, same spacing scale.
+   ============================================================ */
+
+/* The [hidden] attribute must win over the component display rules below
+   (.cart-toggle, .cart-drawer__empty/__body/__foot etc. set display:flex/grid,
+   which otherwise beats the UA `[hidden]{display:none}` and leaves the empty
+   state and the count badge showing when they should be hidden). */
+[hidden] { display: none !important; }
+
+/* ------------------------------------------------------------
+   Top utility bar — phone, area, contact, socials. In black.
+   Scrolls away above the sticky header.
+   ------------------------------------------------------------ */
+.topbar {
+  background: var(--ink);
+  color: rgba(255, 255, 255, .82);
+  font-size: var(--t-xs);
+}
+.topbar__inner {
+  /* PREREQUISITE for the --t-xs change: this is a single nowrap row and at
+     13px it overflows by ~1px on 11 of 12 page types. Wrapping costs nothing
+     above 340px and prevents a clipped utility bar below it. */
+  flex-wrap: wrap;
+  row-gap: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  min-height: 2.25rem;
+  padding-block: var(--s-1);
+}
+.topbar__left,
+.topbar__right { display: flex; align-items: center; gap: var(--s-4); min-width: 0; }
+.topbar a { color: rgba(255, 255, 255, .82); transition: color 160ms var(--ease-out); }
+.topbar a:hover { color: #fff; }
+.topbar__phone,
+.topbar__area { display: inline-flex; align-items: center; gap: var(--s-2); white-space: nowrap; }
+.topbar__phone { font-family: var(--font-mono); font-weight: 500; letter-spacing: .02em; }
+.topbar svg { width: .875rem; height: .875rem; flex: none; }
+.topbar__phone svg,
+.topbar__area svg { color: var(--brass-bright); }
+.topbar__link { font-weight: 600; }
+.topbar__socials { display: inline-flex; align-items: center; gap: var(--s-3); }
+/* 44px-square tap target around the .875rem icon. Negative margins pull the
+   box back to the icon's footprint so the compact bar layout is unchanged. */
+.topbar__socials a {
+  display: inline-flex;
+  place-items: center;
+  justify-content: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  margin: calc((0.875rem - 2.75rem) / 2);
+}
+
+/* Below the header breakpoint keep it tight: drop the area label, keep the
+   phone (the point of the bar) and the socials. */
+@media (max-width: 33rem) {
+  .topbar__area { display: none; }
+  .topbar__inner { gap: var(--s-3); }
+}
+
+/* ------------------------------------------------------------
+   Header mega-dropdowns (Services / Pricing)
+   Shown on hover and focus-within — works with no JS. JS only mirrors
+   aria-expanded and closes on Escape.
+   ------------------------------------------------------------ */
+
+/* Isolate the header's compositing. The mega panel is transform-centered
+   (translateX(-50%)), which puts it on its own GPU layer; over the home
+   banner that layer was compositing THROUGH the panel's opaque background.
+   `isolation: isolate` forces the whole header subtree to composite as one
+   group above the banner, so the panel is solid. Harmless elsewhere. */
+.header { isolation: isolate; }
+
+.header__item { position: relative; display: flex; align-items: center; }
+.header__link--parent { display: inline-flex; align-items: center; gap: 4px; }
+.header__caret {
+  display: inline-flex;
+  transition: transform 200ms var(--ease-out);
+  color: var(--ink-3);
+}
+.header__caret svg { width: .875rem; height: .875rem; }
+.has-dropdown:hover .header__caret,
+.has-dropdown:focus-within .header__caret { transform: rotate(180deg); }
+
+.mega {
+  position: absolute;
+  top: calc(100% + .55rem);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  z-index: 130;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--s-5);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out), visibility 0s 180ms;
+}
+/* a hover bridge so the pointer can cross the gap without the panel closing */
+.mega::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: -.6rem;
+  height: .6rem;
+}
+.has-dropdown:hover .mega,
+.has-dropdown:focus-within .mega {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+  transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out), visibility 0s;
+}
+
+.mega--services { width: min(40rem, 88vw); }
+.mega__grid {
+  display: grid;
+  /* Two columns, NOT a wider panel. At 16px in three ~186px columns 12 of
+     the 15 service names break onto two lines ('Sofa & Upholstery /
+     Cleaning'). Two ~296px columns fit every name on one line inside the
+     SAME min(40rem, 88vw) panel — widening it pushes the first column off
+     the left edge at 992-1100px, where body{overflow-x:hidden} hides it. */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px var(--s-4);
+}
+.mega__svc {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-md);
+  /* primary navigation, not a caption: must never be smaller than the
+     .header__link that opens it, which resolves to 1rem */
+  font-size: var(--t-base);
+  font-weight: 600;
+  color: var(--ink-2);
+  transition: background-color 150ms var(--ease-out), color 150ms var(--ease-out);
+}
+.mega__svc:hover { background: var(--wash); color: var(--ink); }
+.mega__svc-icon { display: inline-grid; place-items: center; color: var(--navy); flex: none; }
+.mega__svc-icon svg { width: 1.375rem; height: 1.375rem; }
+.mega__all {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-top: var(--s-4);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line-soft);
+  font-weight: 700;
+  color: var(--navy);
+}
+.mega__all svg { width: 1rem; height: 1rem; }
+
+.mega--pricing { width: min(28rem, 88vw); }
+.mega__lead {
+  display: block;
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-md);
+  background: var(--wash);
+  margin-bottom: var(--s-4);
+}
+.mega__lead strong { display: block; color: var(--ink); }
+.mega__lead span { font-size: var(--t-base); color: var(--ink-3); }
+.mega__lead:hover { background: var(--navy-tint); }
+.mega__label {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: var(--s-2);
+}
+.mega__areas { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px var(--s-3); }
+.mega__area {
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  font-size: var(--t-base);
+  font-weight: 600;
+  color: var(--ink-2);
+  transition: background-color 150ms var(--ease-out), color 150ms var(--ease-out);
+}
+.mega__area:hover { background: var(--wash); color: var(--navy); }
+.mega__foot {
+  display: flex;
+  gap: var(--s-4);
+  margin-top: var(--s-4);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line-soft);
+}
+.mega__foot-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-weight: 700;
+  font-size: var(--t-sm);
+  color: var(--navy);
+}
+.mega__foot-link svg { width: 1rem; height: 1rem; color: var(--brass-deep); }
+
+/* ------------------------------------------------------------
+   Mobile-nav accordions (native <details>)
+   ------------------------------------------------------------ */
+.mobile-nav__group { border-bottom: 1px solid var(--line-soft); }
+.mobile-nav__group > summary { cursor: pointer; list-style: none; border-bottom: 0; }
+.mobile-nav__group > summary::-webkit-details-marker { display: none; }
+.mobile-nav__group[open] > summary .header__caret,
+.mobile-nav__group[open] > summary svg:last-child { transform: rotate(180deg); }
+.mobile-nav__group > summary svg { transition: transform 200ms var(--ease-out); }
+.mobile-nav__sub {
+  display: grid;
+  gap: var(--s-1);
+  padding: 0 0 var(--s-4) var(--s-2);
+}
+.mobile-nav__sub a {
+  padding: var(--s-2) 0;
+  font-weight: 600;
+  font-size: var(--t-md);
+  color: var(--ink-2);
+}
+.mobile-nav__sub a:hover { color: var(--navy); }
+.mobile-nav__sub-all { color: var(--navy) !important; font-weight: 700 !important; }
+
+/* ------------------------------------------------------------
+   Cart toggle (header) + count badge
+   ------------------------------------------------------------ */
+.cart-toggle {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  transition: border-color 160ms var(--ease-out), background-color 160ms var(--ease-out);
+}
+.cart-toggle:hover { border-color: var(--navy); background: var(--navy-tint); }
+.cart-toggle svg { width: 1.35rem; height: 1.35rem; }
+.cart-toggle__count {
+  position: absolute;
+  top: -6px; right: -6px;
+  min-width: 1.15rem; height: 1.15rem;
+  padding: 0 4px;
+  display: grid; place-items: center;
+  background: var(--green-cta);
+  color: #fff;
+  border-radius: var(--r-pill);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* ------------------------------------------------------------
+   Cart drawer
+   ------------------------------------------------------------ */
+.cart-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 190;
+  background: rgba(16, 27, 46, .5);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+body.cart-lock { overflow: hidden; }
+
+.cart-drawer {
+  position: fixed;
+  top: 0; right: 0;
+  z-index: 200;
+  width: min(92vw, 24rem);
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  box-shadow: var(--shadow-lg);
+  transform: translateX(101%);
+  visibility: hidden;
+  transition: transform 300ms var(--ease-out), visibility 0s 300ms;
+}
+.cart-drawer.is-open {
+  transform: none;
+  visibility: visible;
+  transition: transform 300ms var(--ease-out), visibility 0s;
+}
+@media (prefers-reduced-motion: reduce) { .cart-drawer { transition: none; } }
+
+.cart-drawer__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding: var(--s-5) var(--s-5) var(--s-4);
+  border-bottom: 1px solid var(--line);
+  flex: none;
+}
+.cart-drawer__head h2 { font-size: var(--t-lg); }
+.cart-drawer__close {
+  display: inline-grid; place-items: center;
+  width: 2.75rem; height: 2.75rem;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+.cart-drawer__close:hover { border-color: var(--navy); background: var(--navy-tint); }
+
+.cart-drawer__empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-3);
+  padding: var(--s-6);
+  text-align: center;
+  color: var(--ink-3);
+}
+.cart-drawer__empty-icon { color: var(--line); }
+.cart-drawer__empty-icon svg { width: 2.5rem; height: 2.5rem; }
+
+.cart-drawer__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--s-4) var(--s-5);
+  display: grid;
+  gap: var(--s-4);
+  align-content: start;
+}
+.cart-line {
+  display: grid;
+  grid-template-columns: 3.25rem 1fr auto;
+  gap: var(--s-3);
+  align-items: center;
+}
+.cart-line__media {
+  width: 3.25rem; height: 3.25rem;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--wash-2);
+  flex: none;
+}
+.cart-line__media img { width: 100%; height: 100%; object-fit: cover; }
+.cart-line__info { display: grid; gap: 2px; min-width: 0; }
+.cart-line__name { font-weight: 700; color: var(--ink); font-size: var(--t-base); }
+.cart-line__price { font-family: var(--font-mono); font-size: var(--t-xs); color: var(--ink-3); }
+.cart-line__control { display: flex; align-items: center; gap: var(--s-2); }
+.cart-line__remove {
+  position: relative;
+  display: inline-grid; place-items: center;
+  width: 2rem; height: 2rem;
+  border-radius: var(--r-sm);
+  color: var(--ink-3);
+}
+/* Extend the hit area to the 44px floor without enlarging the 2rem pill. */
+.cart-line__remove::before {
+  content: '';
+  position: absolute;
+  inset: calc((2.75rem - 2rem) / -2);
+}
+.cart-line__remove:hover { color: #c02626; background: #fdeaea; }
+
+.cart-drawer__foot {
+  flex: none;
+  padding: var(--s-5);
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: var(--s-3);
+  background: var(--wash);
+}
+.cart-drawer__total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.cart-drawer__total span { color: var(--ink-2); font-weight: 600; }
+.cart-drawer__total strong { font-family: var(--font-mono); font-size: var(--t-xl); color: var(--ink); }
+/* Estimate notice — the qualifier the customer must read before booking.
+   Was var(--t-xs) --ink-3: 13px grey, set between a bold total and two
+   buttons, i.e. the least visible element in the most important panel.
+
+   Amber, not red or navy: this sets an expectation, it does not report an
+   error, and navy would read as another UI chrome block next to the summary
+   above it. --amber-deep on --amber-tint measures 6.1:1, so the whole line
+   passes AA comfortably and the emphasis carries weight rather than colour
+   alone. */
+.cart-note {
+  display: flex;
+  gap: var(--s-3);
+  align-items: flex-start;
+  margin: 0;
+  padding: var(--s-3) var(--s-4);
+  /* square on the left so the 3px rule reads as a straight bar; rounding
+     that edge bends the rule into a hook at the corner */
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  /* the rule does the shouting so the fill can stay quiet */
+  border-left: 3px solid var(--amber);
+  background: var(--amber-tint);
+  color: var(--amber-deep);
+  font-size: var(--t-sm);
+  line-height: 1.45;
+}
+.cart-note b { font-weight: 700; }
+.cart-note__icon {
+  display: inline-flex;
+  flex: none;
+  margin-top: .1em;   /* optical: aligns the circle to the cap height, not the line box */
+  color: var(--amber);
+}
+
+@media (forced-colors: active) {
+  .cart-note { border: 1px solid CanvasText; border-left-width: 3px; background: Canvas; color: CanvasText; }
+}
+.cart-drawer__clear {
+  justify-self: center;
+  min-height: 2.75rem;
+  padding: var(--s-2) var(--s-5);
+  font-size: var(--t-sm);
+  font-weight: 600;
+  color: var(--ink-3);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.cart-drawer__clear:hover { color: var(--ink); }
+
+/* ------------------------------------------------------------
+   Quantity stepper (price cards + cart lines)
+   ------------------------------------------------------------ */
+.qty {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  overflow: hidden;
+  background: var(--paper);
+}
+.qty__btn {
+  display: inline-grid; place-items: center;
+  width: 2.75rem; height: 2.75rem;
+  color: var(--navy);
+  transition: background-color 140ms var(--ease-out);
+}
+.qty__btn:hover { background: var(--navy-tint); }
+.qty__n {
+  min-width: 2rem;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--ink);
+}
+/* raised from 2.25rem toward the 2.75rem tap floor; the narrower number
+   (below) keeps this variant visibly more compact than the default stepper */
+.qty--sm .qty__btn { width: 2.5rem; height: 2.5rem; }
+.qty--sm .qty__n { min-width: 1.5rem; font-size: var(--t-sm); }
+
+/* ------------------------------------------------------------
+   Home banner — the happy-face hero
+   ------------------------------------------------------------ */
+.banner {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(2.25rem, 1.4rem + 3vw, 4rem);
+  background: radial-gradient(120% 130% at 88% 12%, #e7eefb 0%, #f2f7fd 42%, var(--paper) 100%);
+  border-bottom: 1px solid var(--line-soft);
+}
+.banner__grid { display: grid; gap: var(--s-6); align-items: center; }
+@media (min-width: 60rem) {
+  .banner__grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: var(--s-8); }
+}
+.banner__copy { max-width: 38rem; }
+.banner__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: .35rem .75rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--navy);
+  margin-bottom: var(--s-5);
+}
+.banner__eyebrow svg { width: .875rem; height: .875rem; color: var(--green-brand); }
+.banner h1 { margin-bottom: var(--s-4); }
+.banner__sub { font-size: var(--t-lg); color: var(--ink-2); margin-bottom: var(--s-5); max-width: 34rem; }
+.banner__points {
+  display: grid;
+  gap: var(--s-2);
+  margin-bottom: var(--s-6);
+}
+.banner__points li {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-weight: 600;
+  color: var(--ink);
+  font-size: var(--t-base);
+}
+.banner__points svg {
+  width: 1.15rem; height: 1.15rem;
+  flex: none;
+  color: #fff;
+  background: var(--green-cta);
+  border-radius: 50%;
+  padding: 3px;
+}
+.banner__trust {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-6);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+}
+.banner__stars { display: inline-flex; gap: 2px; color: var(--amber); flex: none; }
+.banner__stars svg { width: 1rem; height: 1rem; fill: currentColor; }
+
+.banner__art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+}
+.banner__blob {
+  position: absolute;
+  width: min(30rem, 92%);
+  aspect-ratio: 1;
+  background: radial-gradient(circle at 50% 45%, rgba(33, 177, 75, .16), rgba(20, 51, 107, .10) 60%, transparent 72%);
+  border-radius: 50%;
+  filter: blur(4px);
+}
+.banner__mascot {
+  position: relative;
+  width: min(24rem, 82%);
+  height: auto;
+  filter: drop-shadow(0 24px 40px rgba(16, 27, 46, .18));
+}
+@media (max-width: 59.99rem) {
+  .banner__art { order: -1; }
+  .banner__mascot { width: min(15rem, 60%); }
+  .banner__blob { width: min(18rem, 70%); }
+}
+
+/* ------------------------------------------------------------
+   Why Wash4You — trailing SEO paragraph under the promise strip
+   ------------------------------------------------------------ */
+.why__seo {
+  max-width: 60rem;
+  margin-top: var(--s-6);
+  font-size: var(--t-base);
+  color: var(--ink-3);
+  line-height: 1.7;
+}
+
+/* ------------------------------------------------------------
+   How it works — the seven-step flow (on the navy band)
+   ------------------------------------------------------------ */
+.flow {
+  display: grid;
+  gap: var(--s-5);
+  grid-template-columns: 1fr;
+  counter-reset: flow;
+}
+@media (min-width: 34rem) { .flow { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 52rem) { .flow { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 72rem) { .flow { grid-template-columns: repeat(7, 1fr); gap: var(--s-4); } }
+
+.flow__step {
+  position: relative;
+  padding: var(--s-5) var(--s-4);
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: var(--r-lg);
+  background: rgba(255, 255, 255, .04);
+}
+/* The step numbers wear the accent: brass on a whisper of brass. */
+.flow__num {
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem; height: 2.25rem;
+  margin-bottom: var(--s-3);
+  border-radius: 50%;
+  background: rgba(217, 184, 120, .14);
+  color: var(--brass-bright);
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.flow__step h3 { font-size: var(--t-md); color: #fff; margin-bottom: var(--s-1); }
+.flow__step p { font-size: var(--t-base); color: rgba(255, 255, 255, .74); line-height: 1.5; }
+
+/* ------------------------------------------------------------
+   Home blog cards
+   ------------------------------------------------------------ */
+.blog-grid {
+  display: grid;
+  gap: var(--s-4);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 44rem) { .blog-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  transition: border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
+}
+.blog-card:hover { border-color: var(--navy); box-shadow: var(--shadow-md); }
+.blog-card:focus-within { border-color: var(--navy); }
+.blog-card__date {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.blog-card h3 { font-size: var(--t-md); line-height: 1.35; }
+.blog-card h3 a { color: var(--ink); }
+.blog-card p { font-size: var(--t-base); color: var(--ink-3); line-height: 1.55; flex: 1; }
+/* whole card is the click target; the title link owns the a11y name */
+.blog-card h3 a::after { content: ''; position: absolute; inset: 0; }
+.blog-card { position: relative; }
+.blog-card__more { pointer-events: none; }
+
+/* ------------------------------------------------------------
+   Pricing — image grid + add-to-cart cards
+   ------------------------------------------------------------ */
+.price-grid {
+  display: grid;
+  gap: var(--s-4);
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 40rem) { .price-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 60rem) { .price-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 78rem) { .price-grid { grid-template-columns: repeat(5, 1fr); } }
+
+.price-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  transition: border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
+}
+.price-card:hover { border-color: var(--navy); box-shadow: var(--shadow-md); }
+.price-card__media {
+  aspect-ratio: 1;
+  background: var(--wash-2);
+}
+.price-card__media img { width: 100%; height: 100%; object-fit: cover; }
+.price-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding: var(--s-4);
+  flex: 1;
+}
+.price-card__name { font-size: var(--t-base); font-weight: 700; color: var(--ink); line-height: 1.25; }
+.price-card__meta { display: flex; align-items: baseline; gap: var(--s-2); flex-wrap: wrap; margin-top: auto; }
+.price-card__price { font-family: var(--font-mono); font-weight: 500; font-size: var(--t-md); color: var(--navy); }
+.price-card__price em { font-style: normal; font-size: var(--t-xs); color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; }
+.price-card__unit { font-size: var(--t-xs); color: var(--ink-3); }
+.price-card__control { margin-top: var(--s-2); }
+
+.price-card__add {
+  width: 100%;
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  border: 1.5px solid var(--green-cta);
+  border-radius: var(--r-pill);
+  color: var(--green-cta);
+  font-weight: 700;
+  font-size: var(--t-base);
+  transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out);
+}
+.price-card__add:hover { background: var(--green-cta); color: #fff; }
+.price-card__add svg { width: 1rem; height: 1rem; }
+.price-card__control .qty { width: 100%; justify-content: space-between; }
+
+/* ------------------------------------------------------------
+   Pricing toolbar — download PDF + view list
+   ------------------------------------------------------------ */
+.price-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding: var(--s-4) var(--s-5);
+  background: var(--wash);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+}
+.price-toolbar__text { display: grid; gap: 2px; }
+.price-toolbar__text strong { color: var(--ink); font-size: var(--t-md); }
+.price-toolbar__text span { font-size: var(--t-sm); color: var(--ink-3); }
+.price-toolbar__text em { font-style: normal; font-weight: 700; color: var(--green); }
+.price-toolbar__actions { display: flex; flex-wrap: wrap; gap: var(--s-3); }
+@media (max-width: 30rem) {
+  .price-toolbar__actions { width: 100%; }
+  .price-toolbar__actions .btn { flex: 1; }
+}
+
+/* ------------------------------------------------------------
+   Packages — prepaid cleaning plans
+   ------------------------------------------------------------ */
+
+/* What a plan covers — the service strip */
+.plan-covers {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--s-3);
+  margin-top: var(--s-4);
+}
+@media (min-width: 40rem) { .plan-covers { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 64rem) { .plan-covers { grid-template-columns: repeat(6, 1fr); } }
+.plan-cover {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  font-weight: 600;
+  font-size: var(--t-sm);
+  color: var(--ink);
+}
+.plan-cover__icon { display: inline-grid; place-items: center; color: var(--navy); flex: none; }
+.plan-cover__icon svg { width: 1.5rem; height: 1.5rem; }
+
+/* The plan cards. Two-up from the smallest phone: minmax(0, 1fr), not a
+   bare 1fr, so a card's own content (the "You pay X -> Y you get to
+   spend" row, wider than the old single balance line) can never force it
+   past its column's share — that gap is what overflowed the page at
+   ~600px before minmax(0, ...) was added here. */
+.plan-grid {
+  display: grid;
+  gap: var(--s-3);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (min-width: 64rem) { .plan-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.plan-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  padding: var(--s-6) var(--s-5) var(--s-5);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  transition: border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
+}
+.plan-card:hover { border-color: var(--navy); box-shadow: var(--shadow-md); }
+
+/* Two-up on a phone leaves ~150-180px per card — tighten padding and type
+   so the name, balance figures and includes list still fit, and let the
+   head/rows wrap to a second line instead of overflowing the card when
+   they still don't (a nowrap flex row with no shrinkable child spills
+   past its box rather than compressing — "+30% value" next to a plan
+   name was exactly that). */
+@media (max-width: 30rem) {
+  .plan-card { padding: var(--s-4) var(--s-4) var(--s-4); gap: var(--s-3); }
+  .plan-card__name { font-size: var(--t-base); }
+  .plan-card__balance-num { font-size: var(--t-xl); }
+  .plan-card__balance-pay-num { font-size: var(--t-sm); }
+  .plan-card__head { flex-wrap: wrap; gap: var(--s-2); }
+  .plan-card__benefit { font-size: 0.625rem; padding: .15rem .4rem; }
+  .plan-grid .plan-card__rows > div { flex-wrap: wrap; }
+}
+
+.plan-card__head { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); }
+.plan-card__name { font-size: var(--t-lg); }
+.plan-card__benefit {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: .04em;
+  color: var(--brass-deep);
+  background: var(--brass-tint);
+  padding: .2rem .5rem;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+}
+
+.plan-card__balance { display: flex; align-items: center; flex-wrap: wrap; gap: var(--s-2) var(--s-3); padding-bottom: var(--s-3); border-bottom: 1px solid var(--line-soft); }
+.plan-card__balance-pay { display: flex; flex-direction: column; gap: 2px; }
+.plan-card__balance-pay-label { font-size: var(--t-xs); color: var(--ink-3); }
+.plan-card__balance-pay-num { font-family: var(--font-mono); font-weight: 600; font-size: var(--t-base); color: var(--ink-2); }
+.plan-card__balance-arrow { color: var(--brass-deep); flex: none; }
+.plan-card__balance-get { display: flex; flex-direction: column; gap: 2px; }
+.plan-card__balance-num { font-family: var(--font-display); font-weight: 800; font-size: var(--t-2xl); color: var(--ink); line-height: 1; }
+.plan-card__balance-label { font-size: var(--t-sm); color: var(--ink-3); }
+
+.plan-card__rows { display: grid; gap: var(--s-2); }
+.plan-card__rows > div { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-3); }
+.plan-card__rows dt { font-size: var(--t-sm); color: var(--ink-3); }
+.plan-card__rows dd { font-family: var(--font-mono); font-weight: 500; color: var(--ink); }
+.plan-card__rows dd.is-free { color: var(--brass-deep); }
+.plan-card .btn { margin-top: auto; }
+
+/* Best-value tiers — gold (Founder) and navy (VIP), echoing the client graphic */
+.plan-card__badge {
+  position: absolute;
+  top: -.7rem; right: var(--s-5);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: .25rem .7rem;
+  border-radius: var(--r-pill);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.plan-card--gold {
+  border-color: var(--amber);
+  box-shadow: 0 12px 30px rgba(202, 134, 14, .16);
+  background: linear-gradient(180deg, #fdf7ea, var(--paper) 42%);
+}
+.plan-card--gold .plan-card__badge { background: var(--amber); }
+.plan-card--gold .plan-card__benefit { color: #8a5a06; background: #f6e8c8; }
+
+.plan-card--navy { border-color: var(--navy); background: var(--navy-deep); color: rgba(255,255,255,.82); }
+.plan-card--navy .plan-card__badge { background: var(--brass-deep); }
+.plan-card--navy .plan-card__name,
+.plan-card--navy .plan-card__balance-num,
+.plan-card--navy .plan-card__rows dd { color: #fff; }
+.plan-card--navy .plan-card__balance { border-bottom-color: rgba(255,255,255,.16); }
+.plan-card--navy .plan-card__balance-label,
+.plan-card--navy .plan-card__balance-pay-label,
+.plan-card--navy .plan-card__rows dt { color: rgba(255,255,255,.6); }
+.plan-card--navy .plan-card__balance-pay-num { color: rgba(255,255,255,.82); }
+.plan-card--navy .plan-card__balance-arrow { color: var(--brass-bright); }
+.plan-card--navy .plan-card__benefit { color: var(--brass-bright); background: rgba(217,184,120,.14); }
+.plan-card--navy .plan-card__rows dd.is-free { color: var(--brass-bright); }
+
+.plan-foot { margin-top: var(--s-6); color: var(--ink-3); font-size: var(--t-xs); }
+
+/* Trust features */
+.plan-features { display: grid; gap: var(--s-5); grid-template-columns: 1fr; }
+@media (min-width: 48rem) { .plan-features { grid-template-columns: repeat(3, 1fr); } }
+.plan-feature { display: flex; gap: var(--s-3); }
+.plan-feature__icon { display: inline-grid; place-items: center; width: 2.5rem; height: 2.5rem; flex: none; border-radius: var(--r-sm); background: var(--brass-tint); color: var(--brass-deep); }
+.plan-feature__icon svg { width: 1.25rem; height: 1.25rem; }
+.plan-feature h3 { font-size: var(--t-md); margin-bottom: 2px; }
+.plan-feature p { font-size: var(--t-sm); color: var(--ink-3); line-height: 1.5; }
+
+/* Sticky pick bar on the price list */
+.pick-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 70; display: flex; align-items: center; gap: .75rem; justify-content: center; flex-wrap: wrap; padding: .75rem 1rem; background: #fff; border-top: 1px solid #d6e6fb; box-shadow: 0 -8px 24px rgba(11, 30, 60, .14); }
+.pick-bar[hidden] { display: none; }
+.pick-bar__text { font-weight: 600; color: #0b1e3c; }
+body:has(.pick-bar:not([hidden])) .book-fab, body:has(.pick-bar:not([hidden])) .cta-bar { display: none; }

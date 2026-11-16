@@ -1,0 +1,435 @@
+/* ============================================================
+   Wash4You — About page
+
+   The page was a wall of grey prose on white. It now alternates the two
+   brand grounds so each section reads as its own idea:
+
+     hero        --navy            blue
+     story       --paper           white
+     mission     --green-tint      green
+     why         --navy-deep       blue
+     services    --paper           white
+     how         --green-tint      green
+     areas       --paper           white
+     promise     --navy-deep       blue
+     audience    --paper           white
+
+   Every colour is a base.css token. Two rules hold throughout:
+
+   1. --brand-green (#21b14b) is a NON-TEXT green — white on it is 2.82:1.
+      Anything with text uses --green-cta (4.66:1) or --green (4.54:1 on
+      white).
+   2. Motion uses `translate`, never `transform`: the grids carry
+      .stagger-children and animations.css reserves transform/opacity for
+      the reveal.
+
+   Scoped to .page-about throughout, since this sheet is loaded from the
+   page's own preload block but the class names are generic.
+   ============================================================ */
+
+/* ---- Hero ------------------------------------------------------------- */
+.page-about .about-hero {
+  background: var(--navy);
+  color: #fff;
+  border-bottom: 1px solid rgba(217, 184, 120, .35);
+}
+.page-about .about-hero .crumbs { color: rgba(255, 255, 255, 0.72); }
+.page-about .about-hero .crumbs a { color: #fff; }
+.page-about .about-hero .crumbs span[aria-hidden] { color: rgba(255, 255, 255, 0.38); }
+.page-about .about-hero .eyebrow { color: #8fe6cd; }
+
+.page-about .about-hero h1 { color: #fff; }
+.page-about .about-hero .lede { color: #fff; font-weight: 600; }
+.page-about .about-hero__body { color: rgba(255, 255, 255, 0.86); margin-top: var(--s-4); }
+
+.page-about .about-hero .btn--ghost {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.10);
+}
+.page-about .about-hero .btn--ghost:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.page-about .about-hero__img {
+  width: 100%;
+  height: 100%;
+  max-height: 26rem;
+  object-fit: cover;
+  border-radius: var(--r-lg);
+  box-shadow: 0 18px 44px rgba(4, 12, 30, 0.35);
+}
+.page-about .about-hero__grid { align-items: center; }
+
+/* ---- Band grounds ----------------------------------------------------- */
+.page-about .about-band-green {
+  background: var(--wash-2);
+  border-block: 1px solid rgba(33, 177, 75, 0.28);
+}
+.page-about .about-band-blue {
+  background: var(--navy-deep);
+  border-block: 1px solid rgba(217, 184, 120, .35);
+}
+
+/* ---- Mission + Vision ------------------------------------------------- */
+.page-about .mv-grid {
+  display: grid;
+  gap: var(--s-5);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 52rem) {
+  .page-about .mv-grid { grid-template-columns: 1fr 1fr; align-items: start; }
+}
+.page-about .mv-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: clamp(1.4rem, 1.1rem + 1vw, 2.1rem);
+  box-shadow: var(--shadow-card);
+  /* The accent is a left spine so the two cards read as a pair with
+     different subjects rather than two unrelated boxes. */
+  border-left: 2px solid var(--pc, var(--navy));
+}
+.page-about .mv-card--mission { --pc: var(--brand-blue); }
+.page-about .mv-card--vision  { --pc: var(--brass); }
+
+.page-about .mv-card__icon {
+  display: inline-grid;
+  place-items: center;
+  width: 3rem; height: 3rem;
+  border-radius: var(--r-md);
+  background: var(--navy-tint);
+  color: var(--brand-blue);
+  margin-bottom: var(--s-4);
+}
+.page-about .mv-card--vision .mv-card__icon {
+  background: var(--brass-tint);
+  color: var(--brass-deep);
+}
+.page-about .mv-card__eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin: 0 0 var(--s-2);
+}
+.page-about .mv-card h2 { font-size: var(--t-xl); margin-bottom: var(--s-3); color: var(--navy); }
+.page-about .mv-card p { color: var(--ink-2); }
+
+.page-about .mv-card__list {
+  list-style: none;
+  margin: var(--s-4) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-2);
+}
+.page-about .mv-card__list li {
+  position: relative;
+  padding-left: 1.6rem;
+  color: var(--ink-2);
+  font-size: var(--t-sm);
+}
+/* A green tick drawn in CSS — no icon markup needed per item. */
+.page-about .mv-card__list li::before {
+  content: '';
+  position: absolute;
+  left: 0.15rem; top: 0.42em;
+  width: 0.42rem; height: 0.72rem;
+  border: solid var(--brass-deep);
+  border-width: 0 2.5px 2.5px 0;
+  rotate: 45deg;
+}
+
+/* ---- Why Wash4You (blue band) ----------------------------------------- */
+.page-about .why-grid {
+  display: grid;
+  gap: var(--s-4);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 40rem) { .page-about .why-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64rem) { .page-about .why-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.page-about .why-card {
+  padding: var(--s-5);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--r-lg);
+  background: rgba(255, 255, 255, 0.05);
+}
+.page-about .why-card__icon {
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem; height: 2.75rem;
+  border-radius: 50%;
+  background: rgba(217, 184, 120, .16);
+  color: var(--brass-bright);
+  margin-bottom: var(--s-3);
+}
+.page-about .why-card h3 { color: #fff; font-size: var(--t-md); margin-bottom: var(--s-2); }
+.page-about .why-card p { color: rgba(255, 255, 255, 0.82); font-size: var(--t-sm); line-height: 1.55; }
+
+@media (hover: hover) and (pointer: fine) {
+  .page-about .why-card {
+    transition:
+      background-color 220ms var(--ease-out),
+      border-color 220ms var(--ease-out),
+      box-shadow 260ms var(--ease-out),
+      translate 260ms var(--ease-out);
+  }
+  .page-about .why-card:hover {
+    background: var(--green-cta);
+    border-color: var(--green-cta);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.3);
+    translate: 0 -6px;
+  }
+  .page-about .why-card:hover p { color: #fff; }
+  .page-about .why-card:hover .why-card__icon { background: #fff; color: var(--green-cta); }
+}
+
+/* ---- Services table --------------------------------------------------- */
+.page-about .svc-table-wrap {
+  overflow-x: auto;              /* the table scrolls, never the page */
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--paper);
+  box-shadow: var(--shadow-card);
+}
+.page-about .svc-table {
+  width: 100%;
+  min-width: 34rem;
+  border-collapse: collapse;
+  text-align: left;
+}
+.page-about .svc-table th,
+.page-about .svc-table td {
+  padding: var(--s-4) var(--s-5);
+  border-bottom: 1px solid var(--line-soft);
+  vertical-align: top;
+}
+.page-about .svc-table thead th {
+  background: var(--navy);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.page-about .svc-table tbody th { color: var(--navy); font-weight: 700; white-space: nowrap; }
+.page-about .svc-table tbody th a { color: var(--navy); text-decoration: underline; text-underline-offset: 2px; }
+.page-about .svc-table tbody th a:hover { color: var(--green-deep); }
+.page-about .svc-table td { color: var(--ink-2); font-size: var(--t-sm); }
+.page-about .svc-table tbody tr:last-child th,
+.page-about .svc-table tbody tr:last-child td { border-bottom: 0; }
+.page-about .svc-table tbody tr:hover { background: var(--green-tint); }
+
+.page-about .svc-table__turn {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--r-pill);
+  background: var(--green-tint);
+  color: var(--green-deep);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ---- How it works ----------------------------------------------------- */
+.page-about .about-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-4);
+  grid-template-columns: 1fr;
+  counter-reset: about-step;
+}
+@media (min-width: 40rem) { .page-about .about-steps { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64rem) { .page-about .about-steps { grid-template-columns: repeat(3, 1fr); } }
+
+.page-about .about-step {
+  position: relative;
+  padding: var(--s-5);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+}
+.page-about .about-step__num {
+  display: inline-grid;
+  place-items: center;
+  width: 2.5rem; height: 2.5rem;
+  margin-bottom: var(--s-3);
+  border-radius: 50%;
+  background: var(--navy);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+}
+.page-about .about-step h3 { font-size: var(--t-md); color: var(--navy); margin-bottom: var(--s-1); }
+.page-about .about-step p { color: var(--ink-2); font-size: var(--t-base); }
+
+@media (hover: hover) and (pointer: fine) {
+  .page-about .about-step {
+    transition: border-color 200ms var(--ease-out), box-shadow 240ms var(--ease-out), translate 240ms var(--ease-out);
+  }
+  .page-about .about-step:hover {
+    border-color: var(--brand-green);
+    box-shadow: var(--shadow-lg);
+    translate: 0 -4px;
+  }
+  .page-about .about-step:hover .about-step__num { background: var(--green-cta); }
+}
+
+/* ---- Areas we serve --------------------------------------------------- */
+.page-about .area-groups {
+  display: grid;
+  gap: var(--s-4);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 44rem) { .page-about .area-groups { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 68rem) { .page-about .area-groups { grid-template-columns: repeat(3, 1fr); } }
+
+.page-about .area-group {
+  display: block;
+  text-decoration: none;
+  padding: var(--s-5);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--brand-blue);
+  border-radius: var(--r-lg);
+  background: var(--paper);
+}
+.page-about .area-group:nth-child(even) { border-left-color: var(--brand-green); }
+.page-about .area-group__pin { color: var(--brand-blue); display: inline-flex; margin-bottom: var(--s-2); }
+.page-about .area-group:nth-child(even) .area-group__pin { color: var(--green); }
+.page-about .area-group h3 { font-size: var(--t-md); color: var(--navy); margin-bottom: var(--s-1); }
+.page-about .area-group p { color: var(--ink-2); font-size: var(--t-sm); }
+
+/* ---- Our promise (blue band) ------------------------------------------ */
+.page-about .promise-grid {
+  display: grid;
+  gap: var(--s-3);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 48rem) { .page-about .promise-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 72rem) { .page-about .promise-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.page-about .promise-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--s-3);
+  align-items: start;
+  padding: var(--s-4) var(--s-5);
+  border-radius: var(--r-lg);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+.page-about .promise-row__tick {
+  grid-row: 1 / span 2;
+  display: inline-grid;
+  place-items: center;
+  width: 2rem; height: 2rem;
+  border-radius: 50%;
+  background: var(--brand-green);
+  color: #06210f;
+}
+.page-about .promise-row h3 { color: #fff; font-size: var(--t-base); margin: 0 0 0.15rem; }
+.page-about .promise-row p { color: rgba(255, 255, 255, 0.82); font-size: var(--t-sm); margin: 0; }
+
+/* ---- Who we serve ----------------------------------------------------- */
+.page-about .audience-grid {
+  display: grid;
+  gap: var(--s-4);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 40rem) { .page-about .audience-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64rem) { .page-about .audience-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.page-about .audience-card {
+  padding: var(--s-5);
+  border-radius: var(--r-lg);
+  background: var(--wash);
+  border: 1px solid var(--line-soft);
+  border-top: 3px solid var(--brand-green);
+}
+.page-about .audience-card:nth-child(3n + 2) { border-top-color: var(--brand-blue); }
+.page-about .audience-card h3 { font-size: var(--t-md); color: var(--navy); margin-bottom: var(--s-1); }
+.page-about .audience-card p { color: var(--ink-2); font-size: var(--t-sm); }
+
+/* ---- Section heads on the dark bands ---------------------------------- */
+.page-about .about-band-blue .section-head p:not(.eyebrow) { color: rgba(255, 255, 255, 0.84); }
+
+@media (prefers-reduced-motion: reduce) {
+  .page-about .why-card:hover,
+  .page-about .about-step:hover { translate: none; }
+}
+
+/* The area cards link to their locality page, so they take the same green
+   hover the rest of the site's cards use. */
+@media (hover: hover) and (pointer: fine) {
+  .page-about .area-group {
+    transition:
+      background-color 200ms var(--ease-out),
+      border-color 200ms var(--ease-out),
+      box-shadow 240ms var(--ease-out),
+      translate 240ms var(--ease-out);
+  }
+  .page-about .area-group:hover {
+    background: var(--green-cta);
+    border-color: var(--green-cta);
+    border-left-color: var(--green-cta);
+    box-shadow: 0 12px 26px rgba(16, 27, 46, 0.2);
+    translate: 0 -4px;
+  }
+  .page-about .area-group:hover h3,
+  .page-about .area-group:hover p,
+  .page-about .area-group:hover .area-group__pin { color: #fff; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-about .area-group:hover { translate: none; }
+}
+
+
+/* 2026 imagery pass — the store photography joins the one site grade. */
+.about-hero__img, .page-about .about-band img { filter: var(--photo-grade); }
+
+/* Packages-style: full-width banner, copy on a frosted panel over its left half. */
+.page-about .about-hero--banner {
+  background: url('../images/hero-about-banner.webp') center top / 100% auto no-repeat, #f3f7fb;
+  
+  display: flex; align-items: center;
+  padding-block: clamp(1rem, 1.6vw, 1.5rem);
+}
+.page-about .about-hero--banner > .wrap { width: 100%; }
+.page-about .about-hero--banner .about-hero__grid { display: block; }
+.page-about .about-hero--banner .about-hero__copy {
+  width: fit-content; max-width: 100%;
+  padding: clamp(1rem, 2vw, 1.75rem) clamp(1.1rem, 2.2vw, 2rem);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .88);
+  border: 1px solid rgba(20, 51, 107, .12);
+  box-shadow: 0 12px 36px rgba(13, 35, 80, .18);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.page-about .about-hero--banner .crumbs, .page-about .about-hero--banner .crumbs a { color: var(--navy, #14336b); }
+.page-about .about-hero--banner .crumbs span[aria-hidden] { color: rgba(20, 51, 107, .4); }
+.page-about .about-hero--banner .eyebrow { color: var(--navy, #14336b); }
+.page-about .about-hero--banner h1 { color: var(--navy-deep, #0d2350); font-size: clamp(1.5rem, 2.4vw, 2.2rem); line-height: 1.12; }
+.page-about .about-hero--banner .lede { color: var(--navy-deep, #0d2350); font-size: clamp(.9rem, 1.05vw, 1rem); }
+.page-about .about-hero--banner .about-hero__body { color: #223a5e; font-size: clamp(.85rem, 1vw, .95rem); }
+.page-about .about-hero--banner .btn--ghost { color: var(--navy, #14336b); border-color: rgba(20, 51, 107, .35); background: #fff; }
+@media (min-width: 62rem) {
+  .page-about .about-hero--banner .about-hero__copy { max-width: 38%; }
+  .page-about .about-hero--banner .about-hero__copy .crumbs { margin-bottom: .5rem; }
+  .page-about .about-hero--banner .about-hero__copy .btn-row { margin-top: .75rem; }
+  .page-about .about-hero--banner .btn--lg { padding: .6rem 1rem; font-size: .9rem; }
+}
+@media (max-width: 61.99rem) {
+  .page-about .about-hero--banner { min-height: 0; background: linear-gradient(rgba(255,255,255,.88), rgba(255,255,255,.88)), url('../images/hero-about-banner.webp') 40% center / cover no-repeat, #f3f7fb; }
+}
+.page-about .about-intro .about-hero__body--below { color: var(--ink-2, #223a5e); font-size: var(--t-lg, 1.1rem); text-align: center; margin: 0; }
+
+/* Logo + mascot lockup above the story */
+.page-about .about-lockup { display: flex; align-items: center; justify-content: center; gap: clamp(.75rem, 2vw, 1.5rem); margin-bottom: var(--s-6, 1.75rem); }
+.page-about .about-lockup__logo { width: min(16rem, 55%); height: auto; }
+.page-about .about-lockup__mascot { width: auto; height: clamp(5.5rem, 14vw, 8rem); }
