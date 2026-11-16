@@ -1,6 +1,8 @@
 ---
 title: "The Hidden Science of Damp Laundry: Why Your \"Full\" Load Is Failing"
 date: "2026-10-29"
+meta_title: "Why Overloaded Washing Machines Leave Clothes Damp | Wash4You"
+meta_description: "Learn why overloading your washing machine leaves clothes damp and musty, and the simple loading habits that help laundry dry properly and smell fresh."
 excerpt: "Learn why overloading your washing machine can leave clothes damp, musty, and difficult to dry. Discover simple laundry tips to improve cleaning, prevent unpleasant odors, and keep your clothes fresh every time."
 category: "Damp Laundry"
 image: "images/uploads/the-hidden-science-of-laundry-loads-dc51af0c.png"

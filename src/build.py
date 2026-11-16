@@ -403,7 +403,7 @@ def load_posts(posts_dir: Path, base_url: str) -> list[dict]:
 
     A post lives at /<slug>/ (the URL the blog has always used, so existing
     links and search rankings keep working). Only `status: published` posts
-    are built. Front matter: title, date, excerpt, meta_description, category,
+    are built. Front matter: title, date, excerpt, meta_title, meta_description, category,
     cover_service_slug (the service the card art falls back to), image.
     """
     posts: list[dict] = []
@@ -437,6 +437,7 @@ def load_posts(posts_dir: Path, base_url: str) -> list[dict]:
             "date": shown,
             "date_iso": iso,
             "excerpt": excerpt,
+            "meta_title": " ".join(str(meta.get("meta_title") or "").split()),
             "meta_description": " ".join(str(meta.get("meta_description") or excerpt).split()),
             "category": str(meta.get("category") or "Guides").strip(),
             "art": meta.get("cover_service_slug") or "",
@@ -651,6 +652,33 @@ def add_img_dimensions(rendered: str, page_dir: Path) -> str:
         return tag if not d else tag.replace("<img", f'<img width="{d[0]}" height="{d[1]}"', 1)
 
     return _IMG_TAG_RE.sub(fix, rendered)
+
+
+
+_TRACK_RULES = [
+    (re.compile(r"wa\.me/|api\.whatsapp\.com|whatsapp\.com/send", re.I), "whatsapp"),
+    (re.compile(r"^tel:", re.I), "call"),
+    (re.compile(r"app\.wash4you\.in", re.I), "book-pickup"),
+]
+_A_TAG_RE = re.compile(r"<a\b[^>]*>", re.I)
+
+
+def add_tracking_hooks(rendered: str) -> str:
+    """data-track hooks for GA4 / Google Tag Manager: WhatsApp links, tel:
+    links and booking links get data-track="whatsapp" | "call" | "book-pickup".
+    Attribute only: no visible change. Links that already have one are kept."""
+    def fix(m: re.Match) -> str:
+        tag = m.group(0)
+        if "data-track" in tag:
+            return tag
+        href = re.search(r'\shref="([^"]*)"', tag)
+        if not href:
+            return tag
+        for rx, name in _TRACK_RULES:
+            if rx.search(href.group(1)):
+                return tag[:-1] + f' data-track="{name}">'
+        return tag
+    return _A_TAG_RE.sub(fix, rendered)
 
 
 
@@ -1153,10 +1181,12 @@ def build() -> None:
         _others.sort(key=lambda p: p["category"] != _post["category"])  # stable: keeps date order
         pages_to_build.append((_rel, "page-blog-post.html", {
             "meta": {
-                "title": _post["title"],
+                # `meta_title` (front matter) is the search/social title; the
+                # visible H1 stays the post's own `title`.
+                "title": _post["meta_title"] or _post["title"],
                 "description": _post["meta_description"],
                 "canonical": _post["url"],
-                "og_title": _post["title"],
+                "og_title": fit_title(_post["meta_title"] or _post["title"]),
                 "og_description": _post["meta_description"],
                 "og_image": _post["image"] or "images/og-share.jpg",
                 "og_type": "article",
@@ -1510,6 +1540,8 @@ def build() -> None:
         if seo_pages and template_name != "page-pricing-print.html":
             rendered = seo_overrides.apply(rendered, rel_path, seo_pages, site["urls"]["base"])
         rendered = add_img_dimensions(rendered, (DIST_DIR / rel_path).parent)
+        if template_name != "page-pricing-print.html":
+            rendered = add_tracking_hooks(rendered)
         # Fingerprint for sitemap <lastmod>: the page as rendered, minus the
         # per-build ?v= cache-buster, so only a real content change moves it.
         page_hash[rel_path] = hashlib.sha1(re.sub(r"\?v=\d{14}", "", rendered).encode("utf-8")).hexdigest()
