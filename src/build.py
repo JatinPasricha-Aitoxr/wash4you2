@@ -1377,17 +1377,8 @@ def build() -> None:
     if ESBUILD_BIN.exists():
         bundle_css(DIST_DIR / "assets" / "css")
 
-    # Old service URLs -> new ones. Static hosting has no 301s, so leave a
-    # canonical + meta-refresh stub at each old path (kept out of the sitemap).
-    for svc in services["services"]:
-        new_url = f"{site['urls']['base']}/services/{svc['slug']}{SERVICE_SLUG_SUFFIX}/"
-        write_html(DIST_DIR / "services" / svc["slug"] / "index.html",
-                   '<!doctype html><html lang="en"><head><meta charset="utf-8">'
-                   f'<title>{html.escape(svc["name"])} – Wash4You</title>'
-                   f'<link rel="canonical" href="{new_url}">'
-                   f'<meta http-equiv="refresh" content="0; url={new_url}">'
-                   '<meta name="robots" content="noindex,follow"></head>'
-                   f'<body><a href="{new_url}">{html.escape(svc["name"])}</a></body></html>')
+    # The old /services/<slug>/ stubs (noindex + meta-refresh) are gone: each
+    # old URL is a 301 to its new address in .htaccess instead.
 
     # /book-pickup/ was briefly a page of its own. Booking now lives on the external
     # booking page; this keeps the old address working (kept out of the sitemap).

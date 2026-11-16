@@ -17,7 +17,21 @@ RewriteRule ^ https://wash4you.in%1 [R=301,L,NE]
 RewriteRule ^best-dryclean-near-me/?$ https://wash4you.in/best-dryclean-in-gurgaon/ [R=301,L]
 RewriteRule ^pricing/(sushant-lok|sector-49|cyber-city|dlf-phase-3|golf-course-road|golf-course-extension|sohna-road|sector-29|palam-vihar|mg-road)/?$ https://wash4you.in/pricing/ [R=301,L]
 RewriteRule ^services/premium-dry-cleaning/?$ https://wash4you.in/services/premium-dry-cleaning-best-premium-drycleaning-service/ [R=301,L]
-# (Task 4 adds more old service URLs here)
+# Old service URLs (they used to be noindex stubs with a meta-refresh)
+RewriteRule ^services/eco-friendly-laundry/?$ https://wash4you.in/services/eco-friendly-laundry-best-premium-drycleaning-service/ [R=301,L]
+RewriteRule ^services/shoe-cleaning/?$ https://wash4you.in/services/shoe-cleaning-best-premium-drycleaning-service/ [R=301,L]
+RewriteRule ^services/bag-cleaning/?$ https://wash4you.in/services/bag-cleaning-best-premium-drycleaning-service/ [R=301,L]
+RewriteRule ^services/leather-cleaning/?$ https://wash4you.in/services/leather-cleaning-best-premium-drycleaning-service/ [R=301,L]
+RewriteRule ^services/curtains-cleaning/?$ https://wash4you.in/services/curtains-cleaning-best-premium-drycleaning-service/ [R=301,L]
+RewriteRule ^services/carpet-cleaning/?$ https://wash4you.in/services/carpet-cleaning-best-premium-drycleaning-service/ [R=301,L]
+RewriteRule ^services/toy-cleaning/?$ https://wash4you.in/services/toy-cleaning-best-premium-drycleaning-service/ [R=301,L]
+RewriteRule ^services/accessories-cleaning/?$ https://wash4you.in/services/accessories-cleaning-best-premium-drycleaning-service/ [R=301,L]
+RewriteRule ^services/sofa-cleaning/?$ https://wash4you.in/services/sofa-cleaning-best-premium-drycleaning-service/ [R=301,L]
+RewriteRule ^services/steam-ironing/?$ https://wash4you.in/services/steam-ironing-best-premium-drycleaning-service/ [R=301,L]
+RewriteRule ^services/mattress-cleaning/?$ https://wash4you.in/services/mattress-cleaning-best-premium-drycleaning-service/ [R=301,L]
+RewriteRule ^services/wet-cleaning/?$ https://wash4you.in/services/wet-cleaning-best-premium-drycleaning-service/ [R=301,L]
+RewriteRule ^services/blanket-quilt-cleaning/?$ https://wash4you.in/services/blanket-quilt-cleaning-best-premium-drycleaning-service/ [R=301,L]
+RewriteRule ^services/linen-cleaning/?$ https://wash4you.in/services/linen-cleaning-best-premium-drycleaning-service/ [R=301,L]
 
 # 5. Browser caching for static files.
 # CSS and JS links carry a per-build ?v= token (src/build.py `asset_v`), so
