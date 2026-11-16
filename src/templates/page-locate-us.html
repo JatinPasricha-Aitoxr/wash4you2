@@ -7,7 +7,9 @@
 
 {% block preload %}
   <link rel="preload" as="image" href="{{ asset_path }}images/hero-areas.webp">
+  {% if not css_bundle %}
   <link rel="stylesheet" href="{{ asset_path }}css/redesign-areas.css?v={{ asset_v }}">
+  {% endif %}
 {% endblock %}
 
 {% block schema %},

@@ -29,6 +29,30 @@ ASSETS_DIR = ROOT / "assets"
 # data-cms binding attributes the click-to-edit overlay reads. Production
 # builds (W4U_EDIT unset) are byte-for-byte unchanged and still go to dist/.
 EDIT_MODE = bool(os.environ.get("W4U_EDIT"))
+# Shared stylesheets, in cascade order (must match the order base.html used to
+# link them). Bundled + minified into assets/css/site.css after the build.
+ESBUILD_BIN = ROOT.parent / "node_modules" / ".bin" / "esbuild"
+CSS_BUNDLE_ORDER = [
+    "fonts", "base", "layout", "ui", "page", "features", "animations",
+    "redesign-shell", "redesign-home", "redesign-pricing", "redesign-packages",
+    "redesign-areas", "redesign-services", "redesign-product", "redesign-hero",
+    "studio-custom",
+]
+
+
+def bundle_css(css_dir):
+    import subprocess
+    entry = css_dir / "_site-entry.css"
+    entry.write_text("".join(f'@import "./{n}.css";\n' for n in CSS_BUNDLE_ORDER), encoding="utf-8")
+    try:
+        subprocess.run(
+            [str(ESBUILD_BIN), str(entry), "--bundle", "--minify", "--external:../fonts/*", "--external:../images/*",
+             "--legal-comments=none", f"--outfile={css_dir / 'site.css'}"],
+            check=True, capture_output=True, text=True,
+        )
+    finally:
+        entry.unlink(missing_ok=True)
+
 DIST_DIR = ROOT.parent / ("dist-edit" if EDIT_MODE else "dist")
 
 
@@ -648,6 +672,10 @@ def build() -> None:
     # Cache-buster for CSS/JS links: changes on every build so browsers never
     # keep serving a stale stylesheet after a deploy.
     env.globals["asset_v"] = __import__("time").strftime("%Y%m%d%H%M%S")
+    # One minified stylesheet instead of 16 render-blocking requests. Only on
+    # when esbuild is installed; otherwise templates fall back to the
+    # individual files, so a host without node still builds a working site.
+    env.globals["css_bundle"] = ESBUILD_BIN.exists()
     env.globals["edit_mode"] = EDIT_MODE
     env.globals["cms"] = _make_cms(EDIT_MODE, studio.styled_bindings())
 
@@ -1364,6 +1392,8 @@ def build() -> None:
         print(f"Built: {rel_path}")
 
     (DIST_DIR / "assets" / "css" / "studio-custom.css").write_text(studio.css(studio_styles), encoding="utf-8")
+    if ESBUILD_BIN.exists():
+        bundle_css(DIST_DIR / "assets" / "css")
 
     # Old service URLs -> new ones. Static hosting has no 301s, so leave a
     # canonical + meta-refresh stub at each old path (kept out of the sitemap).

@@ -54,9 +54,12 @@
      the very requests this is meant to accelerate. #}
   <link rel="preload" href="{{ asset_path }}fonts/fraunces-normal-300-700-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="{{ asset_path }}fonts/hanken-grotesk-400-800-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="{{ asset_path }}css/fonts.css?v={{ asset_v }}">
+  {% if not css_bundle %}<link rel="stylesheet" href="{{ asset_path }}css/fonts.css?v={{ asset_v }}">{% endif %}
   {% block preload %}{% endblock %}
 
+  {% if css_bundle %}
+  <link rel="stylesheet" href="{{ asset_path }}css/site.css?v={{ asset_v }}">
+  {% else %}
   <link rel="stylesheet" href="{{ asset_path }}css/base.css?v={{ asset_v }}">
   <link rel="stylesheet" href="{{ asset_path }}css/layout.css?v={{ asset_v }}">
   <link rel="stylesheet" href="{{ asset_path }}css/ui.css?v={{ asset_v }}">
@@ -74,6 +77,7 @@
   <link rel="stylesheet" href="{{ asset_path }}css/redesign-product.css?v={{ asset_v }}">
   <link rel="stylesheet" href="{{ asset_path }}css/redesign-hero.css?v={{ asset_v }}">
   <link rel="stylesheet" href="{{ asset_path }}css/studio-custom.css?v={{ asset_v }}">
+  {% endif %}
 
   <script type="application/ld+json">
   {
@@ -196,7 +200,7 @@
   <header class="header" id="header">
     <div class="wrap header__inner">
       <a class="header__logo" href="{{ root_path or '/' }}" aria-label="Wash4You — home">
-        <img src="{{ asset_path }}images/logo-header.png" alt="Wash4You" width="781" height="144">
+        <img src="{{ asset_path }}images/logo-header.webp" alt="Wash4You" width="520" height="96">
       </a>
 
       <nav class="header__nav" aria-label="Main">
@@ -285,7 +289,7 @@
   <div class="mobile-nav" id="mobile-nav" aria-hidden="true">
     <div class="wrap mobile-nav__top">
       <a class="header__logo" href="{{ root_path or '/' }}">
-        <img src="{{ asset_path }}images/logo-header.png" alt="Wash4You" width="781" height="144">
+        <img src="{{ asset_path }}images/logo-header.webp" alt="Wash4You" width="520" height="96">
       </a>
       <button class="menu-toggle" id="menu-close" type="button" aria-label="Close menu">{{ ui('close', 22) }}</button>
     </div>

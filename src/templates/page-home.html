@@ -12,7 +12,9 @@
 {% block preload %}
   {# The hero is live text over low-priority wall tiles — the headline is
      the LCP, so there is no image to preload; just this page's stylesheet. #}
+  {% if not css_bundle %}
   <link rel="stylesheet" href="{{ asset_path }}css/redesign-home.css?v={{ asset_v }}">
+  {% endif %}
 {% endblock %}
 
 {% block schema %},
@@ -58,9 +60,11 @@
     <div class="hero-wall__col" style="--dur: {{ home.hero_wall.durations[col_key] }}s">
       {% for _pass in range(2) %}
       {% for slug in home.hero_wall.columns[col_key] %}
+      {# Only the first tiles of each lane can be in the first viewport; the
+         rest (and the whole duplicate pass) wait until they scroll near. #}
       <span class="hero-wall__tile">
         <img src="{{ asset_path }}images/pricing/{{ slug }}.webp" alt=""
-             width="400" height="400" fetchpriority="low" decoding="async">
+             width="400" height="400" fetchpriority="low" decoding="async"{% if _pass or loop.index > 2 %} loading="lazy"{% endif %}>
       </span>
       {% endfor %}
       {% endfor %}

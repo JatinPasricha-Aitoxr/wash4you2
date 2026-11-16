@@ -8,7 +8,9 @@
   {# The pricing hero photo is this page's LCP candidate — preload it, and
      load this page's redesign stylesheet. #}
   <link rel="preload" as="image" href="{{ asset_path }}images/hero-pricing.webp" fetchpriority="high">
+  {% if not css_bundle %}
   <link rel="stylesheet" href="{{ asset_path }}css/redesign-pricing.css?v={{ asset_v }}">
+  {% endif %}
 {% endblock %}
 
 {% block schema %},
