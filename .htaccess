@@ -1,39 +1,41 @@
-# www -> apex (301). Only fires on the www host, so the apex can never loop.
-<IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteCond %{HTTP_HOST} ^www\.wash4you\.in$ [NC]
-  RewriteRule ^(.*)$ https://wash4you.in/$1 [R=301,L]
-</IfModule>
+Options -MultiViews
+RewriteEngine On
 
-# Performance headers for the Hostinger (LiteSpeed/Apache) deploy.
-# Every CSS/JS link carries a per-build ?v= token, so those files are safe to
-# cache for a year. Fonts never change in place. Images are not versioned, so
-# they get a shorter lifetime. HTML is revalidated so content edits go live.
-<IfModule mod_expires.c>
-  ExpiresActive On
-  ExpiresByType text/css "access plus 1 year"
-  ExpiresByType application/javascript "access plus 1 year"
-  ExpiresByType text/javascript "access plus 1 year"
-  ExpiresByType font/woff2 "access plus 1 year"
-  ExpiresByType image/webp "access plus 1 month"
-  ExpiresByType image/png "access plus 1 month"
-  ExpiresByType image/jpeg "access plus 1 month"
-  ExpiresByType image/svg+xml "access plus 1 month"
-</IfModule>
+# 1. www -> non-www
+RewriteCond %{HTTP_HOST} ^www\.wash4you\.in$ [NC]
+RewriteRule ^ https://wash4you.in%{REQUEST_URI} [R=301,L]
+
+# 2. Collapse double slashes (//pricing/ -> /pricing/)
+RewriteCond %{THE_REQUEST} ^[A-Z]+\s([^?\s]*?)//+([^?\s]*)
+RewriteRule ^ https://wash4you.in%1/%2 [R=301,L,NE]
+
+# 3. index.html -> folder URL
+RewriteCond %{THE_REQUEST} ^[A-Z]+\s([^?\s]*/)index\.html[\s?] [NC]
+RewriteRule ^ https://wash4you.in%1 [R=301,L,NE]
+
+# 4. Duplicate pages -> the page that should rank
+RewriteRule ^best-dryclean-near-me/?$ https://wash4you.in/best-dryclean-in-gurgaon/ [R=301,L]
+RewriteRule ^pricing/(sushant-lok|sector-49|cyber-city|dlf-phase-3|golf-course-road|golf-course-extension|sohna-road|sector-29|palam-vihar|mg-road)/?$ https://wash4you.in/pricing/ [R=301,L]
+RewriteRule ^services/premium-dry-cleaning/?$ https://wash4you.in/services/premium-dry-cleaning-best-premium-drycleaning-service/ [R=301,L]
+# (Task 4 adds more old service URLs here)
+
+# 5. Browser caching for static files.
+# CSS and JS links carry a per-build ?v= token (src/build.py `asset_v`), so
+# they are safe to cache for a year. Images and fonts are NOT versioned by
+# URL, so they get 30 days (Task 9.1 fallback) and a changed file reaches
+# returning visitors within a month.
 <IfModule mod_headers.c>
-  # HTML: browsers always revalidate, but the CDN edge may keep a copy for 10
-  # minutes (s-maxage), so most visits skip the trip to origin. A publish
-  # therefore reaches visitors within ~10 minutes.
-  <FilesMatch "\.html$">
-    Header set Cache-Control "public, max-age=0, s-maxage=600, must-revalidate"
-  </FilesMatch>
-  <FilesMatch "\.(css|js|woff2)$">
+  <FilesMatch "\.(css|js)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
-  <FilesMatch "\.(webp|png|jpe?g|svg)$">
+  <FilesMatch "\.(webp|avif|png|jpe?g|gif|svg|ico|woff2?)$">
     Header set Cache-Control "public, max-age=2592000"
   </FilesMatch>
+  <FilesMatch "\.html?$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
 </IfModule>
+
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml application/xml
 </IfModule>
