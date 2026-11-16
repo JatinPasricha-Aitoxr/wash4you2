@@ -455,7 +455,7 @@ def studio_pages() -> list[dict]:
             p = urlparse(loc).path or "/"
             paths.append(p)
     main = ["/", "/services/", "/pricing/", "/packages/", "/about-us/", "/locate-us/", "/contact-us/",
-            "/blog/", "/steam-iron/", "/wash4you-overview/", "/best-dryclean-near-me/", "/best-dryclean-in-gurgaon/"]
+            "/blog/", "/steam-iron/", "/wash4you-overview/", "/best-dryclean-in-gurgaon/"]
     out = []
     for p in paths:
         if p in main:

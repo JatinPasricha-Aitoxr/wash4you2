@@ -927,28 +927,10 @@ def build() -> None:
         "depth": 1,
     }))
 
-    # Pricing by area — same rate list, one page per Gurugram area for local
-    # SEO. Prices are identical; only the framing and canonical differ.
-    for a in site.get("pricing_areas", []):
-        pages_to_build.append((
-            f"pricing/{a['slug']}/index.html",
-            "page-pricing.html",
-            {
-                "meta": {
-                    "title": f"Laundry & Dry-Clean Prices in {a['label']} — Wash4You",
-                    "description": (
-                        f"Transparent item-wise laundry and dry-cleaning rates for {a['label']}, "
-                        f"Gurugram. Free doorstep pickup and delivery. GST extra."
-                    ),
-                    "canonical": f"{site['urls']['base']}/pricing/{a['slug']}/",
-                },
-                "pricing": pricing,
-                "area": a,
-                "depth": 2,
-            }
-        ))
+    # Pricing by area used to emit ten near-identical /pricing/<area>/ pages.
+    # They were removed (301 -> /pricing/ in .htaccess); the area picker on
+    # /pricing/ and the nav use ?location=<slug> on the single page instead.
 
-    # Packages
     pages_to_build.append(("packages/index.html", "page-packages.html", {
         "meta": packages["meta"],
         "packages": packages,

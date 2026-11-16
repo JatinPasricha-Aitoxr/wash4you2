@@ -18,34 +18,6 @@
   },
   "pages": [
     {
-      "slug": "best-dryclean-near-me",
-      "meta": {
-        "title": "Best Dry Cleaning Near Me — Free Pickup | Wash4You",
-        "description": "Looking for the best dry cleaners near you? Wash4You drycleans on commercial machines with free doorstep pickup across Gurugram & Delhi NCR.",
-        "og_title": "Best Dryclean Near You, With Free Pickup | Wash4You",
-        "og_description": "Professional dryclean care that comes to your door: counted at pickup, drycleaned on commercial machines, returned pressed and covered."
-      },
-      "eyebrow": "Professional Dryclean Care Near You",
-      "h1": "The Best Dryclean Near You Comes to Your Door",
-      "subtitle": "Wash4You collects from your doorstep, drycleans on commercial machines at our Gurugram studio and delivers back pressed and covered — across {areas} areas of Delhi NCR.",
-      "tagItem": "Near You",
-      "near": {
-        "eyebrow": "Wash4You Near You",
-        "title": "Three Stores in Gurugram. Pickup Wherever You Are.",
-        "subtitle": "The nearest dry cleaner is the one that comes to you. Our valets collect across Delhi NCR from our Gurugram stores, so a professional dryclean is never more than a booking away.",
-        "cta": "Check Your Area"
-      },
-      "local": null,
-      "faqs": [
-        { "q": "Where is the nearest Wash4You dry cleaner?", "a": "Wash4You has three stores in Gurugram — Sushant Lok Phase I (Sector 43), Unitech Arcadia (Sector 49) and New Colony Market (Sector 7) — and one in Vasant Vihar, Delhi. Most customers never visit either: we pick up from your door for free across Gurugram, Delhi, Noida, Faridabad and Ghaziabad." },
-        { "q": "Is pickup free near me?", "a": "Yes. Doorstep pickup and delivery are free in every area we serve. Use Locate Us to check your sector or society." },
-        { "q": "How long does dry cleaning take?", "a": "Turnaround is confirmed when we collect your order, depending on the item and the finish it needs." },
-        { "q": "How much does dry cleaning cost?", "a": "Dryclean starts from {price:shirt} per piece for everyday clothes like shirts, trousers and jeans. Every item has a published price on our price list, exclusive of 18% GST, with no pickup charge." },
-        { "q": "What makes a dry cleaner the best?", "a": "Look for real dryclean machines rather than a home-style wash, a count and receipt at pickup, stain treatment before cleaning, published prices and orders kept separate. Wash4You does all five, and adds free doorstep pickup and delivery." }
-      ],
-      "cta": { "title": "Book the Best Dryclean Near You", "subtitle": "Free doorstep pickup, commercial dryclean machines and a finish you can see — from {price:shirt}." }
-    },
-    {
       "slug": "best-dryclean-in-gurgaon",
       "meta": {
         "title": "Best Dry Cleaning in Gurgaon — Free Pickup | Wash4You",
