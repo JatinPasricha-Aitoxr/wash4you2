@@ -756,6 +756,13 @@ def main() -> int:
         "areas": entries,
     }
     path = DATA / "coverage-pages.json"
+    # `indexable` is hand-maintained (SEO: thin pages stay noindex until
+    # rewritten), so carry it over from the existing file on every re-run.
+    if path.exists():
+        prev = {a["slug"]: a["indexable"] for a in json.loads(path.read_text(encoding="utf-8")).get("areas", []) if "indexable" in a}
+        for e in entries:
+            if e["slug"] in prev:
+                e["indexable"] = prev[e["slug"]]
     path.write_text(json.dumps(out, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"Wrote {len(entries)} coverage pages + {len(hubs)} city hubs to {path}")
     for h in hubs:

@@ -1227,6 +1227,9 @@ def build() -> None:
                     "title": entry["meta_title"],
                     "description": entry["meta_description"],
                     "canonical": f"{site['urls']['base']}/{entry['slug']}/",
+                    # indexable: false in coverage-pages.json -> noindex + out of
+                    # the sitemap (thin, near-duplicate page until rewritten).
+                    **({} if entry.get("indexable", True) else {"robots": "noindex, follow"}),
                 },
                 "area": area,
                 "services": services,
@@ -1397,6 +1400,8 @@ def build() -> None:
     urls = []
     for rel_path, _tpl, _ctx in pages_to_build:
         if rel_path in ("404.html", "pricing-print.html"):
+            continue
+        if (_ctx.get("meta") or {}).get("robots", "").startswith("noindex"):
             continue
         path = rel_path[: -len("index.html")] if rel_path.endswith("index.html") else rel_path
         loc = f"{base}/{path}"
