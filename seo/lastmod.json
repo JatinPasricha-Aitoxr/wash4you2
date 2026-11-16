@@ -1,0 +1,982 @@
+{
+ "": {
+  "d": "2026-11-17",
+  "h": "f2e78ac3fddd277aa1eb9788080a5b4f4cfbc39a"
+ },
+ "5-ways-to-store-silk-clothes-at-home/": {
+  "d": "2026-11-17",
+  "h": "63ff09dd5cab750ac9344285ee29ea2729cd96cd"
+ },
+ "about-us/": {
+  "d": "2026-11-17",
+  "h": "facad8cb87821b62fdc605cdc1b21ff6914dab40"
+ },
+ "best-dryclean-in-gurgaon/": {
+  "d": "2026-11-17",
+  "h": "0e446cfce5fb9a319400bf04319575598da2e5ee"
+ },
+ "blog/": {
+  "d": "2026-11-17",
+  "h": "75dc87703eae0c1f11561aa0f0847acccdd97d2f"
+ },
+ "carpet-cleaning-cyber-city/": {
+  "d": "2026-11-17",
+  "h": "cd0405c05cd1a48e0e033a36b7a52c109932d4c6"
+ },
+ "carpet-cleaning-dlf-phase-3/": {
+  "d": "2026-11-17",
+  "h": "f6d042e5deeff57b011cd8fbcf6efd6834e93a85"
+ },
+ "carpet-cleaning-golf-course-extension-road/": {
+  "d": "2026-11-17",
+  "h": "eab86a24ce637695b3e6d873721d7ba889d8f444"
+ },
+ "carpet-cleaning-golf-course-road/": {
+  "d": "2026-11-17",
+  "h": "a25291b60baf18a7699a5d7656e24cb590060903"
+ },
+ "carpet-cleaning-mg-road/": {
+  "d": "2026-11-17",
+  "h": "6a6ed572c6b9466bb7b029aab4fbbd20c923a052"
+ },
+ "carpet-cleaning-palam-vihar/": {
+  "d": "2026-11-17",
+  "h": "a76ffb89fdb97013d86f5b67074efa96b7c4ccde"
+ },
+ "carpet-cleaning-sector-29/": {
+  "d": "2026-11-17",
+  "h": "0585702a645e69dc2472c119eaaa9381ca618d4b"
+ },
+ "carpet-cleaning-sector-49/": {
+  "d": "2026-11-17",
+  "h": "9aae4d2aa475c92bd97c4a73ffc2a738e9edc50b"
+ },
+ "carpet-cleaning-sohna-road/": {
+  "d": "2026-11-17",
+  "h": "0056bc6272205458fad91aea63e5e32ad8650524"
+ },
+ "carpet-cleaning-sushant-lok/": {
+  "d": "2026-11-17",
+  "h": "6ce3558584cdce6f87092c1021e90be86f1185f7"
+ },
+ "contact-us/": {
+  "d": "2026-11-17",
+  "h": "88224193dabf350842e7faea324402e951744ebc"
+ },
+ "curtain-cleaning-policy/": {
+  "d": "2026-11-17",
+  "h": "671c13af471b69557c84278f716b8dba53fb35f7"
+ },
+ "curtains-cleaning-cyber-city/": {
+  "d": "2026-11-17",
+  "h": "32fd6b2434c462600bdf76c3510eacc7dc8af105"
+ },
+ "curtains-cleaning-dlf-phase-3/": {
+  "d": "2026-11-17",
+  "h": "2e1aeb45b1bd1892c8f5e1100786f4719c890559"
+ },
+ "curtains-cleaning-golf-course-extension-road/": {
+  "d": "2026-11-17",
+  "h": "7e6473ab2634aba96141a36268bdfbd44f8d180f"
+ },
+ "curtains-cleaning-golf-course-road/": {
+  "d": "2026-11-17",
+  "h": "075a96c42771f69de9a2dfd0b0e0a5d383e1d939"
+ },
+ "curtains-cleaning-mg-road/": {
+  "d": "2026-11-17",
+  "h": "06636c84a28377147a0ef0feca57b31eb43d895f"
+ },
+ "curtains-cleaning-palam-vihar/": {
+  "d": "2026-11-17",
+  "h": "55559e945ce8a304982f0fe65894a2b0a2695b75"
+ },
+ "curtains-cleaning-sector-29/": {
+  "d": "2026-11-17",
+  "h": "bc37d7d1ef09218628abfeda32298cf143d5e237"
+ },
+ "curtains-cleaning-sector-49/": {
+  "d": "2026-11-17",
+  "h": "94f9d897df040442bdf18bbf3a220d804b9d2e3a"
+ },
+ "curtains-cleaning-sohna-road/": {
+  "d": "2026-11-17",
+  "h": "b26d4b8e23ad1a6b810d8f5d45a5f4ae0a49ddd6"
+ },
+ "curtains-cleaning-sushant-lok/": {
+  "d": "2026-11-17",
+  "h": "50ffadf0a03512027610c54967d9acccf9ed0ff4"
+ },
+ "eco-friendly-laundry-cyber-city/": {
+  "d": "2026-11-17",
+  "h": "309b597fc5cf9c5c2f8664d86d44850cf2295329"
+ },
+ "eco-friendly-laundry-dlf-phase-3/": {
+  "d": "2026-11-17",
+  "h": "55ff38b4a8fd48c194305528c487dce5dd6acff5"
+ },
+ "eco-friendly-laundry-golf-course-extension-road/": {
+  "d": "2026-11-17",
+  "h": "0fdc2c8efaed46cf8017da0996e7b7f060ccbf4f"
+ },
+ "eco-friendly-laundry-golf-course-road/": {
+  "d": "2026-11-17",
+  "h": "d95a81cc59dd41bd68849b6a4b26bced94a039bb"
+ },
+ "eco-friendly-laundry-mg-road/": {
+  "d": "2026-11-17",
+  "h": "931b9d6d46312a60e96e06ccdd98dbedcbcd3b9c"
+ },
+ "eco-friendly-laundry-palam-vihar/": {
+  "d": "2026-11-17",
+  "h": "9b6c09f8ec6a982b17455fb6ee5206407677e59d"
+ },
+ "eco-friendly-laundry-sector-29/": {
+  "d": "2026-11-17",
+  "h": "621131ac5c03b0743e1d87e68b74a16d1e624950"
+ },
+ "eco-friendly-laundry-sector-49/": {
+  "d": "2026-11-17",
+  "h": "8c33baf2f7d40e83d580b3650abaa74b4cf4c7ba"
+ },
+ "eco-friendly-laundry-sohna-road/": {
+  "d": "2026-11-17",
+  "h": "a44ff806bf931548cc1814e9b5bad785444aeb0a"
+ },
+ "eco-friendly-laundry-sushant-lok/": {
+  "d": "2026-11-17",
+  "h": "18edd2dcfc06e68c3d3df3092860f26c89102a39"
+ },
+ "free-pickup-delivery-policy/": {
+  "d": "2026-11-17",
+  "h": "356a6adf95d47e901c9edcaa36ae829ce9a5b6df"
+ },
+ "how-to-care-for-silk-clothes/": {
+  "d": "2026-11-17",
+  "h": "2cadb8754c8477c458ca55636d19398147aaa679"
+ },
+ "how-to-care-for-silk-pillowcases/": {
+  "d": "2026-11-17",
+  "h": "6864af2d13d40f322ef963f69c2cd407ee977522"
+ },
+ "how-to-clean-leather-shoes-at-home/": {
+  "d": "2026-11-17",
+  "h": "a253febfae5fa40c5bf72275bfe22276c907e516"
+ },
+ "how-to-dry-clothes-in-rainy-season/": {
+  "d": "2026-11-17",
+  "h": "b91bcfb318681f9cf0fe6c880db94e0dffef429d"
+ },
+ "laundry-accessories-you-need-to-care-for-silk-clothes/": {
+  "d": "2026-11-17",
+  "h": "949d5426a9d8469116962627de9edcba30f917af"
+ },
+ "laundry-service-ambience-island/": {
+  "d": "2026-11-17",
+  "h": "cc22549cdc983e10ef8f171c05f7cd493e25e4ff"
+ },
+ "laundry-service-ardee-city/": {
+  "d": "2026-11-17",
+  "h": "37126bf5aab589e827a5a80c7046027d99bbcc0c"
+ },
+ "laundry-service-cost-in-gurgaon/": {
+  "d": "2026-11-17",
+  "h": "00d8a731a2d386248342213ff32cfbfde2a98b4b"
+ },
+ "laundry-service-cyber-city/": {
+  "d": "2026-11-17",
+  "h": "e6e0354c851ecc9f0784dc95fd2b76c4475b213e"
+ },
+ "laundry-service-delhi/": {
+  "d": "2026-11-17",
+  "h": "0772f93b606938281fb8a2dba18847142cadabe4"
+ },
+ "laundry-service-dlf-phase-1/": {
+  "d": "2026-11-17",
+  "h": "2d72e18cd496c07e81f1cef60598ad939d1698f6"
+ },
+ "laundry-service-dlf-phase-2/": {
+  "d": "2026-11-17",
+  "h": "6767fa4263e9db96f432878acf041518f94c9944"
+ },
+ "laundry-service-dlf-phase-3/": {
+  "d": "2026-11-17",
+  "h": "ba2461f72174c382e36edf29eae6beb2adce762c"
+ },
+ "laundry-service-dlf-phase-4/": {
+  "d": "2026-11-17",
+  "h": "087a1536e25f5c4782fe043b26aa16e4de27da86"
+ },
+ "laundry-service-dlf-phase-5/": {
+  "d": "2026-11-17",
+  "h": "8930d68f181bc6bdd0c9dd02ee89dc44d2e05b23"
+ },
+ "laundry-service-faridabad/": {
+  "d": "2026-11-17",
+  "h": "e26b549f9c1008bda6b7e79cddb9bc5e24833415"
+ },
+ "laundry-service-ghaziabad/": {
+  "d": "2026-11-17",
+  "h": "fa1b0cad4e8d2be64eab8fb5a7819df5f35dd726"
+ },
+ "laundry-service-golf-course-extension/": {
+  "d": "2026-11-17",
+  "h": "c84ccad9dd7bf55434fb356f109a2ad4eb858169"
+ },
+ "laundry-service-golf-course-road/": {
+  "d": "2026-11-17",
+  "h": "ec96c08ac4f0cdb3356f872106a330033baa5da0"
+ },
+ "laundry-service-gurugram-sector-29/": {
+  "d": "2026-11-17",
+  "h": "071570a312befa9cb2c47da8a51a97461635636d"
+ },
+ "laundry-service-jacobpura/": {
+  "d": "2026-11-17",
+  "h": "7761efb1ebc7585bba20be0d269dbe6506dfab6b"
+ },
+ "laundry-service-malviya-nagar-delhi/": {
+  "d": "2026-11-17",
+  "h": "323ff338a60752d71d0d4a77daa28eb0b7adc184"
+ },
+ "laundry-service-mg-road/": {
+  "d": "2026-11-17",
+  "h": "9209aa88c2dcaec7763a012595787b0d4d4cfd89"
+ },
+ "laundry-service-noida/": {
+  "d": "2026-11-17",
+  "h": "0615424e2b45ec21ee9b97edefc2f25cb76f852b"
+ },
+ "laundry-service-palam-vihar/": {
+  "d": "2026-11-17",
+  "h": "e7e5e2d646a22801aefced65092d74d723456b16"
+ },
+ "laundry-service-rajiv-nagar/": {
+  "d": "2026-11-17",
+  "h": "f1ccded0f1c569c1a0adcc64a8dbddb5e67c26a0"
+ },
+ "laundry-service-sadar-bazar/": {
+  "d": "2026-11-17",
+  "h": "5d4ee268cfccf3f660099a68d229e660a31ee44d"
+ },
+ "laundry-service-sector-10/": {
+  "d": "2026-11-17",
+  "h": "9cc563b84da1df8dd1711392861423271e6b8666"
+ },
+ "laundry-service-sector-12/": {
+  "d": "2026-11-17",
+  "h": "0bc7bc2622cc42c251a0fdcd39538fecd654514f"
+ },
+ "laundry-service-sector-14/": {
+  "d": "2026-11-17",
+  "h": "ab7d4456eb0d58b4fe5acb2b8087323afa14c5ab"
+ },
+ "laundry-service-sector-15/": {
+  "d": "2026-11-17",
+  "h": "cb9b39a181f98b198b47b560ab84203d110f4f45"
+ },
+ "laundry-service-sector-21/": {
+  "d": "2026-11-17",
+  "h": "da188bca5122911ff7e48575afca391534ff0c25"
+ },
+ "laundry-service-sector-22/": {
+  "d": "2026-11-17",
+  "h": "5aa528001c656b0b3781b32da33a15125624802e"
+ },
+ "laundry-service-sector-31/": {
+  "d": "2026-11-17",
+  "h": "e3259c457746294fad7904c5da5393b0d2226897"
+ },
+ "laundry-service-sector-4/": {
+  "d": "2026-11-17",
+  "h": "11adf3222a39382db109cd9ada2452cdad02be56"
+ },
+ "laundry-service-sector-40/": {
+  "d": "2026-11-17",
+  "h": "cd71792c38bc9bac2b809cddf4567d0639889b27"
+ },
+ "laundry-service-sector-43/": {
+  "d": "2026-11-17",
+  "h": "6bfd2cc66016f0d1311bf92808ee58141aa199e8"
+ },
+ "laundry-service-sector-45/": {
+  "d": "2026-11-17",
+  "h": "c629225112b2afa167621fe667b9403c51679055"
+ },
+ "laundry-service-sector-46/": {
+  "d": "2026-11-17",
+  "h": "bdd5041d4bf66118362334be2994765a49c47948"
+ },
+ "laundry-service-sector-47/": {
+  "d": "2026-11-17",
+  "h": "5d9c29b9dcd8bb36fab0090429600e4eabf4f32a"
+ },
+ "laundry-service-sector-49/": {
+  "d": "2026-11-17",
+  "h": "04f0dff2d0eb9dad248ec9ec99286c0b12c7671a"
+ },
+ "laundry-service-sector-5/": {
+  "d": "2026-11-17",
+  "h": "a496d512aa794731c41adc7acbe068dc2efba1d9"
+ },
+ "laundry-service-sector-50/": {
+  "d": "2026-11-17",
+  "h": "8ed0eb6e6a906489ad272279661ac2fef46bb395"
+ },
+ "laundry-service-sector-51/": {
+  "d": "2026-11-17",
+  "h": "46d98beae4b999f0bef1a3bf0621b68f3ad7d41a"
+ },
+ "laundry-service-sector-52/": {
+  "d": "2026-11-17",
+  "h": "600f21497ef258e843188c63e2ed65e9f7ef6758"
+ },
+ "laundry-service-sector-53/": {
+  "d": "2026-11-17",
+  "h": "15ebb6d0d28b2122e4a3fb7ebc3e2a34b972200b"
+ },
+ "laundry-service-sector-54/": {
+  "d": "2026-11-17",
+  "h": "52375d9afc3fd0856b8e7cfbc19c5248b822c5e8"
+ },
+ "laundry-service-sector-55/": {
+  "d": "2026-11-17",
+  "h": "64732a37577a9d28b4646c772b737c7a120b8bcc"
+ },
+ "laundry-service-sector-56/": {
+  "d": "2026-11-17",
+  "h": "b3dced57cf852d4e6b65a870d95a568eedb28541"
+ },
+ "laundry-service-sector-57/": {
+  "d": "2026-11-17",
+  "h": "00aa36b29b1b28d4533a1a892ea4ef2a9ff6c48a"
+ },
+ "laundry-service-sector-58/": {
+  "d": "2026-11-17",
+  "h": "18e86f46e61680077740d1a16caf4d59270221c6"
+ },
+ "laundry-service-sector-59/": {
+  "d": "2026-11-17",
+  "h": "9a72d00a5121210642910b2afe48c18d9886e9f1"
+ },
+ "laundry-service-sector-60/": {
+  "d": "2026-11-17",
+  "h": "8af7c44ef8e926cf76f5cf5d916314e35d18d5cd"
+ },
+ "laundry-service-sector-61/": {
+  "d": "2026-11-17",
+  "h": "6c360cf3370cea5e659609e9b1df8d61cfe1e792"
+ },
+ "laundry-service-sector-62/": {
+  "d": "2026-11-17",
+  "h": "f339fc9d95e6339538c64c94f956bfbc165ab995"
+ },
+ "laundry-service-sector-63/": {
+  "d": "2026-11-17",
+  "h": "dbd7dfd072069f6fa92b0713e836af72736c0711"
+ },
+ "laundry-service-sector-64/": {
+  "d": "2026-11-17",
+  "h": "b0b9aff091678250f634a3c63c1637e17aa8b9c2"
+ },
+ "laundry-service-sector-65/": {
+  "d": "2026-11-17",
+  "h": "2aa86b4b3982488e8a86820e1c38bc3b77f14be0"
+ },
+ "laundry-service-sector-66/": {
+  "d": "2026-11-17",
+  "h": "a6459ff3092e6adbec9e28e03e1b47cd331f7343"
+ },
+ "laundry-service-sector-67/": {
+  "d": "2026-11-17",
+  "h": "9bdd0624372985f8c2f70b82eec8d05f7073d3b0"
+ },
+ "laundry-service-sector-68/": {
+  "d": "2026-11-17",
+  "h": "da7adc06b2a9c932be50cde9b9aab898f2f61f80"
+ },
+ "laundry-service-sector-69/": {
+  "d": "2026-11-17",
+  "h": "32ccb6158537216403ffad5c03b4080614ab312b"
+ },
+ "laundry-service-sector-7/": {
+  "d": "2026-11-17",
+  "h": "8dfc916945bc654c9ac4cf915a7e12d09f4c44f4"
+ },
+ "laundry-service-sector-70/": {
+  "d": "2026-11-17",
+  "h": "27e8d142de5dea3827bda8c7a0e089416e95dcdd"
+ },
+ "laundry-service-sector-71/": {
+  "d": "2026-11-17",
+  "h": "faf5a9669f3e72ff9cb681b0ac67bf33d4d84617"
+ },
+ "laundry-service-sector-72/": {
+  "d": "2026-11-17",
+  "h": "af1226e3aed717c30d75985cfe52b54a3e88ef75"
+ },
+ "laundry-service-sector-73/": {
+  "d": "2026-11-17",
+  "h": "c963d62c0fb1a10fef6b6a73aae3fb998b2e231d"
+ },
+ "laundry-service-sector-74/": {
+  "d": "2026-11-17",
+  "h": "a55921c87120acb404609225d5b211bf1c6360e2"
+ },
+ "laundry-service-sector-75/": {
+  "d": "2026-11-17",
+  "h": "21fc7d26d3b8b27ecab69943b3dfe3bc351a9c59"
+ },
+ "laundry-service-sector-76/": {
+  "d": "2026-11-17",
+  "h": "c21cac7938783c5000aef813d32559dd0cfa1d7a"
+ },
+ "laundry-service-sector-77/": {
+  "d": "2026-11-17",
+  "h": "c3b843de97d71e37416e3b33ae6cff1e303aff02"
+ },
+ "laundry-service-sector-78/": {
+  "d": "2026-11-17",
+  "h": "f29e344d8073da898a3987974fdbbb0b0b71596f"
+ },
+ "laundry-service-sector-79/": {
+  "d": "2026-11-17",
+  "h": "e782170ee86a98b8a84bf94eb254da7ff00c6363"
+ },
+ "laundry-service-sector-80/": {
+  "d": "2026-11-17",
+  "h": "a6bba0cda9f5533e40a1693d67c0e9c1f9fccb41"
+ },
+ "laundry-service-sector-81/": {
+  "d": "2026-11-17",
+  "h": "dae5815579302029b15b6e2616ab61715443484a"
+ },
+ "laundry-service-sector-82/": {
+  "d": "2026-11-17",
+  "h": "770af5371d53dbf2fb3c3b5df0bf2a487c9bd70f"
+ },
+ "laundry-service-sector-83/": {
+  "d": "2026-11-17",
+  "h": "95332749b4b03626dc43acad256f75bef1e7d3ab"
+ },
+ "laundry-service-sector-84/": {
+  "d": "2026-11-17",
+  "h": "3f00e4a86344620938faadd169a78c18e3f2c8fd"
+ },
+ "laundry-service-sector-85/": {
+  "d": "2026-11-17",
+  "h": "35de3fa75b3aacf168523f56841f8243b8c61f04"
+ },
+ "laundry-service-sector-86/": {
+  "d": "2026-11-17",
+  "h": "a1990e2522d3588af821aa2a2be848a929dd8c32"
+ },
+ "laundry-service-sector-87/": {
+  "d": "2026-11-17",
+  "h": "a7d3d7c7d3940931e8d88893a253fff7b505e13f"
+ },
+ "laundry-service-sector-88/": {
+  "d": "2026-11-17",
+  "h": "69df73fe23cf3fde3f85341145d7fc8bddab6e17"
+ },
+ "laundry-service-sector-89/": {
+  "d": "2026-11-17",
+  "h": "5ecbad05ca01f27c1ddfd00838e90f5712244cf7"
+ },
+ "laundry-service-sector-9/": {
+  "d": "2026-11-17",
+  "h": "0d3bc050d9ca9e8fc7375717f2e94cd75c0482cb"
+ },
+ "laundry-service-sector-90/": {
+  "d": "2026-11-17",
+  "h": "02b7ac1f1fec241f64ace17141d5e538d062016d"
+ },
+ "laundry-service-sector-91/": {
+  "d": "2026-11-17",
+  "h": "9b7d0b315dfa81aa0770e15e0c09bce436c61fc1"
+ },
+ "laundry-service-sector-92/": {
+  "d": "2026-11-17",
+  "h": "e954e6a73359fd8ff7d9064bf0c7d2f4a5140530"
+ },
+ "laundry-service-shivaji-nagar/": {
+  "d": "2026-11-17",
+  "h": "c0dfc90e1c8086b53c6b81fbae2011f7375dc8c4"
+ },
+ "laundry-service-sohna-road/": {
+  "d": "2026-11-17",
+  "h": "970859108eb0a64f6a4a1f08361e4477a83655a3"
+ },
+ "laundry-service-south-city/": {
+  "d": "2026-11-17",
+  "h": "6296df9c639d8a54ebe5e2f5c763ab79a486a962"
+ },
+ "laundry-service-sushant-lok-2/": {
+  "d": "2026-11-17",
+  "h": "d7c1be2337cfae3dd8ecbe3ec9bbbf3fabef2bbd"
+ },
+ "laundry-service-sushant-lok/": {
+  "d": "2026-11-17",
+  "h": "720a273bbe5facb4bcb1cdaf6bb292f2cb16c201"
+ },
+ "laundry-service-udyog-vihar/": {
+  "d": "2026-11-17",
+  "h": "d4b022fa1a0e2eb998d9c8cdd40ee0bd0d0c76c6"
+ },
+ "laundry-service-vasant-vihar-delhi/": {
+  "d": "2026-11-17",
+  "h": "1c2bb5d406e1669fc18c8605ec45c93b70876ca5"
+ },
+ "locate-us/": {
+  "d": "2026-11-17",
+  "h": "f335097a42cf7bf87b448ea78cdf4f52757bdc8a"
+ },
+ "packages/": {
+  "d": "2026-11-17",
+  "h": "8991a06cc0f03f62d6df32d7d55d116718726ed2"
+ },
+ "premium-dry-cleaning-cyber-city/": {
+  "d": "2026-11-17",
+  "h": "0524c2a679d54aa8e9452f4a990f7361a1ae5e05"
+ },
+ "premium-dry-cleaning-dlf-phase-3/": {
+  "d": "2026-11-17",
+  "h": "e5bd9f00fa2cc821961427d8e63890ecf56277d5"
+ },
+ "premium-dry-cleaning-golf-course-extension-road/": {
+  "d": "2026-11-17",
+  "h": "3a0daf6165633018563b76ac363e3c0637134fc8"
+ },
+ "premium-dry-cleaning-golf-course-road/": {
+  "d": "2026-11-17",
+  "h": "42b6d9e98f4671017deacbaa6b8ad125d4228f94"
+ },
+ "premium-dry-cleaning-mg-road/": {
+  "d": "2026-11-17",
+  "h": "a64c28d4b7dbb75107318e29d66045a9d322fca3"
+ },
+ "premium-dry-cleaning-palam-vihar/": {
+  "d": "2026-11-17",
+  "h": "0d456d60a447e5cd72cde5d3ddcf8bc0a2ef98f0"
+ },
+ "premium-dry-cleaning-sector-29/": {
+  "d": "2026-11-17",
+  "h": "f5d7cb4a3b678e947e9d204ddc14960bcb468181"
+ },
+ "premium-dry-cleaning-sector-49/": {
+  "d": "2026-11-17",
+  "h": "da86f4a9935133431982393ce4ee5ff253673c2b"
+ },
+ "premium-dry-cleaning-sohna-road/": {
+  "d": "2026-11-17",
+  "h": "48c05aed46208340dca56e1b15405bc932327fe3"
+ },
+ "premium-dry-cleaning-sushant-lok/": {
+  "d": "2026-11-17",
+  "h": "d8ea55200efcf1ff27b4b39458c29d1f40523257"
+ },
+ "pricing/": {
+  "d": "2026-11-17",
+  "h": "5e222ee301af316b7870e9d554beae835bcb8e0a"
+ },
+ "privacy-and-security-policy/": {
+  "d": "2026-11-17",
+  "h": "564d490f9a648962c201bed2e435e55f8e36c679"
+ },
+ "products/bed-spread-double/": {
+  "d": "2026-11-17",
+  "h": "f45515b1e4c1b9d2745e55ef694c06353499fb4b"
+ },
+ "products/blouse/": {
+  "d": "2026-11-17",
+  "h": "26d74ddcdcaa1c9786bc24844bbbe1a9c71f80eb"
+ },
+ "products/boots-mid-length/": {
+  "d": "2026-11-17",
+  "h": "3a180c13023892ae0d92a250e8747bdee1d6878f"
+ },
+ "products/cardigan/": {
+  "d": "2026-11-17",
+  "h": "860b10e10bb99716045d6a1a6f5ba83f6486e94a"
+ },
+ "products/carpet/": {
+  "d": "2026-11-17",
+  "h": "8c20c1a9b51349e3f868055b77dc75bf04012016"
+ },
+ "products/coat/": {
+  "d": "2026-11-17",
+  "h": "438b9a6910a930d537a48ad3f619ab9c95597709"
+ },
+ "products/comforter-double/": {
+  "d": "2026-11-17",
+  "h": "94b79bcab29312dd760093e255c3827df985bdf9"
+ },
+ "products/curtain/": {
+  "d": "2026-11-17",
+  "h": "abef152ecb9361e0d0bea3092f483503aa0b2aee"
+ },
+ "products/double-bed-sheet/": {
+  "d": "2026-11-17",
+  "h": "dbb38c06d5b91068e9f1cfceb6be3d243d38835f"
+ },
+ "products/double-blanket/": {
+  "d": "2026-11-17",
+  "h": "df901adf90b1e44e1caa49e8b54333da39bdd6a8"
+ },
+ "products/dress/": {
+  "d": "2026-11-17",
+  "h": "7f1175dc5e9d5a3ce4ebfc4f21826498f6e44f98"
+ },
+ "products/dupatta/": {
+  "d": "2026-11-17",
+  "h": "14204e1994e2d8714bebc867b292434c2ec69d1f"
+ },
+ "products/handbag-leather/": {
+  "d": "2026-11-17",
+  "h": "043b6ee6e87444388291f572fd768e9efe95ff3f"
+ },
+ "products/jacket/": {
+  "d": "2026-11-17",
+  "h": "879fd9780b582b694e051c432546bd3a9edfc826"
+ },
+ "products/jeans/": {
+  "d": "2026-11-17",
+  "h": "24c17e3a1de111cd11319490918b2426b5e99f3a"
+ },
+ "products/kurta-fancy/": {
+  "d": "2026-11-17",
+  "h": "6abe261ad0428f3c31c805475b65c85a6d36d815"
+ },
+ "products/kurta-heavy/": {
+  "d": "2026-11-17",
+  "h": "e6b3802aa474788a26704f531e655633720ce5bb"
+ },
+ "products/kurta/": {
+  "d": "2026-11-17",
+  "h": "70fa49bc1c60ad230af051b945ca21e0e28afdd6"
+ },
+ "products/leather-jacket/": {
+  "d": "2026-11-17",
+  "h": "3febff58ad97d3217a9ef02d99e70e4559cb6f03"
+ },
+ "products/leather-shoes/": {
+  "d": "2026-11-17",
+  "h": "2d7b703f290343ad4d77853597933d93dc801d0f"
+ },
+ "products/lehenga/": {
+  "d": "2026-11-17",
+  "h": "d65cc2ded9fbbc59c0f1c3d7eec6f44456ba17bf"
+ },
+ "products/long-coat/": {
+  "d": "2026-11-17",
+  "h": "57b8d28c1c0b69918f2cba2b875ffbb7f277915c"
+ },
+ "products/men-suit-2pcs/": {
+  "d": "2026-11-17",
+  "h": "871e178e389c4da7d58d0df4eb0fdd40f7011f75"
+ },
+ "products/men-suit-3pcs/": {
+  "d": "2026-11-17",
+  "h": "6f51ad4fd9a9df681d6fbf28c7cea651232cc836"
+ },
+ "products/palazzo/": {
+  "d": "2026-11-17",
+  "h": "5f36d389d1afff012e4f923d04392bd37a55c045"
+ },
+ "products/pant-trouser/": {
+  "d": "2026-11-17",
+  "h": "1c0f4a63197c0ea239629814cdb155fe8ef3f94d"
+ },
+ "products/premium-laundry/": {
+  "d": "2026-11-17",
+  "h": "04b17b47e09f2a23516eac4e616484e1a4b8c38a"
+ },
+ "products/salwar/": {
+  "d": "2026-11-17",
+  "h": "a95ad79353cc7770e24172a7fe172017de79cae2"
+ },
+ "products/saree/": {
+  "d": "2026-11-17",
+  "h": "dd210a1393ffd24e3a104283d6b0aff74dca65f0"
+ },
+ "products/shawl/": {
+  "d": "2026-11-17",
+  "h": "9b2ff94d44e467d0a6dbccbeeeb6079e187ec348"
+ },
+ "products/sherwani/": {
+  "d": "2026-11-17",
+  "h": "8400ece9d189ec6dda1c040eea7c92d8e5bf8d6e"
+ },
+ "products/shirt/": {
+  "d": "2026-11-17",
+  "h": "29f500169b7bcaf4d13097110be7d1dd59e50185"
+ },
+ "products/single-bed-sheet/": {
+  "d": "2026-11-17",
+  "h": "e330d22ec7616c510e5b12423aa66fa750f415a8"
+ },
+ "products/single-blanket/": {
+  "d": "2026-11-17",
+  "h": "bd671a4eebd258bfaf044d8b9b1716d0ffa8997c"
+ },
+ "products/sneaker-ankle/": {
+  "d": "2026-11-17",
+  "h": "212d3b58671609041c1d720ad8daacf29fac358d"
+ },
+ "products/sneakers/": {
+  "d": "2026-11-17",
+  "h": "258b8542b9c452e4fa7ac552e0bd624610d66e74"
+ },
+ "products/sports-shoes/": {
+  "d": "2026-11-17",
+  "h": "bbc515ffb77d5d156c564d039b208d49a0fb3fa3"
+ },
+ "products/suede-leather-shoes/": {
+  "d": "2026-11-17",
+  "h": "d232616d3ee25074fd53611d926a46c6775fabe6"
+ },
+ "products/sweater/": {
+  "d": "2026-11-17",
+  "h": "fd7e4cb219eb0e47e08cc24893b22f65f04621f9"
+ },
+ "products/sweatshirt/": {
+  "d": "2026-11-17",
+  "h": "e89238613fc3f2979e7531cef236859ba0e133b9"
+ },
+ "products/t-shirt/": {
+  "d": "2026-11-17",
+  "h": "3456cdd8b6712097c4ebd3cca6838920a3a94d52"
+ },
+ "products/top/": {
+  "d": "2026-11-17",
+  "h": "437f2b2ea116dc193cb62a9fb910902c562df7eb"
+ },
+ "products/wash-and-fold/": {
+  "d": "2026-11-17",
+  "h": "41c7c8e441d9801ec661e70312781dba31aa33e7"
+ },
+ "products/wash-and-steam-iron/": {
+  "d": "2026-11-17",
+  "h": "c587afad608c569bcf914232bf469c6de1f9594a"
+ },
+ "products/woollen-laundry-iron/": {
+  "d": "2026-11-17",
+  "h": "9ac8ab3c4c5959c13739e6a205708bc0710b29c9"
+ },
+ "products/woollen-laundry/": {
+  "d": "2026-11-17",
+  "h": "3681c88873c27ccbf04614c66acb73f0debc962d"
+ },
+ "refund-and-delivery-policy/": {
+  "d": "2026-11-17",
+  "h": "4b7a4cadaba2cfb42522bd67ee56a9d59ccd29e6"
+ },
+ "services/": {
+  "d": "2026-11-17",
+  "h": "492b0bf75d333f55b78e91a6ed92e4aab0a60456"
+ },
+ "services/accessories-cleaning-best-premium-drycleaning-service/": {
+  "d": "2026-11-17",
+  "h": "6f6d4015874f76cdc176210893136018c0a8e8d8"
+ },
+ "services/bag-cleaning-best-premium-drycleaning-service/": {
+  "d": "2026-11-17",
+  "h": "b3a988959af1f77cb3fdea2d72cb5beb0be897d2"
+ },
+ "services/blanket-quilt-cleaning-best-premium-drycleaning-service/": {
+  "d": "2026-11-17",
+  "h": "72186058a802a552e3a6dfa26122954dcb4be34d"
+ },
+ "services/carpet-cleaning-best-premium-drycleaning-service/": {
+  "d": "2026-11-17",
+  "h": "f04e3cc0fcd46c05f2093eead23a79fc7df9278b"
+ },
+ "services/curtains-cleaning-best-premium-drycleaning-service/": {
+  "d": "2026-11-17",
+  "h": "b2854e0385312dca20434f0f29482fb5cba41eaa"
+ },
+ "services/eco-friendly-laundry-best-premium-drycleaning-service/": {
+  "d": "2026-11-17",
+  "h": "f423a9da505b5f9692da395a03e7c9ddf8d506cc"
+ },
+ "services/leather-cleaning-best-premium-drycleaning-service/": {
+  "d": "2026-11-17",
+  "h": "d11f65f8e8646df5adc86e9a98a5bde68234d4f9"
+ },
+ "services/linen-cleaning-best-premium-drycleaning-service/": {
+  "d": "2026-11-17",
+  "h": "09ad74db1d70d930e9bbbe213125a79c452248d6"
+ },
+ "services/mattress-cleaning-best-premium-drycleaning-service/": {
+  "d": "2026-11-17",
+  "h": "b0ab77404a28dddbce4bb390065c6b0723cb6a6b"
+ },
+ "services/premium-dry-cleaning-best-premium-drycleaning-service/": {
+  "d": "2026-11-17",
+  "h": "3e893707a471605563f57d6b7778458781b047f9"
+ },
+ "services/shoe-cleaning-best-premium-drycleaning-service/": {
+  "d": "2026-11-17",
+  "h": "9bdf8491b26531194468697af5de189f4f6830cd"
+ },
+ "services/sofa-cleaning-best-premium-drycleaning-service/": {
+  "d": "2026-11-17",
+  "h": "cb8ad2f76b73bbd3bee80b290cc33ad227987e48"
+ },
+ "services/steam-ironing-best-premium-drycleaning-service/": {
+  "d": "2026-11-17",
+  "h": "c8aa5cdb47c9dd539e900a579f1cd1df85ae20f5"
+ },
+ "services/toy-cleaning-best-premium-drycleaning-service/": {
+  "d": "2026-11-17",
+  "h": "9d225b1ac6b31865612c37f203bdbb48e19ad599"
+ },
+ "services/wet-cleaning-best-premium-drycleaning-service/": {
+  "d": "2026-11-17",
+  "h": "f84661ff927fc3024383f5a2d7ec96c4361ec394"
+ },
+ "shoe-cleaning-cyber-city/": {
+  "d": "2026-11-17",
+  "h": "f4f3626779ed23b881dffc961861b176f848f8ea"
+ },
+ "shoe-cleaning-dlf-phase-3/": {
+  "d": "2026-11-17",
+  "h": "7196f64d3d1cba26c57400ec2d093c6d3432aa5d"
+ },
+ "shoe-cleaning-golf-course-extension-road/": {
+  "d": "2026-11-17",
+  "h": "b4cc1ab07df743eede91116e53ef8227f9bc8e2b"
+ },
+ "shoe-cleaning-golf-course-road/": {
+  "d": "2026-11-17",
+  "h": "a03bbdde7d5094eee03045a12ec1d6bf80e40ae3"
+ },
+ "shoe-cleaning-mg-road/": {
+  "d": "2026-11-17",
+  "h": "4e8dd72878977294de7ab0ee458ec046fa217f75"
+ },
+ "shoe-cleaning-palam-vihar/": {
+  "d": "2026-11-17",
+  "h": "a38284945ec510b1b457b437e6ccaaf3c7d9455d"
+ },
+ "shoe-cleaning-sector-29/": {
+  "d": "2026-11-17",
+  "h": "b97bf672ddb405806a69f1785abe8d091feb1ee6"
+ },
+ "shoe-cleaning-sector-49/": {
+  "d": "2026-11-17",
+  "h": "afb8533d88467303719bc47cf8a57215ce549b49"
+ },
+ "shoe-cleaning-sohna-road/": {
+  "d": "2026-11-17",
+  "h": "fff7cd9a3b76a7d90f2e5cb7e23550fa29f741aa"
+ },
+ "shoe-cleaning-sushant-lok/": {
+  "d": "2026-11-17",
+  "h": "f9e6e52533a8017f9fbb288e00e81610588a4a22"
+ },
+ "sofa-cleaning-cyber-city/": {
+  "d": "2026-11-17",
+  "h": "aa02eda941653ca2ea335ecaa93b05b6a879b3b5"
+ },
+ "sofa-cleaning-dlf-phase-3/": {
+  "d": "2026-11-17",
+  "h": "0fa4a7fe65d5701032f205a44181e4c1e14a62eb"
+ },
+ "sofa-cleaning-golf-course-extension-road/": {
+  "d": "2026-11-17",
+  "h": "d151ef77cc42f1a782a25a357996a963cb4d3795"
+ },
+ "sofa-cleaning-golf-course-road/": {
+  "d": "2026-11-17",
+  "h": "83c97e16319eeab60814ce3e385fd87536d3836a"
+ },
+ "sofa-cleaning-mg-road/": {
+  "d": "2026-11-17",
+  "h": "90689ec5f04318b7b76708f8e02713704cd94e02"
+ },
+ "sofa-cleaning-palam-vihar/": {
+  "d": "2026-11-17",
+  "h": "2f96f203636f938600e198c7fc211479dce14bce"
+ },
+ "sofa-cleaning-sector-29/": {
+  "d": "2026-11-17",
+  "h": "e14520c93b12e2a4fe0c03c05932b0a95617f9ef"
+ },
+ "sofa-cleaning-sector-49/": {
+  "d": "2026-11-17",
+  "h": "4d477b5a232353c0357cb9c6dadfd3b67cd4a4d6"
+ },
+ "sofa-cleaning-sohna-road/": {
+  "d": "2026-11-17",
+  "h": "f9b5afbd93359435cfce8a0e83e2fb9b72d59378"
+ },
+ "sofa-cleaning-sushant-lok/": {
+  "d": "2026-11-17",
+  "h": "5bcd62ec4f6f2d75efb46ebdc9ee6b2f52e2052b"
+ },
+ "steam-iron/": {
+  "d": "2026-11-17",
+  "h": "c927d7c1293f872e9fb9f984a0707983c24399fb"
+ },
+ "steam-ironing-cyber-city/": {
+  "d": "2026-11-17",
+  "h": "fe86170c106b1cf74011c9a424a854ef4772459c"
+ },
+ "steam-ironing-dlf-phase-3/": {
+  "d": "2026-11-17",
+  "h": "a90670bf60d758dda36a944b2770fdafff8fa744"
+ },
+ "steam-ironing-golf-course-extension-road/": {
+  "d": "2026-11-17",
+  "h": "1176cc261c821f02473c123bcccb8b890832588e"
+ },
+ "steam-ironing-golf-course-road/": {
+  "d": "2026-11-17",
+  "h": "afbca1416e65bedc6da3d6865416c99d9b632953"
+ },
+ "steam-ironing-mg-road/": {
+  "d": "2026-11-17",
+  "h": "13725df59f6c7c018c3654f7b049b234fe7d0532"
+ },
+ "steam-ironing-palam-vihar/": {
+  "d": "2026-11-17",
+  "h": "17c8f1b7d246ca748c6be4bebf272db457dba535"
+ },
+ "steam-ironing-sector-29/": {
+  "d": "2026-11-17",
+  "h": "1390dbe5731675897ee096b7707c23c737b849d9"
+ },
+ "steam-ironing-sector-49/": {
+  "d": "2026-11-17",
+  "h": "3d15403c47365abc3494a680cc739df537bb84a3"
+ },
+ "steam-ironing-sohna-road/": {
+  "d": "2026-11-17",
+  "h": "dfeb9e694f50b5c227b0b6b253cbaf810c9ad79a"
+ },
+ "steam-ironing-sushant-lok/": {
+  "d": "2026-11-17",
+  "h": "4b4413ed774653e0a52e6ac13002566a79948c47"
+ },
+ "terms-and-conditions/": {
+  "d": "2026-11-17",
+  "h": "48ff5071245a73620c4f9be9c8d064c3dd9f5a10"
+ },
+ "the-hidden-science-of-damp-laundry/": {
+  "d": "2026-11-17",
+  "h": "db15366617fc5a0a7a0800505f65b3193ab0b7f6"
+ },
+ "the-importance-of-professional-laundry-fabric-care/": {
+  "d": "2026-11-17",
+  "h": "c33f18014589fcf820d91d1c4573187fe078c0ba"
+ },
+ "wash4you-overview/": {
+  "d": "2026-11-17",
+  "h": "c6196fa3be37d7b5bf006de1c39b4538a2bf2659"
+ },
+ "why-professional-laundry-services-are-a-smart-choice/": {
+  "d": "2026-11-17",
+  "h": "7a69d40adf58a537bf461d0a75af5ed373cf2c5e"
+ }
+}

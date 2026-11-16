@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import html
 import json
 import math
@@ -1403,6 +1404,7 @@ def build() -> None:
 
     # Render all pages
     template_cache = {}
+    page_hash: dict[str, str] = {}
     for rel_path, template_name, context in pages_to_build:
         template = template_cache.get(template_name)
         if template is None:
@@ -1464,6 +1466,9 @@ def build() -> None:
                                     edit=EDIT_MODE, layout=studio_layout, blocks=studio_blocks, styles=studio_styles)
         if seo_pages and template_name != "page-pricing-print.html":
             rendered = seo_overrides.apply(rendered, rel_path, seo_pages, site["urls"]["base"])
+        # Fingerprint for sitemap <lastmod>: the page as rendered, minus the
+        # per-build ?v= cache-buster, so only a real content change moves it.
+        page_hash[rel_path] = hashlib.sha1(re.sub(r"\?v=\d{14}", "", rendered).encode("utf-8")).hexdigest()
         write_html(DIST_DIR / rel_path, rendered)
         print(f"Built: {rel_path}")
 
@@ -1484,31 +1489,66 @@ def build() -> None:
                f'<body><p>Opening the Wash4You booking page… <a href="{_book}">Tap here if nothing happens</a>.</p>'
                f'<script>location.replace({json.dumps(_book)})</script></body></html>')
 
-    # Sitemap, derived from the page registry so it can never drift out of
-    # sync with what was actually built.
+    # Sitemaps, derived from the page registry so they can never drift out of
+    # sync with what was actually built: /sitemap.xml is an index pointing at
+    # six themed files under /sitemaps/. noindex pages, redirects and the 404
+    # are left out.
     base = site["urls"]["base"]
-    priorities = [("index.html", "1.0"), ("services/", "0.9"), ("products/", "0.85"), ("pricing/", "0.8")]
-    urls = []
-    for rel_path, _tpl, _ctx in pages_to_build:
+    store_paths = {loc["page"].strip("/") + "/index.html" for loc in site["locations"] if loc.get("page")}
+    SITEMAP_GROUP = {
+        "page-home.html": "core", "page-about.html": "core", "page-contact.html": "core",
+        "page-locate-us.html": "core", "page-pricing.html": "core", "page-packages.html": "core",
+        "page-overview.html": "core", "page-landing.html": "core", "page-steam-iron.html": "core",
+        "page-policy.html": "core",
+        "page-services-list.html": "services", "page-service-detail.html": "services", "page-matrix.html": "services",
+        "page-location.html": "areas", "page-coverage.html": "areas", "page-coverage-hub.html": "areas",
+        "page-product-detail.html": "products",
+        "page-blog-list.html": "blog", "page-blog-post.html": "blog",
+    }
+    # <lastmod>: a page's date only moves when its rendered content changes.
+    # (git history is not usable for this: CI checks out one commit, so every
+    # page would get the same date.) The fingerprints live in seo/lastmod.json,
+    # which the publish workflow commits along with the rebuilt site.
+    lastmod_file = ROOT.parent / "seo" / "lastmod.json"
+    lastmod = load_json(lastmod_file) if lastmod_file.exists() else {}
+    today = datetime.now().strftime("%Y-%m-%d")
+    groups: dict[str, list] = {k: [] for k in ("core", "services", "stores", "areas", "products", "blog")}
+    for rel_path, tpl, ctx in pages_to_build:
         if rel_path in ("404.html", "pricing-print.html"):
             continue
-        if (_ctx.get("meta") or {}).get("robots", "").startswith("noindex"):
+        if (ctx.get("meta") or {}).get("robots", "").startswith("noindex"):
             continue
         path = rel_path[: -len("index.html")] if rel_path.endswith("index.html") else rel_path
-        loc = f"{base}/{path}"
-        prio = "0.7"
-        for prefix, p in priorities:
-            if rel_path == prefix or path.startswith(prefix):
-                prio = p
-                break
-        urls.append((loc, prio))
+        group = "stores" if rel_path in store_paths else SITEMAP_GROUP.get(tpl)
+        if group is None:
+            print(f"WARNING: no sitemap group for template {tpl} ({rel_path}); filed under core", file=sys.stderr)
+            group = "core"
+        rec = lastmod.get(path)
+        if not rec or rec.get("h") != page_hash[rel_path]:
+            rec = {"h": page_hash[rel_path], "d": today}
+            lastmod[path] = rec
+        groups[group].append((f"{base}/{path}", rec["d"]))
+    if not EDIT_MODE:
+        live = {p: lastmod[p] for p in {(r[: -len("index.html")] if r.endswith("index.html") else r) for r in page_hash} if p in lastmod}
+        lastmod_file.parent.mkdir(exist_ok=True)
+        lastmod_file.write_text(json.dumps(live, indent=1, sort_keys=True) + "\n", encoding="utf-8")
 
-    sitemap = ['<?xml version="1.0" encoding="UTF-8"?>',
-               '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    for loc, prio in urls:
-        sitemap.append(f"  <url><loc>{html.escape(loc)}</loc><priority>{prio}</priority></url>")
-    sitemap.append("</urlset>")
-    (DIST_DIR / "sitemap.xml").write_text("\n".join(sitemap) + "\n", encoding="utf-8")
+    (DIST_DIR / "sitemaps").mkdir(exist_ok=True)
+    index = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    urls = []
+    for name, items in groups.items():
+        items.sort()
+        body = ['<?xml version="1.0" encoding="UTF-8"?>',
+                '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+        body += [f"  <url><loc>{html.escape(loc)}</loc><lastmod>{d}</lastmod></url>" for loc, d in items]
+        body.append("</urlset>")
+        (DIST_DIR / "sitemaps" / f"{name}.xml").write_text("\n".join(body) + "\n", encoding="utf-8")
+        newest = max((d for _l, d in items), default=today)
+        index.append(f"  <sitemap><loc>{base}/sitemaps/{name}.xml</loc><lastmod>{newest}</lastmod></sitemap>")
+        urls += items
+    index.append("</sitemapindex>")
+    (DIST_DIR / "sitemap.xml").write_text("\n".join(index) + "\n", encoding="utf-8")
 
     (DIST_DIR / "robots.txt").write_text(
         f"User-agent: *\nAllow: /\n\nSitemap: {base}/sitemap.xml\n", encoding="utf-8"

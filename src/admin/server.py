@@ -450,8 +450,10 @@ def studio_pages() -> list[dict]:
     """Every built page (from the edit build's sitemap), grouped for the picker."""
     sm = DIST_EDIT / "sitemap.xml"
     paths = []
-    if sm.is_file():
-        for loc in re.findall(r"<loc>([^<]+)</loc>", sm.read_text(encoding="utf-8")):
+    # /sitemap.xml is an index; the page URLs live in /sitemaps/*.xml
+    files = sorted((DIST_EDIT / "sitemaps").glob("*.xml")) if (DIST_EDIT / "sitemaps").is_dir() else ([sm] if sm.is_file() else [])
+    for f in files:
+        for loc in re.findall(r"<loc>([^<]+)</loc>", f.read_text(encoding="utf-8")):
             p = urlparse(loc).path or "/"
             paths.append(p)
     main = ["/", "/services/", "/pricing/", "/packages/", "/about-us/", "/locate-us/", "/contact-us/",
