@@ -83,7 +83,7 @@
       <p{{ cms('steam-iron:cta.subtitle') }}>{{ steam.cta.subtitle }}</p>
       <div class="btn-row">
         {% for b in steam.cta.buttons %}
-        <a class="btn {% if loop.first %}btn--cta{% else %}btn--on-navy{% endif %} btn--lg" href="{{ b.url if b.url.startswith('http') else root_path ~ b.url }}"{% if b.url.startswith('http') %} rel="noopener"{% endif %}{{ cms('steam-iron:cta.buttons.' ~ loop.index0 ~ '.label') }}>{{ b.label }}</a>
+        <a class="btn {% if loop.first %}btn--cta{% else %}btn--on-navy{% endif %} btn--lg" href="{{ b.url if b.url.startswith('http') else root_path ~ b.url.lstrip('/') }}"{% if b.url.startswith('http') %} rel="noopener"{% endif %}{{ cms('steam-iron:cta.buttons.' ~ loop.index0 ~ '.label') }}>{{ b.label }}</a>
         {% endfor %}
       </div>
     </div>
