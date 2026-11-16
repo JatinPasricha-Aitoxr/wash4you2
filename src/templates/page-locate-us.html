@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% from "_posters.html" import gallery with context %}
 {% from "_icons.html" import ui %}
+{% from "_store_block.html" import store_card %}
 {% from "_components.html" import faq_list, page_hero_mascot_inline %}
 
 {% block body_class %}page-areas{% endblock %}
@@ -84,15 +85,7 @@
     </div>
     <div class="store-grid stagger-children">
       {% for loc in site.locations %}
-      <div class="store-card">
-        <strong>{{ loc.name }}</strong>
-        <address>{{ loc.address }}</address>
-        <p class="mono">{{ site.contact.phone }}</p>
-        <div class="btn-row">
-          <a class="btn btn--ghost" href="{{ loc.map_url }}" target="_blank" rel="noopener">{{ ui('pin', 16) }} Directions</a>
-          <a class="btn btn--ghost" href="{{ site.urls.phone }}">{{ ui('phone', 16) }} Call</a>
-        </div>
-      </div>
+      {{ store_card(loc, site, root_path, ui) }}
       {% endfor %}
     </div>
   </div>

@@ -2,6 +2,7 @@
 {% from "_posters.html" import gallery with context %}
 {% from "_icons.html" import ui, care_tag, service_icon, service_bg %}
 {% from "_store_schema.html" import store_node %}
+{% from "_store_block.html" import store_card %}
 {% from "_components.html" import faq_list, review_card, page_hero_mascot, page_hero_mascot_inline, hero_visual_block %}
 
 {% block schema %},
@@ -88,6 +89,15 @@
     </div>
   </div>
 </section>
+
+{% if area.store_page %}
+<section class="section section--tight" id="store">
+  <div class="wrap">
+    <div class="section-head reveal"><p class="eyebrow">Our store</p><h2>{{ area.store_page.name }}</h2></div>
+    <div class="store-grid">{{ store_card(area.store_page, site, root_path, ui, show_page_link=False) }}</div>
+  </div>
+</section>
+{% endif %}
 
 {% if area.body %}
 <section class="section">

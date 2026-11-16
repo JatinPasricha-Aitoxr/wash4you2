@@ -18,7 +18,8 @@
       "mapUrl": "TODO(owner): Google Maps place URL for this store",
       "photo": "TODO(owner): store photo path under src/assets/images/",
       "directions_url": "https://maps.google.com/?q=Wash4You+Vyapar+Kendra+Sushant+Lok+Phase+I+Sector+43+Gurugram+122009",
-      "google_review_url": "TODO(owner): Google review link"
+      "google_review_url": "TODO(owner): Google review link",
+      "mapEmbedUrl": "TODO(owner): Google Maps embed URL (Share > Embed a map)"
     },
     {
       "id": "sector-49",
@@ -37,7 +38,8 @@
       "mapUrl": "TODO(owner): Google Maps place URL for this store",
       "photo": "TODO(owner): store photo path under src/assets/images/",
       "directions_url": "https://maps.google.com/?q=Wash4You+Unitech+Arcadia+Sector+49+Gurugram+122018",
-      "google_review_url": "TODO(owner): Google review link"
+      "google_review_url": "TODO(owner): Google review link",
+      "mapEmbedUrl": "TODO(owner): Google Maps embed URL (Share > Embed a map)"
     },
     {
       "id": "sector-7",
@@ -56,7 +58,8 @@
       "mapUrl": "TODO(owner): Google Maps place URL for this store",
       "photo": "TODO(owner): store photo path under src/assets/images/",
       "directions_url": "https://maps.google.com/?q=Wash4You+L92+New+Colony+Market+Sector+7+Gurugram+Haryana",
-      "google_review_url": "TODO(owner): Google review link"
+      "google_review_url": "TODO(owner): Google review link",
+      "mapEmbedUrl": "TODO(owner): Google Maps embed URL (Share > Embed a map)"
     },
     {
       "id": "vasant-vihar",
@@ -75,7 +78,8 @@
       "mapUrl": "TODO(owner): Google Maps place URL for this store",
       "photo": "TODO(owner): store photo path under src/assets/images/",
       "directions_url": "https://maps.app.goo.gl/6y593yksSHGktSgk9",
-      "google_review_url": "TODO(owner): Google review link"
+      "google_review_url": "TODO(owner): Google review link",
+      "mapEmbedUrl": "TODO(owner): Google Maps embed URL (Share > Embed a map)"
     }
   ]
 }

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% from "_posters.html" import gallery with context %}
 {% from "_icons.html" import ui %}
+{% from "_store_block.html" import store_card %}
 
 {#
   City coverage hub — one per non-Gurugram city. This is the grouped directory
@@ -101,6 +102,21 @@
     </p>
   </div>
 </section>
+
+{% set hub_stores = site.locations | selectattr('region', 'equalto', hub.state) | list %}
+{% if hub_stores %}
+<section class="section section--wash" id="stores">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Come to us</p>
+      <h2>Our store in {{ hub.name }}</h2>
+    </div>
+    <div class="store-grid">
+      {% for loc in hub_stores %}{{ store_card(loc, site, root_path, ui) }}{% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
 
 {% if site.show_stores %}
 <section class="section section--wash">

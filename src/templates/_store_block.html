@@ -1,0 +1,21 @@
+{# One store's details. Used on store pages, /locate-us/ and /contact-us/ so
+   the address, hours and directions always come from src/data/stores.json.
+   Hours are hidden until the owner fills them in (a TODO placeholder never
+   reaches visible text). #}
+{% macro store_card(loc, site, root_path, ui, show_page_link=True) %}
+<div class="store-card" id="store-{{ loc.id }}">
+  <strong>{{ loc.name }}</strong>
+  <address>{{ loc.address }}</address>
+  {% if loc.hours %}
+  <ul class="store-hours">{% for line in loc.hours %}<li>{{ line }}</li>{% endfor %}</ul>
+  {% else %}
+  <!-- TODO(owner): opening hours for {{ loc.name }} (stores.json -> openingHours) -->
+  {% endif %}
+  <p class="mono">{{ site.contact.phone }}</p>
+  <div class="btn-row">
+    <a class="btn btn--ghost" href="{{ loc.mapUrl or loc.map_url }}" target="_blank" rel="noopener">{{ ui('pin', 16) }} Directions</a>
+    <a class="btn btn--ghost" href="{{ site.urls.phone }}">{{ ui('phone', 16) }} Call</a>
+    {% if show_page_link and loc.page %}<a class="btn btn--ghost" href="{{ root_path }}{{ loc.page.strip('/') }}/">Store page</a>{% endif %}
+  </div>
+</div>
+{% endmacro %}

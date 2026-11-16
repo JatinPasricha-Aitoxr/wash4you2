@@ -588,7 +588,7 @@ def load_stores(path: Path) -> list[dict]:
         tail = " ".join(x for x in [s["region"] if s["region"] not in s["city"] else "", s.get("postal_code") or ""] if x)
         s["address"] = ", ".join([s["street"], s["locality"], s["city"]]) + (", " + tail if tail else "")
         s["map_url"] = s.get("directions_url")
-        for k in ("lat", "lng", "mapUrl", "photo", "google_review_url"):
+        for k in ("lat", "lng", "mapUrl", "mapEmbedUrl", "photo", "google_review_url"):
             if is_todo(s.get(k)):
                 s[k] = None
         hours = s.get("openingHours")
@@ -1252,6 +1252,37 @@ def build() -> None:
     # and different registry, because the honest claim is different: these are
     # areas we will travel to, not places we have a shop in. Nothing here
     # renders a nearest store, a local address or a LocalBusiness schema.
+    # Store page for the Delhi store (Vasant Vihar). The three Gurugram stores
+    # are ordinary area pages (area-pages.json -> store_id); this one has no
+    # Gurugram locality copy, so it uses the lean page-store.html template.
+    _vv = stores_by_id["vasant-vihar"]
+    _vv_url = _vv["page"].strip("/")
+    pages_to_build.append((
+        f"{_vv_url}/index.html",
+        "page-store.html",
+        {
+            "meta": {
+                "title": "Dry Cleaners in Vasant Vihar, Delhi | Wash4You Store",
+                "description": ("Wash4You store in Vasant Vihar, New Delhi. Drop off dry cleaning and laundry "
+                                "in store or book a free doorstep pickup. See the address and call us."),
+                "canonical": f"{site['urls']['base']}/{_vv_url}/",
+            },
+            "store": _vv,
+            "page": {
+                "h1": "Wash4You Vasant Vihar: Dry Cleaning & Laundry Store",
+                "lede": (f"Our Vasant Vihar store is at {_vv['street']}, {_vv['city']} {_vv['postal_code']}. "
+                         "Drop your clothes off in store, or book a free pickup and we will collect from your door."),
+                "nearby": [{"label": n, "url": u + "/"} for n, u in [
+                    ("Vasant Kunj", "laundry-service-vasant-kunj-delhi"),
+                    ("Saket", "laundry-service-saket-delhi"),
+                    ("Hauz Khas", "laundry-service-hauz-khas-delhi"),
+                    ("Malviya Nagar", "laundry-service-malviya-nagar-delhi"),
+                ]],
+            },
+            "depth": 1,
+        }
+    ))
+
     coverage_by_slug = {c["slug"]: c for c in coverage_pages}
     for hub in coverage_hubs:
         hub["all_links"] = [

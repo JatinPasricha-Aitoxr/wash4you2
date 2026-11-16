@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% from "_icons.html" import ui %}
+{% from "_store_block.html" import store_card %}
 {% from "_components.html" import page_hero_mascot, hero_visual_block %}
 
 {% block schema %},
@@ -84,13 +85,16 @@
           <a href="{{ site.urls.email }}" style="color:var(--ink)">{{ ui('mail', 18) }} {{ site.contact.email }}</a>
         </div>
         <hr class="seam">
-        {% if site.show_stores %}{% for loc in site.locations %}
+        <h3>Our stores</h3>
+        {% for loc in site.locations %}
         <div class="footer__store">
           <strong style="color:var(--ink)">{{ loc.name }}</strong>
           <address style="font-size:var(--t-sm);color:var(--ink-3)">{{ loc.address }}</address>
-          <a class="link-arrow" href="{{ loc.map_url }}" target="_blank" rel="noopener">Directions {{ ui('arrow-right', 16) }}</a>
+          {% if loc.hours %}<p style="font-size:var(--t-sm);color:var(--ink-3);margin:0">{{ loc.hours | join(' · ') }}</p>{% else %}<!-- TODO(owner): opening hours for {{ loc.name }} -->{% endif %}
+          <a class="link-arrow" href="{{ loc.mapUrl or loc.map_url }}" target="_blank" rel="noopener">Directions {{ ui('arrow-right', 16) }}</a>
+          {% if loc.page %}<a class="link-arrow" href="{{ root_path }}{{ loc.page.strip('/') }}/">Store page {{ ui('arrow-right', 16) }}</a>{% endif %}
         </div>
-        {% endfor %}{% endif %}
+        {% endfor %}
       </aside>
     </div>
   </div>

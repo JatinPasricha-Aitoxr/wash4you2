@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% from "_icons.html" import ui %}
+{% from "_store_schema.html" import store_node %}
+{% from "_store_block.html" import store_card %}
+
+{% block schema %},
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ site.urls.base }}/" },
+          { "@type": "ListItem", "position": 2, "name": "Stores", "item": "{{ site.urls.base }}/locate-us/#stores" },
+          { "@type": "ListItem", "position": 3, "name": {{ store.name | tojson }} }
+        ]
+      },
+{{ store_node(store, site.urls.base, meta.canonical) }}
+{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="{{ root_path }}">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href="{{ root_path }}locate-us/#stores">Stores</a>
+      <span aria-hidden="true">/</span>
+      <span>{{ store.name }}</span>
+    </nav>
+    <div class="page-hero__grid">
+      <div>
+        <p class="eyebrow">{{ ui('pin', 16) }} {{ store.city }}</p>
+        <h1>{{ page.h1 }}</h1>
+        <p class="lede">{{ page.lede }}</p>
+        <div class="btn-row">
+          <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book a free pickup</a>
+          <a class="btn btn--ghost btn--lg" href="{{ site.urls.whatsapp }}" target="_blank" rel="noopener" data-track="whatsapp">{{ ui('whatsapp', 18) }} WhatsApp us</a>
+        </div>
+      </div>
+      <div style="align-self:start">{{ store_card(store, site, root_path, ui, show_page_link=False) }}</div>
+    </div>
+  </div>
+</section>
+
+{% if store.mapEmbedUrl %}
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal"><h2>Find the store</h2></div>
+    <iframe class="store-map" src="{{ store.mapEmbedUrl }}" title="Map to {{ store.name }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" width="100%" height="380" style="border:0"></iframe>
+  </div>
+</section>
+{% else %}
+<!-- TODO(owner): Google Maps embed URL for {{ store.name }} (stores.json -> mapEmbedUrl). Section stays hidden until it is set. -->
+{% endif %}
+
+<section class="section section--wash">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Two ways to use us</p>
+      <h2>Drop off in store or book a free pickup</h2>
+      <p>Bring your clothes to {{ store.name }}, or book a free pickup and we will collect from your door.</p>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener" data-track="book-pickup">Book a free pickup</a>
+      <a class="btn btn--ghost btn--lg" href="{{ site.urls.phone }}" data-track="call">{{ ui('phone', 18) }} {{ site.contact.phone }}</a>
+    </div>
+  </div>
+</section>
+
+{% if store.photo %}
+<section class="section">
+  <div class="wrap">
+    <img src="{{ asset_path }}{{ store.photo }}" alt="{{ store.name }}, {{ store.locality }}" width="1200" height="800" loading="lazy" decoding="async">
+  </div>
+</section>
+{% else %}
+<!-- TODO(owner): store photo for {{ store.name }} (stores.json -> photo). Section stays hidden until it is set. -->
+{% endif %}
+
+{% if page.nearby %}
+<section class="section section--wash">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Nearby</p>
+      <h2>Areas around {{ store.locality }} we also collect from</h2>
+    </div>
+    <div class="areas stagger-children">
+      {% for a in page.nearby %}
+      <a class="area-link" href="{{ root_path }}{{ a.url }}">{{ a.label }} {{ ui('arrow-right', 16) }}</a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if store.google_review_url %}
+<section class="section section--tight">
+  <div class="wrap text-center">
+    <a class="btn btn--ghost btn--lg" href="{{ store.google_review_url }}" target="_blank" rel="noopener">Review us on Google</a>
+  </div>
+</section>
+{% else %}
+<!-- TODO(owner): "Review us on Google" link for {{ store.name }} (stores.json -> google_review_url). Hidden until set. -->
+{% endif %}
+
+<section class="section section--tight">
+  <div class="wrap">
+    <div class="cta-band reveal">
+      <h2>Free pickup from {{ store.locality }}.</h2>
+      <p>Tell us a time that suits you. We come to your door, count everything with you, and take it from there.</p>
+      <div class="btn-row">
+        <a class="btn btn--cta btn--lg" href="{{ site.urls.booking }}" target="_blank" rel="noopener">Book Your Pickup</a>
+        <a class="btn btn--on-navy btn--lg" href="{{ root_path }}locate-us/">All stores &amp; areas</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
