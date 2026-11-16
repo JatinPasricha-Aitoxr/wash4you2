@@ -611,6 +611,49 @@ def load_stores(path: Path) -> list[dict]:
 
 
 
+_IMG_TAG_RE = re.compile(r"<img\b[^>]*>", re.I)
+_IMG_DIM_CACHE: dict[str, tuple[int, int] | None] = {}
+
+
+def add_img_dimensions(rendered: str, page_dir: Path) -> str:
+    """Give every local <img> that has neither width nor height its real pixel
+    size (read from the built file), so the browser reserves the space before
+    the image loads (no layout shift). The global `img { height: auto }` in
+    base.css keeps the aspect ratio. Tags that already carry either attribute
+    are left alone."""
+    try:
+        from PIL import Image
+    except ImportError:  # Pillow is optional: without it the page is unchanged.
+        return rendered
+
+    def dims(path: Path):
+        key = str(path)
+        if key not in _IMG_DIM_CACHE:
+            try:
+                with Image.open(path) as im:
+                    _IMG_DIM_CACHE[key] = im.size
+            except Exception:
+                _IMG_DIM_CACHE[key] = None
+        return _IMG_DIM_CACHE[key]
+
+    def fix(m: re.Match) -> str:
+        tag = m.group(0)
+        if re.search(r"\s(width|height)\s*=", tag, re.I):
+            return tag
+        src = re.search(r'\ssrc="([^"]+)"', tag)
+        if not src:
+            return tag
+        u = src.group(1).split("?")[0].split("#")[0]
+        if re.match(r"(https?:)?//|data:", u) or u.lower().endswith(".svg"):
+            return tag
+        f = (page_dir / u).resolve() if not u.startswith("/") else (DIST_DIR / u.lstrip("/"))
+        d = dims(f) if f.is_file() else None
+        return tag if not d else tag.replace("<img", f'<img width="{d[0]}" height="{d[1]}"', 1)
+
+    return _IMG_TAG_RE.sub(fix, rendered)
+
+
+
 def get_paths(depth: int) -> tuple[str, str]:
     """Return (root_path, asset_path) for a page at given directory depth."""
     if depth == 0:
@@ -1466,6 +1509,7 @@ def build() -> None:
                                     edit=EDIT_MODE, layout=studio_layout, blocks=studio_blocks, styles=studio_styles)
         if seo_pages and template_name != "page-pricing-print.html":
             rendered = seo_overrides.apply(rendered, rel_path, seo_pages, site["urls"]["base"])
+        rendered = add_img_dimensions(rendered, (DIST_DIR / rel_path).parent)
         # Fingerprint for sitemap <lastmod>: the page as rendered, minus the
         # per-build ?v= cache-buster, so only a real content change moves it.
         page_hash[rel_path] = hashlib.sha1(re.sub(r"\?v=\d{14}", "", rendered).encode("utf-8")).hexdigest()

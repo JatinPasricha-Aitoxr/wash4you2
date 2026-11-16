@@ -2,3 +2,5 @@ jinja2>=3.1
 # PyYAML: needed by the new content-plane generator (build.py, content/*.yml).
 # src/build.py (the live generator) still only needs jinja2 above.
 pyyaml>=6.0
+# Pillow: build-time <img> width/height (src/build.py add_img_dimensions).
+Pillow>=10
