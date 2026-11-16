@@ -552,6 +552,64 @@ def load_generated(gen_dir: Path) -> dict:
     return out
 
 
+# ---------------------------------------------------------------- stores ----
+_DAYS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
+_DAY_NAMES = {"Mo": "Monday", "Tu": "Tuesday", "We": "Wednesday", "Th": "Thursday",
+              "Fr": "Friday", "Sa": "Saturday", "Su": "Sunday"}
+
+
+def is_todo(v) -> bool:
+    """True for an unset value or a TODO(owner) placeholder."""
+    return v is None or v == "" or (isinstance(v, str) and v.strip().upper().startswith("TODO"))
+
+
+def _expand_days(spec: str) -> list[str]:
+    out: list[str] = []
+    for part in spec.replace(" ", "").split(","):
+        if "-" in part:
+            a, b = part.split("-")
+            i, j = _DAYS.index(a), _DAYS.index(b)
+            out += _DAYS[i:j + 1] if i <= j else _DAYS[i:] + _DAYS[:j + 1]
+        elif part:
+            out.append(part)
+    return out
+
+
+def load_stores(path: Path) -> list[dict]:
+    """stores.json -> the list every template sees as `site.locations`.
+
+    Keeps the legacy keys the templates already use (address, map_url) and
+    resolves TODO(owner) placeholders to None, so a template or schema node
+    only ever renders a value that is really there."""
+    raw = load_json(path)["stores"]
+    out = []
+    for st in raw:
+        s = dict(st)
+        tail = " ".join(x for x in [s["region"] if s["region"] not in s["city"] else "", s.get("postal_code") or ""] if x)
+        s["address"] = ", ".join([s["street"], s["locality"], s["city"]]) + (", " + tail if tail else "")
+        s["map_url"] = s.get("directions_url")
+        for k in ("lat", "lng", "mapUrl", "photo", "google_review_url"):
+            if is_todo(s.get(k)):
+                s[k] = None
+        hours = s.get("openingHours")
+        s["hours"], s["hours_spec"] = None, []
+        if isinstance(hours, list) and hours:
+            lines, spec = [], []
+            for h in hours:
+                days = _expand_days(h["days"])
+                spec.append({"dayOfWeek": [_DAY_NAMES[d] for d in days], "opens": h["opens"], "closes": h["closes"]})
+                label = h["days"].replace("-", "–").replace(",", ", ")
+                lines.append(f"{label}: {h['opens']}–{h['closes']}")
+            s["hours"], s["hours_spec"] = lines, spec
+        missing = [k for k, v in (("openingHours", s["hours"]), ("lat", s["lat"]), ("lng", s["lng"]), ("mapUrl", s["mapUrl"])) if not v]
+        if missing:
+            print(f"WARNING: store '{s['id']}' has placeholder {', '.join(missing)} in stores.json; "
+                  "those schema properties/sections are omitted.", file=sys.stderr)
+        out.append(s)
+    return out
+
+
+
 def get_paths(depth: int) -> tuple[str, str]:
     """Return (root_path, asset_path) for a page at given directory depth."""
     if depth == 0:
@@ -581,6 +639,7 @@ def build() -> None:
 
     # Load data
     site = load_json(DATA_DIR / "site.json")
+    site["locations"] = load_stores(DATA_DIR / "stores.json")
     home = load_json(DATA_DIR / "home.json")
     about = load_json(DATA_DIR / "about.json")
     services = load_json(DATA_DIR / "services.json")
@@ -1166,6 +1225,7 @@ def build() -> None:
             for s in entry.get("nearby", []) if s in area_by_slug
         ]
         area["store"] = stores_by_id.get(entry.get("nearest_store"))
+        area["store_page"] = stores_by_id.get(entry.get("store_id"))  # set only on a store's own page
         area["emphasis"] = [
             services_by_slug[s] for s in entry.get("service_emphasis", [])
             if s in services_by_slug

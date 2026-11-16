@@ -18,7 +18,7 @@
               "name": {{ sv.name | tojson }},
               "description": {{ sv.short_description | tojson }},
               "url": "{{ site.urls.base }}/services/{{ sv.slug }}/",
-              "provider": { "@id": "{{ site.urls.base }}/#business" }
+              "provider": { "@id": "{{ site.urls.base }}/#organization" }
             }
           }{% if not loop.last %},{% endif %}
           {% endfor %}

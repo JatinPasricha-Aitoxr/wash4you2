@@ -22,7 +22,7 @@
         "serviceType": {{ service.name | tojson }},
         "description": {{ entry.meta_description | tojson }},
         "url": "{{ meta.canonical }}",
-        "provider": { "@id": "{{ site.urls.base }}/#business" },
+        "provider": { "@id": "{{ site.urls.base }}/#organization" },
         "areaServed": { "@type": "Place", "name": "{{ locality_name }}, Gurugram" }
       }{% if entry.faqs %},
       {

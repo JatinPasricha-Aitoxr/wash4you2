@@ -22,55 +22,6 @@
     "area": "Gurgaon | Delhi NCR",
     "address": "Sushant Lok Phase I, Sector 43, Gurugram, Haryana 122009"
   },
-  "locations": [
-    {
-      "id": "vyapar-kendra",
-      "name": "Wash4You Vyapar Kendra",
-      "street": "Gate No. 3, Shop No. 180, GF Sushant, Vyapar Kendra Road, Block C",
-      "locality": "Sushant Lok Phase I, Sector 43",
-      "postal_code": "122009",
-      "address": "Gate No. 3, Shop No. 180, GF Sushant, Vyapar Kendra Road, Block C, Sushant Lok Phase I, Sector 43, Gurugram, Haryana 122009",
-      "map_url": "https://maps.google.com/?q=Wash4You+Vyapar+Kendra+Sushant+Lok+Phase+I+Sector+43+Gurugram+122009",
-      "phone": "+91 63 67 600 500",
-      "city": "Gurugram",
-      "region": "Haryana"
-    },
-    {
-      "id": "arcadia",
-      "name": "Wash4You Arcadia",
-      "street": "AG-75, Ground Floor, Block-A, Unitech Arcadia",
-      "locality": "Sector 49",
-      "postal_code": "122018",
-      "address": "AG-75, Ground Floor, Block-A, Unitech Arcadia, Sector 49, Gurugram, Haryana 122018",
-      "map_url": "https://maps.google.com/?q=Wash4You+Unitech+Arcadia+Sector+49+Gurugram+122018",
-      "phone": "+91 63 67 600 500",
-      "city": "Gurugram",
-      "region": "Haryana"
-    },
-    {
-      "id": "sector-7",
-      "name": "Wash4You Sector 7",
-      "street": "L92, New Colony Market",
-      "locality": "Sector 7",
-      "city": "Gurugram",
-      "region": "Haryana",
-      "address": "L92, New Colony Market, Sector 7, Gurugram, Haryana",
-      "map_url": "https://maps.google.com/?q=Wash4You+L92+New+Colony+Market+Sector+7+Gurugram+Haryana",
-      "phone": "+91 63 67 600 500"
-    },
-    {
-      "id": "vasant-vihar",
-      "name": "Wash4You Vasant Vihar",
-      "street": "Shop No. 4, C-3, LSC, Paschimi Marg",
-      "locality": "Vasant Vihar",
-      "city": "New Delhi",
-      "region": "Delhi",
-      "address": "Shop No. 4, C-3, LSC, Paschimi Marg, Vasant Vihar, New Delhi 110057",
-      "map_url": "https://maps.app.goo.gl/6y593yksSHGktSgk9",
-      "phone": "+91 63 67 600 500",
-      "postal_code": "110057"
-    }
-  ],
   "promises": [
     {
       "icon": "shield",
@@ -104,7 +55,8 @@
     "facebook": "https://www.facebook.com/profile.php?id=61581209511675",
     "instagram": "https://www.instagram.com/wash4you._",
     "linkedin": "https://www.linkedin.com/company/wash4you-eco-friendly-laundry-and-dryclean/",
-    "youtube": "https://www.youtube.com/channel/UCji5ILTjdrl-DOXf8loAX8Q"
+    "youtube": "https://www.youtube.com/channel/UCji5ILTjdrl-DOXf8loAX8Q",
+    "apple_app": "https://apps.apple.com/in/app/wash4you-eco-friendly-dryclean/id6756326729"
   },
   "nav": {
     "main": [

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% from "_posters.html" import gallery with context %}
 {% from "_icons.html" import ui, care_tag, service_icon, service_bg %}
+{% from "_store_schema.html" import store_node %}
 {% from "_components.html" import faq_list, review_card, page_hero_mascot, page_hero_mascot_inline, hero_visual_block %}
 
 {% block schema %},
@@ -29,7 +30,7 @@
         "@id": "{{ meta.canonical }}#service",
         "name": {{ ('Laundry & dry cleaning in ' ~ area.name ~ ', ' ~ (area.city or 'Gurugram')) | tojson }},
         "serviceType": "Laundry and dry cleaning",
-        "provider": { "@id": "{{ site.urls.base }}/#business" },
+        "provider": { "@id": "{{ site.urls.base }}/#organization" },
         "areaServed": {
           "@type": "Place",
           "name": {{ (area.name ~ ', ' ~ (area.city or 'Gurugram') ~ ', ' ~ (area.state or 'Haryana')) | tojson }}
@@ -46,7 +47,8 @@
             {% endfor %}
           ]
         }{% endif %}
-      }
+      }{% if area.store_page %},
+{{ store_node(area.store_page, site.urls.base, meta.canonical) }}{% endif %}
 {% endblock %}
 
 {% block content %}

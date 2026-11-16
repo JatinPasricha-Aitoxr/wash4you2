@@ -96,7 +96,12 @@
           "{{ site.social.facebook }}",
           "{{ site.social.instagram }}",
           "{{ site.social.linkedin }}",
-          "{{ site.social.youtube }}"
+          "{{ site.social.youtube }}"{% if site.social.apple_app %},
+          "{{ site.social.apple_app }}"{% endif %}
+        ],
+        "subOrganization": [
+          {% for loc in site.locations %}{ "@id": "{{ site.urls.base }}{{ loc.page }}#store" }{% if not loop.last %},{% endif %}
+          {% endfor %}
         ]
       },
       {
@@ -106,31 +111,8 @@
         "name": {{ site.brand.name | tojson }},
         "publisher": { "@id": "{{ site.urls.base }}/#organization" },
         "inLanguage": "en-IN"
-      },
-      {
-        "@type": "DryCleaningOrLaundry",
-        "@id": "{{ site.urls.base }}/#business",
-        "name": {{ site.brand.name | tojson }},
-        "url": "{{ site.urls.base }}/",
-        "telephone": {{ site.contact.phone_raw | tojson }},
-        "email": {{ site.contact.email | tojson }},
-        "image": "{{ site.urls.base }}/images/logo-wash4you.png",
-        "priceRange": "₹₹",
-        "parentOrganization": { "@id": "{{ site.urls.base }}/#organization" },
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": {{ site.locations[0].street | tojson }},
-          "addressLocality": "Gurugram",
-          "addressRegion": "Haryana",
-          "postalCode": {{ site.locations[0].postal_code | tojson }},
-          "addressCountry": "IN"
-        },
-        "areaServed": [
-          {% for a in (area_links or site.footer.areas) %}{ "@type": "Place", "name": {{ (a.label ~ ', Gurugram') | tojson }} }{% if not loop.last %},{% endif %}
-          {% endfor %}
-        ]
       }
-      {% block schema %}{% endblock %}
+            {% block schema %}{% endblock %}
     ]
   }
   </script>

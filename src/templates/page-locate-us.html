@@ -18,7 +18,7 @@
         "@id": "{{ meta.canonical }}#servicearea",
         "name": "Laundry & dry cleaning with free pickup and delivery",
         "serviceType": "Laundry and dry cleaning",
-        "provider": { "@id": "{{ site.urls.base }}/#business" },
+        "provider": { "@id": "{{ site.urls.base }}/#organization" },
         "areaServed": [
           {% for c in areas.cities %}{ "@type": "City", "name": {{ c.name | tojson }} }{% if not loop.last %},{% endif %}
           {% endfor %}
@@ -42,22 +42,7 @@
           { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ site.urls.base }}/" },
           { "@type": "ListItem", "position": 2, "name": "Areas we serve" }
         ]
-      }{% for loc in site.locations %},
-      {
-        "@type": "DryCleaningOrLaundry",
-        "@id": "{{ site.urls.base }}/locate-us/#{{ loc.id }}",
-        "name": {{ loc.name | tojson }},
-        "telephone": "{{ site.contact.phone_raw }}",
-        "parentOrganization": { "@id": "{{ site.urls.base }}/#organization" },
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": {{ loc.street | tojson }},
-          "addressLocality": {{ (loc.city or 'Gurugram') | tojson }},
-          "addressRegion": {{ (loc.region or 'Haryana') | tojson }},{% if loc.postal_code %}
-          "postalCode": {{ loc.postal_code | tojson }},{% endif %}
-          "addressCountry": "IN"
-        }
-      }{% endfor %}
+      }
 {% endblock %}
 
 {% block content %}

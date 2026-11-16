@@ -25,7 +25,7 @@
         "@id": "{{ meta.canonical }}#service",
         "name": {{ ('Laundry & dry cleaning pickup across ' ~ hub.name) | tojson }},
         "serviceType": "Laundry and dry cleaning pickup and delivery",
-        "provider": { "@id": "{{ site.urls.base }}/#business" },
+        "provider": { "@id": "{{ site.urls.base }}/#organization" },
         "areaServed": { "@type": "City", "name": {{ hub.name | tojson }} },
         "url": "{{ meta.canonical }}"
       },

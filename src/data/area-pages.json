@@ -1,7 +1,7 @@
 {
   "_source": "Central registry for the /laundry-service-*/ local-SEO area pages. One entry per published area page. Every area here must also appear in the Gurugram coverage list in areas.json — this file never invents a locality. build.py loops over `areas` and renders one page per entry with templates/page-location.html.",
   "_content_note": "Areas carrying a `content_slug` take their long-form copy (h1, lede, body, local_notes, faqs, meta) from src/data/generated/localities.json, which is where the original ten pages' authored copy already lives. Newer areas carry that copy inline here. Both paths render through the same template — there is only one area page system. The 48 later Gurugram localities added in the area-pages-seo-expansion pass carry their copy inline here.",
-  "_fields": "name, slug (live URL folder), content_slug (optional), city, state, character, customer_profile, garment_focus, pickup_notes, service_emphasis (service slugs from services.json), nearest_store (id from site.json locations), nearby (slugs of other areas in this file), meta_title, meta_description, h1, lede, body, local_notes, faqs, keywords.",
+  "_fields": "name, slug (live URL folder), content_slug (optional), city, state, character, customer_profile, garment_focus, pickup_notes, service_emphasis (service slugs from services.json), nearest_store (id from stores.json), store_id (set only on a store's own page: turns on the store block + DryCleaningOrLaundry schema), nearby (slugs of other areas in this file), meta_title, meta_description, h1, lede, body, local_notes, faqs, keywords.",
   "areas": [
     {
       "name": "Sushant Lok",
@@ -19,7 +19,7 @@
         "steam-ironing",
         "curtains-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-sector-43",
         "laundry-service-mg-road",
@@ -27,7 +27,8 @@
         "laundry-service-sushant-lok-2",
         "laundry-service-south-city",
         "laundry-service-golf-course-road"
-      ]
+      ],
+      "store_id": "sushant-lok"
     },
     {
       "name": "Sector 49",
@@ -45,7 +46,7 @@
         "blanket-quilt-cleaning",
         "sofa-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-50",
         "laundry-service-sector-46",
@@ -53,7 +54,8 @@
         "laundry-service-sohna-road",
         "laundry-service-sector-45",
         "laundry-service-sector-56"
-      ]
+      ],
+      "store_id": "sector-49"
     },
     {
       "name": "Cyber City",
@@ -71,7 +73,7 @@
         "shoe-cleaning",
         "bag-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-udyog-vihar",
         "laundry-service-dlf-phase-2",
@@ -97,7 +99,7 @@
         "shoe-cleaning",
         "premium-dry-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-cyber-city",
         "laundry-service-dlf-phase-2",
@@ -123,7 +125,7 @@
         "sofa-cleaning",
         "leather-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-dlf-phase-5",
         "laundry-service-sushant-lok",
@@ -149,7 +151,7 @@
         "sofa-cleaning",
         "premium-dry-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sohna-road",
         "laundry-service-sector-65",
@@ -175,7 +177,7 @@
         "premium-dry-cleaning",
         "linen-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-49",
         "laundry-service-golf-course-extension",
@@ -201,7 +203,7 @@
         "bag-cleaning",
         "steam-ironing"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-mg-road",
         "laundry-service-sushant-lok",
@@ -227,7 +229,7 @@
         "blanket-quilt-cleaning",
         "carpet-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-udyog-vihar",
         "laundry-service-sector-14",
@@ -253,7 +255,7 @@
         "eco-friendly-laundry",
         "shoe-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-gurugram-sector-29",
         "laundry-service-sushant-lok",
@@ -278,7 +280,7 @@
         "sofa-cleaning",
         "premium-dry-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-dlf-phase-2",
         "laundry-service-mg-road",
@@ -348,7 +350,7 @@
         "premium-dry-cleaning",
         "shoe-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-cyber-city",
         "laundry-service-dlf-phase-3",
@@ -419,7 +421,7 @@
         "premium-dry-cleaning",
         "blanket-quilt-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-dlf-phase-5",
         "laundry-service-golf-course-road",
@@ -490,7 +492,7 @@
         "bag-cleaning",
         "curtains-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-golf-course-road",
         "laundry-service-dlf-phase-4",
@@ -561,7 +563,7 @@
         "linen-cleaning",
         "premium-dry-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-sushant-lok",
         "laundry-service-sector-57",
@@ -628,7 +630,7 @@
         "carpet-cleaning",
         "curtains-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-49",
         "laundry-service-sushant-lok",
@@ -699,7 +701,7 @@
         "sofa-cleaning",
         "eco-friendly-laundry"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-52",
         "laundry-service-sector-53",
@@ -770,7 +772,7 @@
         "wet-cleaning",
         "linen-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-cyber-city",
         "laundry-service-dlf-phase-2",
@@ -841,7 +843,7 @@
         "bag-cleaning",
         "steam-ironing"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-dlf-phase-3",
         "laundry-service-cyber-city",
@@ -912,7 +914,7 @@
         "premium-dry-cleaning",
         "blanket-quilt-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-sector-15",
         "laundry-service-gurugram-sector-29",
@@ -978,7 +980,7 @@
         "steam-ironing",
         "curtains-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-sector-14",
         "laundry-service-gurugram-sector-29",
@@ -1049,7 +1051,7 @@
         "steam-ironing",
         "shoe-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-sushant-lok",
         "laundry-service-gurugram-sector-29",
@@ -1120,7 +1122,7 @@
         "shoe-cleaning",
         "blanket-quilt-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-46",
         "laundry-service-sector-47",
@@ -1191,7 +1193,7 @@
         "linen-cleaning",
         "premium-dry-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-45",
         "laundry-service-sector-47",
@@ -1262,7 +1264,7 @@
         "sofa-cleaning",
         "steam-ironing"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-46",
         "laundry-service-sector-49",
@@ -1333,7 +1335,7 @@
         "blanket-quilt-cleaning",
         "premium-dry-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-49",
         "laundry-service-sector-51",
@@ -1404,7 +1406,7 @@
         "wet-cleaning",
         "premium-dry-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-50",
         "laundry-service-sector-49",
@@ -1474,7 +1476,7 @@
         "sofa-cleaning",
         "steam-ironing"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-ardee-city",
         "laundry-service-sector-51",
@@ -1545,7 +1547,7 @@
         "curtains-cleaning",
         "steam-ironing"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-golf-course-road",
         "laundry-service-dlf-phase-5",
@@ -1616,7 +1618,7 @@
         "blanket-quilt-cleaning",
         "steam-ironing"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-56",
         "laundry-service-sector-53",
@@ -1687,7 +1689,7 @@
         "premium-dry-cleaning",
         "linen-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-57",
         "laundry-service-sector-55",
@@ -1754,7 +1756,7 @@
         "shoe-cleaning",
         "wet-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-56",
         "laundry-service-sushant-lok-2",
@@ -1825,7 +1827,7 @@
         "eco-friendly-laundry",
         "mattress-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-golf-course-extension",
         "laundry-service-sector-57",
@@ -1896,7 +1898,7 @@
         "premium-dry-cleaning",
         "linen-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-sector-14",
         "laundry-service-sector-15",
@@ -1963,7 +1965,7 @@
         "blanket-quilt-cleaning",
         "premium-dry-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-sector-22",
         "laundry-service-palam-vihar",
@@ -2033,7 +2035,7 @@
         "premium-dry-cleaning",
         "curtains-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-sector-21",
         "laundry-service-sector-31",
@@ -2103,7 +2105,7 @@
         "shoe-cleaning",
         "eco-friendly-laundry"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-sector-22",
         "laundry-service-sector-40",
@@ -2173,7 +2175,7 @@
         "sofa-cleaning",
         "curtains-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-sector-43",
         "laundry-service-sector-31",
@@ -2243,7 +2245,7 @@
         "linen-cleaning",
         "leather-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-golf-course-road",
         "laundry-service-sector-53",
@@ -2313,7 +2315,7 @@
         "blanket-quilt-cleaning",
         "wet-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-sector-5",
         "laundry-service-sector-7",
@@ -2383,7 +2385,7 @@
         "shoe-cleaning",
         "blanket-quilt-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-sector-4",
         "laundry-service-sector-7",
@@ -2452,7 +2454,7 @@
         "linen-cleaning",
         "carpet-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-sector-4",
         "laundry-service-sector-5",
@@ -2505,7 +2507,8 @@
         "linen cleaning Sector 7",
         "laundry pickup Sector 7 Gurugram",
         "dry cleaning Sector 7 Gurgaon"
-      ]
+      ],
+      "store_id": "sector-7"
     },
     {
       "name": "Sector 9",
@@ -2522,7 +2525,7 @@
         "steam-ironing",
         "mattress-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-sector-10",
         "laundry-service-sector-7",
@@ -2592,7 +2595,7 @@
         "curtains-cleaning",
         "sofa-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-sector-9",
         "laundry-service-sector-12",
@@ -2661,7 +2664,7 @@
         "linen-cleaning",
         "shoe-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-sector-10",
         "laundry-service-sector-9",
@@ -2730,7 +2733,7 @@
         "eco-friendly-laundry",
         "blanket-quilt-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-sadar-bazar",
         "laundry-service-sector-4",
@@ -2800,7 +2803,7 @@
         "wet-cleaning",
         "linen-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-shivaji-nagar",
         "laundry-service-sector-12",
@@ -2865,7 +2868,7 @@
         "blanket-quilt-cleaning",
         "curtains-cleaning"
       ],
-      "nearest_store": "vyapar-kendra",
+      "nearest_store": "sushant-lok",
       "nearby": [
         "laundry-service-rajiv-nagar",
         "laundry-service-jacobpura",
@@ -2935,7 +2938,7 @@
         "premium-dry-cleaning",
         "blanket-quilt-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-59",
         "laundry-service-sector-60",
@@ -3005,7 +3008,7 @@
         "premium-dry-cleaning",
         "steam-ironing"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-58",
         "laundry-service-sector-60",
@@ -3075,7 +3078,7 @@
         "eco-friendly-laundry",
         "shoe-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-59",
         "laundry-service-sector-61",
@@ -3145,7 +3148,7 @@
         "shoe-cleaning",
         "premium-dry-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-62",
         "laundry-service-sector-60",
@@ -3211,7 +3214,7 @@
         "blanket-quilt-cleaning",
         "steam-ironing"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-61",
         "laundry-service-sector-63",
@@ -3281,7 +3284,7 @@
         "curtains-cleaning",
         "eco-friendly-laundry"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-62",
         "laundry-service-sector-64",
@@ -3351,7 +3354,7 @@
         "steam-ironing",
         "eco-friendly-laundry"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-63",
         "laundry-service-sector-66",
@@ -3417,7 +3420,7 @@
         "premium-dry-cleaning",
         "steam-ironing"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-67",
         "laundry-service-sector-64",
@@ -3487,7 +3490,7 @@
         "eco-friendly-laundry",
         "premium-dry-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-66",
         "laundry-service-sector-68",
@@ -3557,7 +3560,7 @@
         "curtains-cleaning",
         "steam-ironing"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-69",
         "laundry-service-sector-67",
@@ -3627,7 +3630,7 @@
         "linen-cleaning",
         "steam-ironing"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-68",
         "laundry-service-sector-70",
@@ -3697,7 +3700,7 @@
         "eco-friendly-laundry",
         "wet-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-69",
         "laundry-service-sector-71",
@@ -3767,7 +3770,7 @@
         "premium-dry-cleaning",
         "linen-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-70",
         "laundry-service-sector-72",
@@ -3837,7 +3840,7 @@
         "steam-ironing",
         "curtains-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-71",
         "laundry-service-sector-73",
@@ -3907,7 +3910,7 @@
         "bag-cleaning",
         "steam-ironing"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-72",
         "laundry-service-sector-74",
@@ -3977,7 +3980,7 @@
         "linen-cleaning",
         "sofa-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-73",
         "laundry-service-sector-75",
@@ -4047,7 +4050,7 @@
         "premium-dry-cleaning",
         "steam-ironing"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-74",
         "laundry-service-sector-76",
@@ -4117,7 +4120,7 @@
         "blanket-quilt-cleaning",
         "premium-dry-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-75",
         "laundry-service-sector-77",
@@ -4187,7 +4190,7 @@
         "mattress-cleaning",
         "steam-ironing"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-76",
         "laundry-service-sector-78",
@@ -4257,7 +4260,7 @@
         "blanket-quilt-cleaning",
         "wet-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-77",
         "laundry-service-sector-79",
@@ -4327,7 +4330,7 @@
         "eco-friendly-laundry",
         "linen-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-78",
         "laundry-service-sector-80",
@@ -4397,7 +4400,7 @@
         "accessories-cleaning",
         "steam-ironing"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-79",
         "laundry-service-sector-81",
@@ -4467,7 +4470,7 @@
         "linen-cleaning",
         "premium-dry-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-82",
         "laundry-service-sector-83",
@@ -4537,7 +4540,7 @@
         "eco-friendly-laundry",
         "blanket-quilt-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-81",
         "laundry-service-sector-83",
@@ -4603,7 +4606,7 @@
         "shoe-cleaning",
         "bag-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-82",
         "laundry-service-sector-84",
@@ -4673,7 +4676,7 @@
         "shoe-cleaning",
         "steam-ironing"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-83",
         "laundry-service-sector-85",
@@ -4743,7 +4746,7 @@
         "linen-cleaning",
         "steam-ironing"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-84",
         "laundry-service-sector-86",
@@ -4813,7 +4816,7 @@
         "steam-ironing",
         "linen-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-85",
         "laundry-service-sector-87",
@@ -4883,7 +4886,7 @@
         "shoe-cleaning",
         "accessories-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-86",
         "laundry-service-sector-88",
@@ -4949,7 +4952,7 @@
         "eco-friendly-laundry",
         "linen-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-87",
         "laundry-service-sector-89",
@@ -5019,7 +5022,7 @@
         "curtains-cleaning",
         "eco-friendly-laundry"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-88",
         "laundry-service-sector-90",
@@ -5089,7 +5092,7 @@
         "bag-cleaning",
         "premium-dry-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-89",
         "laundry-service-sector-91",
@@ -5159,7 +5162,7 @@
         "linen-cleaning",
         "wet-cleaning"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-90",
         "laundry-service-sector-92",
@@ -5229,7 +5232,7 @@
         "blanket-quilt-cleaning",
         "steam-ironing"
       ],
-      "nearest_store": "arcadia",
+      "nearest_store": "sector-49",
       "nearby": [
         "laundry-service-sector-91",
         "laundry-service-sector-90",

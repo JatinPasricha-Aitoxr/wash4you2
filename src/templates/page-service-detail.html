@@ -23,7 +23,7 @@
            built site, on a 1.8MB marketing poster with a phone number baked
            into the pixels. Now a real image of what the service cleans. #}
         {% if service.image %}"image": "{{ site.urls.base }}/{{ service.image }}",{% endif %}
-        "provider": { "@id": "{{ site.urls.base }}/#business" },
+        "provider": { "@id": "{{ site.urls.base }}/#organization" },
         {% if service.gallery and price_index.get(service.gallery[0]) %}
         "offers": {
           "@type": "Offer",

@@ -1,0 +1,32 @@
+{# DryCleaningOrLaundry node for ONE store, rendered only on that store's own
+   page. Optional properties (geo, hasMap, openingHoursSpecification) are
+   emitted only when the owner has filled the value in stores.json — a
+   TODO(owner) placeholder never reaches the page. #}
+{% macro store_node(store, base, canonical) %}
+      {
+        "@type": "DryCleaningOrLaundry",
+        "@id": "{{ canonical }}#store",
+        "name": {{ store.name | tojson }},
+        "url": "{{ canonical }}",
+        "parentOrganization": { "@id": "{{ base }}/#organization" },
+        "image": "{{ base }}/{{ store.photo if store.photo else 'images/logo-wash4you.png' }}",
+        "telephone": {{ store.phone | tojson }},
+        "email": {{ store.email | tojson }},
+        "priceRange": "₹₹",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": {{ (store.street ~ ', ' ~ store.locality) | tojson }},
+          "addressLocality": {{ store.city | tojson }},
+          "addressRegion": {{ store.region | tojson }},
+          "postalCode": {{ store.postal_code | tojson }},
+          "addressCountry": "IN"
+        }{% if store.lat and store.lng %},
+        "geo": { "@type": "GeoCoordinates", "latitude": {{ store.lat | tojson }}, "longitude": {{ store.lng | tojson }} }{% endif %}{% if store.mapUrl %},
+        "hasMap": {{ store.mapUrl | tojson }}{% endif %}{% if store.hours_spec %},
+        "openingHoursSpecification": [
+          {% for h in store.hours_spec %}{ "@type": "OpeningHoursSpecification", "dayOfWeek": {{ h.dayOfWeek | tojson }}, "opens": {{ h.opens | tojson }}, "closes": {{ h.closes | tojson }} }{% if not loop.last %},{% endif %}
+          {% endfor %}
+        ]{% endif %},
+        "areaServed": { "@type": "City", "name": {{ store.city | tojson }} }
+      }
+{% endmacro %}
