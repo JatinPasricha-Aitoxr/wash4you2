@@ -2,13 +2,25 @@
 <html lang="en-IN">
 <head>
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ESG0NW0S61"></script>
+  <!-- The queue is set up immediately so no event is lost, but the 196 KB library is
+       fetched only after the page has loaded, so it never competes with the CSS/fonts
+       that paint the hero (was the main cause of a slow mobile LCP). -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-ESG0NW0S61');
+    (function(){
+      function load(){
+        if (window.__gtagLoaded) return; window.__gtagLoaded = 1;
+        var s = document.createElement('script'); s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-ESG0NW0S61';
+        document.head.appendChild(s);
+      }
+      function later(){ (window.requestIdleCallback || function(f){ setTimeout(f, 1); })(load, {timeout: 3000}); }
+      if (document.readyState === 'complete') later(); else window.addEventListener('load', later);
+      ['pointerdown','keydown','scroll'].forEach(function(e){ addEventListener(e, load, {once:true, passive:true}); });
+    })();
   </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -322,7 +334,7 @@
     <div class="wrap">
       <div class="footer__grid">
         <div class="footer__brand">
-          <img src="{{ asset_path }}images/logo-white.png" alt="Wash4You" width="150" height="36"{{ cms('images/logo-white.png', 'file') }}>
+          <img src="{{ asset_path }}images/logo-white.png" alt="Wash4You" width="150" height="36" loading="lazy" decoding="async"{{ cms('images/logo-white.png', 'file') }}>
           <p{{ cms('site:brand.description') }}>{{ site.brand.description }}</p>
           <div class="footer__contact">
             <a href="{{ site.urls.phone }}">{{ ui('phone', 18) }} {{ site.contact.phone }}</a>
