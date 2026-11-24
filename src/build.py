@@ -36,7 +36,7 @@ CSS_BUNDLE_ORDER = [
     "fonts", "base", "layout", "ui", "page", "features", "animations",
     "redesign-shell", "redesign-home", "redesign-pricing", "redesign-packages",
     "redesign-areas", "redesign-services", "redesign-product", "redesign-hero",
-    "studio-custom",
+    "studio-widgets", "studio-custom",
 ]
 
 

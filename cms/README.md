@@ -85,6 +85,31 @@ npm test          # 47 tests: auth, CSRF, authorization, validation, sanitising,
 With `REPO_DRIVER=local` the app edits the checkout in `LOCAL_REPO_DIR` (default: the repo) and serves
 `dist-edit/` as the canvas (`W4U_EDIT=1 python3 src/build.py`). Point `LOCAL_REPO_DIR` at a **copy** to experiment safely.
 
+## Studio (visual editor): what you can do
+
+| Panel | Options |
+|---|---|
+| **Widgets** (drag onto the page or click) | *Text & layout:* heading + text, text columns, button, divider, spacer. *Media:* hero banner, image, image + text, gallery, video. *Sections:* icon boxes, testimonials, price list, stats strip, FAQ, call to action. *Advanced:* custom HTML. |
+| **Section settings** | Background colour, **background image** (upload or pick from the media library) with dark overlay, **gradient** (two colours + angle), text colour (also recolours the widget's headings), padding and **margin**, content width, minimum height, corner radius, drop shadow, text alignment, hide on desktop / tablet / mobile. |
+| **Text settings** (click any text on the page) | **Font family**, colour, size, weight, line height, letter spacing, capitalisation, alignment, italic, plus the inline formatting toolbar. |
+| **Site tab** | Global brand colours, **global fonts** (headings and body), business details. |
+| **Images** | Every image field offers *Upload* or *Choose from library* (search + folders). |
+
+Fonts are chosen from a fixed list: the site's own fonts (Fraunces, Hanken Grotesk, Bricolage Grotesque, IBM Plex Mono) and
+standard system fonts. The editor stores only the font's key, never raw CSS. Arbitrary web fonts (Google Fonts etc.) are not
+offered: they would have to be self-hosted to keep the site fast.
+
+Adding a widget means touching three places that must stay identical: `src/templates/_blocks.html` (the site build),
+`cms/src/blocks.js` (the editor preview) and `cms/public/studio/studio.js` (`WIDGETS` + `FIELDS`). `npm test` renders every widget
+through both renderers and fails if they differ.
+
+### The editor copy of the site
+
+The Studio edits a copy of the built site (branch `cms-edit`). The server keeps it in `~/.wash4you-admin/edit-site` (outside the
+per-release `hbuilds/versions/<id>/` folder, which Hostinger wipes on every deploy), downloads it by itself on start-up if it is
+missing, and fetches the new copy 2.5 and 5.5 minutes after each publish. If it is ever missing, the Studio says so and offers a
+**Download the site for editing** button. Set `EDIT_SITE_DIR` to put it somewhere else.
+
 ## Known limits
 
 * Publishing is not instant: the rebuild takes a few minutes. Text, images and styling show instantly in the editor; **new/moved sections** also show instantly but only on the page you are editing.

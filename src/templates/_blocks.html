@@ -125,3 +125,89 @@
 {% macro block_html(p, root_path, asset_path) %}
 <section class="section studio-block studio-html"><div class="wrap">{{ (p.html or '') | safe }}</div></section>
 {% endmacro %}
+
+{# ---- Widgets added in the Studio upgrade: button, image, features, testimonials,
+        columns, pricing, divider. The Node preview (cms/src/blocks.js) mirrors these. #}
+{% macro head(p) -%}
+{%- if p.eyebrow or p.title -%}<div class="section-head section-head--center">{% if p.eyebrow %}<p class="eyebrow eyebrow--center">{{ p.eyebrow }}</p>{% endif %}{% if p.title %}<h2>{{ p.title }}</h2>{% endif %}</div>{%- endif -%}
+{%- endmacro %}
+
+{% macro block_button(p, root_path, asset_path) %}
+<section class="section section--tight studio-block sw-button sw-button--{{ p.align or 'center' }}">
+  <div class="wrap">
+    {% if p.label %}<a class="btn btn--{{ p.kind or 'cta' }} btn--lg" href="{{ href(p.url, root_path) }}"{% if (p.url or '').startswith('http') %} target="_blank" rel="noopener"{% endif %}>{{ p.label }}</a>
+    {% else %}<div class="studio-placeholder">Add a button label</div>{% endif %}
+  </div>
+</section>
+{% endmacro %}
+
+{% macro block_image(p, root_path, asset_path) %}
+<section class="section section--tight studio-block sw-image sw-image--{{ p.align or 'center' }}">
+  <div class="wrap">
+    {% if p.image %}
+    <figure{% if p.width | int %} style="max-width:{{ p.width | int }}px"{% endif %}>
+      {% if p.url %}<a href="{{ href(p.url, root_path) }}"{% if (p.url or '').startswith('http') %} target="_blank" rel="noopener"{% endif %}>{% endif %}<img src="{{ asset_path }}{{ p.image }}" alt="{{ p.alt or p.caption or '' }}" loading="lazy" decoding="async">{% if p.url %}</a>{% endif %}
+      {% if p.caption %}<figcaption>{{ p.caption }}</figcaption>{% endif %}
+    </figure>
+    {% else %}<div class="studio-placeholder">Choose an image</div>{% endif %}
+  </div>
+</section>
+{% endmacro %}
+
+{% macro block_features(p, root_path, asset_path) %}
+<section class="section studio-block sw-features">
+  <div class="wrap">
+    {{ head(p) }}
+    <div class="sw-grid sw-grid--{{ [[p.columns | int or 3, 2] | max, 4] | min }}">
+      {% for it in (p['items'] or []) %}
+      <div class="sw-card">{% if it.icon %}<div class="sw-card__icon" aria-hidden="true">{{ it.icon }}</div>{% endif %}<h3>{{ it.title }}</h3>{% if it.text %}<div class="studio-body">{{ it.text }}</div>{% endif %}</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endmacro %}
+
+{% macro block_testimonials(p, root_path, asset_path) %}
+<section class="section studio-block sw-testimonials">
+  <div class="wrap">
+    {{ head(p) }}
+    <div class="sw-grid sw-grid--{{ [[(p['items'] or []) | length, 1] | max, 3] | min }}">
+      {% for it in (p['items'] or []) %}
+      <figure class="sw-quote"><blockquote>&ldquo;{{ it.quote }}&rdquo;</blockquote><figcaption><strong>{{ it.name }}</strong>{% if it.detail %}<span>{{ it.detail }}</span>{% endif %}</figcaption></figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endmacro %}
+
+{% macro block_columns(p, root_path, asset_path) %}
+<section class="section studio-block sw-columns">
+  <div class="wrap">
+    {{ head(p) }}
+    <div class="sw-grid sw-grid--{{ [[p.columns | int or 2, 2] | max, 3] | min }} sw-grid--plain">
+      {% for it in (p['items'] or []) %}
+      <div class="sw-col">{% if it.title %}<h3>{{ it.title }}</h3>{% endif %}<div class="studio-body">{{ it.text }}</div></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endmacro %}
+
+{% macro block_pricing(p, root_path, asset_path) %}
+<section class="section studio-block sw-pricing">
+  <div class="wrap wrap--narrow">
+    {{ head(p) }}
+    <ul class="sw-price">
+      {% for it in (p['items'] or []) %}
+      <li><span class="sw-price__name">{{ it.name }}{% if it.note %}<small>{{ it.note }}</small>{% endif %}</span><span class="sw-price__dots" aria-hidden="true"></span><strong>{{ it.price }}</strong></li>
+      {% endfor %}
+    </ul>
+    {% if p.note %}<p class="sw-price__note">{{ p.note }}</p>{% endif %}
+    {% if p.button_label %}<div class="studio-actions" style="text-align:center">{{ btn(p.button_label, p.button_url, root_path) }}</div>{% endif %}
+  </div>
+</section>
+{% endmacro %}
+
+{% macro block_divider(p, root_path, asset_path) %}
+<section class="studio-block sw-divider sw-divider--{{ p.style or 'line' }}" aria-hidden="true"><div class="wrap"><hr></div></section>
+{% endmacro %}

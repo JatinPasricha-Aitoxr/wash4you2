@@ -107,6 +107,7 @@ function createApp({ repo, content, media } = {}) {
 
   // -------------------------------------------------------------- studio
   async function studioPages() {
+    await editsite.ensure();
     const f = editsite.safeFile('sitemap.xml'); const out = [];
     const main = ['/', '/services/', '/pricing/', '/packages/', '/about-us/', '/locate-us/', '/contact-us/', '/blog/', '/steam-iron/', '/wash4you-overview/', '/best-dryclean-near-me/', '/best-dryclean-in-gurgaon/'];
     if (f) for (const m of fs.readFileSync(f, 'utf8').matchAll(/<loc>([^<]+)<\/loc>/g)) { let p; try { p = new URL(m[1]).pathname || '/'; } catch { continue; } out.push(p); }
@@ -218,6 +219,7 @@ function createApp({ repo, content, media } = {}) {
     try { r = await content.publish(user(req), String((req.body || {}).message || '')); }
     catch (e) { return res.status(422).json({ error: e.message }); }
     await auth.audit(req, 'publish', r.published ? `${r.files} files` : 'nothing');
+    if (r.published) editsite.refreshLater();
     res.json({ ok: true, ...r, steps: r.published ? [`Published ${r.files} changed file(s) to the repository.`, 'The site rebuilds automatically; changes are live in a few minutes.'] : [r.message] });
   }));
   api.get('/revisions', wrap(async (req, res) => res.json({ revisions: await content.listRevisions(80) })));
@@ -337,6 +339,7 @@ async function main() {
   app.listen(config.port, () => console.log(`Wash4You admin listening on :${config.port} (${config.repoDriver} repo, ${config.dbDriver} db)`));
   await db.init();
   await require('./schema').migrate();
+  editsite.ensure();   // fetch the editor build in the background if the host lost it
 }
 // Hostinger loads the entry file through its own wrapper (require.main !== module),
 // so start unless the test runner is only importing createApp.

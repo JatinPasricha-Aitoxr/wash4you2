@@ -4,6 +4,22 @@
 // file is read for development only; it is gitignored and never required.
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
+
+// Hostinger deploys every release into hbuilds/versions/<id>/, which would wipe a cache kept inside the
+// app folder on each deploy (the Studio then shows "no pages"). Keep it in the home directory instead.
+function editSiteDir() {
+  if (process.env.EDIT_SITE_DIR) return process.env.EDIT_SITE_DIR;
+  const inApp = path.join(__dirname, '..', 'data', 'edit-site');
+  if (process.env.NODE_ENV === 'production' || /[\\/]hbuilds[\\/]versions[\\/]/.test(inApp)) {
+    try {
+      const base = path.join(os.homedir(), '.wash4you-admin');
+      fs.mkdirSync(base, { recursive: true }); fs.accessSync(base, fs.constants.W_OK);
+      return path.join(base, 'edit-site');
+    } catch { /* fall back to the app folder */ }
+  }
+  return inApp;
+}
 
 function loadDotenv(file) {
   if (!fs.existsSync(file)) return;
@@ -42,7 +58,7 @@ const config = {
   // The editable build of the site (rendered with data-cms bindings). In
   // production it is downloaded from the cms-edit branch; locally it is the
   // repo's dist-edit/ folder.
-  editSiteDir: env.EDIT_SITE_DIR || path.join(__dirname, '..', 'data', 'edit-site'),
+  editSiteDir: editSiteDir(),
   publicSiteUrl: env.PUBLIC_SITE_URL || 'https://wash4you.in',
   sessionHours: parseInt(env.SESSION_HOURS || '12', 10),
   maxUploadBytes: parseInt(env.MAX_UPLOAD_BYTES || String(8 * 1024 * 1024), 10),

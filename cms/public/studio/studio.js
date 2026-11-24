@@ -30,8 +30,19 @@
     { type: "faq", name: "FAQ", icon: "❓", props: { title: "Frequently asked questions", items: [{ q: "How does pickup work?", a: "Book online and we collect from your door." }] } },
     { type: "video", name: "Video", icon: "▶️", props: { title: "", url: "" } },
     { type: "spacer", name: "Spacer", icon: "↕️", props: { height: "48" } },
-    { type: "html", name: "Custom HTML", icon: "🧩", props: { html: "<p>Your HTML here</p>" } }
+    { type: "html", name: "Custom HTML", icon: "🧩", props: { html: "<p>Your HTML here</p>" } },
+    { type: "button", name: "Button", icon: "🔘", props: { label: "Book free pickup", url: "https://app.wash4you.in/website/W10795?brand=WASH4U", kind: "cta", align: "center" } },
+    { type: "image", name: "Image", icon: "📷", props: { image: "", alt: "", caption: "", width: "", align: "center", url: "" } },
+    { type: "features", name: "Icon boxes", icon: "✨", props: { eyebrow: "", title: "Add a heading", columns: "3", items: [{ icon: "🧺", title: "First point", text: "Describe this point in a sentence or two." }, { icon: "🚚", title: "Second point", text: "Describe this point in a sentence or two." }, { icon: "⭐", title: "Third point", text: "Describe this point in a sentence or two." }] } },
+    { type: "testimonials", name: "Testimonials", icon: "💬", props: { eyebrow: "", title: "What customers say", items: [{ quote: "Write what the customer said here.", name: "Customer name", detail: "Area, Gurgaon" }] } },
+    { type: "columns", name: "Text columns", icon: "▥", props: { eyebrow: "", title: "", columns: "2", items: [{ title: "First column", text: "Write your text here." }, { title: "Second column", text: "Write your text here." }] } },
+    { type: "pricing", name: "Price list", icon: "🏷", props: { eyebrow: "", title: "Price list", note: "", button_label: "", button_url: "", items: [{ name: "Item name", note: "", price: "₹0" }] } },
+    { type: "divider", name: "Divider", icon: "➖", props: { style: "line" } }
   ];
+  var GROUPS = [["Text & layout", ["heading", "columns", "button", "divider", "spacer"]], ["Media", ["hero", "image", "image_text", "gallery", "video"]], ["Sections", ["features", "testimonials", "pricing", "stats", "faq", "cta"]], ["Advanced", ["html"]]];
+  // Font choices: the editor stores the KEY; the stacks mirror FONTS in src/studio.py.
+  var FONT_OPTS = [["", "Default"], ["fraunces", "Fraunces (serif headings)"], ["hanken", "Hanken Grotesk (body)"], ["bricolage", "Bricolage Grotesque"], ["plexmono", "IBM Plex Mono"], ["georgia", "Georgia"], ["times", "Times New Roman"], ["arial", "Arial"], ["verdana", "Verdana"], ["trebuchet", "Trebuchet MS"], ["system", "System UI"], ["courier", "Courier New"]];
+  var FONT_CSS = { fraunces: "'Fraunces', Georgia, 'Times New Roman', serif", hanken: "'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", bricolage: "'Bricolage Grotesque', 'Hanken Grotesk', sans-serif", plexmono: "'IBM Plex Mono', ui-monospace, Menlo, monospace", georgia: "Georgia, 'Times New Roman', serif", times: "'Times New Roman', Times, serif", arial: "Arial, Helvetica, sans-serif", verdana: "Verdana, Geneva, sans-serif", trebuchet: "'Trebuchet MS', Helvetica, sans-serif", system: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", courier: "'Courier New', Courier, monospace" };
   var WNAME = {}; WIDGETS.forEach(function (w) { WNAME[w.type] = w.name; });
 
   var FIELDS = {
@@ -44,7 +55,14 @@
     faq: [["title", "Heading"], ["items", "Questions", "list", [["q", "Question"], ["a", "Answer", "textarea"]], { q: "", a: "" }]],
     video: [["title", "Heading"], ["url", "YouTube or Vimeo link", "url"]],
     spacer: [["height", "Height (px)", "number"]],
-    html: [["html", "HTML", "code"]]
+    html: [["html", "HTML", "code"]],
+    button: [["label", "Button text"], ["url", "Link", "url"], ["kind", "Colour", "select", [["cta", "Green"], ["on-navy", "Navy"], ["ghost", "Outline"]]], ["align", "Alignment", "select", ["center", "left", "right"]]],
+    image: [["image", "Image", "image"], ["alt", "Image description (for search engines and screen readers)"], ["caption", "Caption"], ["url", "Link when clicked (optional)", "url"], ["width", "Max width (px, optional)", "number"], ["align", "Alignment", "select", ["center", "left", "right"]]],
+    features: [["eyebrow", "Eyebrow"], ["title", "Heading"], ["columns", "Columns", "select", ["2", "3", "4"]], ["items", "Boxes", "list", [["icon", "Icon (emoji)"], ["title", "Title"], ["text", "Text", "textarea"]], { icon: "⭐", title: "", text: "" }]],
+    testimonials: [["eyebrow", "Eyebrow"], ["title", "Heading"], ["items", "Testimonials", "list", [["quote", "Quote", "textarea"], ["name", "Name"], ["detail", "Detail (e.g. area)"]], { quote: "", name: "", detail: "" }]],
+    columns: [["eyebrow", "Eyebrow"], ["title", "Heading (optional)"], ["columns", "Columns", "select", ["2", "3"]], ["items", "Columns", "list", [["title", "Title"], ["text", "Text", "textarea"]], { title: "", text: "" }]],
+    pricing: [["eyebrow", "Eyebrow"], ["title", "Heading"], ["items", "Prices", "list", [["name", "Item"], ["note", "Small note (optional)"], ["price", "Price"]], { name: "", note: "", price: "" }], ["note", "Footnote (e.g. GST extra)"], ["button_label", "Button label"], ["button_url", "Button link", "url"]],
+    divider: [["style", "Style", "select", [["line", "Thin line"], ["thick", "Short bar"], ["dots", "Dotted"]]]]
   };
 
   var GLOBAL_COLORS = [["--green-cta", "Button colour"], ["--navy", "Brand navy"], ["--navy-deep", "Dark bands"], ["--brass", "Accent (brass)"], ["--ink", "Heading text"]];
@@ -152,13 +170,27 @@
   function liveCss() {
     var rules = [], g = S.globals || {};
     var gv = Object.keys(g).filter(function (k) { return /^--[a-z0-9-]+$/.test(k) && /^#[0-9a-fA-F]{3,8}$/.test(g[k]); }).map(function (k) { return k + ":" + g[k]; });
+    ["--font-display", "--font-sans"].forEach(function (k) { if (g[k] && FONT_CSS[g[k]]) gv.push(k + ":" + FONT_CSS[g[k]]); });
     if (gv.length) rules.push(":root{" + gv.join(";") + "}");
     Object.keys(S.secStyles).forEach(function (id) {
       var p = S.secStyles[id], sel2 = '[data-sec="' + id + '"]', d = [];
+      var px = function (k, prop) { if (p[k] !== undefined && p[k] !== "" && /^-?\d+$/.test(String(p[k]))) d.push(prop + ":" + p[k] + "px"); };
       if (p.bg) d.push("background:" + p.bg); if (p.color) d.push("color:" + p.color);
-      if (p.padTop !== undefined && p.padTop !== "") d.push("padding-top:" + p.padTop + "px");
-      if (p.padBottom !== undefined && p.padBottom !== "") d.push("padding-bottom:" + p.padBottom + "px");
+      px("padTop", "padding-top"); px("padBottom", "padding-bottom"); px("marginTop", "margin-top"); px("marginBottom", "margin-bottom"); px("radius", "border-radius"); px("minHeight", "min-height");
+      if (p.textAlign) d.push("text-align:" + p.textAlign);
+      if (/^images\/[A-Za-z0-9_.\/-]+$/.test(p.bgImage || "") && p.bgImage.indexOf("..") < 0) {
+        var layers = [], ov = parseInt(p.bgOverlay, 10);
+        if (ov > 0) { var a = (ov / 100).toFixed(2).replace(/0+$/, "").replace(/\.$/, ""); layers.push("linear-gradient(rgba(11,30,60," + a + "),rgba(11,30,60," + a + "))"); }
+        layers.push("url('/" + p.bgImage + "')");
+        d.push("background-image:" + layers.join(","), "background-size:" + (p.bgSize === "contain" ? "contain" : "cover"), "background-position:center", "background-repeat:no-repeat");
+      } else if (/^#[0-9a-fA-F]{3,8}$/.test(p.gradFrom || "") && /^#[0-9a-fA-F]{3,8}$/.test(p.gradTo || "")) {
+        d.push("background-image:linear-gradient(" + (parseInt(p.gradAngle, 10) || 135) + "deg," + p.gradFrom + "," + p.gradTo + ")");
+      }
+      if (p.radius !== undefined && p.radius !== "" && String(p.radius) !== "0") d.push("overflow:hidden");
+      if (p.shadow) d.push("box-shadow:0 18px 48px rgba(11,30,60,.22)");
       if (d.length) rules.push(sel2 + "{" + d.map(function (x) { return x + " !important"; }).join(";") + "}");
+      if (p.color && /^(#[0-9a-fA-F]{3,8}|[a-z]{3,20})$/.test(p.color)) rules.push(sel2 + "[data-block] :is(h1,h2,h3,h4,h5,h6,p,li,blockquote,figcaption,small,strong,span){color:inherit !important}");
+      if (/^\d{3,4}$/.test(String(p.maxWidth || ""))) rules.push(sel2 + " .wrap{max-width:" + p.maxWidth + "px !important}");
       if (p.hideMobile) rules.push("@media (max-width:40rem){" + sel2 + "{display:none !important}}");
       if (p.hideTablet) rules.push("@media (min-width:40.0625rem) and (max-width:61.99rem){" + sel2 + "{display:none !important}}");
       if (p.hideDesktop) rules.push("@media (min-width:62rem){" + sel2 + "{display:none !important}}");
@@ -169,7 +201,8 @@
       if (p.fontSize) d.push("font-size:" + p.fontSize + (/^\d+(\.\d+)?$/.test(p.fontSize) ? "px" : ""));
       if (p.fontWeight) d.push("font-weight:" + p.fontWeight); if (p.textAlign) d.push("text-align:" + p.textAlign);
       if (p.fontStyle) d.push("font-style:" + p.fontStyle); if (p.textTransform) d.push("text-transform:" + p.textTransform);
-      if (p.lineHeight) d.push("line-height:" + p.lineHeight);
+      if (p.lineHeight) d.push("line-height:" + p.lineHeight); if (p.letterSpacing) d.push("letter-spacing:" + p.letterSpacing);
+      if (p.fontFamily && FONT_CSS[p.fontFamily]) d.push("font-family:" + FONT_CSS[p.fontFamily]);
       if (d.length) rules.push('[data-sid="' + b + '"]{' + d.map(function (x) { return x + " !important"; }).join(";") + "}");
     });
     return rules.join("\n");
@@ -276,15 +309,19 @@
   function renderWidgets() {
     var p = $("#panel-widgets"); p.innerHTML = "";
     p.appendChild(el("p", "hint", "Drag a widget onto the page, or click one to add it after the selected section."));
-    var g = el("div", "grid2");
-    WIDGETS.forEach(function (w) {
-      var c = el("div", "widget"); c.draggable = true; c.innerHTML = "<span>" + w.icon + "</span>" + w.name;
-      c.addEventListener("dragstart", function (e) { dragWidget = w.type; e.dataTransfer.setData("text/plain", "w4s-widget"); e.dataTransfer.effectAllowed = "copy"; send({ type: "drag", on: true }); });
-      c.addEventListener("dragend", function () { send({ type: "drag", on: false }); setTimeout(function () { dragWidget = null; }, 200); });
-      c.addEventListener("click", function () { insertBlock(w.type, undefined); });
-      g.appendChild(c);
+    GROUPS.forEach(function (grp) {
+      p.appendChild(el("div", "h", grp[0]));
+      var g = el("div", "grid2");
+      grp[1].forEach(function (type) {
+        var w = WIDGETS.filter(function (x) { return x.type === type; })[0]; if (!w) return;
+        var c = el("div", "widget"); c.draggable = true; c.dataset.widget = w.type; c.innerHTML = "<span>" + w.icon + "</span>" + w.name;
+        c.addEventListener("dragstart", function (e) { dragWidget = w.type; e.dataTransfer.setData("text/plain", "w4s-widget"); e.dataTransfer.effectAllowed = "copy"; send({ type: "drag", on: true }); });
+        c.addEventListener("dragend", function () { send({ type: "drag", on: false }); setTimeout(function () { dragWidget = null; }, 200); });
+        c.addEventListener("click", function () { insertBlock(w.type, undefined); });
+        g.appendChild(c);
+      });
+      p.appendChild(g);
     });
-    p.appendChild(g);
   }
 
   // ----------------------------------------------------- UI: navigator tab
@@ -364,7 +401,7 @@
   function fld(label, node, id) { var w = el("div", "f"); var l = el("label", null, label); if (id) l.htmlFor = id; w.append(l, node); return w; }
   function textInput(val, onInput, type) { var i = el("input"); i.type = type || "text"; i.value = val == null ? "" : val; i.addEventListener("input", function () { onInput(i.value); }); return i; }
   function areaInput(val, onInput, code) { var t = el("textarea", code ? "code" : ""); t.value = val == null ? "" : val; t.addEventListener("input", function () { onInput(t.value); }); return t; }
-  function selectInput(val, opts, onChange) { var s = el("select"); opts.forEach(function (o) { var op = el("option", null, o); op.value = o; if (String(val) === o) op.selected = true; s.appendChild(op); }); s.addEventListener("change", function () { onChange(s.value); }); return s; }
+  function selectInput(val, opts, onChange) { var s = el("select"); opts.forEach(function (o) { var v = Array.isArray(o) ? o[0] : o, lab = Array.isArray(o) ? o[1] : o; var op = el("option", null, lab === "" ? "Default" : lab); op.value = v; if (String(val) === v) op.selected = true; s.appendChild(op); }); s.addEventListener("change", function () { onChange(s.value); }); return s; }
   function colorInput(val, onChange) {
     var w = el("div", "color"), c = el("input"), t = el("input"), x = el("button", null, "clear");
     c.type = "color"; c.value = /^#[0-9a-fA-F]{6}$/.test(val || "") ? val : "#000000"; t.type = "text"; t.value = val || ""; t.placeholder = "default"; x.type = "button";
@@ -376,22 +413,51 @@
   function imageInput(val, onChange) {
     var w = el("div", "imgf"), prev = val ? el("img") : el("div", "ph", "No image");
     if (val) prev.src = "/" + val;
-    var col = el("div"), b = el("button", "btn btn--sm", val ? "Replace" : "Upload"), f = el("input"); f.type = "file"; f.accept = "image/*"; f.hidden = true;
+    var col = el("div"), b = el("button", "btn btn--sm", val ? "Upload new" : "Upload"), f = el("input"); f.type = "file"; f.accept = "image/*"; f.hidden = true;
+    var lib = el("button", "btn btn--sm", "Choose from library"); lib.type = "button"; lib.addEventListener("click", function () { openLibrary(onChange); });
     b.type = "button"; b.addEventListener("click", function () { f.click(); });
     f.addEventListener("change", function () {
       var file = f.files && f.files[0]; if (!file) return; toast("Uploading...");
       readFile(file).then(function (dataUrl) { return api("/admin/api/studio/upload", { name: file.name, dataUrl: dataUrl }); })
         .then(function (r) { if (r.ok && r.data.ok) { onChange(r.data.path); toast("Image uploaded", "ok"); } else toast((r.data && r.data.error) || "Upload failed", "err"); });
     });
-    col.append(b, f); w.append(prev, col); return w;
+    col.append(b, lib, f); w.append(prev, col); return w;
   }
+  // The media library picker: every image already on the site (search + folders), click to use.
+  function openLibrary(onPick) {
+    var m = $("#modal"); m.innerHTML = ""; m.classList.add("modal--wide");
+    m.appendChild(el("h2", null, "Media library"));
+    var bar = el("div", "libbar"), q = el("input"), fol = el("select"); q.type = "search"; q.placeholder = "Search images..."; fol.appendChild(el("option", null, "All folders")); fol.firstChild.value = "";
+    bar.append(q, fol); m.appendChild(bar);
+    var grid = el("div", "libgrid"); m.appendChild(grid);
+    var more = el("button", "btn btn--sm", "Load more"); more.hidden = true; m.appendChild(more);
+    var foot = el("div", "modal__foot"), close = el("button", "btn", "Close"); close.addEventListener("click", closeLibrary); foot.appendChild(close); m.appendChild(foot);
+    var offset = 0, total = 0, foldersDone = false;
+    function load(reset) {
+      if (reset) { offset = 0; grid.innerHTML = ""; }
+      api("/admin/api/media?limit=48&offset=" + offset + "&q=" + encodeURIComponent(q.value) + "&folder=" + encodeURIComponent(fol.value)).then(function (r) {
+        var d = r.data || {}; total = d.total || 0;
+        if (!foldersDone && d.folders) { foldersDone = true; d.folders.forEach(function (x) { var o = el("option", null, x || "(top level)"); o.value = x; fol.appendChild(o); }); }
+        (d.items || []).forEach(function (it) {
+          var c = el("button", "libitem"); c.type = "button"; c.title = it.name; var im = el("img"); im.src = "/" + it.url; im.loading = "lazy"; im.alt = it.alt || it.name; c.append(im, el("span", null, it.name));
+          c.addEventListener("click", function () { closeLibrary(); onPick(it.url); }); grid.appendChild(c);
+        });
+        offset += (d.items || []).length; more.hidden = offset >= total;
+        if (!total) grid.appendChild(el("div", "empty", "No images match."));
+      });
+    }
+    var t; q.addEventListener("input", function () { clearTimeout(t); t = setTimeout(function () { load(true); }, 250); }); fol.addEventListener("change", function () { load(true); });
+    more.addEventListener("click", function () { load(false); });
+    modalBack.hidden = false; load(true); q.focus();
+  }
+  function closeLibrary() { $("#modal").classList.remove("modal--wide"); closeModal(); }
   function rowFor(spec, obj, onChange) {
     var key = spec[0], label = spec[1], type = spec[2] || "text";
     var set = function (v) { obj[key] = v; onChange(key); };
     if (type === "rich") return fld(label, richEditor(toHtml(obj[key]), function (html) { obj[key] = pack(html, "text"); onChange(key); }));
     if (type === "textarea") return fld(label, areaInput(obj[key], set));
     if (type === "code") return fld(label, areaInput(obj[key], set, true));
-    if (type === "select") return fld(label, selectInput(obj[key] || spec[3][0], spec[3], set));
+    if (type === "select") return fld(label, selectInput(obj[key] || (Array.isArray(spec[3][0]) ? spec[3][0][0] : spec[3][0]), spec[3], set));
     if (type === "number") return fld(label, textInput(obj[key], set, "number"));
     if (type === "url") return fld(label, textInput(obj[key], set, "text"));
     if (type === "image") return fld(label, imageInput(obj[key], function (v) { set(v); renderSettings(); }));
@@ -437,21 +503,40 @@
       p.appendChild(el("div", "h", "Content"));
       (FIELDS[b.type] || []).forEach(function (spec) { p.appendChild(rowFor(spec, b.props, function () { changeBlock(id); })); });
     }
-    p.appendChild(el("div", "h", "Section style"));
     var st = S.secStyles[id] = S.secStyles[id] || {};
     var upd = function () { cleanStyles(); commit({ skipPanels: true }); };
-    p.appendChild(fld("Background colour", colorInput(st.bg, function (v) { st.bg = v; upd(); })));
-    p.appendChild(fld("Text colour", colorInput(st.color, function (v) { st.color = v; upd(); })));
-    var pad = el("div", "grid2");
-    pad.appendChild(fld("Padding top (px)", textInput(st.padTop, function (v) { st.padTop = v; upd(); }, "number")));
-    pad.appendChild(fld("Padding bottom (px)", textInput(st.padBottom, function (v) { st.padBottom = v; upd(); }, "number")));
-    p.appendChild(pad);
-    p.appendChild(el("div", "h", "Responsive"));
+    var numRow = function (a, b2) { var g = el("div", "grid2"); [a, b2].forEach(function (c) { if (c) g.appendChild(fld(c[1], textInput(st[c[0]], function (v) { st[c[0]] = v; upd(); }, "number"))); }); return g; };
+    var grp = function (title, open) { var d = el("details", "grp"); if (open) d.open = true; d.appendChild(el("summary", null, title)); p.appendChild(d); return d; };
+
+    var gb = grp("Background", true);
+    gb.appendChild(fld("Background colour", colorInput(st.bg, function (v) { st.bg = v; upd(); })));
+    gb.appendChild(fld("Text colour", colorInput(st.color, function (v) { st.color = v; upd(); })));
+    gb.appendChild(fld("Background image", imageInput(st.bgImage || "", function (v) { st.bgImage = v; upd(); renderSettings(); })));
+    if (st.bgImage) {
+      var clr = el("button", "btn btn--sm", "Remove image"); clr.type = "button"; clr.addEventListener("click", function () { delete st.bgImage; delete st.bgOverlay; upd(); renderSettings(); }); gb.appendChild(clr);
+      gb.appendChild(fld("Dark overlay (0-90%)", textInput(st.bgOverlay || "", function (v) { st.bgOverlay = v; upd(); }, "number")));
+      gb.appendChild(fld("Image fit", selectInput(st.bgSize || "cover", [["cover", "Fill the section"], ["contain", "Show whole image"]], function (v) { st.bgSize = v; upd(); })));
+    } else {
+      gb.appendChild(el("p", "hint", "Gradient (used when there is no background image):"));
+      gb.appendChild(fld("Gradient from", colorInput(st.gradFrom || "", function (v) { st.gradFrom = v; upd(); })));
+      gb.appendChild(fld("Gradient to", colorInput(st.gradTo || "", function (v) { st.gradTo = v; upd(); })));
+      gb.appendChild(fld("Angle (degrees)", textInput(st.gradAngle || "", function (v) { st.gradAngle = v; upd(); }, "number")));
+    }
+    var gs = grp("Spacing", true);
+    gs.appendChild(numRow(["padTop", "Padding top (px)"], ["padBottom", "Padding bottom (px)"]));
+    gs.appendChild(numRow(["marginTop", "Margin top (px)"], ["marginBottom", "Margin bottom (px)"]));
+    var gl = grp("Layout & effects", false);
+    gl.appendChild(fld("Content width", selectInput(st.maxWidth || "", [["", "Default"], ["720", "Narrow (720px)"], ["900", "Medium (900px)"], ["1100", "Wide (1100px)"], ["1400", "Extra wide (1400px)"]], function (v) { st.maxWidth = v; upd(); })));
+    gl.appendChild(numRow(["minHeight", "Minimum height (px)"], ["radius", "Corner radius (px)"]));
+    gl.appendChild(fld("Text alignment", selectInput(st.textAlign || "", [["", "Default"], ["left", "Left"], ["center", "Centre"], ["right", "Right"]], function (v) { st.textAlign = v; upd(); })));
+    var sh = el("label", "chk"), shc = el("input"); shc.type = "checkbox"; shc.checked = !!st.shadow;
+    shc.addEventListener("change", function () { st.shadow = shc.checked; upd(); }); sh.append(shc, document.createTextNode(" Drop shadow")); gl.appendChild(sh);
+    var gr = grp("Responsive", false);
     [["hideDesktop", "Hide on desktop"], ["hideTablet", "Hide on tablet"], ["hideMobile", "Hide on mobile"]].forEach(function (c) {
       var lab = el("label", "chk"), cb = el("input"); cb.type = "checkbox"; cb.checked = !!st[c[0]];
-      cb.addEventListener("change", function () { st[c[0]] = cb.checked; upd(); }); lab.append(cb, document.createTextNode(" " + c[1])); p.appendChild(lab);
+      cb.addEventListener("change", function () { st[c[0]] = cb.checked; upd(); }); lab.append(cb, document.createTextNode(" " + c[1])); gr.appendChild(lab);
     });
-    p.appendChild(el("p", "hint", "Tip: switch the device buttons at the top to check each size."));
+    gr.appendChild(el("p", "hint", "Tip: switch the device buttons at the top to check each size."));
   }
   function cleanStyles() {
     Object.keys(S.secStyles).forEach(function (id) {
@@ -476,6 +561,7 @@
     p.appendChild(el("div", "h", "Typography"));
     var st = S.elStyles[bnd] = S.elStyles[bnd] || {}, base = sel.style || {};
     var upd = function () { cleanStyles(); commit({ skipPanels: true }); };
+    p.appendChild(fld("Font", selectInput(st.fontFamily || "", FONT_OPTS, function (v) { st.fontFamily = v; upd(); })));
     p.appendChild(fld("Text colour", colorInput(st.color || "", function (v) { st.color = v; upd(); })));
     var grid = el("div", "grid2");
     grid.appendChild(fld("Size (px)", textInput(st.fontSize || "", function (v) { st.fontSize = v; upd(); }, "number")));
@@ -486,6 +572,11 @@
       bt.addEventListener("click", function () { st.textAlign = st.textAlign === a ? "" : a; upd(); renderSettings(); }); al.appendChild(bt);
     });
     p.appendChild(fld("Alignment", al));
+    var g2 = el("div", "grid2");
+    g2.appendChild(fld("Line height", selectInput(st.lineHeight || "", [["", "Default"], ["1.1", "Tight (1.1)"], ["1.3", "1.3"], ["1.5", "1.5"], ["1.7", "Relaxed (1.7)"], ["2", "Loose (2)"]], function (v) { st.lineHeight = v; upd(); })));
+    g2.appendChild(fld("Letter spacing", selectInput(st.letterSpacing || "", [["", "Default"], ["-0.03em", "Tighter"], ["0.02em", "Wider"], ["0.06em", "Wide"], ["0.12em", "Extra wide"]], function (v) { st.letterSpacing = v; upd(); })));
+    p.appendChild(g2);
+    p.appendChild(fld("Capitalisation", selectInput(st.textTransform || "", [["", "Default"], ["none", "As typed"], ["uppercase", "UPPERCASE"], ["capitalize", "Capitalise Words"]], function (v) { st.textTransform = v; upd(); })));
     var it = el("label", "chk"), cb = el("input"); cb.type = "checkbox"; cb.checked = st.fontStyle === "italic";
     cb.addEventListener("change", function () { st.fontStyle = cb.checked ? "italic" : ""; upd(); }); it.append(cb, document.createTextNode(" Italic")); p.appendChild(it);
     p.appendChild(el("p", "hint", "Style changes apply to this field everywhere it appears on the site."));
@@ -515,6 +606,11 @@
     p.appendChild(el("p", "hint", "Change the brand colours everywhere on the site."));
     GLOBAL_COLORS.forEach(function (c) {
       p.appendChild(fld(c[1], colorInput(S.globals[c[0]] || "", function (v) { if (v) S.globals[c[0]] = v; else delete S.globals[c[0]]; commit({ skipPanels: true }); })));
+    });
+    p.appendChild(el("div", "h", "Global fonts"));
+    p.appendChild(el("p", "hint", "Change the typeface used for every heading and for all body text on the whole site."));
+    [["--font-display", "Headings font"], ["--font-sans", "Body font"]].forEach(function (f) {
+      p.appendChild(fld(f[1], selectInput(S.globals[f[0]] || "", FONT_OPTS, function (v) { if (v) S.globals[f[0]] = v; else delete S.globals[f[0]]; commit({ skipPanels: true }); })));
     });
     p.appendChild(el("div", "h", "Business details"));
     p.appendChild(el("p", "hint", "Shown across the site (header, footer, contact, offer banner)."));
@@ -621,12 +717,28 @@
 
   window.addEventListener("beforeunload", function (e) { if (isDirty()) { e.preventDefault(); e.returnValue = ""; } });
 
+  // The editor needs a copy of the built site. If the server has none yet (first run, or it was wiped by a
+  // redeploy), say so plainly and offer to download it, instead of showing an empty list.
+  function showNoPages() {
+    var l = $("#loading"); l.hidden = false; l.innerHTML = "";
+    l.appendChild(el("p", null, "The editor has no copy of the site yet, so there are no pages to show."));
+    var b = el("button", "btn btn--publish", "Download the site for editing"); b.type = "button";
+    b.addEventListener("click", function () {
+      b.disabled = true; b.textContent = "Downloading... (up to a minute)";
+      api("/admin/api/edit-site/refresh", {}).then(function (r) {
+        if (r.ok) location.reload(); else { b.disabled = false; b.textContent = "Download the site for editing"; toast((r.data && r.data.error) || "Download failed", "err"); }
+      });
+    });
+    l.appendChild(b);
+  }
+
   // ------------------------------------------------------------------- boot
   function boot() {
     renderWidgets(); renderSite();
     Promise.all([loadDocs(), api("/admin/api/studio/pages")]).then(function (res) {
       if (res[1].status === 401) { location.href = "/admin/login"; return; }
       pages = (res[1].data && res[1].data.pages) || [];
+      if (!pages.length) { showNoPages(); return; }
       var p = new URLSearchParams(location.search).get("p") || "/";
       loadPage(p);
     });

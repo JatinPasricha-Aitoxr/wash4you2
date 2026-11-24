@@ -128,3 +128,17 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .rte__bar input[type=color] { width: 26px; height: 26px; padding: 0; border: 0; background: none; cursor: pointer; }
 .rte__area { min-height: 90px; max-height: 260px; overflow: auto; padding: 10px; line-height: 1.55; outline: none; }
 .rte__area a { color: #7fb2ff; } .rte__area ul, .rte__area ol { margin: 0 0 8px 20px; padding: 0; } .rte__area h3 { margin: 6px 0; font-size: 16px; }
+
+/* Studio upgrade: grouped settings, media library, widget groups */
+details.grp { border-top: 1px solid #243455; margin-top: .4rem; padding-top: .4rem; }
+details.grp > summary { cursor: pointer; font-weight: 700; padding: .35rem 0; color: #cfd9ec; list-style: none; }
+details.grp > summary::before { content: "▸ "; } details.grp[open] > summary::before { content: "▾ "; }
+.imgf .btn + .btn { margin-top: .35rem; display: block; }
+.modal--wide { width: min(980px, 94vw) !important; max-height: 88vh; overflow: auto; }
+.libbar { display: flex; gap: .6rem; margin-bottom: .8rem; } .libbar input { flex: 1; } 
+.libgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: .6rem; margin-bottom: .8rem; }
+.libitem { display: flex; flex-direction: column; gap: .3rem; padding: .35rem; border: 1px solid #2c3d63; border-radius: 10px; background: #14213d; color: #cfd9ec; cursor: pointer; text-align: left; }
+.libitem:hover { border-color: #4f8cff; } .libitem img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 7px; background: #0b1530; }
+.libitem span { font-size: .72rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.canvas__loading p { margin: 0 0 1rem; max-width: 34ch; }
+.libbar select { background: #14213d; color: #e6edf9; border: 1px solid #2c3d63; border-radius: 8px; padding: .45rem .6rem; }

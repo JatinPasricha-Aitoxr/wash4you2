@@ -20,6 +20,8 @@ const btn = (label, url, root, kind = 'cta') => label
   ? `<a class="btn btn--${kind} btn--lg" href="${esc(href(url, root))}"${/^https?/i.test(String(url || '')) ? ' target="_blank" rel="noopener"' : ''}>${esc(label)}</a>` : '';
 const PLUS = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
 
+const head = (p) => (p.eyebrow || p.title ? `<div class="section-head section-head--center">${p.eyebrow ? `<p class="eyebrow eyebrow--center">${out(p.eyebrow)}</p>` : ''}${p.title ? `<h2>${out(p.title)}</h2>` : ''}</div>` : '');
+
 const R = {
   hero: (p, root, asset) => `<section class="section studio-block studio-hero" style="${p.image ? `background-image:linear-gradient(rgba(11,30,60,.62),rgba(11,30,60,.62)),url('${esc(asset + p.image)}');background-size:cover;background-position:center;` : ''}">
   <div class="wrap studio-hero__inner">
@@ -70,6 +72,31 @@ const R = {
   ${e ? `<div class="studio-video"><iframe src="${esc(e)}" title="${esc(p.title || 'Video')}" loading="lazy" allowfullscreen allow="accelerometer; encrypted-media; picture-in-picture"></iframe></div>` : '<div class="studio-placeholder">Paste a YouTube or Vimeo link</div>'}
   </div></section>`; },
   spacer: (p) => `<section class="studio-block studio-spacer" style="height:${Math.min(Math.max(parseInt(p.height, 10) || 48, 8), 400)}px" aria-hidden="true"></section>`,
+  button: (p, root) => `<section class="section section--tight studio-block sw-button sw-button--${esc(p.align || 'center')}"><div class="wrap">
+    ${p.label ? `<a class="btn btn--${esc(p.kind || 'cta')} btn--lg" href="${esc(href(p.url, root))}"${/^https?/i.test(String(p.url || '')) ? ' target="_blank" rel="noopener"' : ''}>${esc(p.label)}</a>` : '<div class="studio-placeholder">Add a button label</div>'}
+  </div></section>`,
+  image: (p, root, asset) => { const w = parseInt(p.width, 10); const open = p.url ? `<a href="${esc(href(p.url, root))}"${/^https?/i.test(String(p.url)) ? ' target="_blank" rel="noopener"' : ''}>` : ''; return `<section class="section section--tight studio-block sw-image sw-image--${esc(p.align || 'center')}"><div class="wrap">
+    ${p.image ? `<figure${w ? ` style="max-width:${w}px"` : ''}>${open}<img src="${esc(asset + p.image)}" alt="${esc(p.alt || p.caption || '')}" loading="lazy" decoding="async">${p.url ? '</a>' : ''}${p.caption ? `<figcaption>${out(p.caption)}</figcaption>` : ''}</figure>` : '<div class="studio-placeholder">Choose an image</div>'}
+  </div></section>`; },
+  features: (p) => `<section class="section studio-block sw-features"><div class="wrap">
+    ${head(p)}
+    <div class="sw-grid sw-grid--${Math.min(Math.max(parseInt(p.columns, 10) || 3, 2), 4)}">${(p.items || []).map((it) => `<div class="sw-card">${it.icon ? `<div class="sw-card__icon" aria-hidden="true">${out(it.icon)}</div>` : ''}<h3>${out(it.title)}</h3>${it.text ? `<div class="studio-body">${out(it.text)}</div>` : ''}</div>`).join('')}</div>
+  </div></section>`,
+  testimonials: (p) => `<section class="section studio-block sw-testimonials"><div class="wrap">
+    ${head(p)}
+    <div class="sw-grid sw-grid--${Math.min(Math.max((p.items || []).length, 1), 3)}">${(p.items || []).map((it) => `<figure class="sw-quote"><blockquote>&ldquo;${out(it.quote)}&rdquo;</blockquote><figcaption><strong>${out(it.name)}</strong>${it.detail ? `<span>${out(it.detail)}</span>` : ''}</figcaption></figure>`).join('')}</div>
+  </div></section>`,
+  columns: (p) => `<section class="section studio-block sw-columns"><div class="wrap">
+    ${head(p)}
+    <div class="sw-grid sw-grid--${Math.min(Math.max(parseInt(p.columns, 10) || 2, 2), 3)} sw-grid--plain">${(p.items || []).map((it) => `<div class="sw-col">${it.title ? `<h3>${out(it.title)}</h3>` : ''}<div class="studio-body">${out(it.text)}</div></div>`).join('')}</div>
+  </div></section>`,
+  pricing: (p, root) => `<section class="section studio-block sw-pricing"><div class="wrap wrap--narrow">
+    ${head(p)}
+    <ul class="sw-price">${(p.items || []).map((it) => `<li><span class="sw-price__name">${out(it.name)}${it.note ? `<small>${out(it.note)}</small>` : ''}</span><span class="sw-price__dots" aria-hidden="true"></span><strong>${out(it.price)}</strong></li>`).join('')}</ul>
+    ${p.note ? `<p class="sw-price__note">${out(p.note)}</p>` : ''}
+    ${p.button_label ? `<div class="studio-actions" style="text-align:center">${btn(p.button_label, p.button_url, root)}</div>` : ''}
+  </div></section>`,
+  divider: (p) => `<section class="studio-block sw-divider sw-divider--${esc(p.style || 'line')}" aria-hidden="true"><div class="wrap"><hr></div></section>`,
   html: (p) => `<section class="section studio-block studio-html"><div class="wrap">${p.html || ''}</div></section>`,
 };
 function embed(url) {

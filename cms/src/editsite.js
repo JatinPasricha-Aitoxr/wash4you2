@@ -48,4 +48,17 @@ async function refresh() {
   fs.rmSync(root + '.old', { recursive: true, force: true });
   return status();
 }
-module.exports = { dir, safeFile, status, refresh };
+// Make sure the editor copy exists. If it is missing (first start, or the host wiped it on a
+// redeploy) download it once, shared between concurrent callers. Never throws.
+let pending = null;
+function ensure() {
+  if (status().ready || config.repoDriver === 'local' || !config.github.token) return Promise.resolve(status());
+  if (!pending) pending = refresh().catch((e) => { console.error('Editor build download failed:', e.message); return status(); }).finally(() => { pending = null; });
+  return pending;
+}
+// After a publish the site rebuild takes a few minutes; fetch the new editor build when it should be ready.
+function refreshLater() {
+  if (config.repoDriver === 'local' || !config.github.token) return;
+  for (const sec of [150, 330]) setTimeout(() => refresh().catch((e) => console.error('Scheduled editor refresh failed:', e.message)), sec * 1000).unref();
+}
+module.exports = { dir, safeFile, status, refresh, ensure, refreshLater };

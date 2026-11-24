@@ -16,7 +16,7 @@ const storePath = (store) => {
   return `src/data/${STORE_FILES[store] || store + '.json'}`;
 };
 const bad = (msg) => Object.assign(new Error(msg), { status: 400 });
-const BLOCK_TYPES = ['hero', 'heading', 'image_text', 'gallery', 'cta', 'stats', 'faq', 'video', 'spacer', 'html'];
+const BLOCK_TYPES = ['hero', 'heading', 'image_text', 'gallery', 'cta', 'stats', 'faq', 'video', 'spacer', 'html', 'button', 'image', 'features', 'testimonials', 'columns', 'pricing', 'divider'];
 const EMPTY = { layout: { pages: {} }, blocks: { pages: {} }, styles: { sections: {}, elements: {}, global: {} }, seo: { pages: {} } };
 
 // ---------------------------------------------------------- sanitising
@@ -113,7 +113,11 @@ function validateStyles(d) {
     for (const [sid, props] of Object.entries(secs || {})) if (/^[A-Za-z0-9_\-]+$/.test(sid)) out.sections[scope][sid] = clean(props);
   }
   for (const [b, props] of Object.entries((d && d.elements) || {})) if (/^[A-Za-z0-9_.:\-]+$/.test(b)) out.elements[b] = clean(props);
-  for (const [k, v] of Object.entries((d && d.global) || {})) if (/^--[a-z0-9-]+$/.test(k) && /^#[0-9a-fA-F]{3,8}$/.test(String(v))) out.global[k] = String(v);
+  const FONT_VARS = ['--font-display', '--font-sans'];
+  for (const [k, v] of Object.entries((d && d.global) || {})) {
+    if (FONT_VARS.includes(k) && /^[a-z]{3,12}$/.test(String(v))) out.global[k] = String(v);          // a font KEY, never raw CSS
+    else if (/^--[a-z0-9-]+$/.test(k) && /^#[0-9a-fA-F]{3,8}$/.test(String(v))) out.global[k] = String(v);
+  }
   return out;
 }
 
