@@ -1,0 +1,31 @@
+/* Studio widgets: button, image, features, testimonials, columns, pricing, divider.
+   Mirrored by cms/src/blocks.js (the editor preview). Colours come from the site tokens. */
+.sw-button--left .wrap { text-align: left; } .sw-button--center .wrap { text-align: center; } .sw-button--right .wrap { text-align: right; }
+.sw-image figure { margin: 0 auto; max-width: 100%; }
+.sw-image--left figure { margin-inline: 0 auto; } .sw-image--right figure { margin-inline: auto 0; }
+.sw-image img { display: block; width: 100%; height: auto; border-radius: 16px; }
+.sw-image figcaption { margin-top: .6rem; font-size: .92rem; color: #5b6b82; text-align: center; }
+
+.sw-grid { display: grid; gap: clamp(1rem, 2.4vw, 1.75rem); grid-template-columns: 1fr; }
+@media (min-width: 40.0625rem) { .sw-grid--2, .sw-grid--3, .sw-grid--4 { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 62rem) { .sw-grid--3 { grid-template-columns: repeat(3, 1fr); } .sw-grid--4 { grid-template-columns: repeat(4, 1fr); } }
+.sw-card, .sw-quote { background: #fff; color: var(--ink, #0b1e3c); border: 1px solid #e3e9f2; border-radius: 18px; padding: clamp(1.25rem, 2.6vw, 1.9rem); box-shadow: 0 8px 28px rgba(11, 30, 60, .06); }
+.sw-card__icon { display: grid; place-items: center; width: 3.2rem; height: 3.2rem; border-radius: 14px; background: #eaf4ee; font-size: 1.6rem; margin-bottom: .9rem; }
+.sw-card h3 { margin: 0 0 .45rem; font-size: 1.2rem; }
+.sw-card .studio-body, .sw-col .studio-body { color: #4b5b73; }
+.sw-grid--plain .sw-col h3 { margin: 0 0 .5rem; font-size: 1.25rem; }
+.sw-quote { margin: 0; display: flex; flex-direction: column; gap: 1rem; }
+.sw-quote blockquote { margin: 0; font-size: 1.08rem; line-height: 1.65; }
+.sw-quote figcaption { display: flex; flex-direction: column; margin-top: auto; }
+.sw-quote figcaption span { color: #6b7a90; font-size: .92rem; }
+
+.sw-price { list-style: none; margin: 0; padding: 0; }
+.sw-price li { display: flex; align-items: baseline; gap: .6rem; padding: .8rem 0; border-bottom: 1px solid #e3e9f2; }
+.sw-price__name { font-weight: 600; } .sw-price__name small { display: block; font-weight: 400; color: #6b7a90; font-size: .88rem; }
+.sw-price__dots { flex: 1; border-bottom: 2px dotted #c3cfe0; transform: translateY(-.3rem); min-width: 1rem; }
+.sw-price strong { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sw-price__note { margin: 1rem 0 0; color: #6b7a90; font-size: .92rem; text-align: center; }
+
+.sw-divider { padding: 0; } .sw-divider hr { border: 0; border-top: 1px solid #d5deeb; margin: 0; }
+.sw-divider--thick hr { border-top-width: 4px; border-radius: 4px; width: 80px; margin-inline: auto; border-color: var(--green-cta, #1f8f4e); }
+.sw-divider--dots hr { border-top: 4px dotted #b7c4d8; }

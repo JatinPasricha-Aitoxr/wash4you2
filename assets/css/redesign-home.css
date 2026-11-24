@@ -1,0 +1,1330 @@
+/* ============================================================
+   Home hero — the wall at premium scale.
+
+   Three diagonal lanes, each one category of what we clean — garments,
+   then shoes & bags, then everything else — drifting at three different
+   speeds behind a navy scrim that rises from the text side. One grade,
+   one 16px radius, one exact 12px gap. The copy column is the same
+   voice as the rest of the site: white serif, one brass italic phrase,
+   quiet offer tag.
+   ============================================================ */
+
+.hero.home-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  color: #fff;
+  background-color: var(--navy-deep);
+  padding-block: clamp(4rem, 2.6rem + 6vw, 7rem);
+  min-height: clamp(27rem, 19rem + 17vw, 35rem);
+  display: grid;
+  align-items: center;
+}
+
+/* ---- The wall -----------------------------------------------------
+   Rotated a few degrees off the horizontal so the tiles read as a
+   diagonal band rather than a straight grid. Oversized on every side
+   (inset goes negative) so the rotated box still covers every corner
+   of the hero — the section itself clips (`overflow:clip` above), so
+   nothing escapes the band. The scrim used to be this element's own
+   ::after, which would have rotated with it; it now lives on
+   `.hero.home-hero::before` instead (unrotated, see below) so the
+   "navy rising from the text side" gradient stays aligned to the
+   viewport, not to the tilted tiles. */
+.home-hero__wall {
+  position: absolute;
+  inset: -14% -8%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  display: grid;
+  gap: 12px;
+  align-content: center;
+  justify-items: start;
+  transform: rotate(-6deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-hero__wall { transform: rotate(-3deg); }
+}
+
+.hero-wall__col {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  will-change: transform;
+  animation: wall-drift var(--dur, 40s) linear infinite;
+}
+/* Opposite directions on the middle row give the wall depth without
+   speed; the fractional-tile offsets on rows 2 and 3 are different
+   fractions of each other (and of row 1's zero offset) so no two of the
+   three lanes ever brick their seams into alignment. */
+.hero-wall__col:nth-child(2) {
+  animation-direction: reverse;
+  margin-left: calc(clamp(9.5rem, 17.5vw, 16rem) / -2);
+}
+.hero-wall__col:nth-child(3) {
+  margin-left: calc(clamp(9.5rem, 17.5vw, 16rem) / -4);
+}
+
+/* Travel exactly one set of tiles. Each row holds its tiles twice;
+   one set is half the row minus half a gap — the -6px is that half
+   gap, without it the loop stutters once per cycle. */
+@keyframes wall-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(calc(-50% - 6px), 0, 0); }
+}
+
+.hero-wall__tile {
+  display: block;
+  flex: 0 0 auto;
+  width: clamp(9.5rem, 17.5vw, 16rem);
+}
+.hero-wall__tile img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--r-lg);
+  /* RULE 0 — the one grade, so 24 mismatched cut-outs read as one shoot. */
+  filter: var(--photo-grade);
+}
+
+/* ---- The scrim ----------------------------------------------------
+   Navy rising from the text side: near-solid under the copy, falling
+   away so the wall glows on the right. A faint full-frame veil keeps
+   the tiles a half-step behind the headline everywhere.
+
+   Lives on the hero section itself, not on .home-hero__wall — the wall
+   is now rotated for the diagonal tile band, and this gradient must
+   stay aligned to the viewport (and the text column), not to the
+   tilted tiles. z-index seats it between the wall (0) and the copy (2). */
+.hero.home-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(95deg,
+      rgba(13, 35, 80, .98) 0%,
+      rgba(13, 35, 80, .95) 34%,
+      rgba(13, 35, 80, .84) 50%,
+      rgba(13, 35, 80, .52) 68%,
+      rgba(13, 35, 80, .26) 85%,
+      rgba(13, 35, 80, .18) 100%),
+    linear-gradient(rgba(13, 35, 80, .10), rgba(13, 35, 80, .10));
+}
+
+/* Release the promoted layers once the hero is scrolled past. Gated on
+   html.wall-gated, which only heroWall.js adds — a blocked bundle leaves
+   the wall running rather than frozen at first paint. */
+html.wall-gated .home-hero:not(.is-onscreen) .hero-wall__col {
+  animation-play-state: paused;
+  will-change: auto;
+}
+html.wall-gated .home-hero:not(.is-onscreen) .home-hero__wall {
+  content-visibility: auto;
+}
+
+/* An endless decorative loop is exactly what this preference asks to
+   stop — the wall stays, as a still collage. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-wall__col { animation: none; will-change: auto; }
+}
+
+/* ---- The copy ----------------------------------------------------- */
+.home-hero__grid {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.home-hero__inner {
+  max-width: 40rem;
+}
+
+.home-hero__eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--brass-bright);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 var(--s-5);
+}
+.home-hero__eyebrow svg { color: var(--brass); }
+
+.home-hero__title {
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 1.45rem + 3.4vw, 3.75rem);
+  font-weight: 560;
+  font-optical-sizing: auto;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  margin: 0 0 var(--s-5);
+  max-width: 21ch;
+  text-wrap: balance;
+}
+/* "Laundry & Dry Cleaning" is the one phrase this business is actually
+   named for — real green (the logo's), not white like the rest of the
+   line. The closing offer phrase keeps its own brass-italic treatment,
+   the offer, not decoration — :last-of-type's higher specificity wins
+   over the plain rule below it regardless of source order. */
+.home-hero__title .hkw--blue { color: #fff; }
+.home-hero__title .hkw--green { color: var(--brand-green); font-weight: 700; }
+.home-hero__title .hkw--green:last-of-type {
+  font-style: italic;
+  font-weight: 480;
+  color: var(--brass-bright);
+}
+
+.home-hero__sub {
+  font-size: clamp(1.02rem, 0.96rem + 0.45vw, 1.1875rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, .82);
+  max-width: 46ch;
+  margin: 0 0 var(--s-6);
+}
+
+.home-hero__actions {
+  display: flex; flex-wrap: wrap; justify-content: flex-start; gap: var(--s-3);
+  margin-bottom: var(--s-6);
+}
+.home-hero__ghost {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, .34);
+}
+.home-hero__ghost:hover {
+  background: rgba(255, 255, 255, .08);
+  border-color: rgba(255, 255, 255, .6);
+  color: #fff;
+}
+
+.home-hero__trust {
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  font-size: var(--t-sm);
+  color: rgba(255, 255, 255, .78);
+  margin: 0;
+}
+.home-hero__stars { color: var(--brass-bright); letter-spacing: 0.1em; font-size: 0.9375rem; }
+
+.home-hero__offer {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4em;
+  margin: var(--s-5) 0 0;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(217, 184, 120, .4);
+  border-radius: var(--r-pill);
+  background: rgba(13, 35, 80, .55);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--brass-bright);
+}
+.home-hero__offer-value {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1;
+}
+.home-hero__offer-detail::before { content: '· '; opacity: .6; }
+
+/* ---- Small screens ------------------------------------------------
+   The scrim turns vertical: copy on near-solid navy at the top, the
+   wall glowing through along the foot. Tiles step down further than a
+   two-row wall needed — there are three lanes to fit now. */
+@media (max-width: 61.99rem) {
+  .hero-wall__tile { width: clamp(5.5rem, 18vw, 8rem); }
+  .hero.home-hero::before {
+    background:
+      linear-gradient(185deg,
+        rgba(13, 35, 80, .97) 0%,
+        rgba(13, 35, 80, .95) 46%,
+        rgba(13, 35, 80, .82) 62%,
+        rgba(13, 35, 80, .5) 80%,
+        rgba(13, 35, 80, .28) 100%),
+      linear-gradient(rgba(13, 35, 80, .08), rgba(13, 35, 80, .08));
+  }
+}
+
+@media (forced-colors: active) {
+  .home-hero__wall { display: none; }
+}
+
+@media print {
+  .hero.home-hero { background: #fff; color: #000; }
+  .home-hero__title, .home-hero__title .hkw--blue { color: #000; }
+  .home-hero__wall { display: none; }
+}
+
+/* Visually-hidden helper. */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0); clip-path: inset(50%);
+  white-space: nowrap; border: 0;
+}
+
+/* ============================================================
+   Why Wash4You — four calm promise cards on the warm band.
+
+   The 2026 craft pass retired the solid colour plates this section
+   used to carry: four saturated slabs competed with the content and
+   with each other. What remains is the quiet card grammar the whole
+   site now shares — paper, hairline, soft shadow, one radius — with
+   the icon on a small warm tile and brass reserved for the hover.
+   ============================================================ */
+
+/* ---- The band ------------------------------------------------------
+   A quiet warm ramp: slightly deeper paper at the head dissolving into
+   the wash, so the step down from the navy hero reads as intentional.
+   Two longhands, never the `background` shorthand: a shorthand
+   containing a var() that fails at computed-value time resolves to
+   `unset` and the section would lose its ground entirely. */
+#why {
+  background-color: var(--wash);
+  background-image:
+    linear-gradient(180deg,
+      var(--wash-2) 0%,
+      var(--wash)   36%,
+      var(--wash)   100%);
+}
+
+/* REQUIRED, not cosmetic. features.css:520 sets this paragraph to
+   --ink-3, which base.css:18 tuned to 4.57:1 against flat --wash. It
+   now sits on the ramp's near-paper foot (4.87:1, still passing) — but
+   --ink-3 measures only 4.28:1 on --wash-2 and 4.35:1 on --green-tint,
+   so any future retune of the ramp would silently fail it. --ink-2 is
+   8.39–8.95:1 across the whole band, and grey body copy was half the
+   original complaint. */
+.why__seo { color: var(--ink-2); }
+
+/* ---- Intro row + mascot -------------------------------------------
+   Desktop puts the mascot to the right of the section heading; mobile
+   hides it. `display: none` (not visibility/opacity) is deliberate — a
+   none-d <img> is never fetched, so phones pay nothing for a 29 KB
+   decorative asset. Below 62rem the intro is a plain single-column
+   block, i.e. exactly what it was before this wrapper existed.
+
+   The image is decorative: alt="" + aria-hidden, and it carries no
+   information the four promise cards do not already state. */
+.why__intro > .section-head { margin-bottom: 0; }
+.why__intro { margin-bottom: var(--s-8); }
+.why__mascot { display: none; }
+.why__mascot--sm { display: none; }
+
+@media (min-width: 62rem) {
+  .why__intro {
+    display: grid;
+    /* minmax(0, …) so the text column may shrink below its max-content
+       width instead of forcing the row wider than .wrap. */
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: var(--s-6);
+  }
+  /* The heading block caps at 46rem (base.css); left-align it in its
+     column rather than letting the auto mascot column steal the slack. */
+  .why__intro > .section-head { justify-self: start; }
+
+  .why__mascot {
+    display: block;
+    /* Sized off the section, not the viewport: 13rem at 992px growing to
+       17rem, so it reads as a companion to the heading and never as a
+       hero image. height:auto keeps the 760x941 aspect exact. */
+    width: clamp(13rem, 17vw, 17rem);
+    height: auto;
+    /* Sits on the band's own gradient — no plate, no shadow, so the
+       mascot's navy outline is the only edge. */
+    align-self: end;
+    /* Overhang the heading's baseline slightly so the figure looks like
+       it is standing on the promise cards rather than floating in a gap.
+       margin-bottom is negative by the same amount .why__intro adds. */
+    margin-bottom: calc(var(--s-8) * -1);
+    justify-self: end;
+  }
+}
+
+@media (min-width: 75rem) {
+  .why__mascot { width: clamp(15rem, 15vw, 19rem); }
+}
+
+/* Print: decorative art costs ink and says nothing. */
+@media print { .why__mascot, .why__mascot--sm { display: none; } }
+
+/* ---- Strip -> cards -----------------------------------------------
+   Four calm cards: warm paper, one hairline, one soft shadow, one
+   radius. The solid colour plates are retired — four saturated slabs
+   out-shouted the section they were meant to support. The icon sits
+   on a small warm tile; navy glyph, brass on hover. */
+.promises {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-4);
+  background: none;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+}
+@media (min-width: 34rem) { .promises { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 56rem) { .promises { grid-template-columns: repeat(4, 1fr); } }
+
+.promise {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  align-items: flex-start;
+  padding: var(--s-6);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  /* `translate`, never `transform` — reveal.js owns transform for
+     stagger targets and a competing transition re-fires on release. */
+  transition:
+    border-color 200ms ease,
+    box-shadow   200ms ease,
+    translate    200ms ease;
+}
+.promise:hover,
+.promise:focus-within {
+  translate: 0 -2px;
+  border-color: var(--brass);
+  box-shadow: var(--shadow-md);
+}
+
+.promise__icon {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: var(--s-2);
+  background: var(--wash-2);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-sm);
+  color: var(--navy);
+  transition: color 200ms ease, border-color 200ms ease;
+}
+.promise__icon svg { width: 1.5rem; height: 1.5rem; }
+.promise:hover .promise__icon,
+.promise:focus-within .promise__icon {
+  color: var(--brass-deep);
+  border-color: var(--line);
+}
+
+.promise h3 {
+  font-family: var(--font-sans);
+  font-size: var(--t-md);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--ink);
+}
+
+.promise p {
+  font-size: var(--t-sm);
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .promise { transition: border-color 150ms linear, box-shadow 150ms linear; }
+  .promise:hover,
+  .promise:focus-within { translate: none; }
+}
+
+@media (forced-colors: active) {
+  #why { background: Canvas; }
+  .promise { box-shadow: none; }
+  .promise__icon { background: Canvas; outline: 1px solid CanvasText; outline-offset: -1px; }
+}
+
+@media print {
+  #why { background: #fff; }
+  .promise { box-shadow: none; border-color: #b6bfcd; break-inside: avoid; }
+  .promise__icon { background: none; color: #000; }
+}
+
+/* The mascot sits in an intro row beside the heading (see .why__intro
+   above), which the Real results section reuses. The earlier version put
+   it in the proof grid's vacant bottom-right cell; .proof-grid__mascot is
+   gone with it. */
+
+/* ============================================================
+   How it works — one journey, not seven boxes.
+
+   Desktop (>=48rem): the card shells dissolve; each step is a brass
+   serif numeral over its title, and a hairline thread runs from
+   number to number so the seven read as one continuous route. The
+   steps are not links, so there is no hover state — feedback on
+   non-interactive content is noise.
+
+   Mobile (<48rem): the snap rail keeps its card shells for the swipe
+   affordance, but the active card marks itself with a brass keyline
+   instead of a green fill, and nothing pops or bounces.
+   ============================================================ */
+@media (min-width: 48rem) {
+  .page-home .flow__step {
+    position: relative;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    padding: 0 var(--s-5) 0 0;
+  }
+  .page-home .flow__num {
+    position: relative;
+    z-index: 1;
+    display: inline-grid;
+    place-items: center;
+    width: auto;
+    height: auto;
+    min-width: 2.4rem;
+    margin-bottom: var(--s-4);
+    padding-right: var(--s-3);
+    background: var(--navy-deep);
+    border-radius: 0;
+    color: var(--brass-bright);
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  /* The thread. Sits at the numeral's midline; each step draws its own
+     segment rightward, and the row-enders switch theirs off below. */
+  .page-home .flow__step::before {
+    content: '';
+    position: absolute;
+    top: 0.7rem;
+    left: 0;
+    right: calc(var(--s-4) * -1);
+    height: 1px;
+    background: rgba(255, 255, 255, .16);
+  }
+  .page-home .flow__step:last-child::before { right: var(--s-5); }
+}
+/* Row-enders per column count: 2-up between 48 and 52rem, 4-up above. */
+@media (min-width: 48rem) and (max-width: 51.99rem) {
+  .page-home .flow__step:nth-child(2n)::before { right: var(--s-5); }
+}
+@media (min-width: 52rem) {
+  .page-home .flow__step:nth-child(4n)::before { right: var(--s-5); }
+}
+
+/* ---- Mobile — snap carousel, quiet cards ----
+   48rem is the cut: below it features.css is at 1 or 2 columns, so the
+   rail replaces a very tall stack rather than a working grid. */
+@media (max-width: 47.99rem) {
+  .flow {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    /* 82% so the next card always peeks — the peek IS the affordance. */
+    grid-auto-columns: min(82%, 22rem);
+    gap: var(--s-4);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    padding-bottom: var(--s-3);
+    overscroll-behavior-x: contain;
+  }
+  .flow::-webkit-scrollbar { display: none; }
+  .flow__step {
+    scroll-snap-align: center;
+    height: 100%;
+    transition:
+      background-color 200ms ease,
+      border-color 200ms ease;
+  }
+  /* The card in view marks itself with the accent, quietly. */
+  .flow__step.is-active {
+    background: rgba(255, 255, 255, .08);
+    border-color: rgba(217, 184, 120, .55);
+  }
+  .flow__step.is-active .flow__num {
+    background: rgba(217, 184, 120, .16);
+    color: var(--brass-bright);
+  }
+
+  /* ---- Swipe progress ---- */
+  .flow-progress {
+    height: 2px;
+    margin-top: var(--s-4);
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.14);
+    overflow: hidden;
+  }
+  .flow-progress span {
+    display: block;
+    height: 100%;
+    width: 100%;
+    border-radius: 2px;
+    background: var(--brass);
+    transform-origin: left center;
+    scale: var(--flow-progress, 0.14) 1;
+    transition: scale 160ms linear;
+  }
+}
+
+/* Desktop has no rail, so no progress bar. */
+@media (min-width: 48rem) {
+  .flow-progress { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flow__step { transition: none; }
+  .flow-progress span { transition: none; }
+}
+
+/* ============================================================
+   What we clean — the blue band.
+
+   Only the ground and the on-dark corrections live here; the white-on-dark
+   type comes from .section--navy in base.css, and the cards themselves are
+   unchanged (white --paper on blue reads better than any tinted variant).
+   ============================================================ */
+.svc-band {
+  background: var(--navy);
+}
+
+/* .btn--ghost is drawn for a light ground: --navy text on a --line border,
+   which is invisible here. */
+.svc-band .btn--ghost {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.42);
+  background: transparent;
+}
+.svc-band .btn--ghost:hover {
+  color: #fff;
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+}
+.svc-band .btn--ghost svg { color: currentColor; }
+
+/* base.css paints EVERY h1-h4 inside .section--navy white. The service cards
+   on this band are white --paper, so their headings were white-on-white —
+   1.00:1, i.e. the card titles vanished. The cards are an island of light
+   ground inside a dark band and keep their own ink.
+
+   Hover is untouched: redesign-services.css fills the card green and sets its
+   h3/p to #fff, and that rule is both later and more specific. */
+.svc-band .svc h3,
+.svc-band .svc h3 a { color: var(--ink); }
+.svc-band .svc h3 a:hover { color: var(--navy); }
+
+
+/* The .home-locations city grid was deleted with the coverage merge — its
+   five text cards duplicated the areas section and sat AFTER the closing
+   CTA. The class occurs in no other template. */
+
+/* ------------------------------------------------------------
+   Price rail — garment cut-outs between the two dark bands.
+
+   The tiles are the pricing set's own 500px cut-outs, re-encoded to
+   400px webp (tools/to-webp.py): each carries a neutral #eee ground
+   with transparent rounded corners baked in, so the artwork supplies
+   the tile shape and the card behind it stays plain --paper. No
+   background or clip on the media element — adding one would double
+   up the radius and show a hard grey square behind the rounding.
+
+   The rail is .review-rail so motion/ui.js drives the arrows, but the
+   columns are re-sized here: 20rem review cards would fit barely three
+   garments on a laptop.
+   ------------------------------------------------------------ */
+
+.price-rail { grid-auto-columns: minmax(9.5rem, 11rem); gap: var(--s-3); }
+/* superseded by the .page-home block at the end of this file — kept as the
+   unscoped fallback so the rail still lays out if the body class is lost */
+
+.price-tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  padding: var(--s-3);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  text-decoration: none;
+  transition: border-color .18s ease, box-shadow .18s ease, translate .18s ease;
+}
+.price-tile__media { display: block; }
+.price-tile__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  /* RULE 0 — same grade as every photo on the site. */
+  filter: var(--photo-grade);
+}
+.price-tile__name {
+  font-weight: 600;
+  font-size: var(--t-sm);
+  line-height: 1.3;
+  color: var(--navy);
+}
+.price-tile__price {
+  /* the rail is a grid, so every tile is as tall as the longest name
+     ("Double Blanket 1 Ply / Quilt"); this puts the slack above the price
+     instead of below it, so the prices line up across the row */
+  margin-top: auto;
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  font-weight: 500;
+  color: var(--navy-deep);
+}
+.price-tile__price small {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--t-xs);
+  font-weight: 400;
+  color: var(--ink-3);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .price-tile:hover {
+    border-color: var(--brand-blue);
+    box-shadow: 0 12px 26px rgba(16, 27, 46, .12);
+    translate: 0 -4px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .price-tile { transition: none; }
+  .price-tile:hover { translate: none; }
+}
+
+/* .cta-band--brand was retired when the closing CTA moved out of the
+   rounded card onto a full-bleed band — see .cta-close at the end of this
+   file. */
+
+/* The illustrated blog plates were retired: on a wash ground the near-white
+   gradient read as three images that had failed to load. See .blog-index at
+   the end of this file. */
+
+/* ---- Why mascot below 62rem ----------------------------------------
+   `.why__mascot--sm` renders the same mascot-why.png as a smaller,
+   right-aligned companion mark below 62rem, where the desktop
+   `.why__mascot` (see above) is hidden. Below 62rem the Why section is
+   heading, lede, four cards whose only marks are 32px glyphs, then a
+   3-4 line SEO paragraph — the longest unbroken run of type on the
+   page — and mascot-why.png is the only original, on-palette,
+   text-free illustration the brand owns.
+
+   CLS: none. width/height are on the tag and height:auto preserves the
+   760x941 box, so the row is reserved before the bitmap decodes.
+
+   `screen and` is load-bearing: the @media print rule for .why__mascot
+   has equal specificity and sits earlier in this file, so without the
+   media-type guard this block would resurrect the mascot in print.
+   -------------------------------------------------------------------*/
+@media screen and (max-width: 61.999rem) {
+  .why__mascot--sm {
+    display: block;
+    /* ~88-128px. A companion mark beside the heading, never a hero. */
+    width: clamp(5.5rem, 22vw, 8rem);
+    height: auto;
+    /* Pin right, mirroring the desktop justify-self: end. */
+    margin-inline: auto 0;
+    /* Close the heading block's gap, then sit down into .why__intro's
+       bottom margin so the figure looks like it is standing on the
+       first promise card. Net clearance stays 1rem — no overlap. */
+    margin-block: var(--s-2) calc(var(--s-6) * -1);
+  }
+}
+
+
+/* ---- Price rail, second pass: set the prices at price size --------------
+
+   The section is headlined "Real prices, on the actual items" and shipped
+   with .price-tile__name and .price-tile__price at the SAME --t-sm — the
+   numbers were the size of their own caption, and smaller than body copy.
+   The garments were ~150px on their baked #eee grounds, which on a white
+   band read as grey placeholder boxes.
+
+   Everything here is .page-home scoped: this stylesheet loads on all 114
+   pages and .price-card__media / .rail-nav are shared furniture.
+   ------------------------------------------------------------------------ */
+
+/* A tinted band gives the white tiles an edge and resolves the cut-outs'
+   #eee grounds as studio backdrops rather than missing images. */
+.page-home .price-rail-band { background: var(--wash-2); }
+
+/* ~200px of garment instead of ~150px. Fewer tiles fit per screen — that is
+   the intent, and it finally gives the arrows a reason to exist. */
+.page-home .price-rail { grid-auto-columns: minmax(12.5rem, 14rem); gap: var(--s-4); }
+.page-home .price-tile { padding: var(--s-4); }
+
+.page-home .price-tile__name {
+  font-weight: 500;
+  font-size: 0.95rem;
+  line-height: 1.3;
+  color: var(--ink-2);   /* was --navy 600 — it was competing with the price */
+}
+
+.page-home .price-tile__price {
+  margin-top: auto;
+  /* was --font-mono. Mono at this size reads as a receipt line: the docket
+     voice is right for counts and captions, wrong for the one number this
+     section exists to show. */
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 1.1rem + 0.7vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--navy-deep);
+  font-variant-numeric: tabular-nums;
+}
+.page-home .price-tile__from {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.page-home .price-tile__unit {
+  display: inline;   /* was block — the unit belongs on the price line */
+  font-family: var(--font-sans);
+  font-size: var(--t-xs);
+  font-weight: 400;
+  color: var(--ink-3);
+}
+
+/* Ledger — fills the empty right-hand field .reviews-head leaves beside a
+   three-line intro, and carries the arrows so they stop floating. */
+.page-home .price-ledger { display: grid; gap: var(--s-4); justify-items: start; }
+.page-home .price-ledger__rows {
+  list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-2);
+}
+.page-home .price-ledger__rows li { display: flex; align-items: baseline; gap: var(--s-3); }
+.page-home .price-ledger__rows b {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--t-lg);
+  line-height: 1;
+  min-width: 4ch;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--navy);
+}
+.page-home .price-ledger__rows span { font-size: var(--t-sm); color: var(--ink-3); }
+
+.page-home .price-rail__note {
+  margin: var(--s-5) 0 0;
+  max-width: 60ch;
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+
+@media (max-width: 55.99rem) {
+  /* .reviews-head stacks below 56rem; keep the ledger and arrows on one row
+     rather than orphaning the arrows under the figures. */
+  .page-home .price-ledger { grid-template-columns: 1fr auto; align-items: end; width: 100%; }
+}
+@media (forced-colors: active) { .page-home .price-rail-band { background: Canvas; } }
+@media print { .page-home .price-rail-band { background: #fff; } }
+
+/* ---- Proof: lead + supporting, not masonry -----------------------------
+
+   The two-column masonry left a ~550x470 block of empty background beside
+   the third item, because the sofa runs ~500px taller than the Nike pair.
+   The Nike pair — the configured hero in proof.json — takes the full
+   container instead, and the sofa and Hoka sit under it in a real 2-up.
+
+   MOBILE IS DELIBERATELY UNTOUCHED. Below 56rem both containers are one
+   column, byte-for-byte the stack that ships today, which was the best
+   mobile section on the page. Every override is inside a min-width query.
+   ------------------------------------------------------------------------ */
+.page-home .proof-grid--lead { grid-template-columns: 1fr; gap: var(--s-8); }
+@media (min-width: 56rem) {
+  /* page.css puts .proof-grid at two columns here; the lead needs all of it */
+  .page-home .proof-grid--lead { grid-template-columns: 1fr; gap: var(--s-8); }
+}
+
+.page-home .proof-grid__rest { display: grid; gap: var(--s-8); }
+@media (min-width: 56rem) {
+  .page-home .proof-grid__rest { grid-template-columns: 1fr 1fr; gap: var(--s-7); }
+}
+
+/* HEIGHT MATCH — and it is LESS crop than what shipped. The sofa frame takes
+   its aspect from --ba-ratio, set inline from the asset's real 760x710 =
+   1.070. The Hoka renders as .ba-pair, two panels side by side, so the box
+   aspect is 1 / (0.5 * panel ratio). ui.css crops each panel to 1/1.6, which
+   puts the pair box at 1.25 — ~90px short of the sofa, i.e. the ragged row.
+   1/1.87 puts it at 1.07, matching. The native panel is 544x1110 = 1/2.04,
+   so this crops LESS than the shipped value, not more. */
+@media (min-width: 56rem) {
+  .page-home .proof-grid__item--pair .ba-pair img { aspect-ratio: 1 / 1.87; }
+  /* Two lines reserved: the Hoka title wraps to one line and the sofa's to
+     two, so without a floor the summaries sit ~35px apart. */
+  .page-home .proof-grid--lead .proof-grid__summary { min-height: 3.2em; max-width: none; }
+  .page-home .proof-grid__item--lead .proof-grid__summary { max-width: 46rem; }
+}
+
+/* 11px pills and a 44px knob read as UI debris on a 1140px slider. ONLY the
+   lead scales up — raising the caption globally re-raggeds the row below. */
+.page-home .proof-grid__item--lead .ba__caption strong { font-size: var(--t-lg); }
+.page-home .proof-grid__item--lead .ba__label { font-size: .8125rem; padding: .35rem .8rem; }
+.page-home .proof-grid__item--lead .ba__knob { width: 3.5rem; height: 3.5rem; }
+.page-home .proof-grid__item--lead .ba__knob svg { width: 1.5rem; height: 1.5rem; }
+
+/* ---- Coverage band — the one geography section -------------------------
+
+   ASSET NOTE. hero-areas.jpg is the client's own designed navy route map
+   (1998x666, 59 KB), previously used on page-locate-us only. It is a
+   DESIGNED ground with a narrow luminance range, not a photograph, so it
+   needs no scrim — the same reasoning recorded in redesign-areas.css. Its
+   only baked text is five place names, which are exactly areas.json
+   cities[1..4] plus the Gurugram HQ.
+   ------------------------------------------------------------------------ */
+.page-home .coverage__top { display: grid; gap: var(--s-6); align-items: center; }
+@media (min-width: 62rem) {
+  .page-home .coverage__top {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: var(--s-8);
+  }
+}
+
+.page-home .coverage__fig {
+  display: inline-block;
+  vertical-align: -.04em;
+  margin-right: .12em;
+  font-family: var(--font-display);
+  font-size: clamp(3.25rem, 2.2rem + 4.6vw, 6rem);
+  font-weight: 800;
+  line-height: .9;
+  letter-spacing: -.03em;
+  font-variant-numeric: tabular-nums;
+  color: var(--brass-bright);
+}
+
+.page-home .coverage__map {
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 44px rgba(0, 0, 0, .34);
+}
+/* 3/2 on a 3/1 source crops to the RIGHT half, which holds all five pins and
+   drops the empty left ground the source carries for copy it no longer has
+   to hold. Source defect to know about: the GURUGRAM HQ pill is clipped at
+   its right edge in the original file. */
+.page-home .coverage__map img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Counts strip — a 1px-gap grid over a light rule, so the dividers are the
+   background showing through and cost no borders. */
+.page-home .coverage__cities {
+  list-style: none;
+  margin: var(--s-7) 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1px;
+  background: rgba(255, 255, 255, .14);
+  border-block: 1px solid rgba(255, 255, 255, .14);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (min-width: 56rem) {
+  .page-home .coverage__cities { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+.page-home .coverage__cities > li { display: contents; }
+
+.page-home .coverage__city {
+  background: var(--navy-deep);
+  padding: var(--s-4) var(--s-3);
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  text-decoration: none;
+  transition: background-color 180ms var(--ease-out);
+}
+.page-home .coverage__city b {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+}
+.page-home .coverage__city span { font-size: var(--t-sm); font-weight: 600; color: #fff; }
+.page-home .coverage__city small {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: rgba(255, 255, 255, .55);
+}
+@media (hover: hover) and (pointer: fine) {
+  .page-home .coverage__city:hover { background: rgba(255, 255, 255, .07); }
+  .page-home .coverage__city:hover b { color: var(--brass-bright); }
+}
+
+/* Stores — the only place on the homepage that says where we physically are. */
+.page-home .coverage__stores {
+  list-style: none; margin: var(--s-5) 0 0; padding: 0; display: grid; gap: var(--s-3);
+}
+.page-home .coverage__store {
+  padding-left: var(--s-4);
+  border-left: 2px solid var(--brass);
+  font-size: var(--t-sm);
+  line-height: 1.45;
+  color: rgba(255, 255, 255, .78);
+}
+.page-home .coverage__store b { display: block; font-size: var(--t-base); color: #fff; }
+
+/* The ten locality links, on navy. ui.css gives .area-link a --line border
+   and --ink text, both invisible here — and .area-link is shared with
+   page-locate-us / page-location / page-matrix, hence the .coverage-band
+   scope on top of .page-home. */
+.page-home .coverage-band .areas { margin-top: var(--s-6); }
+.page-home .coverage-band .area-link {
+  background: rgba(255, 255, 255, .05);
+  border-color: rgba(255, 255, 255, .2);
+  color: #fff;
+}
+.page-home .coverage-band .area-link svg { color: var(--brass-bright); }
+.page-home .coverage-band .area-link:hover {
+  background: rgba(255, 255, 255, .12); border-color: #fff;
+}
+.page-home .coverage-band .why__seo { margin-top: var(--s-6); color: rgba(255, 255, 255, .55); }
+
+@media (forced-colors: active) {
+  .page-home .coverage__cities { background: CanvasText; }
+  .page-home .coverage__city { background: Canvas; }
+  .page-home .coverage__store { border-left-color: Highlight; }
+}
+@media print {
+  .page-home .coverage-band { background: #fff; color: #000; }
+  .page-home .coverage-band h2,
+  .page-home .coverage__fig,
+  .page-home .coverage__city b,
+  .page-home .coverage__city span,
+  .page-home .coverage__store b { color: #000; }
+  .page-home .coverage__map { display: none; }
+  .page-home .coverage__city { background: #fff; }
+  .page-home .coverage-band .area-link { color: #000; border-color: #b6bfcd; background: none; }
+}
+
+
+/* ---- Closing CTA — the page's final ask, at the size of an ask ---------
+
+   Measured before changing anything: .cta-band h2, #why h2 and
+   .price-rail-band h2 all computed identical. That parity was the defect.
+
+   hero-packages.svg is verified safe as a CSS background — zero <text>
+   nodes, unlike hero-services.svg which silently loses its labels in this
+   role because an SVG used as a background never loads the page's webfonts.
+   background-color is declared FIRST so a failed image request still leaves
+   a navy band. The veil stays at .90; below ~.80 the art stops reading as a
+   watermark and starts competing with the copy.
+   ------------------------------------------------------------------------ */
+.page-home .cta-close {
+  background-color: var(--navy-deep);
+  /* A soft radial glow behind the ask instead of a flat fill or a
+     watermark — warm centre light over the anchor navy. */
+  background-image:
+    radial-gradient(48rem 26rem at 50% 24%, rgba(178, 138, 74, .15), transparent 65%),
+    radial-gradient(72rem 42rem at 50% 115%, rgba(32, 96, 160, .22), transparent 62%);
+  color: rgba(255, 255, 255, .9);
+  text-align: center;
+  padding-block: clamp(5rem, 3.2rem + 7vw, 9rem);
+}
+.page-home .cta-close h2 {
+  margin: 0 auto;
+  max-width: 16ch;
+  color: #fff;
+  font-size: clamp(2.25rem, 1.5rem + 3.4vw, 3.9rem);
+  line-height: 1.06;
+  letter-spacing: -.015em;
+  font-weight: 560;
+}
+.page-home .cta-close p {
+  max-width: 34rem;
+  margin: var(--s-5) auto var(--s-7);
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, .78);
+}
+.page-home .cta-close .btn { font-size: 1.05rem; padding-inline: 1.9rem; }
+.page-home .cta-close .btn-row { justify-content: center; }
+
+@media (forced-colors: active) { .page-home .cta-close { background-image: none; } }
+@media print {
+  .page-home .cta-close { background-image: none; background-color: #fff; color: #000; }
+  .page-home .cta-close h2 { color: #000; }
+}
+
+/* ---- How it works: a readable measure ---------------------------------
+
+   The 7-column rule is features.css at min-width 72rem, NOT 62rem —
+   features.css already resolves 2 columns at 34rem and 4 at 52rem, both of
+   which are correct. So only 72rem+ needs fixing, and there 4-up is exactly
+   what the 52rem rule already says. Each column was 149px at 1440, which
+   forced three-line headings ("Finishing / & quality / check") and 3-4 words
+   per line of body copy.
+
+   Row two is three cards, left-aligned under 01-04. Centring them would
+   break the 01 -> 07 reading line; the gap at position 8 reads as the end of
+   the list, which is what it is.
+
+   MOBILE IS UNTOUCHED: flowRail.js gates the snap rail, the .is-active card
+   and .flow-progress at max-width 47.99rem, below every query here.
+   ------------------------------------------------------------------------ */
+@media (min-width: 72rem) {
+  .page-home .flow {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--s-4);
+    row-gap: var(--s-5);
+  }
+}
+/* NOTE ON THE MOTION CONTRACT: .flow carries .stagger-children, and
+   reveal.js commits inline transform/opacity on finish then clears them.
+   Nothing above is transform or opacity and nothing above is given a
+   transition, so there is no re-fire hazard. Do not add one. */
+
+
+/* ---- Blog: a typographic index ----------------------------------------
+   Three full-width rows on hairline rules. The whole row is the target. */
+.page-home .blog-index { display: grid; gap: 0; border-top: 1px solid var(--line); }
+.page-home .blog-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-2) var(--s-5);
+  align-items: baseline;
+  padding: var(--s-6) 0;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+}
+@media (min-width: 48rem) {
+  .page-home .blog-row { grid-template-columns: 4.5rem minmax(0, 1fr) auto; }
+}
+.page-home .blog-row__n {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--t-xl);
+  line-height: 1;
+  letter-spacing: -.03em;
+  /* aria-hidden decoration duplicating DOM order — the accent may carry it. */
+  color: var(--brass);
+}
+.page-home .blog-row h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.2;
+  letter-spacing: -.015em;
+  font-size: clamp(1.25rem, 1rem + 1.1vw, 1.875rem);
+}
+.page-home .blog-row__meta {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+@media (hover: hover) and (pointer: fine) {
+  .page-home .blog-row:hover h3 { color: var(--brass-deep); }
+}
+
+/* ---- Six services on a phone, nine on desktop -------------------------
+   Mobile Services ran 2,698px — 3.2 phone screens of the same card nine
+   times — at exactly the point the visitor decides whether to stay. All
+   nine stay in the DOM with intact hrefs and the full set is published at
+   /services/, so this is visual truncation, not hidden text.
+
+   cappedStagger clamps the child index at 5, so six visible children is
+   exactly the cap and the cascade timing is unchanged. .svc-grid is also
+   rendered by page-blog-list / page-location / page-services-list, so the
+   .page-home scope here is load-bearing. */
+@media (max-width: 47.99rem) {
+  .page-home .svc-grid > .svc:nth-child(n + 7) { display: none; }
+}
+
+/* A third ground value. The page's entire alternation was #ffffff against
+   #f4f8fd — a 3-value difference, invisible at arm's length — so the white
+   review cards had only a 1px outline to be found by. */
+.page-home .reviews-band { background: var(--wash-2); }
+
+
+/* ---- A second section-opener register ---------------------------------
+   Asymmetric: statement left, lede and figure right, baseline-aligned. */
+.page-home .section-head--statement { max-width: none; display: grid; gap: var(--s-6); }
+@media (min-width: 62rem) {
+  .page-home .section-head--statement {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, .85fr);
+    gap: var(--s-9);
+    align-items: end;
+  }
+}
+.page-home .section-head--statement h2 {
+  margin: 0;
+  max-width: 18ch;
+  font-size: clamp(2.25rem, 1.55rem + 3vw, 3.75rem);
+  line-height: 1.06;
+  letter-spacing: -.015em;
+  font-weight: 560;
+}
+.page-home .section-head--statement .section-head__aside p { margin: 0; }
+/* Selector depth, not !important: base.css sets .section-head p
+   { margin-top: var(--s-4) } at (0,1,1); this is (0,3,1) and wins cleanly. */
+.page-home .section-head--statement .section-figure {
+  margin-top: var(--s-4);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--brass-bright);
+}
+.page-home .section-head--statement .section-figure b {
+  font-family: var(--font-display);
+  font-size: var(--t-lg);
+  font-weight: 700;
+  letter-spacing: -.01em;
+  color: #fff;
+}
+
+/* ---- Proof ledger — the three pickup guarantees -----------------------
+   No card, no border, no plate: the page already runs eight grids of
+   bordered rectangles. Three columns under the house stitched seam. */
+.page-home .proof-ledger {
+  list-style: none;
+  margin: 0 0 var(--s-8);
+  padding: var(--s-5) 0 0;
+  display: grid;
+  gap: var(--s-5);
+  background:
+    repeating-linear-gradient(to right, var(--line) 0 6px, transparent 6px 12px)
+    top left / 100% 1px no-repeat;
+}
+@media (min-width: 48rem) {
+  .page-home .proof-ledger { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-6); }
+}
+.page-home .proof-ledger__step { display: grid; gap: .3rem; align-content: start; }
+.page-home .proof-ledger__n {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: .14em;
+  color: var(--brass-deep);
+}
+.page-home .proof-ledger__step b { font-size: var(--t-base); font-weight: 700; color: var(--ink); }
+.page-home .proof-ledger__step span { font-size: var(--t-sm); line-height: 1.55; color: var(--ink-2); }
+
+@media (forced-colors: active) {
+  .page-home .proof-ledger { background: none; border-top: 1px solid CanvasText; }
+}
+@media print { .page-home .proof-ledger { break-inside: avoid; } }
+
+/* Poster + copy feature (templates/_posters.html) */
+.poster-feature__grid { display: grid; gap: var(--s-8, 2rem); align-items: center; grid-template-columns: 1fr; }
+.poster-feature__art { display: block; justify-self: center; width: min(340px, 78vw); border-radius: 18px; overflow: hidden; background: #fff; box-shadow: 0 1px 2px rgba(11, 30, 60, .06), 0 22px 50px rgba(11, 30, 60, .18); transition: transform .3s ease; }
+.poster-feature__art:hover { transform: translateY(-4px); }
+.poster-feature__art img { display: block; width: 100%; height: auto; }
+.poster-feature__copy h2 { margin: 0 0 var(--s-4, 1rem); }
+.poster-feature__lede { max-width: 52ch; margin: 0 0 var(--s-6, 1.5rem); line-height: 1.65; color: var(--ink-2, #4a5a70); }
+@media (min-width: 880px) {
+  .poster-feature__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(3rem, 7vw, 6rem); }
+  .poster-feature__art { width: min(400px, 100%); }
+  .poster-feature__grid--left .poster-feature__art { justify-self: end; }
+  .poster-feature__grid--right .poster-feature__art { order: 2; justify-self: start; }
+  .poster-feature__grid--right .poster-feature__copy { order: 1; }
+}
+
+/* Photo gallery (masonry, natural ratios) */
+.photo-gallery__cols { column-gap: clamp(1rem, 2vw, 1.5rem); margin: var(--s-7, 2rem) auto 0; columns: 1; }
+.photo-gallery__cols--1 { max-width: 560px; }
+.photo-gallery__cols--2 { max-width: 860px; }
+@media (min-width: 640px) { .photo-gallery__cols--2 { columns: 2; } .photo-gallery__cols--3 { columns: 2; } }
+@media (min-width: 960px) { .photo-gallery__cols--3 { columns: 3; } }
+.photo-gallery__item { break-inside: avoid; margin: 0 0 clamp(1rem, 2vw, 1.5rem); border-radius: 14px; overflow: hidden; background: #fff; box-shadow: 0 1px 2px rgba(11, 30, 60, .06), 0 12px 30px rgba(11, 30, 60, .12); }
+.photo-gallery__item img { display: block; width: 100%; height: auto; }
+.photo-gallery__item figcaption { padding: .7rem 1rem; font-size: .9rem; font-weight: 600; color: var(--navy-deep, #0b1e3c); }
+.poster-banner__img { display: block; width: 100%; max-width: 1100px; height: auto; margin: 0 auto; border-radius: 18px; box-shadow: 0 1px 2px rgba(11, 30, 60, .06), 0 22px 50px rgba(11, 30, 60, .16); }
+.b2b__photo { display: block; width: 100%; height: auto; border-radius: 14px; margin: 0 0 var(--s-6, 1.5rem); box-shadow: 0 10px 28px rgba(11, 30, 60, .14); }
+
+/* Stat strip */
+.stat-strip { background: #174a85; color: #fff; padding: clamp(1.75rem, 4vw, 2.75rem) 0; }
+.stat-strip__lead { color: #fff; margin: 0 0 1.25rem; text-align: center; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; font-size: .9rem; }
+.stat-strip__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.25rem; text-align: center; }
+.stat-strip__list strong { color: #fff; display: block; font-size: clamp(1.6rem, 3.4vw, 2.3rem); font-weight: 800; line-height: 1.1; }
+.stat-strip__list span { color: #fff; font-size: .92rem; font-weight: 600; }
+
+/* Real results: grouped before/after */
+.real-group { margin-top: var(--s-9, 3rem); }
+.real-group__title { margin: 0 0 var(--s-5, 1.25rem); font-size: clamp(1.4rem, 2.6vw, 1.9rem); padding-bottom: .5rem; border-bottom: 2px solid var(--brass, #e2a93b); display: flex; align-items: baseline; gap: .4rem; }
+.real-group__title span { font-size: .6em; font-weight: 600; opacity: .6; text-transform: uppercase; letter-spacing: .06em; }
+.real-group__grid { display: grid; gap: clamp(1rem, 2vw, 1.75rem); grid-template-columns: 1fr; align-items: start; }
+@media (min-width: 720px) { .real-group__grid--2, .real-group__grid--3 { grid-template-columns: repeat(2, 1fr); } .real-group__grid--1 { max-width: 560px; } }
+@media (min-width: 1040px) { .real-group__grid--3 { grid-template-columns: repeat(3, 1fr); } }
+.real-group__item .ba-pair { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+
+/* Cut-out category band */
+.cutout-band__grid { list-style: none; margin: var(--s-7, 2rem) 0 0; padding: 0; display: grid; gap: clamp(.9rem, 2vw, 1.5rem); grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 640px) { .cutout-band__grid { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 1100px) { .cutout-band__grid { grid-template-columns: repeat(7, 1fr); } }
+.cutout-band__tile { display: flex; flex-direction: column; text-decoration: none; color: inherit; background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 2px rgba(11, 30, 60, .06), 0 10px 26px rgba(11, 30, 60, .1); transition: transform .25s ease, box-shadow .25s ease; height: 100%; }
+.cutout-band__tile:hover { transform: translateY(-4px); box-shadow: 0 1px 2px rgba(11, 30, 60, .06), 0 18px 38px rgba(11, 30, 60, .16); }
+.cutout-band__art { display: flex; align-items: center; justify-content: center; height: 210px; padding: 1rem; background: linear-gradient(160deg, #f4f7f6, #e6eef0); }
+.cutout-band__art img { width: 100%; height: 100%; object-fit: contain; }
+.cutout-band__label { padding: .7rem .5rem .85rem; text-align: center; font-weight: 700; font-size: .95rem; color: var(--navy-deep, #0b1e3c); }
+
+.ba--single { margin: 0; } .ba--single img { display: block; width: 100%; height: auto; border-radius: 12px; }
+.ba--single .ba__caption { display: flex; flex-direction: column; gap: .15rem; margin-top: .6rem; }
+.svc-hydro { margin: 0 auto var(--s-7, 2rem); max-width: 520px; text-align: center; }
+.svc-hydro img { width: 100%; height: auto; border-radius: 16px; box-shadow: 0 12px 34px rgba(11, 30, 60, .14); }
+.svc-hydro figcaption { margin-top: .6rem; font-weight: 600; font-size: .9rem; opacity: .75; }
+
+/* Process step photos (original seven-step images) */
+.step-photo { display: block; width: 5.5rem; height: 5.5rem; border-radius: 50%; object-fit: cover; margin: 0 0 var(--s-3, .75rem); box-shadow: 0 6px 18px rgba(0, 0, 0, .18); }
+
+/* Real results: one slider per category */
+.real-grid { display: grid; gap: clamp(1rem, 2vw, 1.75rem); grid-template-columns: 1fr; margin-top: var(--s-7, 2rem); align-items: start; }
+@media (min-width: 640px) { .real-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .real-grid { grid-template-columns: repeat(4, 1fr); } }
+.real-card__title { margin: 0 0 .75rem; padding-bottom: .5rem; border-bottom: 2px solid var(--brass, #e2a93b); font-size: 1.25rem; }
+.real-card .ba__caption { margin-top: .5rem; }
+.real-card .proof-grid__summary { margin-top: .5rem; font-size: .92rem; }
+
+/* Real results: every slider is the same portrait frame (3:4); the photo is cropped to fit, never stretched */
+.real-card .ba__frame { --ba-ratio: 3 / 4; }
+.real-card .ba__img { object-fit: cover; object-position: center 45%; }
+/* Shoes: zoomed out so the whole shoe shows, not a tight crop */
+.real-card--shoe .ba__img { object-fit: contain; object-position: center; background: #f3f5f9; }
+
+/* Studio widget blocks */
+.studio-hero { padding: clamp(3rem, 8vw, 6rem) 0; background-color: var(--navy-deep, #0d2350); color: #fff; text-align: center; }
+.studio-hero__title { margin: 0 0 var(--s-4, 1rem); color: #fff; font-size: clamp(2rem, 5vw, 3.4rem); }
+.studio-hero__text { max-width: 58ch; margin: 0 auto var(--s-6, 1.5rem); font-size: 1.15rem; opacity: .92; }
+.studio-text--center { text-align: center; } .studio-text--left { text-align: left; } .studio-text--right { text-align: right; }
+.studio-text p { max-width: 62ch; margin-inline: auto; line-height: 1.7; }
+.studio-text--left p { margin-inline: 0; } .studio-text--right p { margin-inline: auto 0; }
+.studio-actions { margin-top: var(--s-5, 1.25rem); }
+.studio-placeholder { display: grid; place-items: center; min-height: 160px; border: 2px dashed #c3cfe0; border-radius: 14px; color: #6b7a90; font-weight: 600; background: #f4f7fb; }
+.studio-video { position: relative; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; box-shadow: 0 14px 40px rgba(11, 30, 60, .18); }
+.studio-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.studio-spacer { display: block; }
+
+/* Formatted (rich) text inside widgets */
+.studio-body { white-space: pre-line; line-height: 1.7; }
+.studio-body p { margin: 0 0 .8em; } .studio-body ul, .studio-body ol { margin: 0 0 .8em 1.3em; text-align: left; }
+.studio-body a { text-decoration: underline; } .studio-body h2, .studio-body h3, .studio-body h4 { margin: .6em 0 .3em; }
