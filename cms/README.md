@@ -110,6 +110,20 @@ per-release `hbuilds/versions/<id>/` folder, which Hostinger wipes on every depl
 missing, and fetches the new copy 2.5 and 5.5 minutes after each publish. If it is ever missing, the Studio says so and offers a
 **Download the site for editing** button. Set `EDIT_SITE_DIR` to put it somewhere else.
 
+### Editing existing page content
+
+Every piece of text and every image already on a page can be edited from the Studio, not only the parts that are wired
+to a data field. `src/overrides.py` scans each page when the site is built, gives every text item and image a stable key
+(page + what it is + its text, plus a counter for repeats), tags it for the editor in the edit build, and applies the saved
+value (`src/data/overrides.json`) in every build. With no saved edits the live pages are byte-identical to before.
+Items in the header and footer are shared by every page; everything else belongs to the page it is on. Elements that
+contain a styled wrapper (for example the hero headline with its coloured span) are split into separately editable
+pieces so the styling is kept. Editing a text changes only that occurrence; changing the template text later means the
+old edit no longer matches and the template's own text shows again.
+
+**Images: "Where used?"** (Media library) lists the pages, blog posts, templates and stylesheets that show an image, with
+links to open each in the Studio. Matching is exact, and a used image cannot be deleted.
+
 ## Known limits
 
 * Publishing is not instant: the rebuild takes a few minutes. Text, images and styling show instantly in the editor; **new/moved sections** also show instantly but only on the page you are editing.

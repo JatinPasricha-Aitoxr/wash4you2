@@ -8,7 +8,7 @@ const sanitizeHtml = require('sanitize-html');
 const ALLOWED_STORES = new Set([
   'site', 'home', 'about', 'services', 'pricing', 'packages', 'steam-iron', 'blog', 'locations',
   'policies', 'pages', 'proof', 'testimonials', 'posters', 'city-prices', 'areas',
-  'generated-services', 'seo', 'layout', 'blocks', 'styles',
+  'generated-services', 'seo', 'layout', 'blocks', 'styles', 'overrides',
 ]);
 const STORE_FILES = { 'generated-services': 'generated/services.json' };
 const storePath = (store) => {
@@ -17,7 +17,7 @@ const storePath = (store) => {
 };
 const bad = (msg) => Object.assign(new Error(msg), { status: 400 });
 const BLOCK_TYPES = ['hero', 'heading', 'image_text', 'gallery', 'cta', 'stats', 'faq', 'video', 'spacer', 'html', 'button', 'image', 'features', 'testimonials', 'columns', 'pricing', 'divider'];
-const EMPTY = { layout: { pages: {} }, blocks: { pages: {} }, styles: { sections: {}, elements: {}, global: {} }, seo: { pages: {} } };
+const EMPTY = { overrides: { t: {}, i: {} }, layout: { pages: {} }, blocks: { pages: {} }, styles: { sections: {}, elements: {}, global: {} }, seo: { pages: {} } };
 
 // ---------------------------------------------------------- sanitising
 const RT = '<!--rt-->';
@@ -182,12 +182,24 @@ class Content {
     for (const e of edits) {
       const [store, p] = parseBinding(e.binding);
       if (['layout', 'blocks', 'styles'].includes(store)) throw bad('use the studio endpoints for layout, blocks and styles');
-      (by[store] = by[store] || []).push([split(p), cleanDeep(e.value, split(p).slice(-1)[0] + '')]);
+      let val = e.value;
+      // Studio click-to-edit text that carries markup is stored as sanitised rich text.
+      if (store === 'overrides' && p.startsWith('t.') && typeof val === 'string' && !val.startsWith(RT) && /<[a-z][^>]*>/i.test(val)) val = RT + val;
+      // Override keys are hex strings: never let all-digit ones be turned into numbers (that drops leading zeros).
+      const keys = store === 'overrides' ? (split(p), p.split('.')) : split(p);
+      (by[store] = by[store] || []).push([keys, cleanDeep(val, keys.slice(-1)[0] + '')]);
     }
     const changed = {};
     for (const [store, items] of Object.entries(by)) {
       const data = await this.readStore(store);
       for (const [keys, value] of items) {
+        if (store === 'overrides') {
+          // Click-to-edit values for existing page content: t.<page>.<key> = text, i.<page>.<key> = image path.
+          if (keys.length !== 3 || !['t', 'i'].includes(keys[0]) || !/^[a-z0-9-]{1,120}$/.test(String(keys[1])) || !/^[0-9a-f]{10}$/.test(String(keys[2]))) throw bad('bad override path');
+          if (keys[0] === 'i' && !(typeof value === 'string' && /^images\/[A-Za-z0-9_\-./]+$/.test(value) && !value.includes('..'))) throw bad('bad image path');
+          if (typeof value !== 'string') throw bad('bad override value');
+          data[keys[0]] = data[keys[0]] || {}; data[keys[0]][keys[1]] = data[keys[0]][keys[1]] || {};
+        }
         const parent = resolve(data, keys.slice(0, -1));
         if (parent == null || typeof parent !== 'object') throw bad('path not found');
         parent[keys[keys.length - 1]] = value;

@@ -78,7 +78,13 @@
 
   function blank() { return { order: [], hidden: [], blocks: {}, secStyles: {}, elStyles: {}, globals: {} }; }
   function scopeKey() { return tplScope ? "tpl:" + page.tpl : "page:" + page.pagekey; }
-  function snap() { return JSON.stringify(S); }
+  // Opening a settings panel creates empty style objects; they are not changes, so leave them out of the comparison.
+  function snap() {
+    return JSON.stringify(S, function (k, v) {
+      if (v && typeof v === "object" && !Array.isArray(v) && (this === S.elStyles || this === S.secStyles) && !Object.keys(v).length) return undefined;
+      return v;
+    });
+  }
   function isDirty() { return !!S && (snap() !== savedSnap || texts.size > 0); }
 
   // ---------------------------------------------------------- init / loading

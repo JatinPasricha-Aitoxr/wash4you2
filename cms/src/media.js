@@ -39,6 +39,38 @@ function validateUpload(name, dataUrl) {
   return { buffer, ext: real };
 }
 
+
+// A human description of one file that uses an image: what it is, which pages show it.
+const STORE_PAGES = { home: ['/'], about: ['/about-us/'], services: ['/services/'], pricing: ['/pricing/'], packages: ['/packages/'],
+  'steam-iron': ['/steam-iron/'], blog: ['/blog/'], locations: ['/locate-us/'], policies: [], testimonials: [], proof: [], posters: [], site: [] };
+const STORE_NAMES = { home: 'Home page', about: 'About page', services: 'Services page', pricing: 'Pricing page', packages: 'Packages page',
+  'steam-iron': 'Steam iron page', blog: 'Blog page', locations: 'Locate us page', policies: 'Policy pages', testimonials: 'Customer reviews',
+  proof: 'Before / after photos', posters: 'Poster images (shared)', site: 'Header, footer and site settings', areas: 'Area pages', 'city-prices': 'City price pages' };
+function describe(h, rel, resolveScope) {
+  const f = h.file, out = { file: f, via: h.via, label: f, pages: [], note: '' };
+  let m;
+  if ((m = /^content\/posts\/(.+)\.md$/.exec(f))) {
+    const title = (/^title:\s*"?(.*?)"?\s*$/m.exec(h.text) || [])[1] || m[1];
+    out.label = `Blog post: ${title.replace(/\\"/g, '"')}`; out.pages = [`/${m[1]}/`];
+  } else if ((m = /^src\/data\/products\/(.+)\.json$/.exec(f))) {
+    out.label = `Product page: ${m[1]}`; out.pages = [`/products/${m[1]}/`];
+  } else if (f === 'src/data/overrides.json') {
+    out.label = 'Edited in the Studio (text or image replaced on a page)';
+    try { const d = JSON.parse(h.text); for (const [scope, kv] of Object.entries(d.i || {})) if (Object.values(kv).includes(rel)) { const pg = resolveScope && resolveScope(scope); if (pg) out.pages.push(pg); else out.note = 'on every page (header or footer)'; } } catch { /* ignore */ }
+  } else if (f === 'src/data/blocks.json' || f === 'src/data/styles.json') {
+    out.label = f.endsWith('blocks.json') ? 'A Studio widget (e.g. image or gallery)' : 'A Studio section background';
+    try { const d = JSON.parse(h.text); const sec = f.endsWith('blocks.json') ? d.pages : d.sections; for (const [k, v] of Object.entries(sec || {})) if (JSON.stringify(v).includes(rel)) { const pg = resolveScope && resolveScope(k); if (pg) out.pages.push(pg); else out.note = `scope ${k}`; } } catch { /* ignore */ }
+  } else if ((m = /^src\/data\/([^/]+)\.json$/.exec(f))) {
+    out.label = STORE_NAMES[m[1]] || `Site data: ${m[1]}`; out.pages = STORE_PAGES[m[1]] || [];
+  } else if (f.startsWith('src/templates/')) {
+    out.label = `Site template: ${f.split('/').pop()}`; out.note = h.via === 'folder' ? 'this template picks images from the same folder by name, so this image may appear there' : 'part of the page layout';
+  } else if (f.startsWith('src/assets/css/')) {
+    out.label = `Stylesheet: ${f.split('/').pop()}`;
+  }
+  if (h.via === 'name' && !out.note) out.note = 'matched by file name only';
+  return out;
+}
+
 class Media {
   constructor(repo, content) { this.repo = repo; this.content = content; }
 
@@ -94,21 +126,65 @@ class Media {
     if (typeof p !== 'string' || !p.startsWith(IMG_ROOT) || p.includes('..') || !EXT.has(ext(p))) throw Object.assign(new Error('Not a media file.'), { status: 400 });
   }
 
-  // Where is this image used? Scans every content file (and the templates).
-  async references(p) {
-    this._checkPath(p);
-    const rel = p.replace(/^src\/assets\//, '');           // images/uploads/x.webp
-    const needles = [rel, p.split('/').pop()];
-    const hits = [];
-    const paths = (await this.repo.list('src/data/')).map((f) => f.path).filter((x) => x.endsWith('.json'));
-    const tpl = (await this.repo.list('src/templates/')).map((f) => f.path);
-    for (const f of [...paths, ...tpl]) {
-      const text = await this.content.getText(f);
-      if (text && needles.some((n) => text.includes(n))) hits.push(f);
+  // ---- Where is this image used? ------------------------------------------------------------
+  // Scans page data, templates, stylesheets, blog posts and unpublished drafts. Matching is exact
+  // (a whole path, or a whole file name written as a value), so "shirt.webp" no longer matches
+  // "t-shirt.webp". File contents are cached by version, and fetched in parallel, so the first
+  // search takes a few seconds on the live server and later ones are instant.
+  async _scanSet() {
+    const dirs = ['src/data/', 'src/templates/', 'src/assets/css/', 'content/posts/'];
+    const lists = await Promise.all(dirs.map((d) => this.repo.list(d)));
+    const files = lists.flat().filter((f) => /\.(json|html|css|md)$/.test(f.path));
+    const drafts = await db.query("SELECT path, content, kind FROM drafts WHERE kind IN ('text','del')");
+    const dmap = new Map(drafts.map((d) => [d.path, d]));
+    const out = new Map(files.map((f) => [f.path, { path: f.path, sha: f.sha, draft: null }]));
+    for (const d of drafts) {
+      if (!dirs.some((x) => d.path.startsWith(x)) || !/\.(json|html|css|md)$/.test(d.path)) continue;
+      if (d.kind === 'del') out.delete(d.path); else out.set(d.path, { path: d.path, draft: d.content || '' });
     }
-    const dr = await db.query("SELECT path, content FROM drafts WHERE kind = 'text'");
-    for (const d of dr) if (!hits.includes(d.path) && needles.some((n) => (d.content || '').includes(n))) hits.push(d.path);
-    return hits;
+    void dmap; return [...out.values()];
+  }
+  async _text(f) {
+    if (f.draft != null) return f.draft;
+    this._cache = this._cache || new Map();
+    const key = `${f.path}@${f.sha}`;
+    if (this._cache.has(key)) return this._cache.get(key);
+    const buf = await this.repo.read(f.path);
+    const text = buf ? buf.toString('utf8') : '';
+    if (this._cache.size > 2000) this._cache.clear();
+    this._cache.set(key, text);
+    return text;
+  }
+  static matcher(p) {
+    const rel = p.replace(/^src\/assets\//, '');                  // images/pricing/shirt.webp
+    const name = p.split('/').pop();
+    const folder = rel.slice(0, rel.lastIndexOf('/'));
+    const esc = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const full = new RegExp('(?<![A-Za-z0-9_-])' + esc(rel) + '(?![A-Za-z0-9_-])');
+    const bare = new RegExp('(?<=["\'(])' + esc(name) + '(?![A-Za-z0-9_.-])');
+    const dyn = new RegExp(esc(folder) + '/\\{\\{');
+    return { rel, test: (text, isTpl) => (full.test(text) ? 'path' : bare.test(text) ? 'name' : (isTpl && dyn.test(text) ? 'folder' : null)) };
+  }
+  async usage(p, resolveScope) {
+    this._checkPath(p);
+    const m = Media.matcher(p);
+    const set = await this._scanSet();
+    const hits = [];
+    let i = 0;
+    const worker = async () => {
+      while (i < set.length) {
+        const f = set[i++];
+        const text = await this._text(f).catch(() => '');
+        const via = m.test(text, f.path.startsWith('src/templates/'));
+        if (via) hits.push({ file: f.path, via, text });
+      }
+    };
+    await Promise.all(Array.from({ length: 12 }, worker));
+    hits.sort((a, b) => a.file.localeCompare(b.file));
+    return hits.map((h) => describe(h, m.rel, resolveScope));
+  }
+  async references(p) {
+    return (await this.usage(p)).filter((u) => u.via !== 'folder').map((u) => u.file);
   }
 
   async remove(p, userId) {

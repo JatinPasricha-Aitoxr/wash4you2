@@ -104,8 +104,33 @@
         h("div", { class: "row", style: "margin-top:12px" },
           h("button", { class: "btn btn--primary", onclick: function () { api("/admin/api/media/meta", { path: m.path, alt: alt.value }).then(function () { m.alt = alt.value; toast("Saved"); }).catch(fail); } }, "Save alt text"),
           h("button", { class: "btn", onclick: function () { rep.click(); } }, "Replace file"), rep,
-          h("button", { class: "btn", onclick: function () { api("/admin/api/media/refs?path=" + encodeURIComponent(m.path)).then(function (r) { toast(r.refs.length ? "Used in: " + r.refs.join(", ") : "Not used anywhere."); }).catch(fail); } }, "Where used?"),
+          h("button", { class: "btn", onclick: function () { showUsage(m); } }, "Where used?"),
           h("button", { class: "btn btn--danger", onclick: function () { if (!confirm("Delete this image?")) return; api("/admin/api/media/delete", { path: m.path }).then(function () { state.sel = null; toast("Deleted (publish to apply)."); load(); detail(); }).catch(function (e) { fail(e); }); } }, "Delete")));
+    }
+    // "Where used?": a readable list of the pages, posts and templates that show this image, with
+    // links to open each in the visual editor.
+    function showUsage(m) {
+      var body = h("div", null, h("p", { class: "empty", text: "Searching the site for " + m.name + " ... (the first search can take a few seconds)" }));
+      modal(h("div", null, h("h2", { text: "Where is " + m.name + " used?" }), body, h("div", { class: "row", style: "margin-top:14px" }, h("button", { class: "btn", onclick: closeModal }, "Close"))));
+      api("/admin/api/media/refs?path=" + encodeURIComponent(m.path)).then(function (r) {
+        var d = r.details || [];
+        if (!d.length) { body.replaceChildren(h("p", null, "This image is not used anywhere, so it is safe to delete.")); return; }
+        var real = d.filter(function (u) { return u.via !== "folder"; });
+        body.replaceChildren(h("p", { class: "status" }, real.length ? "Used in " + real.length + " place" + (real.length === 1 ? "" : "s") + (d.length > real.length ? " (plus " + (d.length - real.length) + " that may use it)" : "") + ":" : "No direct use found, but this may be picked up by name:"));
+        var ul = h("ul", { class: "usage", style: "list-style:none;padding:0;margin:0;display:grid;gap:8px;max-height:52vh;overflow:auto" });
+        d.forEach(function (u) {
+          var li = h("li", { style: "border:1px solid #e3e9f2;border-radius:10px;padding:9px 12px" }, h("strong", { text: u.label }));
+          if (u.note) li.appendChild(h("div", { class: "status", text: u.note }));
+          var links = h("div", { class: "row", style: "margin-top:6px;gap:8px" });
+          (u.pages || []).slice(0, 4).forEach(function (pg) {
+            links.appendChild(h("a", { class: "btn btn--sm", href: "/studio?p=" + encodeURIComponent(pg), text: "Edit " + pg }));
+          });
+          if (/^content\/posts\//.test(u.file)) links.appendChild(h("button", { class: "btn btn--sm", onclick: function () { closeModal(); show("blog"); } }, "Open blog editor"));
+          if (links.childNodes.length) li.appendChild(links);
+          ul.appendChild(li);
+        });
+        body.appendChild(ul);
+      }).catch(function (e) { body.replaceChildren(h("p", { class: "empty", text: "Could not search: " + (e.message || "error") })); });
     }
     file.addEventListener("change", function () { if (!file.files[0]) return; readFile(file.files[0]).then(function (u) { return api("/admin/api/media/upload", { name: file.files[0].name, dataUrl: u }); }).then(function () { toast("Uploaded as draft."); load(); }).catch(fail); });
     q.addEventListener("input", function () { clearTimeout(q.t); q.t = setTimeout(function () { state.q = q.value; load(); }, 250); });

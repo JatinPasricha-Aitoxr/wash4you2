@@ -14,6 +14,7 @@ from datetime import datetime
 from pathlib import Path
 
 import studio
+import overrides
 import seo_overrides
 from jinja2 import Environment, FileSystemLoader
 from markupsafe import Markup
@@ -1323,6 +1324,8 @@ def build() -> None:
 
     # Studio state (layout order / hidden sections / widget blocks / styles).
     studio_layout, studio_blocks, studio_styles = studio.load_layout(), studio.load_blocks(), studio.load_styles()
+    # Click-to-edit for existing text/images (src/overrides.py): stored edits + the edit build's data-cms tags.
+    page_overrides = overrides.load()
     seo_pages = seo_overrides.load()
 
     # Render all pages
@@ -1381,6 +1384,11 @@ def build() -> None:
 
         rendered = template.render(**context)
         rendered = SERVICE_URL_RE.sub(lambda m: f"services/{m.group(1)}{SERVICE_SLUG_SUFFIX}/", rendered)
+        if template_name != "page-pricing-print.html":
+            # Must run on the page exactly as the template made it (before SEO highlighting, section
+            # reordering or hidden sections), so item keys are identical in the edit and live builds.
+            rendered = overrides.process(rendered, rel_path, edit=EDIT_MODE, ovr=page_overrides,
+                                         styled=set(studio_styles["elements"].keys()), sanitize=studio.sanitize_html)
         if not EDIT_MODE and template_name != "page-pricing-print.html":
             rendered = highlight_seo_keywords(rendered)
         if template_name not in ("page-pricing-print.html",):

@@ -233,7 +233,15 @@ function createApp({ repo, content, media } = {}) {
   api.post('/media/upload', wrap(async (req, res) => { const r = await media.upload(req.body.name, req.body.dataUrl, user(req)); await auth.audit(req, 'media_upload', r.path); res.json({ ok: true, ...r }); }));
   api.post('/media/replace', wrap(async (req, res) => { const r = await media.replace(req.body.path, req.body.dataUrl, user(req)); await auth.audit(req, 'media_replace', r.path); res.json({ ok: true, ...r }); }));
   api.post('/media/meta', wrap(async (req, res) => { await media.setMeta(req.body.path, req.body); res.json({ ok: true }); }));
-  api.get('/media/refs', wrap(async (req, res) => res.json({ refs: await media.references(String(req.query.path || '')) })));
+  // Page path -> Studio scope key (same rule as src/overrides.py), so "where used" can name real pages.
+  const scopeOf = (pagePath) => (pagePath === '/' ? 'index.html' : pagePath.replace(/^\//, '') + 'index.html').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'home';
+  api.get('/media/refs', wrap(async (req, res) => {
+    const pages = await studioPages().catch(() => []);
+    const byScope = new Map(pages.map((p) => [scopeOf(p.path), p.path]));
+    const resolve = (k) => { k = String(k); if (k === 'all') return null; const t = k.startsWith('page:') ? k.slice(5) : k; return byScope.get(t) || (pages.some((p) => p.path === t) ? t : null); };
+    const details = await media.usage(String(req.query.path || ''), resolve);
+    res.json({ refs: details.filter((u) => u.via !== 'folder').map((u) => u.file), details });
+  }));
   api.post('/media/delete', wrap(async (req, res) => { const r = await media.remove(req.body.path, user(req)); await auth.audit(req, 'media_delete', req.body.path); res.json({ ok: true, ...r }); }));
 
   // ----------------------------------------------------------------- SEO
